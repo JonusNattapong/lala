@@ -11,7 +11,7 @@ Prepares local beta-release inputs without touching local signing overrides:
 - reads package.json.version and writes apps/ios/build/Version.xcconfig
 - writes apps/ios/build/BetaRelease.xcconfig with canonical bundle IDs
 - configures the beta build for relay-backed APNs registration
-- regenerates apps/ios/OpenClaw.xcodeproj via xcodegen
+- regenerates apps/ios/Lala.xcodeproj via xcodegen
 EOF
 }
 
@@ -142,11 +142,11 @@ write_generated_file "${BETA_XCCONFIG}" <<EOF
 OPENCLAW_CODE_SIGN_STYLE = Automatic
 OPENCLAW_DEVELOPMENT_TEAM = ${TEAM_ID}
 OPENCLAW_IOS_SELECTED_TEAM = ${TEAM_ID}
-OPENCLAW_APP_BUNDLE_ID = ai.openclaw.client
-OPENCLAW_SHARE_BUNDLE_ID = ai.openclaw.client.share
-OPENCLAW_ACTIVITY_WIDGET_BUNDLE_ID = ai.openclaw.client.activitywidget
-OPENCLAW_WATCH_APP_BUNDLE_ID = ai.openclaw.client.watchkitapp
-OPENCLAW_WATCH_EXTENSION_BUNDLE_ID = ai.openclaw.client.watchkitapp.extension
+OPENCLAW_APP_BUNDLE_ID = ai.lala.client
+OPENCLAW_SHARE_BUNDLE_ID = ai.lala.client.share
+OPENCLAW_ACTIVITY_WIDGET_BUNDLE_ID = ai.lala.client.activitywidget
+OPENCLAW_WATCH_APP_BUNDLE_ID = ai.lala.client.watchkitapp
+OPENCLAW_WATCH_EXTENSION_BUNDLE_ID = ai.lala.client.watchkitapp.extension
 OPENCLAW_APP_PROFILE =
 OPENCLAW_SHARE_PROFILE =
 OPENCLAW_PUSH_TRANSPORT = relay

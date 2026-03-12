@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { LalaConfig } from "../config/config.js";
 import {
   estimateUsageCost,
   formatTokenCount,
@@ -37,7 +37,7 @@ describe("usage-format", () => {
           },
         },
       },
-    } as unknown as OpenClawConfig;
+    } as unknown as LalaConfig;
 
     const cost = resolveModelCostConfig({
       provider: "test",

@@ -112,7 +112,7 @@ vi.mock("../pi-settings.js", () => ({
 }));
 
 vi.mock("../models-config.js", () => ({
-  ensureOpenClawModelsJson: vi.fn(async () => {}),
+  ensureLalaModelsJson: vi.fn(async () => {}),
 }));
 
 vi.mock("../model-auth.js", () => ({
@@ -160,7 +160,7 @@ vi.mock("../bootstrap-files.js", () => ({
 }));
 
 vi.mock("../docs-path.js", () => ({
-  resolveOpenClawDocsPath: vi.fn(async () => undefined),
+  resolveLalaDocsPath: vi.fn(async () => undefined),
 }));
 
 vi.mock("../channel-tools.js", () => ({
@@ -169,7 +169,7 @@ vi.mock("../channel-tools.js", () => ({
 }));
 
 vi.mock("../pi-tools.js", () => ({
-  createOpenClawCodingTools: vi.fn(() => []),
+  createLalaCodingTools: vi.fn(() => []),
 }));
 
 vi.mock("./google.js", () => ({
@@ -207,7 +207,7 @@ vi.mock("../skills.js", () => ({
 }));
 
 vi.mock("../agent-paths.js", () => ({
-  resolveOpenClawAgentDir: vi.fn(() => "/tmp"),
+  resolveLalaAgentDir: vi.fn(() => "/tmp"),
 }));
 
 vi.mock("../agent-scope.js", () => ({

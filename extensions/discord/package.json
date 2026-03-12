@@ -1,9 +1,9 @@
 {
-  "name": "@openclaw/discord",
+  "name": "@lala/discord",
   "version": "2026.3.11",
-  "description": "OpenClaw Discord channel plugin",
+  "description": "lala Discord channel plugin",
   "type": "module",
-  "openclaw": {
+  "lala": {
     "extensions": [
       "./index.ts"
     ]

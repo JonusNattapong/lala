@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { withTempHome } from "../../../test/helpers/temp-home.js";
-import type { OpenClawConfig } from "../config.js";
+import type { LalaConfig } from "../config.js";
 import {
   resolveAllAgentSessionStoreTargets,
   resolveAllAgentSessionStoreTargetsSync,
@@ -17,9 +17,9 @@ async function resolveRealStorePath(sessionsDir: string): Promise<string> {
 
 describe("resolveSessionStoreTargets", () => {
   it("resolves all configured agent stores", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: LalaConfig = {
       session: {
-        store: "~/.openclaw/agents/{agentId}/sessions/sessions.json",
+        store: "~/.lala/agents/{agentId}/sessions/sessions.json",
       },
       agents: {
         list: [{ id: "main", default: true }, { id: "work" }],
@@ -32,20 +32,20 @@ describe("resolveSessionStoreTargets", () => {
       {
         agentId: "main",
         storePath: path.resolve(
-          path.join(process.env.HOME ?? "", ".openclaw/agents/main/sessions/sessions.json"),
+          path.join(process.env.HOME ?? "", ".lala/agents/main/sessions/sessions.json"),
         ),
       },
       {
         agentId: "work",
         storePath: path.resolve(
-          path.join(process.env.HOME ?? "", ".openclaw/agents/work/sessions/sessions.json"),
+          path.join(process.env.HOME ?? "", ".lala/agents/work/sessions/sessions.json"),
         ),
       },
     ]);
   });
 
   it("dedupes shared store paths for --all-agents", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: LalaConfig = {
       session: {
         store: "/tmp/shared-sessions.json",
       },
@@ -60,7 +60,7 @@ describe("resolveSessionStoreTargets", () => {
   });
 
   it("rejects unknown agent ids", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: LalaConfig = {
       agents: {
         list: [{ id: "main", default: true }, { id: "work" }],
       },
@@ -82,7 +82,7 @@ describe("resolveSessionStoreTargets", () => {
 describe("resolveAllAgentSessionStoreTargets", () => {
   it("includes discovered on-disk agent stores alongside configured targets", async () => {
     await withTempHome(async (home) => {
-      const stateDir = path.join(home, ".openclaw");
+      const stateDir = path.join(home, ".lala");
       const opsSessionsDir = path.join(stateDir, "agents", "ops", "sessions");
       const retiredSessionsDir = path.join(stateDir, "agents", "retired", "sessions");
       await fs.mkdir(opsSessionsDir, { recursive: true });
@@ -90,7 +90,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       await fs.writeFile(path.join(opsSessionsDir, "sessions.json"), "{}", "utf8");
       await fs.writeFile(path.join(retiredSessionsDir, "sessions.json"), "{}", "utf8");
 
-      const cfg: OpenClawConfig = {
+      const cfg: LalaConfig = {
         agents: {
           list: [{ id: "ops", default: true }],
         },
@@ -126,7 +126,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       await fs.writeFile(path.join(opsSessionsDir, "sessions.json"), "{}", "utf8");
       await fs.writeFile(path.join(retiredSessionsDir, "sessions.json"), "{}", "utf8");
 
-      const cfg: OpenClawConfig = {
+      const cfg: LalaConfig = {
         session: {
           store: path.join(customRoot, "agents", "{agentId}", "sessions", "sessions.json"),
         },
@@ -165,7 +165,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       await fs.writeFile(path.join(opsSessionsDir, "sessions.json"), "{}", "utf8");
       await fs.writeFile(path.join(retiredSessionsDir, "sessions.json"), "{}", "utf8");
 
-      const cfg: OpenClawConfig = {
+      const cfg: LalaConfig = {
         session: {
           store: path.join(customRoot, "agents", "{agentId}", "sessions", "sessions.json"),
         },
@@ -202,7 +202,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
         ...process.env,
         OPENCLAW_STATE_DIR: envStateDir,
       };
-      const cfg: OpenClawConfig = {};
+      const cfg: LalaConfig = {};
       const mainStorePath = await resolveRealStorePath(mainSessionsDir);
       const retiredStorePath = await resolveRealStorePath(retiredSessionsDir);
 
@@ -237,7 +237,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       await fs.writeFile(path.join(mainSessionsDir, "sessions.json"), "{}", "utf8");
       await fs.writeFile(path.join(retiredSessionsDir, "sessions.json"), "{}", "utf8");
 
-      const cfg: OpenClawConfig = {
+      const cfg: LalaConfig = {
         session: {
           store: path.join(customRoot, "agents", "{agentId}", "sessions", "sessions.json"),
         },
@@ -274,7 +274,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       await fs.writeFile(leakedFile, JSON.stringify({ leak: { secret: "x" } }), "utf8");
       await fs.symlink(leakedFile, path.join(opsSessionsDir, "sessions.json"));
 
-      const cfg: OpenClawConfig = {
+      const cfg: LalaConfig = {
         session: {
           store: path.join(customRoot, "agents", "{agentId}", "sessions", "sessions.json"),
         },
@@ -293,7 +293,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
 
   it("skips discovered directories that only normalize into the default main agent", async () => {
     await withTempHome(async (home) => {
-      const stateDir = path.join(home, ".openclaw");
+      const stateDir = path.join(home, ".lala");
       const mainSessionsDir = path.join(stateDir, "agents", "main", "sessions");
       const junkSessionsDir = path.join(stateDir, "agents", "###", "sessions");
       await fs.mkdir(mainSessionsDir, { recursive: true });
@@ -301,7 +301,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       await fs.writeFile(path.join(mainSessionsDir, "sessions.json"), "{}", "utf8");
       await fs.writeFile(path.join(junkSessionsDir, "sessions.json"), "{}", "utf8");
 
-      const cfg: OpenClawConfig = {};
+      const cfg: LalaConfig = {};
       const mainStorePath = await resolveRealStorePath(mainSessionsDir);
       const targets = await resolveAllAgentSessionStoreTargets(cfg, { env: process.env });
 
@@ -331,7 +331,7 @@ describe("resolveAllAgentSessionStoreTargetsSync", () => {
       await fs.writeFile(path.join(mainSessionsDir, "sessions.json"), "{}", "utf8");
       await fs.writeFile(path.join(retiredSessionsDir, "sessions.json"), "{}", "utf8");
 
-      const cfg: OpenClawConfig = {
+      const cfg: LalaConfig = {
         session: {
           store: path.join(customRoot, "agents", "{agentId}", "sessions", "sessions.json"),
         },
@@ -368,7 +368,7 @@ describe("resolveAllAgentSessionStoreTargetsSync", () => {
       await fs.writeFile(leakedFile, JSON.stringify({ leak: { secret: "x" } }), "utf8");
       await fs.symlink(leakedFile, path.join(opsSessionsDir, "sessions.json"));
 
-      const cfg: OpenClawConfig = {
+      const cfg: LalaConfig = {
         session: {
           store: path.join(customRoot, "agents", "{agentId}", "sessions", "sessions.json"),
         },

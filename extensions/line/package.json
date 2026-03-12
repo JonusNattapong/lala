@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/line",
+  "name": "@lala/line",
   "version": "2026.3.11",
   "private": true,
-  "description": "OpenClaw LINE channel plugin",
+  "description": "lala LINE channel plugin",
   "type": "module",
-  "openclaw": {
+  "lala": {
     "extensions": [
       "./index.ts"
     ],
@@ -19,7 +19,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@openclaw/line",
+      "npmSpec": "@lala/line",
       "localPath": "extensions/line",
       "defaultChoice": "npm"
     }

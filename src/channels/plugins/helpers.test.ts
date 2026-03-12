@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { LalaConfig } from "../../config/config.js";
 import { buildAccountScopedDmSecurityPolicy, formatPairingApproveHint } from "./helpers.js";
 
-function cfgWithChannel(channelKey: string, accounts?: Record<string, unknown>): OpenClawConfig {
+function cfgWithChannel(channelKey: string, accounts?: Record<string, unknown>): LalaConfig {
   return {
     channels: {
       [channelKey]: accounts ? { accounts } : {},
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as LalaConfig;
 }
 
 describe("buildAccountScopedDmSecurityPolicy", () => {
@@ -81,14 +81,14 @@ describe("buildAccountScopedDmSecurityPolicy", () => {
         allowFrom: ["user-1"],
         defaultPolicy: "allowlist",
         policyPathSuffix: "dmPolicy",
-        approveHint: "openclaw pairing approve synology-chat <code>",
+        approveHint: "lala pairing approve synology-chat <code>",
       }),
     ).toEqual({
       policy: "allowlist",
       allowFrom: ["user-1"],
       policyPath: "channels.synology-chat.dmPolicy",
       allowFromPath: "channels.synology-chat.",
-      approveHint: "openclaw pairing approve synology-chat <code>",
+      approveHint: "lala pairing approve synology-chat <code>",
       normalizeEntry: undefined,
     });
   });

@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, expectTypeOf, it } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { LalaConfig } from "../../config/config.js";
 import type { DiscordProbe } from "../../discord/probe.js";
 import type { DiscordTokenResolution } from "../../discord/token.js";
 import type { IMessageProbe } from "../../imessage/probe.js";
@@ -112,7 +112,7 @@ describe("channel plugin registry", () => {
 describe("channel plugin catalog", () => {
   it("includes Microsoft Teams", () => {
     const entry = getChannelPluginCatalogEntry("msteams");
-    expect(entry?.install.npmSpec).toBe("@openclaw/msteams");
+    expect(entry?.install.npmSpec).toBe("@lala/msteams");
     expect(entry?.meta.aliases).toContain("teams");
   });
 
@@ -122,15 +122,15 @@ describe("channel plugin catalog", () => {
   });
 
   it("includes external catalog entries", () => {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-catalog-"));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "lala-catalog-"));
     const catalogPath = path.join(dir, "catalog.json");
     fs.writeFileSync(
       catalogPath,
       JSON.stringify({
         entries: [
           {
-            name: "@openclaw/demo-channel",
-            openclaw: {
+            name: "@lala/demo-channel",
+            lala: {
               channel: {
                 id: "demo-channel",
                 label: "Demo Channel",
@@ -140,7 +140,7 @@ describe("channel plugin catalog", () => {
                 order: 999,
               },
               install: {
-                npmSpec: "@openclaw/demo-channel",
+                npmSpec: "@lala/demo-channel",
               },
             },
           },
@@ -155,15 +155,15 @@ describe("channel plugin catalog", () => {
   });
 
   it("uses the provided env for external catalog path resolution", () => {
-    const home = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-catalog-home-"));
+    const home = fs.mkdtempSync(path.join(os.tmpdir(), "lala-catalog-home-"));
     const catalogPath = path.join(home, "catalog.json");
     fs.writeFileSync(
       catalogPath,
       JSON.stringify({
         entries: [
           {
-            name: "@openclaw/env-demo-channel",
-            openclaw: {
+            name: "@lala/env-demo-channel",
+            lala: {
               channel: {
                 id: "env-demo-channel",
                 label: "Env Demo Channel",
@@ -173,7 +173,7 @@ describe("channel plugin catalog", () => {
                 order: 1000,
               },
               install: {
-                npmSpec: "@openclaw/env-demo-channel",
+                npmSpec: "@lala/env-demo-channel",
               },
             },
           },
@@ -193,7 +193,7 @@ describe("channel plugin catalog", () => {
   });
 
   it("uses the provided env for default catalog paths", () => {
-    const stateDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-catalog-state-"));
+    const stateDir = fs.mkdtempSync(path.join(os.tmpdir(), "lala-catalog-state-"));
     const catalogPath = path.join(stateDir, "plugins", "catalog.json");
     fs.mkdirSync(path.dirname(catalogPath), { recursive: true });
     fs.writeFileSync(
@@ -201,8 +201,8 @@ describe("channel plugin catalog", () => {
       JSON.stringify({
         entries: [
           {
-            name: "@openclaw/default-env-demo",
-            openclaw: {
+            name: "@lala/default-env-demo",
+            lala: {
               channel: {
                 id: "default-env-demo",
                 label: "Default Env Demo",
@@ -211,7 +211,7 @@ describe("channel plugin catalog", () => {
                 blurb: "Default env demo entry",
               },
               install: {
-                npmSpec: "@openclaw/default-env-demo",
+                npmSpec: "@lala/default-env-demo",
               },
             },
           },
@@ -287,13 +287,13 @@ function makeSlackConfigWritesCfg(accountIdKey: string) {
 }
 
 type DirectoryListFn = (params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   accountId?: string | null;
   query?: string | null;
   limit?: number | null;
 }) => Promise<ChannelDirectoryEntry[]>;
 
-async function listDirectoryEntriesWithDefaults(listFn: DirectoryListFn, cfg: OpenClawConfig) {
+async function listDirectoryEntriesWithDefaults(listFn: DirectoryListFn, cfg: LalaConfig) {
   return await listFn({
     cfg,
     accountId: "default",
@@ -304,7 +304,7 @@ async function listDirectoryEntriesWithDefaults(listFn: DirectoryListFn, cfg: Op
 
 async function expectDirectoryIds(
   listFn: DirectoryListFn,
-  cfg: OpenClawConfig,
+  cfg: LalaConfig,
   expected: string[],
   options?: { sorted?: boolean },
 ) {

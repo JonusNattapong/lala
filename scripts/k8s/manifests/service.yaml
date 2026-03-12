@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: openclaw
+  name: lala
   labels:
-    app: openclaw
+    app: lala
 spec:
   type: ClusterIP
   selector:
-    app: openclaw
+    app: lala
   ports:
     - name: gateway
       port: 18789

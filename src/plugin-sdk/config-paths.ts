@@ -1,7 +1,7 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { LalaConfig } from "../config/config.js";
 
 export function resolveChannelAccountConfigBasePath(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channelKey: string;
   accountId: string;
 }): string {

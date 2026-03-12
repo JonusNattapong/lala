@@ -2,7 +2,7 @@
 read_when:
   - 你想要索引或搜索语义记忆
   - 你正在调试记忆可用性或索引问题
-summary: "`openclaw memory`（status/index/search）的 CLI 参考"
+summary: "`lala memory`（status/index/search）的 CLI 参考"
 title: memory
 x-i18n:
   generated_at: "2026-02-01T20:21:11Z"
@@ -13,7 +13,7 @@ x-i18n:
   workflow: 14
 ---
 
-# `openclaw memory`
+# `lala memory`
 
 管理语义记忆的索引和搜索。
 由活跃的记忆插件提供（默认：`memory-core`；设置 `plugins.slots.memory = "none"` 可禁用）。
@@ -26,15 +26,15 @@ x-i18n:
 ## 示例
 
 ```bash
-openclaw memory status
-openclaw memory status --deep
-openclaw memory status --deep --index
-openclaw memory status --deep --index --verbose
-openclaw memory index
-openclaw memory index --verbose
-openclaw memory search "release checklist"
-openclaw memory status --agent main
-openclaw memory index --agent main --verbose
+lala memory status
+lala memory status --deep
+lala memory status --deep --index
+lala memory status --deep --index --verbose
+lala memory index
+lala memory index --verbose
+lala memory search "release checklist"
+lala memory status --agent main
+lala memory index --agent main --verbose
 ```
 
 ## 选项

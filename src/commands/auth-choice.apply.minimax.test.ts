@@ -19,7 +19,7 @@ describe("applyAuthChoiceMiniMax", () => {
   ]);
 
   async function setupTempState() {
-    const env = await setupAuthTestEnv("openclaw-minimax-");
+    const env = await setupAuthTestEnv("lala-minimax-");
     lifecycle.setStateDir(env.stateDir);
     return env.agentDir;
   }

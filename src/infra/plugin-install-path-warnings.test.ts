@@ -13,27 +13,27 @@ describe("plugin install path warnings", () => {
       pluginId: "matrix",
       install: {
         source: "path",
-        sourcePath: "/tmp/openclaw-matrix-missing",
-        installPath: "/tmp/openclaw-matrix-missing",
+        sourcePath: "/tmp/lala-matrix-missing",
+        installPath: "/tmp/lala-matrix-missing",
       },
     });
 
     expect(issue).toEqual({
       kind: "missing-path",
       pluginId: "matrix",
-      path: "/tmp/openclaw-matrix-missing",
+      path: "/tmp/lala-matrix-missing",
     });
     expect(
       formatPluginInstallPathIssue({
         issue: issue!,
         pluginLabel: "Matrix",
-        defaultInstallCommand: "openclaw plugins install @openclaw/matrix",
-        repoInstallCommand: "openclaw plugins install ./extensions/matrix",
+        defaultInstallCommand: "lala plugins install @lala/matrix",
+        repoInstallCommand: "lala plugins install ./extensions/matrix",
       }),
     ).toEqual([
-      "Matrix is installed from a custom path that no longer exists: /tmp/openclaw-matrix-missing",
-      'Reinstall with "openclaw plugins install @openclaw/matrix".',
-      'If you are running from a repo checkout, you can also use "openclaw plugins install ./extensions/matrix".',
+      "Matrix is installed from a custom path that no longer exists: /tmp/lala-matrix-missing",
+      'Reinstall with "lala plugins install @lala/matrix".',
+      'If you are running from a repo checkout, you can also use "lala plugins install ./extensions/matrix".',
     ]);
   });
 

@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import json5 from "json5";
 import { resolveConfigPath } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { LalaConfig } from "../config/types.js";
 
-type LoggingConfig = OpenClawConfig["logging"];
+type LoggingConfig = LalaConfig["logging"];
 
 export function readLoggingConfig(): LoggingConfig | undefined {
   const configPath = resolveConfigPath();

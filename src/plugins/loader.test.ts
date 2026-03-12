@@ -31,13 +31,13 @@ const {
   clearPluginLoaderCache,
   createHookRunner,
   getGlobalHookRunner,
-  loadOpenClawPlugins,
+  loadLalaPlugins,
   resetGlobalHookRunner,
 } = await importFreshPluginTestModules();
 
 type TempPlugin = { dir: string; file: string; id: string };
 
-const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-plugin-"));
+const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "lala-plugin-"));
 let tempDirIndex = 0;
 const prevBundledDir = process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
 const EMPTY_PLUGIN_SCHEMA = { type: "object", additionalProperties: false, properties: {} };
@@ -85,7 +85,7 @@ function writePlugin(params: {
   const file = path.join(dir, filename);
   fs.writeFileSync(file, params.body, "utf-8");
   fs.writeFileSync(
-    path.join(dir, "openclaw.plugin.json"),
+    path.join(dir, "lala.plugin.json"),
     JSON.stringify(
       {
         id: params.id,
@@ -106,7 +106,7 @@ function loadBundledMemoryPluginRegistry(options?: {
 }) {
   if (!options && cachedBundledMemoryDir) {
     process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = cachedBundledMemoryDir;
-    return loadOpenClawPlugins({
+    return loadLalaPlugins({
       cache: false,
       workspaceDir: cachedBundledMemoryDir,
       config: {
@@ -134,7 +134,7 @@ function loadBundledMemoryPluginRegistry(options?: {
           name: options.packageMeta.name,
           version: options.packageMeta.version,
           description: options.packageMeta.description,
-          openclaw: { extensions: [`./${pluginFilename}`] },
+          lala: { extensions: [`./${pluginFilename}`] },
         },
         null,
         2,
@@ -156,7 +156,7 @@ function loadBundledMemoryPluginRegistry(options?: {
   }
   process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
 
-  return loadOpenClawPlugins({
+  return loadLalaPlugins({
     cache: false,
     workspaceDir: bundledDir,
     config: {
@@ -182,7 +182,7 @@ function setupBundledTelegramPlugin() {
   process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = cachedBundledTelegramDir;
 }
 
-function expectTelegramLoaded(registry: ReturnType<typeof loadOpenClawPlugins>) {
+function expectTelegramLoaded(registry: ReturnType<typeof loadLalaPlugins>) {
   const telegram = registry.plugins.find((entry) => entry.id === "telegram");
   expect(telegram?.status).toBe("loaded");
   expect(registry.channels.some((entry) => entry.plugin.id === "telegram")).toBe(true);
@@ -196,10 +196,10 @@ function loadRegistryFromSinglePlugin(params: {
   plugin: TempPlugin;
   pluginConfig?: Record<string, unknown>;
   includeWorkspaceDir?: boolean;
-  options?: Omit<Parameters<typeof loadOpenClawPlugins>[0], "cache" | "workspaceDir" | "config">;
+  options?: Omit<Parameters<typeof loadLalaPlugins>[0], "cache" | "workspaceDir" | "config">;
 }) {
   const pluginConfig = params.pluginConfig ?? {};
-  return loadOpenClawPlugins({
+  return loadLalaPlugins({
     cache: false,
     ...(params.includeWorkspaceDir === false ? {} : { workspaceDir: params.plugin.dir }),
     ...params.options,
@@ -236,7 +236,7 @@ function createEscapingEntryFixture(params: { id: string; sourceBody: string }) 
   const linkedEntry = path.join(pluginDir, "entry.cjs");
   fs.writeFileSync(outsideEntry, params.sourceBody, "utf-8");
   fs.writeFileSync(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "lala.plugin.json"),
     JSON.stringify(
       {
         id: params.id,
@@ -286,7 +286,7 @@ afterAll(() => {
   }
 });
 
-describe("loadOpenClawPlugins", () => {
+describe("loadLalaPlugins", () => {
   it("disables bundled plugins by default", () => {
     const bundledDir = makeTempDir();
     writePlugin({
@@ -297,7 +297,7 @@ describe("loadOpenClawPlugins", () => {
     });
     process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -313,7 +313,7 @@ describe("loadOpenClawPlugins", () => {
   it("loads bundled telegram plugin when enabled", () => {
     setupBundledTelegramPlugin();
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: {
@@ -332,7 +332,7 @@ describe("loadOpenClawPlugins", () => {
   it("loads bundled channel plugins when channels.<id>.enabled=true", () => {
     setupBundledTelegramPlugin();
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: {
@@ -353,7 +353,7 @@ describe("loadOpenClawPlugins", () => {
   it("still respects explicit disable via plugins.entries for bundled channels", () => {
     setupBundledTelegramPlugin();
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       workspaceDir: cachedBundledTelegramDir,
       config: {
@@ -378,7 +378,7 @@ describe("loadOpenClawPlugins", () => {
   it("preserves package.json metadata for bundled memory plugins", () => {
     const registry = loadBundledMemoryPluginRegistry({
       packageMeta: {
-        name: "@openclaw/memory-core",
+        name: "@lala/memory-core",
         version: "1.2.3",
         description: "Memory plugin package",
       },
@@ -405,7 +405,7 @@ describe("loadOpenClawPlugins", () => {
 };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       workspaceDir: plugin.dir,
       config: {
@@ -439,13 +439,13 @@ describe("loadOpenClawPlugins", () => {
       },
     };
 
-    const first = loadOpenClawPlugins(options);
+    const first = loadLalaPlugins(options);
     expect(getGlobalHookRunner()).not.toBeNull();
 
     resetGlobalHookRunner();
     expect(getGlobalHookRunner()).toBeNull();
 
-    const second = loadOpenClawPlugins(options);
+    const second = loadLalaPlugins(options);
     expect(second).toBe(first);
     expect(getGlobalHookRunner()).not.toBeNull();
 
@@ -479,14 +479,14 @@ describe("loadOpenClawPlugins", () => {
       },
     };
 
-    const first = loadOpenClawPlugins({
+    const first = loadLalaPlugins({
       ...options,
       env: {
         ...process.env,
         OPENCLAW_BUNDLED_PLUGINS_DIR: bundledA,
       },
     });
-    const second = loadOpenClawPlugins({
+    const second = loadLalaPlugins({
       ...options,
       env: {
         ...process.env,
@@ -535,7 +535,7 @@ describe("loadOpenClawPlugins", () => {
       },
     };
 
-    const first = loadOpenClawPlugins({
+    const first = loadLalaPlugins({
       ...options,
       env: {
         ...process.env,
@@ -544,7 +544,7 @@ describe("loadOpenClawPlugins", () => {
         OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
       },
     });
-    const second = loadOpenClawPlugins({
+    const second = loadLalaPlugins({
       ...options,
       env: {
         ...process.env,
@@ -565,10 +565,10 @@ describe("loadOpenClawPlugins", () => {
 
   it("does not reuse cached registries when env-resolved install paths change", () => {
     useNoBundledPlugins();
-    const openclawHome = makeTempDir();
+    const lalaHome = makeTempDir();
     const ignoredHome = makeTempDir();
     const stateDir = makeTempDir();
-    const pluginDir = path.join(openclawHome, "plugins", "tracked-install-cache");
+    const pluginDir = path.join(lalaHome, "plugins", "tracked-install-cache");
     fs.mkdirSync(pluginDir, { recursive: true });
     const plugin = writePlugin({
       id: "tracked-install-cache",
@@ -593,11 +593,11 @@ describe("loadOpenClawPlugins", () => {
       },
     };
 
-    const first = loadOpenClawPlugins({
+    const first = loadLalaPlugins({
       ...options,
       env: {
         ...process.env,
-        OPENCLAW_HOME: openclawHome,
+        OPENCLAW_HOME: lalaHome,
         HOME: ignoredHome,
         OPENCLAW_STATE_DIR: stateDir,
         CLAWDBOT_STATE_DIR: undefined,
@@ -616,8 +616,8 @@ describe("loadOpenClawPlugins", () => {
         OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
       },
     };
-    const second = loadOpenClawPlugins(secondOptions);
-    const third = loadOpenClawPlugins(secondOptions);
+    const second = loadLalaPlugins(secondOptions);
+    const third = loadLalaPlugins(secondOptions);
 
     expect(second).not.toBe(first);
     expect(third).toBe(second);
@@ -635,7 +635,7 @@ describe("loadOpenClawPlugins", () => {
     );
 
     const loadWithStateDir = (stateDir: string) =>
-      loadOpenClawPlugins({
+      loadLalaPlugins({
         env: {
           ...process.env,
           OPENCLAW_STATE_DIR: stateDir,
@@ -675,7 +675,7 @@ describe("loadOpenClawPlugins", () => {
       body: `module.exports = { id: "tilde-bundled", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       env: {
         ...process.env,
         HOME: homeDir,
@@ -698,32 +698,32 @@ describe("loadOpenClawPlugins", () => {
 
   it("prefers OPENCLAW_HOME over HOME for env-expanded load paths", () => {
     const ignoredHome = makeTempDir();
-    const openclawHome = makeTempDir();
+    const lalaHome = makeTempDir();
     const stateDir = makeTempDir();
     const bundledDir = makeTempDir();
     const plugin = writePlugin({
-      id: "openclaw-home-demo",
-      dir: path.join(openclawHome, "plugins", "openclaw-home-demo"),
+      id: "lala-home-demo",
+      dir: path.join(lalaHome, "plugins", "lala-home-demo"),
       filename: "index.cjs",
-      body: `module.exports = { id: "openclaw-home-demo", register() {} };`,
+      body: `module.exports = { id: "lala-home-demo", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       env: {
         ...process.env,
         HOME: ignoredHome,
-        OPENCLAW_HOME: openclawHome,
+        OPENCLAW_HOME: lalaHome,
         OPENCLAW_STATE_DIR: stateDir,
         OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
       },
       config: {
         plugins: {
-          allow: ["openclaw-home-demo"],
+          allow: ["lala-home-demo"],
           entries: {
-            "openclaw-home-demo": { enabled: true },
+            "lala-home-demo": { enabled: true },
           },
           load: {
-            paths: ["~/plugins/openclaw-home-demo"],
+            paths: ["~/plugins/lala-home-demo"],
           },
         },
       },
@@ -731,7 +731,7 @@ describe("loadOpenClawPlugins", () => {
 
     expect(
       fs.realpathSync(
-        registry.plugins.find((entry) => entry.id === "openclaw-home-demo")?.source ?? "",
+        registry.plugins.find((entry) => entry.id === "lala-home-demo")?.source ?? "",
       ),
     ).toBe(fs.realpathSync(plugin.file));
   });
@@ -1026,7 +1026,7 @@ describe("loadOpenClawPlugins", () => {
 } };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1105,7 +1105,7 @@ describe("loadOpenClawPlugins", () => {
       body: `module.exports = { id: "config-disable", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1248,7 +1248,7 @@ describe("loadOpenClawPlugins", () => {
       body: `module.exports = { id: "memory-b", kind: "memory", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1283,7 +1283,7 @@ describe("loadOpenClawPlugins", () => {
       body: `module.exports = { id: "memory-b", kind: "memory", register() {} };`,
     });
     fs.writeFileSync(
-      path.join(memoryADir, "openclaw.plugin.json"),
+      path.join(memoryADir, "lala.plugin.json"),
       JSON.stringify(
         {
           id: "memory-a",
@@ -1296,7 +1296,7 @@ describe("loadOpenClawPlugins", () => {
       "utf-8",
     );
     fs.writeFileSync(
-      path.join(memoryBDir, "openclaw.plugin.json"),
+      path.join(memoryBDir, "lala.plugin.json"),
       JSON.stringify(
         {
           id: "memory-b",
@@ -1310,7 +1310,7 @@ describe("loadOpenClawPlugins", () => {
     );
     process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1338,7 +1338,7 @@ describe("loadOpenClawPlugins", () => {
       body: `module.exports = { id: "memory-off", kind: "memory", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1367,7 +1367,7 @@ describe("loadOpenClawPlugins", () => {
       body: `module.exports = { id: "shadow", register() {} };`,
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1407,7 +1407,7 @@ describe("loadOpenClawPlugins", () => {
         filename: "index.cjs",
       });
 
-      const registry = loadOpenClawPlugins({
+      const registry = loadLalaPlugins({
         cache: false,
         config: {
           plugins: {
@@ -1435,7 +1435,7 @@ describe("loadOpenClawPlugins", () => {
       body: `module.exports = { id: "warn-open-allow", register() {} };`,
     });
     const warnings: string[] = [];
-    loadOpenClawPlugins({
+    loadLalaPlugins({
       cache: false,
       logger: createWarningLogger(warnings),
       config: {
@@ -1452,7 +1452,7 @@ describe("loadOpenClawPlugins", () => {
   it("does not auto-load workspace-discovered plugins unless explicitly trusted", () => {
     useNoBundledPlugins();
     const workspaceDir = makeTempDir();
-    const workspaceExtDir = path.join(workspaceDir, ".openclaw", "extensions", "workspace-helper");
+    const workspaceExtDir = path.join(workspaceDir, ".lala", "extensions", "workspace-helper");
     fs.mkdirSync(workspaceExtDir, { recursive: true });
     writePlugin({
       id: "workspace-helper",
@@ -1461,7 +1461,7 @@ describe("loadOpenClawPlugins", () => {
       filename: "index.cjs",
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       workspaceDir,
       config: {
@@ -1480,7 +1480,7 @@ describe("loadOpenClawPlugins", () => {
   it("loads workspace-discovered plugins when plugins.allow explicitly trusts them", () => {
     useNoBundledPlugins();
     const workspaceDir = makeTempDir();
-    const workspaceExtDir = path.join(workspaceDir, ".openclaw", "extensions", "workspace-helper");
+    const workspaceExtDir = path.join(workspaceDir, ".lala", "extensions", "workspace-helper");
     fs.mkdirSync(workspaceExtDir, { recursive: true });
     writePlugin({
       id: "workspace-helper",
@@ -1489,7 +1489,7 @@ describe("loadOpenClawPlugins", () => {
       filename: "index.cjs",
     });
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       workspaceDir,
       config: {
@@ -1519,7 +1519,7 @@ describe("loadOpenClawPlugins", () => {
       });
 
       const warnings: string[] = [];
-      const registry = loadOpenClawPlugins({
+      const registry = loadLalaPlugins({
         cache: false,
         logger: createWarningLogger(warnings),
         config: {
@@ -1542,10 +1542,10 @@ describe("loadOpenClawPlugins", () => {
 
   it("does not warn about missing provenance for env-resolved load paths", () => {
     useNoBundledPlugins();
-    const openclawHome = makeTempDir();
+    const lalaHome = makeTempDir();
     const ignoredHome = makeTempDir();
     const stateDir = makeTempDir();
-    const pluginDir = path.join(openclawHome, "plugins", "tracked-load-path");
+    const pluginDir = path.join(lalaHome, "plugins", "tracked-load-path");
     fs.mkdirSync(pluginDir, { recursive: true });
     const plugin = writePlugin({
       id: "tracked-load-path",
@@ -1555,12 +1555,12 @@ describe("loadOpenClawPlugins", () => {
     });
 
     const warnings: string[] = [];
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       logger: createWarningLogger(warnings),
       env: {
         ...process.env,
-        OPENCLAW_HOME: openclawHome,
+        OPENCLAW_HOME: lalaHome,
         HOME: ignoredHome,
         OPENCLAW_STATE_DIR: stateDir,
         CLAWDBOT_STATE_DIR: undefined,
@@ -1584,10 +1584,10 @@ describe("loadOpenClawPlugins", () => {
 
   it("does not warn about missing provenance for env-resolved install paths", () => {
     useNoBundledPlugins();
-    const openclawHome = makeTempDir();
+    const lalaHome = makeTempDir();
     const ignoredHome = makeTempDir();
     const stateDir = makeTempDir();
-    const pluginDir = path.join(openclawHome, "plugins", "tracked-install-path");
+    const pluginDir = path.join(lalaHome, "plugins", "tracked-install-path");
     fs.mkdirSync(pluginDir, { recursive: true });
     const plugin = writePlugin({
       id: "tracked-install-path",
@@ -1597,12 +1597,12 @@ describe("loadOpenClawPlugins", () => {
     });
 
     const warnings: string[] = [];
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       logger: createWarningLogger(warnings),
       env: {
         ...process.env,
-        OPENCLAW_HOME: openclawHome,
+        OPENCLAW_HOME: lalaHome,
         HOME: ignoredHome,
         OPENCLAW_STATE_DIR: stateDir,
         CLAWDBOT_STATE_DIR: undefined,
@@ -1644,7 +1644,7 @@ describe("loadOpenClawPlugins", () => {
       return;
     }
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1678,7 +1678,7 @@ describe("loadOpenClawPlugins", () => {
       throw err;
     }
 
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       config: {
         plugins: {
@@ -1725,7 +1725,7 @@ describe("loadOpenClawPlugins", () => {
     }
 
     process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledDir;
-    const registry = loadOpenClawPlugins({
+    const registry = loadLalaPlugins({
       cache: false,
       workspaceDir: bundledDir,
       config: {
@@ -1783,7 +1783,7 @@ describe("loadOpenClawPlugins", () => {
       filename: "legacy-root-import.cjs",
       body: `module.exports = {
   id: "legacy-root-import",
-  configSchema: (require("openclaw/plugin-sdk").emptyPluginConfigSchema)(),
+  configSchema: (require("lala/plugin-sdk").emptyPluginConfigSchema)(),
   register() {},
 };`,
     });
@@ -1792,8 +1792,8 @@ describe("loadOpenClawPlugins", () => {
       path.join(process.cwd(), "src", "plugins", "loader.ts"),
     ).href;
     const script = `
-      import { loadOpenClawPlugins } from ${JSON.stringify(loaderModuleUrl)};
-      const registry = loadOpenClawPlugins({
+      import { loadLalaPlugins } from ${JSON.stringify(loaderModuleUrl)};
+      const registry = loadLalaPlugins({
         cache: false,
         workspaceDir: ${JSON.stringify(plugin.dir)},
         config: {

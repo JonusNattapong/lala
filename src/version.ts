@@ -1,7 +1,7 @@
 import { createRequire } from "node:module";
 
-declare const __OPENCLAW_VERSION__: string | undefined;
-const CORE_PACKAGE_NAME = "openclaw";
+declare const __LALA_VERSION__: string | undefined;
+const CORE_PACKAGE_NAME = "lala";
 
 const PACKAGE_JSON_CANDIDATES = [
   "../package.json",
@@ -110,19 +110,19 @@ export function resolveRuntimeServiceVersion(
 
   return (
     firstNonEmpty(
-      env["OPENCLAW_VERSION"],
+      env["LALA_VERSION"],
       runtimeVersion,
-      env["OPENCLAW_SERVICE_VERSION"],
+      env["LALA_SERVICE_VERSION"],
       env["npm_package_version"],
     ) ?? fallback
   );
 }
 
-// Single source of truth for the current OpenClaw version.
+// Single source of truth for the current lala version.
 // - Embedded/bundled builds: injected define or env var.
 // - Dev/npm builds: package.json.
 export const VERSION = resolveBinaryVersion({
   moduleUrl: import.meta.url,
-  injectedVersion: typeof __OPENCLAW_VERSION__ === "string" ? __OPENCLAW_VERSION__ : undefined,
-  bundledVersion: process.env.OPENCLAW_BUNDLED_VERSION,
+  injectedVersion: typeof __LALA_VERSION__ === "string" ? __LALA_VERSION__ : undefined,
+  bundledVersion: process.env.LALA_BUNDLED_VERSION,
 });

@@ -1,6 +1,6 @@
-import OpenClawKit
+import LalaKit
 import Testing
-@testable import OpenClaw
+@testable import Lala
 
 @Suite struct IOSGatewayChatTransportTests {
     @Test func requestsFailFastWhenGatewayNotConnected() async {

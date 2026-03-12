@@ -13,7 +13,7 @@ import { applyPluginAutoEnable } from "./plugin-auto-enable.js";
 const tempDirs: string[] = [];
 
 function makeTempDir() {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-plugin-auto-enable-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "lala-plugin-auto-enable-"));
   tempDirs.push(dir);
   return dir;
 }
@@ -21,7 +21,7 @@ function makeTempDir() {
 function writePluginManifestFixture(params: { rootDir: string; id: string; channels: string[] }) {
   fs.mkdirSync(params.rootDir, { recursive: true });
   fs.writeFileSync(
-    path.join(params.rootDir, "openclaw.plugin.json"),
+    path.join(params.rootDir, "lala.plugin.json"),
     JSON.stringify(
       {
         id: params.id,
@@ -47,7 +47,7 @@ function makeRegistry(plugins: Array<{ id: string; channels: string[] }>): Plugi
       origin: "config" as const,
       rootDir: `/fake/${p.id}`,
       source: `/fake/${p.id}/index.js`,
-      manifestPath: `/fake/${p.id}/openclaw.plugin.json`,
+      manifestPath: `/fake/${p.id}/lala.plugin.json`,
     })),
     diagnostics: [],
   };
@@ -191,7 +191,7 @@ describe("applyPluginAutoEnable", () => {
       config: {},
       env: {
         IRC_HOST: "irc.libera.chat",
-        IRC_NICK: "openclaw-bot",
+        IRC_NICK: "lala-bot",
       },
     });
 
@@ -233,8 +233,8 @@ describe("applyPluginAutoEnable", () => {
       JSON.stringify({
         entries: [
           {
-            name: "@openclaw/env-secondary",
-            openclaw: {
+            name: "@lala/env-secondary",
+            lala: {
               channel: {
                 id: "env-secondary",
                 label: "Env Secondary",
@@ -244,7 +244,7 @@ describe("applyPluginAutoEnable", () => {
                 preferOver: ["env-primary"],
               },
               install: {
-                npmSpec: "@openclaw/env-secondary",
+                npmSpec: "@lala/env-secondary",
               },
             },
           },
@@ -333,7 +333,7 @@ describe("applyPluginAutoEnable", () => {
 
   describe("third-party channel plugins (pluginId ≠ channelId)", () => {
     it("uses the plugin manifest id, not the channel id, for plugins.entries", () => {
-      // Reproduces: https://github.com/openclaw/openclaw/issues/25261
+      // Reproduces: https://github.com/lala/lala/issues/25261
       // Plugin "apn-channel" declares channels: ["apn"]. Doctor must write
       // plugins.entries["apn-channel"], not plugins.entries["apn"].
       const result = applyWithApnChannelConfig();

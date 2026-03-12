@@ -1,5 +1,5 @@
 import Foundation
-import OpenClawKit
+import LalaKit
 
 @MainActor
 final class GatewayHealthMonitor {

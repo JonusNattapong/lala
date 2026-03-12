@@ -2,12 +2,12 @@
 // the agent reports a model id. This includes custom models.json entries.
 
 import { loadConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { LalaConfig } from "../config/config.js";
 import { computeBackoff, type BackoffPolicy } from "../infra/backoff.js";
 import { consumeRootOptionToken, FLAG_TERMINATOR } from "../infra/cli-root-options.js";
-import { resolveOpenClawAgentDir } from "./agent-paths.js";
+import { resolveLalaAgentDir } from "./agent-paths.js";
 import { normalizeProviderId } from "./model-selection.js";
-import { ensureOpenClawModelsJson } from "./models-config.js";
+import { ensureLalaModelsJson } from "./models-config.js";
 
 type ModelEntry = { id: string; contextWindow?: number };
 type ModelRegistryLike = {
@@ -80,7 +80,7 @@ export function applyConfiguredContextWindows(params: {
 
 const MODEL_CACHE = new Map<string, number>();
 let loadPromise: Promise<void> | null = null;
-let configuredConfig: OpenClawConfig | undefined;
+let configuredConfig: LalaConfig | undefined;
 let configLoadFailures = 0;
 let nextConfigLoadAttemptAtMs = 0;
 
@@ -113,7 +113,7 @@ function shouldSkipEagerContextWindowWarmup(argv: string[] = process.argv): bool
   return primary === "config" && secondary === "validate";
 }
 
-function primeConfiguredContextWindows(): OpenClawConfig | undefined {
+function primeConfiguredContextWindows(): LalaConfig | undefined {
   if (configuredConfig) {
     return configuredConfig;
   }
@@ -151,14 +151,14 @@ function ensureContextWindowCacheLoaded(): Promise<void> {
 
   loadPromise = (async () => {
     try {
-      await ensureOpenClawModelsJson(cfg);
+      await ensureLalaModelsJson(cfg);
     } catch {
       // Continue with best-effort discovery/overrides.
     }
 
     try {
       const { discoverAuthStorage, discoverModels } = await import("./pi-model-discovery.js");
-      const agentDir = resolveOpenClawAgentDir();
+      const agentDir = resolveLalaAgentDir();
       const authStorage = discoverAuthStorage(agentDir);
       const modelRegistry = discoverModels(authStorage, agentDir) as unknown as ModelRegistryLike;
       const models =
@@ -199,7 +199,7 @@ if (!shouldSkipEagerContextWindowWarmup()) {
 }
 
 function resolveConfiguredModelParams(
-  cfg: OpenClawConfig | undefined,
+  cfg: LalaConfig | undefined,
   provider: string,
   model: string,
 ): Record<string, unknown> | undefined {
@@ -249,7 +249,7 @@ function resolveProviderModelRef(params: {
 // keys overlap with raw slash-containing model IDs (e.g. OpenRouter's
 // "google/gemini-2.5-pro" stored as a raw catalog entry).
 function resolveConfiguredProviderContextWindow(
-  cfg: OpenClawConfig | undefined,
+  cfg: LalaConfig | undefined,
   provider: string,
   model: string,
 ): number | undefined {
@@ -307,7 +307,7 @@ function isAnthropic1MModel(provider: string, model: string): boolean {
 }
 
 export function resolveContextTokensForModel(params: {
-  cfg?: OpenClawConfig;
+  cfg?: LalaConfig;
   provider?: string;
   model?: string;
   contextTokensOverride?: number;

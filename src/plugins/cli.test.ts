@@ -1,15 +1,15 @@
 import { Command } from "commander";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { LalaConfig } from "../config/config.js";
 
 const mocks = vi.hoisted(() => ({
   memoryRegister: vi.fn(),
   otherRegister: vi.fn(),
-  loadOpenClawPlugins: vi.fn(),
+  loadLalaPlugins: vi.fn(),
 }));
 
 vi.mock("./loader.js", () => ({
-  loadOpenClawPlugins: (...args: unknown[]) => mocks.loadOpenClawPlugins(...args),
+  loadLalaPlugins: (...args: unknown[]) => mocks.loadLalaPlugins(...args),
 }));
 
 import { registerPluginCliCommands } from "./cli.js";
@@ -18,8 +18,8 @@ describe("registerPluginCliCommands", () => {
   beforeEach(() => {
     mocks.memoryRegister.mockClear();
     mocks.otherRegister.mockClear();
-    mocks.loadOpenClawPlugins.mockReset();
-    mocks.loadOpenClawPlugins.mockReturnValue({
+    mocks.loadLalaPlugins.mockReset();
+    mocks.loadLalaPlugins.mockReturnValue({
       cliRegistrars: [
         {
           pluginId: "memory-core",
@@ -50,11 +50,11 @@ describe("registerPluginCliCommands", () => {
 
   it("forwards an explicit env to plugin loading", () => {
     const program = new Command();
-    const env = { OPENCLAW_HOME: "/srv/openclaw-home" } as NodeJS.ProcessEnv;
+    const env = { OPENCLAW_HOME: "/srv/lala-home" } as NodeJS.ProcessEnv;
 
-    registerPluginCliCommands(program, {} as OpenClawConfig, env);
+    registerPluginCliCommands(program, {} as LalaConfig, env);
 
-    expect(mocks.loadOpenClawPlugins).toHaveBeenCalledWith(
+    expect(mocks.loadLalaPlugins).toHaveBeenCalledWith(
       expect.objectContaining({
         env,
       }),

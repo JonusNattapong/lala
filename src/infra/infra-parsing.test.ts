@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { LalaConfig } from "../config/config.js";
 import { isDiagnosticFlagEnabled, resolveDiagnosticFlags } from "./diagnostic-flags.js";
 import { isMainModule } from "./is-main.js";
 import { buildNodeShellCommand } from "./node-shell.js";
@@ -10,7 +10,7 @@ describe("infra parsing", () => {
     it("merges config + env flags", () => {
       const cfg = {
         diagnostics: { flags: ["telegram.http", "cache.*"] },
-      } as OpenClawConfig;
+      } as LalaConfig;
       const env = {
         OPENCLAW_DIAGNOSTICS: "foo,bar",
       } as NodeJS.ProcessEnv;
@@ -56,14 +56,14 @@ describe("infra parsing", () => {
       ).toBe(true);
     });
 
-    it("returns true for dist/entry.js when launched via openclaw.mjs wrapper", () => {
+    it("returns true for dist/entry.js when launched via lala.mjs wrapper", () => {
       expect(
         isMainModule({
           currentFile: "/repo/dist/entry.js",
-          argv: ["node", "/repo/openclaw.mjs"],
+          argv: ["node", "/repo/lala.mjs"],
           cwd: "/repo",
           env: {},
-          wrapperEntryPairs: [{ wrapperBasename: "openclaw.mjs", entryBasename: "entry.js" }],
+          wrapperEntryPairs: [{ wrapperBasename: "lala.mjs", entryBasename: "entry.js" }],
         }),
       ).toBe(true);
     });
@@ -72,7 +72,7 @@ describe("infra parsing", () => {
       expect(
         isMainModule({
           currentFile: "/repo/dist/entry.js",
-          argv: ["node", "/repo/openclaw.mjs"],
+          argv: ["node", "/repo/lala.mjs"],
           cwd: "/repo",
           env: {},
         }),
@@ -83,10 +83,10 @@ describe("infra parsing", () => {
       expect(
         isMainModule({
           currentFile: "/repo/dist/index.js",
-          argv: ["node", "/repo/openclaw.mjs"],
+          argv: ["node", "/repo/lala.mjs"],
           cwd: "/repo",
           env: {},
-          wrapperEntryPairs: [{ wrapperBasename: "openclaw.mjs", entryBasename: "entry.js" }],
+          wrapperEntryPairs: [{ wrapperBasename: "lala.mjs", entryBasename: "entry.js" }],
         }),
       ).toBe(false);
     });
@@ -94,7 +94,7 @@ describe("infra parsing", () => {
     it("returns false when running under PM2 but this module is imported", () => {
       expect(
         isMainModule({
-          currentFile: "/repo/node_modules/openclaw/dist/index.js",
+          currentFile: "/repo/node_modules/lala/dist/index.js",
           argv: ["node", "/repo/app.js"],
           cwd: "/repo",
           env: { pm_exec_path: "/repo/app.js", pm_id: "0" },

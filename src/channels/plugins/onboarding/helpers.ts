@@ -2,7 +2,7 @@ import {
   promptSecretRefForOnboarding,
   resolveSecretInputModeForEnvSelection,
 } from "../../../commands/auth-choice.apply-helpers.js";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { LalaConfig } from "../../../config/config.js";
 import type { DmPolicy, GroupPolicy } from "../../../config/types.js";
 import type { SecretInput } from "../../../config/types.secrets.js";
 import { promptAccountId as promptAccountIdSdk } from "../../../plugin-sdk/onboarding.js";
@@ -125,12 +125,12 @@ export function resolveOnboardingAccountId(params: {
 }
 
 export async function resolveAccountIdForConfigure(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   prompter: WizardPrompter;
   label: string;
   accountOverride?: string;
   shouldPromptAccountIds: boolean;
-  listAccountIds: (cfg: OpenClawConfig) => string[];
+  listAccountIds: (cfg: LalaConfig) => string[];
   defaultAccountId: string;
 }): Promise<string> {
   const override = params.accountOverride?.trim();
@@ -149,11 +149,11 @@ export async function resolveAccountIdForConfigure(params: {
 }
 
 export function setAccountAllowFromForChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: "imessage" | "signal";
   accountId: string;
   allowFrom: string[];
-}): OpenClawConfig {
+}): LalaConfig {
   const { cfg, channel, accountId, allowFrom } = params;
   return patchConfigForScopedAccount({
     cfg,
@@ -165,11 +165,11 @@ export function setAccountAllowFromForChannel(params: {
 }
 
 function patchTopLevelChannelConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: string;
   enabled?: boolean;
   patch: Record<string, unknown>;
-}): OpenClawConfig {
+}): LalaConfig {
   const channelConfig =
     (params.cfg.channels?.[params.channel] as Record<string, unknown> | undefined) ?? {};
   return {
@@ -186,11 +186,11 @@ function patchTopLevelChannelConfig(params: {
 }
 
 export function setTopLevelChannelAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: string;
   allowFrom: string[];
   enabled?: boolean;
-}): OpenClawConfig {
+}): LalaConfig {
   return patchTopLevelChannelConfig({
     cfg: params.cfg,
     channel: params.channel,
@@ -200,11 +200,11 @@ export function setTopLevelChannelAllowFrom(params: {
 }
 
 export function setTopLevelChannelDmPolicyWithAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: string;
   dmPolicy: DmPolicy;
-  getAllowFrom?: (cfg: OpenClawConfig) => Array<string | number> | undefined;
-}): OpenClawConfig {
+  getAllowFrom?: (cfg: LalaConfig) => Array<string | number> | undefined;
+}): LalaConfig {
   const channelConfig =
     (params.cfg.channels?.[params.channel] as Record<string, unknown> | undefined) ?? {};
   const existingAllowFrom =
@@ -224,11 +224,11 @@ export function setTopLevelChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setTopLevelChannelGroupPolicy(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: string;
   groupPolicy: GroupPolicy;
   enabled?: boolean;
-}): OpenClawConfig {
+}): LalaConfig {
   return patchTopLevelChannelConfig({
     cfg: params.cfg,
     channel: params.channel,
@@ -238,10 +238,10 @@ export function setTopLevelChannelGroupPolicy(params: {
 }
 
 export function setChannelDmPolicyWithAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: "imessage" | "signal" | "telegram";
   dmPolicy: DmPolicy;
-}): OpenClawConfig {
+}): LalaConfig {
   const { cfg, channel, dmPolicy } = params;
   const allowFrom =
     dmPolicy === "open" ? addWildcardAllowFrom(cfg.channels?.[channel]?.allowFrom) : undefined;
@@ -259,10 +259,10 @@ export function setChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setLegacyChannelDmPolicyWithAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: LegacyDmChannel;
   dmPolicy: DmPolicy;
-}): OpenClawConfig {
+}): LalaConfig {
   const channelConfig = (params.cfg.channels?.[params.channel] as
     | {
         allowFrom?: Array<string | number>;
@@ -286,10 +286,10 @@ export function setLegacyChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setLegacyChannelAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: LegacyDmChannel;
   allowFrom: string[];
-}): OpenClawConfig {
+}): LalaConfig {
   return patchLegacyDmChannelConfig({
     cfg: params.cfg,
     channel: params.channel,
@@ -298,11 +298,11 @@ export function setLegacyChannelAllowFrom(params: {
 }
 
 export function setAccountGroupPolicyForChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: "discord" | "slack";
   accountId: string;
   groupPolicy: GroupPolicy;
-}): OpenClawConfig {
+}): LalaConfig {
   return patchChannelConfigForAccount({
     cfg: params.cfg,
     channel: params.channel,
@@ -315,10 +315,10 @@ type AccountScopedChannel = "discord" | "slack" | "telegram" | "imessage" | "sig
 type LegacyDmChannel = "discord" | "slack";
 
 export function patchLegacyDmChannelConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: LegacyDmChannel;
   patch: Record<string, unknown>;
-}): OpenClawConfig {
+}): LalaConfig {
   const { cfg, channel, patch } = params;
   const channelConfig = (cfg.channels?.[channel] as Record<string, unknown> | undefined) ?? {};
   const dmConfig = (channelConfig.dm as Record<string, unknown> | undefined) ?? {};
@@ -339,10 +339,10 @@ export function patchLegacyDmChannelConfig(params: {
 }
 
 export function setOnboardingChannelEnabled(
-  cfg: OpenClawConfig,
+  cfg: LalaConfig,
   channel: AccountScopedChannel,
   enabled: boolean,
-): OpenClawConfig {
+): LalaConfig {
   const channelConfig = (cfg.channels?.[channel] as Record<string, unknown> | undefined) ?? {};
   return {
     ...cfg,
@@ -357,12 +357,12 @@ export function setOnboardingChannelEnabled(
 }
 
 function patchConfigForScopedAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: AccountScopedChannel;
   accountId: string;
   patch: Record<string, unknown>;
   ensureEnabled: boolean;
-}): OpenClawConfig {
+}): LalaConfig {
   const { cfg, channel, accountId, patch, ensureEnabled } = params;
   const seededCfg =
     accountId === DEFAULT_ACCOUNT_ID
@@ -382,11 +382,11 @@ function patchConfigForScopedAccount(params: {
 }
 
 export function patchChannelConfigForAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: AccountScopedChannel;
   accountId: string;
   patch: Record<string, unknown>;
-}): OpenClawConfig {
+}): LalaConfig {
   return patchConfigForScopedAccount({
     ...params,
     ensureEnabled: true,
@@ -394,7 +394,7 @@ export function patchChannelConfigForAccount(params: {
 }
 
 export function applySingleTokenPromptResult(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: "discord" | "telegram";
   accountId: string;
   tokenPatchKey: "token" | "botToken";
@@ -402,7 +402,7 @@ export function applySingleTokenPromptResult(params: {
     useEnv: boolean;
     token: SecretInput | null;
   };
-}): OpenClawConfig {
+}): LalaConfig {
   let next = params.cfg;
   if (params.tokenResult.useEnv) {
     next = patchChannelConfigForAccount({
@@ -487,7 +487,7 @@ export type SingleChannelSecretInputPromptResult =
   | { action: "set"; value: SecretInput; resolvedValue: string };
 
 export async function runSingleChannelSecretStep(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   prompter: Pick<WizardPrompter, "confirm" | "text" | "select" | "note">;
   providerHint: string;
   credentialLabel: string;
@@ -501,14 +501,14 @@ export async function runSingleChannelSecretStep(params: {
   inputPrompt: string;
   preferredEnvVar?: string;
   onMissingConfigured?: () => Promise<void>;
-  applyUseEnv?: (cfg: OpenClawConfig) => OpenClawConfig | Promise<OpenClawConfig>;
+  applyUseEnv?: (cfg: LalaConfig) => LalaConfig | Promise<LalaConfig>;
   applySet?: (
-    cfg: OpenClawConfig,
+    cfg: LalaConfig,
     value: SecretInput,
     resolvedValue: string,
-  ) => OpenClawConfig | Promise<OpenClawConfig>;
+  ) => LalaConfig | Promise<LalaConfig>;
 }): Promise<{
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   action: SingleChannelSecretInputPromptResult["action"];
   resolvedValue?: string;
 }> {
@@ -563,7 +563,7 @@ export async function runSingleChannelSecretStep(params: {
 }
 
 export async function promptSingleChannelSecretInput(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   prompter: Pick<WizardPrompter, "confirm" | "text" | "select" | "note">;
   providerHint: string;
   credentialLabel: string;
@@ -582,7 +582,7 @@ export async function promptSingleChannelSecretInput(params: {
     copy: {
       modeMessage: `How do you want to provide this ${params.credentialLabel}?`,
       plaintextLabel: `Enter ${params.credentialLabel}`,
-      plaintextHint: "Stores the credential directly in OpenClaw config",
+      plaintextHint: "Stores the credential directly in Lala config",
       refLabel: "Use external secret provider",
       refHint: "Stores a reference to env or configured external secret providers",
     },
@@ -641,7 +641,7 @@ export async function promptSingleChannelSecretInput(params: {
 type ParsedAllowFromResult = { entries: string[]; error?: string };
 
 export async function promptParsedAllowFromForScopedChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: "imessage" | "signal";
   accountId?: string;
   defaultAccountId: string;
@@ -652,10 +652,10 @@ export async function promptParsedAllowFromForScopedChannel(params: {
   placeholder: string;
   parseEntries: (raw: string) => ParsedAllowFromResult;
   getExistingAllowFrom: (params: {
-    cfg: OpenClawConfig;
+    cfg: LalaConfig;
     accountId: string;
   }) => Array<string | number>;
-}): Promise<OpenClawConfig> {
+}): Promise<LalaConfig> {
   const accountId = resolveOnboardingAccountId({
     accountId: params.accountId,
     defaultAccountId: params.defaultAccountId,
@@ -778,7 +778,7 @@ export async function promptResolvedAllowFrom(params: {
 }
 
 export async function promptLegacyChannelAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: LalaConfig;
   channel: LegacyDmChannel;
   prompter: WizardPrompter;
   existing: Array<string | number>;
@@ -790,7 +790,7 @@ export async function promptLegacyChannelAllowFrom(params: {
   parseId: (value: string) => string | null;
   invalidWithoutTokenNote: string;
   resolveEntries: (params: { token: string; entries: string[] }) => Promise<AllowFromResolution[]>;
-}): Promise<OpenClawConfig> {
+}): Promise<LalaConfig> {
   await params.prompter.note(params.noteLines.join("\n"), params.noteTitle);
   const unique = await promptResolvedAllowFrom({
     prompter: params.prompter,

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { LalaConfig } from "../../../config/config.js";
 
 const buildGatewayInstallPlan = vi.hoisted(() => vi.fn());
 const gatewayInstallErrorHint = vi.hoisted(() => vi.fn(() => "hint"));
@@ -46,7 +46,7 @@ describe("installGatewayDaemonNonInteractive", () => {
       warnings: [],
     });
     buildGatewayInstallPlan.mockResolvedValue({
-      programArguments: ["openclaw", "gateway", "run"],
+      programArguments: ["lala", "gateway", "run"],
       workingDirectory: "/tmp",
       environment: {},
     });
@@ -67,7 +67,7 @@ describe("installGatewayDaemonNonInteractive", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as LalaConfig,
       opts: { installDaemon: true },
       runtime,
       port: 18789,
@@ -89,7 +89,7 @@ describe("installGatewayDaemonNonInteractive", () => {
     const runtime = { log: vi.fn(), error: vi.fn(), exit: vi.fn() };
 
     await installGatewayDaemonNonInteractive({
-      nextConfig: {} as OpenClawConfig,
+      nextConfig: {} as LalaConfig,
       opts: { installDaemon: true },
       runtime,
       port: 18789,
