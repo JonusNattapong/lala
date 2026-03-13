@@ -1,9 +1,7 @@
 ---
-summary: "Messaging platforms Lala can connect to"
-read_when:
-  - You want to choose a chat channel for Lala
-  - You need a quick overview of supported messaging platforms
+layout: default
 title: "Chat Channels"
+summary: "Messaging platforms Lala can connect to"
 ---
 
 # Chat Channels

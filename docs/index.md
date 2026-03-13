@@ -1,8 +1,7 @@
 ---
+layout: default
+title: "Lala - Multi-channel AI Gateway"
 summary: "Lala is a multi-channel gateway for AI agents that runs on any OS."
-read_when:
-  - Introducing Lala to newcomers
-title: "Lala"
 ---
 
 # Lala 🦋

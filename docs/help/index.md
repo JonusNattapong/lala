@@ -1,9 +1,7 @@
 ---
-summary: "Help hub: common fixes, install sanity, and where to look when something breaks"
-read_when:
-  - You’re new and want the “what do I click/run” guide
-  - Something broke and you want the fastest path to a fix
+layout: default
 title: "Help"
+summary: "Help hub: common fixes, install sanity, and where to look when something breaks"
 ---
 
 # Help
