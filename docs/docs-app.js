@@ -320,6 +320,12 @@ function isListBlock(chunk) {
 
 function renderInline(text) {
   let html = text;
+  
+  // Handle <Note> components first
+  html = html.replace(/<Note>([\s\S]*?)<\/Note>/g, (_match, content) => {
+    return `<div class="note-component">${renderInline(content.trim())}</div>`;
+  });
+  
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, href) => {
     const src = new URL(href, window.location.href).toString();
     return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}">`;
