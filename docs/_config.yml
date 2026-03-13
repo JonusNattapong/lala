@@ -39,6 +39,31 @@ defaults:
       type: "pages"
     values:
       layout: "default"
+  - scope:
+      path: "start"
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "channels"
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "gateway"
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "help"
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "nodes"
+      type: "pages"
+    values:
+      layout: "default"
 
 # Collections for better organization
 collections:
