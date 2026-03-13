@@ -513,4 +513,17 @@ body {
   .docs-article {
     padding: 22px 16px;
   }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .feature-card {
+    padding: 20px;
+  }
+
+  .cta-section {
+    padding: 24px 20px;
+  }
 }
