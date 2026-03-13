@@ -32,7 +32,7 @@ exclude:
   - "pnpm-*"
   - "*.log"
 
-# Default values
+# Default values - Apply to ALL markdown files
 defaults:
   - scope:
       path: ""
@@ -40,36 +40,18 @@ defaults:
     values:
       layout: "default"
   - scope:
-      path: "start"
+      path: "*.md"
       type: "pages"
     values:
       layout: "default"
   - scope:
-      path: "channels"
-      type: "pages"
-    values:
-      layout: "default"
-  - scope:
-      path: "gateway"
-      type: "pages"
-    values:
-      layout: "default"
-  - scope:
-      path: "help"
-      type: "pages"
-    values:
-      layout: "default"
-  - scope:
-      path: "nodes"
+      path: "**/*.md"
       type: "pages"
     values:
       layout: "default"
 
-# Collections for better organization
-collections:
-  pages:
-    output: true
-    permalink: /:collection/:name/
+# Set permalink structure for all pages
+permalink: pretty
 
 # Plugins
 plugins:
