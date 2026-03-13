@@ -287,13 +287,20 @@ function renderTable(chunk) {
   if (!headerLine || !dividerLine) {
     return `<p>${renderInline(chunk)}</p>`;
   }
+  const alignments = splitTableCells(dividerLine).map(resolveTableAlignment);
   const headers = splitTableCells(headerLine)
-    .map((cell) => `<th>${renderInline(cell)}</th>`)
+    .map(
+      (cell, index) =>
+        `<th${renderTableAlignAttr(alignments[index])}>${renderInline(cell)}</th>`,
+    )
     .join("");
   const rows = bodyLines
     .map((line) => {
       const cells = splitTableCells(line)
-        .map((cell) => `<td>${renderInline(cell)}</td>`)
+        .map(
+          (cell, index) =>
+            `<td${renderTableAlignAttr(alignments[index])}>${renderInline(cell)}</td>`,
+        )
         .join("");
       return `<tr>${cells}</tr>`;
     })
@@ -353,7 +360,7 @@ function restoreBlocks(text, blocks) {
 
 function extractRawHtmlBlocks(markdown, rawHtmlBlocks) {
   const blockPattern =
-    /(^|\n)(<(?:p|div)\b[\s\S]*?<\/(?:p|div)>|<img\b[\s\S]*?\/?>)(?=\n|$)/gi;
+    /(^|\n)(<(?:p|div|table)\b[\s\S]*?<\/(?:p|div|table)>|<img\b[\s\S]*?\/?>)(?=\n|$)/gi;
   return markdown.replace(blockPattern, (match, leading, htmlBlock) => {
     const index = rawHtmlBlocks.length;
     rawHtmlBlocks.push(sanitizeTrustedHtml(htmlBlock.trim()));
@@ -386,8 +393,25 @@ function sanitizeTrustedHtml(html) {
     "IMG",
     "P",
     "STRONG",
+    "TABLE",
+    "THEAD",
+    "TBODY",
+    "TR",
+    "TH",
+    "TD",
   ]);
-  const allowedAttrs = new Set(["alt", "align", "class", "href", "src", "target", "rel", "width"]);
+  const allowedAttrs = new Set([
+    "alt",
+    "align",
+    "class",
+    "colspan",
+    "href",
+    "rowspan",
+    "src",
+    "target",
+    "rel",
+    "width",
+  ]);
 
   for (const element of template.content.querySelectorAll("*")) {
     if (!allowedTags.has(element.tagName)) {
@@ -418,4 +442,24 @@ function sanitizeTrustedHtml(html) {
   }
 
   return template.innerHTML;
+}
+
+function resolveTableAlignment(cell) {
+  const trimmed = cell.trim();
+  const starts = trimmed.startsWith(":");
+  const ends = trimmed.endsWith(":");
+  if (starts && ends) {
+    return "center";
+  }
+  if (ends) {
+    return "right";
+  }
+  if (starts) {
+    return "left";
+  }
+  return "";
+}
+
+function renderTableAlignAttr(alignment) {
+  return alignment ? ` style="text-align:${alignment}"` : "";
 }
