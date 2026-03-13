@@ -169,43 +169,67 @@ Example:
 
 ## Start here
 
-<Columns>
-  <Card title="Docs hubs" href="/start/hubs" icon="book-open">
-    All docs and guides, organized by use case.
-  </Card>
-  <Card title="Configuration" href="/gateway/configuration" icon="settings">
-    Core Gateway settings, tokens, and provider config.
-  </Card>
-  <Card title="Remote access" href="/gateway/remote" icon="globe">
-    SSH and tailnet access patterns.
-  </Card>
-  <Card title="Channels" href="/channels/telegram" icon="message-square">
-    Channel-specific setup for WhatsApp, Telegram, Discord, and more.
-  </Card>
-  <Card title="Nodes" href="/nodes" icon="smartphone">
-    iOS and Android nodes with pairing, Canvas, camera, and device actions.
-  </Card>
-  <Card title="Help" href="/help" icon="life-buoy">
-    Common fixes and troubleshooting entry point.
-  </Card>
-</Columns>
+<div class="feature-grid">
+
+<div class="feature-card">
+<h3>📚 <a href="/docs">Documentation Hub</a></h3>
+<p>All docs and guides, organized by use case.</p>
+</div>
+
+<div class="feature-card">
+<h3>⚙️ <a href="/gateway/configuration">Configuration</a></h3>
+<p>Core Gateway settings, tokens, and provider config.</p>
+</div>
+
+<div class="feature-card">
+<h3>🌐 <a href="/gateway/remote">Remote Access</a></h3>
+<p>SSH and tailnet access patterns.</p>
+</div>
+
+<div class="feature-card">
+<h3>📡 <a href="/channels">Channels</a></h3>
+<p>Channel-specific setup for WhatsApp, Telegram, Discord, and more.</p>
+</div>
+
+<div class="feature-card">
+<h3>📱 <a href="/nodes">Nodes</a></h3>
+<p>iOS and Android nodes with pairing, Canvas, camera, and device actions.</p>
+</div>
+
+<div class="feature-card">
+<h3>🆘 <a href="/help">Help</a></h3>
+<p>Common fixes and troubleshooting entry point.</p>
+</div>
+
+</div>
 
 ## Learn more
 
-<Columns>
-  <Card title="Full feature list" href="/concepts/features" icon="list">
-    Complete channel, routing, and media capabilities.
-  </Card>
-  <Card title="Multi-agent routing" href="/concepts/multi-agent" icon="route">
-    Workspace isolation and per-agent sessions.
-  </Card>
-  <Card title="Security" href="/gateway/security" icon="shield">
-    Tokens, allowlists, and safety controls.
-  </Card>
-  <Card title="Troubleshooting" href="/gateway/troubleshooting" icon="wrench">
-    Gateway diagnostics and common errors.
-  </Card>
-  <Card title="About and credits" href="/reference/credits" icon="info">
-    Project origins, contributors, and license.
-  </Card>
-</Columns>
+<div class="feature-grid">
+
+<div class="feature-card">
+<h3>📋 <a href="/concepts/features">Full Feature List</a></h3>
+<p>Complete channel, routing, and media capabilities.</p>
+</div>
+
+<div class="feature-card">
+<h3>🎯 <a href="/concepts/multi-agent">Multi-agent Routing</a></h3>
+<p>Workspace isolation and per-agent sessions.</p>
+</div>
+
+<div class="feature-card">
+<h3>🛡️ <a href="/gateway/security">Security</a></h3>
+<p>Tokens, allowlists, and safety controls.</p>
+</div>
+
+<div class="feature-card">
+<h3>🔧 <a href="/gateway/troubleshooting">Troubleshooting</a></h3>
+<p>Gateway diagnostics and common errors.</p>
+</div>
+
+<div class="feature-card">
+<h3>ℹ️ <a href="/reference/credits">About and Credits</a></h3>
+<p>Project origins, contributors, and license.</p>
+</div>
+
+</div>

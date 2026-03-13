@@ -1,9 +1,7 @@
 ---
-summary: "Get Lala installed and run your first chat in minutes."
-read_when:
-  - First time setup from zero
-  - You want the fastest path to a working chat
+layout: default
 title: "Getting Started"
+summary: "Get Lala installed and run your first chat in minutes."
 ---
 
 # Getting Started

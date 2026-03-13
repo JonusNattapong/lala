@@ -11,6 +11,12 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 
+# Include all Markdown files
+include:
+  - "_pages"
+  - "*.md"
+  - "**/*.md"
+
 # Exclude files from processing
 exclude:
   - package.json
@@ -21,10 +27,10 @@ exclude:
   - docs.json
   - .i18n/
   - assets/src/
-
-# Include folders
-include:
-  - _pages
+  - "*.mjs"
+  - "tsconfig.*"
+  - "pnpm-*"
+  - "*.log"
 
 # Default values
 defaults:
@@ -33,3 +39,32 @@ defaults:
       type: "pages"
     values:
       layout: "default"
+
+# Collections for better organization
+collections:
+  pages:
+    output: true
+    permalink: /:collection/:name/
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# SEO and social
+logo: "/assets/lala-logo-text.png"
+twitter:
+  username: lala_ai
+  card: summary
+
+# Google Analytics (if needed)
+google_analytics: false
+
+# Build settings
+sass:
+  style: compressed
+  sass_dir: _sass
+
+# Incremental build
+incremental: false
