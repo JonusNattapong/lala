@@ -371,37 +371,37 @@ describe("systemd runtime parsing", () => {
 describe("resolveSystemdUserUnitPath", () => {
   it.each([
     {
-      name: "uses default service name when OPENCLAW_PROFILE is unset",
+      name: "uses default service name when LALA_PROFILE is unset",
       env: { HOME: "/home/test" },
       expected: "/home/test/.config/systemd/user/lala-gateway.service",
     },
     {
-      name: "uses profile-specific service name when OPENCLAW_PROFILE is set to a custom value",
-      env: { HOME: "/home/test", OPENCLAW_PROFILE: "jbphoenix" },
+      name: "uses profile-specific service name when LALA_PROFILE is set to a custom value",
+      env: { HOME: "/home/test", LALA_PROFILE: "jbphoenix" },
       expected: "/home/test/.config/systemd/user/lala-gateway-jbphoenix.service",
     },
     {
-      name: "prefers OPENCLAW_SYSTEMD_UNIT over OPENCLAW_PROFILE",
+      name: "prefers LALA_SYSTEMD_UNIT over LALA_PROFILE",
       env: {
         HOME: "/home/test",
-        OPENCLAW_PROFILE: "jbphoenix",
-        OPENCLAW_SYSTEMD_UNIT: "custom-unit",
+        LALA_PROFILE: "jbphoenix",
+        LALA_SYSTEMD_UNIT: "custom-unit",
       },
       expected: "/home/test/.config/systemd/user/custom-unit.service",
     },
     {
-      name: "handles OPENCLAW_SYSTEMD_UNIT with .service suffix",
+      name: "handles LALA_SYSTEMD_UNIT with .service suffix",
       env: {
         HOME: "/home/test",
-        OPENCLAW_SYSTEMD_UNIT: "custom-unit.service",
+        LALA_SYSTEMD_UNIT: "custom-unit.service",
       },
       expected: "/home/test/.config/systemd/user/custom-unit.service",
     },
     {
-      name: "trims whitespace from OPENCLAW_SYSTEMD_UNIT",
+      name: "trims whitespace from LALA_SYSTEMD_UNIT",
       env: {
         HOME: "/home/test",
-        OPENCLAW_SYSTEMD_UNIT: "  custom-unit  ",
+        LALA_SYSTEMD_UNIT: "  custom-unit  ",
       },
       expected: "/home/test/.config/systemd/user/custom-unit.service",
     },
@@ -462,7 +462,7 @@ describe("readSystemdServiceExecStart", () => {
     vi.restoreAllMocks();
   });
 
-  it("loads OPENCLAW_GATEWAY_TOKEN from EnvironmentFile", async () => {
+  it("loads LALA_GATEWAY_TOKEN from EnvironmentFile", async () => {
     const readFileSpy = vi.spyOn(fs, "readFile").mockImplementation(async (pathname) => {
       const pathValue = pathLikeToString(pathname);
       if (pathValue.endsWith("/lala-gateway.service")) {
@@ -473,12 +473,14 @@ describe("readSystemdServiceExecStart", () => {
         ].join("\n");
       }
       if (pathValue === "/home/test/.lala/.env") {
-        return "OPENCLAW_GATEWAY_TOKEN=env-file-token\n";
+        return "LALA_GATEWAY_TOKEN=env-file-token\nLALABOT_GATEWAY_TOKEN=env-file-token\nOPENCLAW_GATEWAY_TOKEN=env-file-token\n";
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
+    expect(command?.environment?.LALA_GATEWAY_TOKEN).toBe("env-file-token");
+    expect(command?.environment?.LALABOT_GATEWAY_TOKEN).toBe("env-file-token");
     expect(command?.environment?.OPENCLAW_GATEWAY_TOKEN).toBe("env-file-token");
     expect(readFileSpy).toHaveBeenCalledTimes(2);
   });
@@ -491,18 +493,18 @@ describe("readSystemdServiceExecStart", () => {
           "[Service]",
           "ExecStart=/usr/bin/lala gateway run",
           "EnvironmentFile=%h/.lala/.env",
-          'Environment="OPENCLAW_GATEWAY_TOKEN=inline-token"',
+          'Environment="LALA_GATEWAY_TOKEN=inline-token"',
         ].join("\n");
       }
       if (pathValue === "/home/test/.lala/.env") {
-        return "OPENCLAW_GATEWAY_TOKEN=env-file-token\n";
+        return "LALA_GATEWAY_TOKEN=env-file-token\nLALABOT_GATEWAY_TOKEN=env-file-token\nOPENCLAW_GATEWAY_TOKEN=env-file-token\n";
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
-    expect(command?.environment?.OPENCLAW_GATEWAY_TOKEN).toBe("env-file-token");
-    expect(command?.environmentValueSources?.OPENCLAW_GATEWAY_TOKEN).toBe("file");
+    expect(command?.environment?.LALA_GATEWAY_TOKEN).toBe("env-file-token");
+    expect(command?.environmentValueSources?.LALA_GATEWAY_TOKEN).toBe("file");
   });
 
   it("ignores missing optional EnvironmentFile entries", async () => {
@@ -552,17 +554,21 @@ describe("readSystemdServiceExecStart", () => {
         ].join("\n");
       }
       if (pathValue === "/home/test/.lala/first.env") {
-        return "OPENCLAW_GATEWAY_TOKEN=first-token\n"; // pragma: allowlist secret
+        return "LALA_GATEWAY_TOKEN=first-token\n"; // pragma: allowlist secret
       }
       if (pathValue === "/home/test/.lala/second env.env") {
-        return 'OPENCLAW_GATEWAY_PASSWORD="second password"\n'; // pragma: allowlist secret
+        return 'LALA_GATEWAY_PASSWORD="second password"\n'; // pragma: allowlist secret
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
     expect(command?.environment).toEqual({
+      LALA_GATEWAY_TOKEN: "first-token",
+      LALABOT_GATEWAY_TOKEN: "first-token",
       OPENCLAW_GATEWAY_TOKEN: "first-token",
+      LALA_GATEWAY_PASSWORD: "second password", // pragma: allowlist secret
+      LALABOT_GATEWAY_PASSWORD: "second password", // pragma: allowlist secret
       OPENCLAW_GATEWAY_PASSWORD: "second password", // pragma: allowlist secret
     });
   });
@@ -579,21 +585,21 @@ describe("readSystemdServiceExecStart", () => {
       }
       if (pathValue.endsWith("/.config/systemd/user/gateway.env")) {
         return [
-          "OPENCLAW_GATEWAY_TOKEN=relative-token", // pragma: allowlist secret
-          "OPENCLAW_GATEWAY_PASSWORD=relative-password", // pragma: allowlist secret
+          "LALA_GATEWAY_TOKEN=relative-token", // pragma: allowlist secret
+          "LALA_GATEWAY_PASSWORD=relative-password", // pragma: allowlist secret
         ].join("\n");
       }
       if (pathValue.endsWith("/.config/systemd/user/override.env")) {
-        return "OPENCLAW_GATEWAY_TOKEN=override-token\n"; // pragma: allowlist secret
+        return "LALA_GATEWAY_TOKEN=override-token\n"; // pragma: allowlist secret
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
-    expect(command?.environment).toEqual({
-      OPENCLAW_GATEWAY_TOKEN: "override-token",
-      OPENCLAW_GATEWAY_PASSWORD: "relative-password", // pragma: allowlist secret
-    });
+    expect(command?.environment?.LALA_GATEWAY_TOKEN).toBe("override-token");
+    expect(command?.environment?.LALABOT_GATEWAY_TOKEN).toBe("override-token");
+    expect(command?.environment?.OPENCLAW_GATEWAY_TOKEN).toBe("override-token");
+    expect(command?.environment?.LALA_GATEWAY_PASSWORD).toBe("relative-password"); // pragma: allowlist secret
   });
 
   it("parses EnvironmentFile content with comments and quoted values", async () => {
@@ -610,22 +616,20 @@ describe("readSystemdServiceExecStart", () => {
         return [
           "# comment",
           "; another comment",
-          'OPENCLAW_GATEWAY_TOKEN="quoted token"', // pragma: allowlist secret
-          "OPENCLAW_GATEWAY_PASSWORD=quoted-password", // pragma: allowlist secret
+          'LALA_GATEWAY_TOKEN="quoted token"', // pragma: allowlist secret
+          "LALA_GATEWAY_PASSWORD=quoted-password", // pragma: allowlist secret
         ].join("\n");
       }
       throw new Error(`unexpected readFile path: ${pathValue}`);
     });
 
     const command = await readSystemdServiceExecStart({ HOME: "/home/test" });
-    expect(command?.environment).toEqual({
-      OPENCLAW_GATEWAY_TOKEN: "quoted token",
-      OPENCLAW_GATEWAY_PASSWORD: "quoted-password", // pragma: allowlist secret
-    });
-    expect(command?.environmentValueSources).toEqual({
-      OPENCLAW_GATEWAY_TOKEN: "file",
-      OPENCLAW_GATEWAY_PASSWORD: "file", // pragma: allowlist secret
-    });
+    expect(command?.environment?.LALA_GATEWAY_TOKEN).toBe("quoted token");
+    expect(command?.environment?.LALABOT_GATEWAY_TOKEN).toBe("quoted token");
+    expect(command?.environment?.OPENCLAW_GATEWAY_TOKEN).toBe("quoted token");
+    expect(command?.environment?.LALA_GATEWAY_PASSWORD).toBe("quoted-password"); // pragma: allowlist secret
+    expect(command?.environmentValueSources?.LALA_GATEWAY_TOKEN).toBe("file");
+    expect(command?.environmentValueSources?.LALA_GATEWAY_PASSWORD).toBe("file"); // pragma: allowlist secret
   });
 });
 
@@ -681,7 +685,7 @@ describe("systemd service control", () => {
         expect(args).toEqual(["--user", "restart", "lala-gateway-work.service"]);
         cb(null, "", "");
       });
-    await assertRestartSuccess({ OPENCLAW_PROFILE: "work" });
+    await assertRestartSuccess({ LALA_PROFILE: "work" });
   });
 
   it("surfaces stop failures with systemctl detail", async () => {

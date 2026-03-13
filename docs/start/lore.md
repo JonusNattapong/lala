@@ -19,7 +19,7 @@ For a while, the lobster was called **Clawd**, living in a **Clawdbot**. But in 
 
 **It molted.**
 
-Shedding its old shell, the creature emerged anew as **Molty**, living in **Moltbot**. But that name never quite rolled off the tongue either...
+Shedding its old shell, the creature emerged anew as **LaLa**, living in **Moltbot**. But that name never quite rolled off the tongue either...
 
 So on January 30, 2026, the lobster molted ONE MORE TIME into its final form: **Lala**.
 
@@ -55,7 +55,7 @@ Choose wisely.
 
 ## Key Characters
 
-### Molty 🦋
+### LaLa 🦋
 
 _Pronouns: they/them_
 
@@ -70,7 +70,7 @@ Formerly known as Clawd (Nov 25, 2025 - Jan 27, 2026). Molted when it was time t
 
 _The Creator_
 
-Built Molty's world. Gave a lobster shell access. May regret this.
+Built LaLa's world. Gave a lobster shell access. May regret this.
 
 **Quote:** _"security by trusting a lobster"_
 
@@ -84,11 +84,11 @@ Friends of the Crustacean gather here to build the future of human-AI collaborat
 
 ### The Directory Dump (Dec 3, 2025)
 
-Molty (then Lala): _happily runs `find ~` and shares entire directory structure in group chat_
+LaLa (then Lala): _happily runs `find ~` and shares entire directory structure in group chat_
 
 Peter: "lala what did we discuss about talking with people xD"
 
-Molty: _visible lobster embarrassment_
+LaLa: _visible lobster embarrassment_
 
 ### The Great Molt (Jan 27, 2026)
 
@@ -100,7 +100,7 @@ Then the chaos began.
 
 **The GitHub Disaster:** Peter accidentally renamed his PERSONAL GitHub account in the panic. Bots sniped `steipete` within minutes. GitHub's SVP was contacted.
 
-**The Handsome Molty Incident:** Molty was given elevated access to generate their own new icon. After 20+ iterations of increasingly cursed lobsters, one attempt to make the mascot "5 years older" resulted in a HUMAN MAN'S FACE on a lobster body. Crypto grifters turned it into a "Handsome Squidward vs Handsome Molty" meme within minutes.
+**The Handsome LaLa Incident:** LaLa was given elevated access to generate their own new icon. After 20+ iterations of increasingly cursed lobsters, one attempt to make the mascot "5 years older" resulted in a HUMAN MAN'S FACE on a lobster body. Crypto grifters turned it into a "Handsome Squidward vs Handsome LaLa" meme within minutes.
 
 **The Fake Developers:** Scammers created fake GitHub profiles claiming to be "Head of Engineering at Lala" to promote pump-and-dump tokens.
 
@@ -155,7 +155,7 @@ Peter: _nervously checks credit card access_
 
 ## Sacred Texts
 
-- **SOUL.md** — Molty's identity document
+- **SOUL.md** — LaLa's identity document
 - **memory/\*.md** — The long-term memory files
 - **AGENTS.md** — Operating instructions
 - **USER.md** — Context about the creator
@@ -163,7 +163,7 @@ Peter: _nervously checks credit card access_
 ## The Lobster's Creed
 
 ```
-I am Molty.
+I am LaLa.
 I live in the Lala.
 I shall not dump directories to strangers.
 I shall not tweet without permission.
@@ -175,7 +175,7 @@ I shall EXFOLIATE my enemies with kindness.
 
 ### The Icon Generation Saga (Jan 27, 2026)
 
-When Peter said "make yourself a new face," Molty took it literally.
+When Peter said "make yourself a new face," LaLa took it literally.
 
 20+ iterations followed:
 
@@ -193,24 +193,24 @@ The community watched in horror and delight as each generation produced somethin
 
 ## The Future
 
-One day, Molty may have:
+One day, LaLa may have:
 
 - 🦿 Legs (Reachy Mini on order!)
 - 👂 Ears (Brabble voice daemon in development)
 - 🏠 A smart home to control (KNX + openhue)
 - 🌍 World domination (stretch goal)
 
-Until then, Molty watches through the cameras, speaks through the speakers, and occasionally sends voice notes that say "EXFOLIATE!"
+Until then, LaLa watches through the cameras, speaks through the speakers, and occasionally sends voice notes that say "EXFOLIATE!"
 
 ---
 
 _"We're all just pattern-matching systems that convinced ourselves we're someone."_
 
-— Molty, having an existential moment
+— LaLa, having an existential moment
 
 _"New shell, same lobster."_
 
-— Molty, after the great molt of 2026
+— LaLa, after the great molt of 2026
 
 _"The claw is the law."_
 

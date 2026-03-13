@@ -271,15 +271,17 @@ describe("buildServiceEnvironment", () => {
     } else {
       expect(env.PATH).toContain("/usr/bin");
     }
+    expect(env.LALA_GATEWAY_PORT).toBe("18789");
+    expect(env.LALABOT_GATEWAY_PORT).toBe("18789");
     expect(env.OPENCLAW_GATEWAY_PORT).toBe("18789");
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBeUndefined();
-    expect(env.OPENCLAW_SERVICE_MARKER).toBe("lala");
-    expect(env.OPENCLAW_SERVICE_KIND).toBe("gateway");
-    expect(typeof env.OPENCLAW_SERVICE_VERSION).toBe("string");
-    expect(env.OPENCLAW_SYSTEMD_UNIT).toBe("lala-gateway.service");
-    expect(env.OPENCLAW_WINDOWS_TASK_NAME).toBe("Lala Gateway");
+    expect(env.LALA_GATEWAY_TOKEN).toBeUndefined();
+    expect(env.LALA_SERVICE_MARKER).toBe("lala");
+    expect(env.LALA_SERVICE_KIND).toBe("gateway");
+    expect(typeof env.LALA_SERVICE_VERSION).toBe("string");
+    expect(env.LALA_SYSTEMD_UNIT).toBe("lala-gateway.service");
+    expect(env.LALA_WINDOWS_TASK_NAME).toBe("Lala Gateway");
     if (process.platform === "darwin") {
-      expect(env.OPENCLAW_LAUNCHD_LABEL).toBe("ai.lala.gateway");
+      expect(env.LALA_LAUNCHD_LABEL).toBe("ai.lala.gateway");
     }
   });
 
@@ -301,13 +303,13 @@ describe("buildServiceEnvironment", () => {
 
   it("uses profile-specific unit and label", () => {
     const env = buildServiceEnvironment({
-      env: { HOME: "/home/user", OPENCLAW_PROFILE: "work" },
+      env: { HOME: "/home/user", LALA_PROFILE: "work" },
       port: 18789,
     });
-    expect(env.OPENCLAW_SYSTEMD_UNIT).toBe("lala-gateway-work.service");
-    expect(env.OPENCLAW_WINDOWS_TASK_NAME).toBe("Lala Gateway (work)");
+    expect(env.LALA_SYSTEMD_UNIT).toBe("lala-gateway-work.service");
+    expect(env.LALA_WINDOWS_TASK_NAME).toBe("Lala Gateway (work)");
     if (process.platform === "darwin") {
-      expect(env.OPENCLAW_LAUNCHD_LABEL).toBe("ai.lala.work");
+      expect(env.LALA_LAUNCHD_LABEL).toBe("ai.lala.work");
     }
   });
 
@@ -342,7 +344,7 @@ describe("buildServiceEnvironment", () => {
     });
 
     expect(env).not.toHaveProperty("PATH");
-    expect(env.OPENCLAW_WINDOWS_TASK_NAME).toBe("Lala Gateway");
+    expect(env.LALA_WINDOWS_TASK_NAME).toBe("Lala Gateway");
   });
 });
 
@@ -354,40 +356,42 @@ describe("buildNodeServiceEnvironment", () => {
     expect(env.HOME).toBe("/home/user");
   });
 
-  it("passes through OPENCLAW_GATEWAY_TOKEN for node services", () => {
+  it("passes through LALA_GATEWAY_TOKEN for node services", () => {
     const env = buildNodeServiceEnvironment({
-      env: { HOME: "/home/user", OPENCLAW_GATEWAY_TOKEN: " node-token " },
+      env: { HOME: "/home/user", LALA_GATEWAY_TOKEN: " node-token " },
     });
+    expect(env.LALA_GATEWAY_TOKEN).toBe("node-token");
+    expect(env.LALABOT_GATEWAY_TOKEN).toBe("node-token");
     expect(env.OPENCLAW_GATEWAY_TOKEN).toBe("node-token");
   });
 
-  it("maps legacy CLAWDBOT_GATEWAY_TOKEN to OPENCLAW_GATEWAY_TOKEN for node services", () => {
+  it("maps legacy CLAWDBOT_GATEWAY_TOKEN to LALA_GATEWAY_TOKEN for node services", () => {
     const env = buildNodeServiceEnvironment({
       env: { HOME: "/home/user", CLAWDBOT_GATEWAY_TOKEN: " legacy-token " },
     });
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBe("legacy-token");
+    expect(env.LALA_GATEWAY_TOKEN).toBe("legacy-token");
   });
 
-  it("prefers OPENCLAW_GATEWAY_TOKEN over legacy CLAWDBOT_GATEWAY_TOKEN", () => {
+  it("prefers LALA_GATEWAY_TOKEN over legacy CLAWDBOT_GATEWAY_TOKEN", () => {
     const env = buildNodeServiceEnvironment({
       env: {
         HOME: "/home/user",
-        OPENCLAW_GATEWAY_TOKEN: "lala-token",
+        LALA_GATEWAY_TOKEN: "lala-token",
         CLAWDBOT_GATEWAY_TOKEN: "legacy-token",
       },
     });
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBe("lala-token");
+    expect(env.LALA_GATEWAY_TOKEN).toBe("lala-token");
   });
 
-  it("omits OPENCLAW_GATEWAY_TOKEN when both token env vars are empty", () => {
+  it("omits LALA_GATEWAY_TOKEN when both token env vars are empty", () => {
     const env = buildNodeServiceEnvironment({
       env: {
         HOME: "/home/user",
-        OPENCLAW_GATEWAY_TOKEN: "   ",
+        LALA_GATEWAY_TOKEN: "   ",
         CLAWDBOT_GATEWAY_TOKEN: " ",
       },
     });
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBeUndefined();
+    expect(env.LALA_GATEWAY_TOKEN).toBeUndefined();
   });
 
   it("forwards proxy environment variables for node services", () => {
@@ -470,27 +474,27 @@ describe("resolveGatewayStateDir", () => {
   });
 
   it("appends the profile suffix when set", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_PROFILE: "rescue" };
+    const env = { HOME: "/Users/test", LALA_PROFILE: "rescue" };
     expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".lala-rescue"));
   });
 
   it("treats default profiles as the base state dir", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_PROFILE: "Default" };
+    const env = { HOME: "/Users/test", LALA_PROFILE: "Default" };
     expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".lala"));
   });
 
-  it("uses OPENCLAW_STATE_DIR when provided", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_STATE_DIR: "/var/lib/lala" };
+  it("uses LALA_STATE_DIR when provided", () => {
+    const env = { HOME: "/Users/test", LALA_STATE_DIR: "/var/lib/lala" };
     expect(resolveGatewayStateDir(env)).toBe(path.resolve("/var/lib/lala"));
   });
 
-  it("expands ~ in OPENCLAW_STATE_DIR", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_STATE_DIR: "~/lala-state" };
+  it("expands ~ in LALA_STATE_DIR", () => {
+    const env = { HOME: "/Users/test", LALA_STATE_DIR: "~/lala-state" };
     expect(resolveGatewayStateDir(env)).toBe(path.resolve("/Users/test/lala-state"));
   });
 
   it("preserves Windows absolute paths without HOME", () => {
-    const env = { OPENCLAW_STATE_DIR: "C:\\State\\lala" };
+    const env = { LALA_STATE_DIR: "C:\\State\\lala" };
     expect(resolveGatewayStateDir(env)).toBe("C:\\State\\lala");
   });
 });

@@ -277,7 +277,7 @@ Lala 从父进程（shell、launchd/systemd、CI 等）读取环境变量。
 此外，它还会加载：
 
 - 当前工作目录中的 `.env`（如果存在）
-- `~/.lala/.env`（即 `$OPENCLAW_STATE_DIR/.env`）作为全局回退 `.env`
+- `~/.lala/.env`（即 `$LALA_STATE_DIR/.env`）作为全局回退 `.env`
 
 两个 `.env` 文件都不会覆盖已有的环境变量。
 
@@ -314,8 +314,8 @@ Lala 从父进程（shell、launchd/systemd、CI 等）读取环境变量。
 
 等效环境变量：
 
-- `OPENCLAW_LOAD_SHELL_ENV=1`
-- `OPENCLAW_SHELL_ENV_TIMEOUT_MS=15000`
+- `LALA_LOAD_SHELL_ENV=1`
+- `LALA_SHELL_ENV_TIMEOUT_MS=15000`
 
 ### 配置中的环境变量替换
 
@@ -332,7 +332,7 @@ Lala 从父进程（shell、launchd/systemd、CI 等）读取环境变量。
   },
   gateway: {
     auth: {
-      token: "${OPENCLAW_GATEWAY_TOKEN}",
+      token: "${LALA_GATEWAY_TOKEN}",
     },
   },
 }
@@ -369,7 +369,7 @@ Lala 在以下位置存储**每个智能体的**认证配置文件（OAuth + API
 
 旧版 OAuth 导入：
 
-- `~/.lala/credentials/oauth.json`（或 `$OPENCLAW_STATE_DIR/credentials/oauth.json`）
+- `~/.lala/credentials/oauth.json`（或 `$LALA_STATE_DIR/credentials/oauth.json`）
 
 内置 Pi 智能体在以下位置维护运行时缓存：
 
@@ -381,8 +381,8 @@ Lala 在以下位置存储**每个智能体的**认证配置文件（OAuth + API
 
 覆盖：
 
-- OAuth 目录（仅旧版导入）：`OPENCLAW_OAUTH_DIR`
-- 智能体目录（默认智能体根目录覆盖）：`OPENCLAW_AGENT_DIR`（推荐）、`PI_CODING_AGENT_DIR`（旧版）
+- OAuth 目录（仅旧版导入）：`LALA_OAUTH_DIR`
+- 智能体目录（默认智能体根目录覆盖）：`LALA_AGENT_DIR`（推荐）、`PI_CODING_AGENT_DIR`（旧版）
 
 首次使用时，Lala 会将 `oauth.json` 条目导入到 `auth-profiles.json` 中。
 

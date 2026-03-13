@@ -556,7 +556,7 @@ function resolveSessionScopedOptionLabel(
 
 type ThemeOption = { id: ThemeName; label: string; icon: string };
 const THEME_OPTIONS: ThemeOption[] = [
-  { id: "claw", label: "Claw", icon: "🦀" },
+  { id: "lala", label: "LaLa", icon: "🦋" },
   { id: "knot", label: "Knot", icon: "🪢" },
   { id: "dash", label: "Dash", icon: "📊" },
 ];

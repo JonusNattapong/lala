@@ -112,27 +112,27 @@ describe("scheduled task runtime derivation", () => {
 describe("resolveTaskScriptPath", () => {
   it.each([
     {
-      name: "uses default path when OPENCLAW_PROFILE is unset",
+      name: "uses default path when LALA_PROFILE is unset",
       env: { USERPROFILE: "C:\\Users\\test" },
       expected: path.join("C:\\Users\\test", ".lala", "gateway.cmd"),
     },
     {
-      name: "uses profile-specific path when OPENCLAW_PROFILE is set to a custom value",
-      env: { USERPROFILE: "C:\\Users\\test", OPENCLAW_PROFILE: "jbphoenix" },
+      name: "uses profile-specific path when LALA_PROFILE is set to a custom value",
+      env: { USERPROFILE: "C:\\Users\\test", LALA_PROFILE: "jbphoenix" },
       expected: path.join("C:\\Users\\test", ".lala-jbphoenix", "gateway.cmd"),
     },
     {
-      name: "prefers OPENCLAW_STATE_DIR over profile-derived defaults",
+      name: "prefers LALA_STATE_DIR over profile-derived defaults",
       env: {
         USERPROFILE: "C:\\Users\\test",
-        OPENCLAW_PROFILE: "rescue",
-        OPENCLAW_STATE_DIR: "C:\\State\\lala",
+        LALA_PROFILE: "rescue",
+        LALA_STATE_DIR: "C:\\State\\lala",
       },
       expected: path.join("C:\\State\\lala", "gateway.cmd"),
     },
     {
       name: "falls back to HOME when USERPROFILE is not set",
-      env: { HOME: "/home/test", OPENCLAW_PROFILE: "default" },
+      env: { HOME: "/home/test", LALA_PROFILE: "default" },
       expected: path.join("/home/test", ".lala", "gateway.cmd"),
     },
   ])("$name", ({ env, expected }) => {
@@ -155,7 +155,7 @@ describe("readScheduledTaskCommand", () => {
       const extraEnv = typeof options.env === "function" ? options.env(tmpDir) : options.env;
       const env = {
         USERPROFILE: tmpDir,
-        OPENCLAW_PROFILE: "default",
+        LALA_PROFILE: "default",
         ...extraEnv,
       };
       if (options.scriptLines) {
@@ -209,7 +209,7 @@ describe("readScheduledTaskCommand", () => {
           "rem Lala Gateway",
           "cd /d C:\\Projects\\lala",
           "set NODE_ENV=production",
-          "set OPENCLAW_PORT=18789",
+          "set LALA_PORT=18789",
           "node gateway.js --verbose",
         ],
       },
@@ -220,7 +220,7 @@ describe("readScheduledTaskCommand", () => {
           workingDirectory: "C:\\Projects\\lala",
           environment: {
             NODE_ENV: "production",
-            OPENCLAW_PORT: "18789",
+            LALA_PORT: "18789",
           },
         });
       },
@@ -273,10 +273,10 @@ describe("readScheduledTaskCommand", () => {
     );
   });
 
-  it("reads script from OPENCLAW_STATE_DIR override", async () => {
+  it("reads script from LALA_STATE_DIR override", async () => {
     await withScheduledTaskScript(
       {
-        env: (tmpDir) => ({ OPENCLAW_STATE_DIR: path.join(tmpDir, "custom-state") }),
+        env: (tmpDir) => ({ LALA_STATE_DIR: path.join(tmpDir, "custom-state") }),
         scriptLines: ["@echo off", "node gateway.js --from-state-dir"],
       },
       async (env) => {
