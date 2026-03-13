@@ -3,15 +3,15 @@
   "version": "2026.3.11",
   "description": "Multi-channel AI gateway with extensible messaging integrations - lala",
   "keywords": [],
-  "homepage": "https://github.com/lala/lala#readme",
+  "homepage": "https://github.com/JonusNattapong/lala#readme",
   "bugs": {
-    "url": "https://github.com/lala/lala/issues"
+    "url": "https://github.com/JonusNattapong/lala/issues"
   },
   "license": "MIT",
   "author": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lala/lala.git"
+    "url": "git+https://github.com/JonusNattapong/lala.git"
   },
   "bin": {
     "lala": "lala.mjs"
@@ -144,7 +144,7 @@
     "mac:open": "open dist/Lala.app",
     "mac:package": "bash scripts/package-mac-app.sh",
     "mac:restart": "bash scripts/restart-mac.sh",
-    "moltbot:rpc": "node scripts/run-node.mjs agent --mode rpc --json",
+    "lalabot:rpc": "node scripts/run-node.mjs agent --mode rpc --json",
     "lala": "node scripts/run-node.mjs",
     "lala:rpc": "node scripts/run-node.mjs agent --mode rpc --json",
     "plugins:sync": "node --import tsx scripts/sync-plugin-versions.ts",

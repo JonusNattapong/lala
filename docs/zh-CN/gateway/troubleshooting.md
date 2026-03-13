@@ -631,7 +631,7 @@ tccutil reset All bot.molt.mac.debug
 ```
 
 **修复 2：强制使用新的 Bundle ID**
-如果重置不起作用，在 [`scripts/package-mac-app.sh`](https://github.com/lala/lala/blob/main/scripts/package-mac-app.sh) 中更改 `BUNDLE_ID`（例如，添加 `.test` 后缀）并重新构建。这会强制 macOS 将其视为新应用。
+如果重置不起作用，在 [`scripts/package-mac-app.sh`](https://github.com/JonusNattapong/lala/blob/main/scripts/package-mac-app.sh) 中更改 `BUNDLE_ID`（例如，添加 `.test` 后缀）并重新构建。这会强制 macOS 将其视为新应用。
 
 ### Gateway 网关卡在"Starting..."
 
@@ -743,7 +743,7 @@ lala gateway restart           # 或：lala gateway
 
 _"你试过关掉再开吗？"_ — 每个 IT 人员都这么说
 
-🦞🔧
+🦋🔧
 
 ### 浏览器无法启动（Linux）
 

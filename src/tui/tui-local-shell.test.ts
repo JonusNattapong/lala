@@ -97,6 +97,7 @@ describe("createLocalShellRunner", () => {
     expect(harness.createSelectorSpy).toHaveBeenCalledTimes(1);
     expect(spawnCommand).toHaveBeenCalledTimes(1);
     const spawnOptions = spawnCommand.mock.calls[0]?.[1] as { env?: Record<string, string> };
+    expect(spawnOptions.env?.LALA_SHELL).toBe("tui-local");
     expect(spawnOptions.env?.OPENCLAW_SHELL).toBe("tui-local");
     expect(spawnOptions.env?.PATH).toBe("/tmp/bin");
     expect(harness.messages).toContain("local shell: enabled for this session");

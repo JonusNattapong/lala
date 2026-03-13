@@ -5,7 +5,7 @@ read_when:
 title: "Lala"
 ---
 
-# Lala 🦞
+# Lala 🦋
 
 <p align="center">
     <img

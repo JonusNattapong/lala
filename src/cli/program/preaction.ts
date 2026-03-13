@@ -107,6 +107,7 @@ export function registerPreActionHooks(program: Command, programVersion: string)
     }
     const commandPath = getCommandPathWithRootOptions(argv, 2);
     const hideBanner =
+      isTruthyEnvValue(process.env.LALA_HIDE_BANNER) ||
       isTruthyEnvValue(process.env.OPENCLAW_HIDE_BANNER) ||
       commandPath[0] === "update" ||
       commandPath[0] === "completion" ||
@@ -118,6 +119,7 @@ export function registerPreActionHooks(program: Command, programVersion: string)
     setVerbose(verbose);
     const cliLogLevel = getCliLogLevel(actionCommand);
     if (cliLogLevel) {
+      process.env.LALA_LOG_LEVEL = cliLogLevel;
       process.env.OPENCLAW_LOG_LEVEL = cliLogLevel;
     }
     if (!verbose) {

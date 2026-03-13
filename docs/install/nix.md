@@ -87,7 +87,7 @@ The macOS packaging flow expects a stable Info.plist template at:
 apps/macos/Sources/Lala/Resources/Info.plist
 ```
 
-[`scripts/package-mac-app.sh`](https://github.com/lala/lala/blob/main/scripts/package-mac-app.sh) copies this template into the app bundle and patches dynamic fields
+[`scripts/package-mac-app.sh`](https://github.com/JonusNattapong/lala/blob/main/scripts/package-mac-app.sh) copies this template into the app bundle and patches dynamic fields
 (bundle ID, version/build, Git SHA, Sparkle keys). This keeps the plist deterministic for SwiftPM
 packaging and Nix builds (which do not rely on a full Xcode toolchain).
 

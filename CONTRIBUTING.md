@@ -1,17 +1,17 @@
 # Contributing to Lala
 
-Welcome to the lobster tank! 🦞
+Welcome to the lobster tank! 🦋
 
 ## Quick Links
 
-- **GitHub:** https://github.com/lala/lala
+- **GitHub:** <https://github.com/JonusNattapong/lala>
 - **Vision:** [`VISION.md`](VISION.md)
-- **Discord:** https://discord.gg/qkhbAGHRBT
+- **Discord:** <https://discord.gg/qkhbAGHRBT>
 - **X/Twitter:** [@steipete](https://x.com/steipete) / [@lala](https://x.com/lala)
 
 ## Maintainers
 
-- **Peter Steinberger** - Benevolent Dictator
+- **Nattapong Tapachoom** - Benevolent Dictator
   - GitHub: [@steipete](https://github.com/steipete) · X: [@steipete](https://x.com/steipete)
 
 - **Shadow** - Discord subsystem, Discord admin, Clawhub, all community moderation
@@ -79,7 +79,7 @@ Welcome to the lobster tank! 🦞
 ## How to Contribute
 
 1. **Bugs & small fixes** → Open a PR!
-2. **New features / architecture** → Start a [GitHub Discussion](https://github.com/lala/lala/discussions) or ask in Discord first
+2. **New features / architecture** → Start a [GitHub Discussion](https://github.com/JonusNattapong/lala/discussions) or ask in Discord first
 3. **Questions** → Discord [#help](https://discord.com/channels/1456350064065904867/1459642797895319552) / [#users-helping-users](https://discord.com/channels/1456350064065904867/1459007081603403828)
 
 ## Before You PR
@@ -144,7 +144,7 @@ We are currently prioritizing:
 - **Skills**: For skill contributions, head to [ClawHub](https://clawhub.ai/) — the community hub for Lala skills.
 - **Performance**: Optimizing token usage and compaction logic.
 
-Check the [GitHub Issues](https://github.com/lala/lala/issues) for "good first issue" labels!
+Check the [GitHub Issues](https://github.com/JonusNattapong/lala/issues) for "good first issue" labels!
 
 ## Maintainers
 
@@ -153,7 +153,7 @@ If you're an experienced contributor who wants to help shape Lala's direction �
 
 Being a maintainer is a responsibility, not an honorary title. We expect active, consistent involvement — triaging issues, reviewing PRs, and helping move the project forward.
 
-Still interested? Email contributing@lala.ai with:
+Still interested? Email <contributing@lala.ai> with:
 
 - Links to your PRs on Lala (if you don't have any, start there first)
 - Links to open source projects you maintain or actively contribute to
@@ -170,14 +170,14 @@ Please allow a few weeks for a response.
 
 We take security reports seriously. Report vulnerabilities directly to the repository where the issue lives:
 
-- **Core CLI and gateway** — [lala/lala](https://github.com/lala/lala)
-- **macOS desktop app** — [lala/lala](https://github.com/lala/lala) (apps/macos)
-- **iOS app** — [lala/lala](https://github.com/lala/lala) (apps/ios)
-- **Android app** — [lala/lala](https://github.com/lala/lala) (apps/android)
+- **Core CLI and gateway** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala)
+- **macOS desktop app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/macos)
+- **iOS app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/ios)
+- **Android app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/android)
 - **ClawHub** — [lala/clawhub](https://github.com/lala/clawhub)
 - **Trust and threat model** — [lala/trust](https://github.com/lala/trust)
 
-For issues that don't fit a specific repo, or if you're unsure, email **security@lala.ai** and we'll route it.
+For issues that don't fit a specific repo, or if you're unsure, email **<security@lala.ai>** and we'll route it.
 
 ### Required in Reports
 

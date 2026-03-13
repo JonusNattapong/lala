@@ -1,6 +1,6 @@
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { POSIX_OPENCLAW_TMP_DIR, resolvePreferredLalaTmpDir } from "./tmp-lala-dir.js";
+import { POSIX_LALA_TMP_DIR, resolvePreferredLalaTmpDir } from "./tmp-lala-dir.js";
 
 type TmpDirOptions = NonNullable<Parameters<typeof resolvePreferredLalaTmpDir>[0]>;
 
@@ -54,7 +54,7 @@ function resolveWithReadOnlyTmpFallback(params: {
   return resolvePreferredLalaTmpDir({
     accessSync: readOnlyTmpAccessSync(),
     lstatSync: vi.fn((target: string) => {
-      if (target === POSIX_OPENCLAW_TMP_DIR) {
+      if (target === POSIX_LALA_TMP_DIR) {
         throw nodeErrorWithCode("ENOENT");
       }
       if (target === params.fallbackPath) {
@@ -104,7 +104,7 @@ function resolveWithMocks(params: {
   const chmodSync = params.chmodSync ?? vi.fn();
   const warn = params.warn ?? vi.fn();
   const wrappedLstatSync = vi.fn((target: string) => {
-    if (target === POSIX_OPENCLAW_TMP_DIR) {
+    if (target === POSIX_LALA_TMP_DIR) {
       return params.lstatSync(target);
     }
     if (target === fallbackPath) {
@@ -142,7 +142,7 @@ describe("resolvePreferredLalaTmpDir", () => {
 
     expect(lstatSync).toHaveBeenCalledTimes(1);
     expect(accessSync).toHaveBeenCalledTimes(1);
-    expect(resolved).toBe(POSIX_OPENCLAW_TMP_DIR);
+    expect(resolved).toBe(POSIX_LALA_TMP_DIR);
     expect(tmpdir).not.toHaveBeenCalled();
   });
 
@@ -153,9 +153,9 @@ describe("resolvePreferredLalaTmpDir", () => {
       lstatSync: lstatSyncMock,
     });
 
-    expect(resolved).toBe(POSIX_OPENCLAW_TMP_DIR);
+    expect(resolved).toBe(POSIX_LALA_TMP_DIR);
     expect(accessSync).toHaveBeenCalledWith("/tmp", expect.any(Number));
-    expect(mkdirSync).toHaveBeenCalledWith(POSIX_OPENCLAW_TMP_DIR, expect.any(Object));
+    expect(mkdirSync).toHaveBeenCalledWith(POSIX_LALA_TMP_DIR, expect.any(Object));
     expect(tmpdir).not.toHaveBeenCalled();
   });
 

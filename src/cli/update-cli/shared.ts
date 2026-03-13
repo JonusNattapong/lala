@@ -52,7 +52,7 @@ export function parseTimeoutMsOrExit(timeout?: string): number | undefined | nul
   return timeoutMs;
 }
 
-const OPENCLAW_REPO_URL = "https://github.com/lala/lala.git";
+const OPENCLAW_REPO_URL = "https://github.com/JonusNattapong/lala.git";
 const MAX_LOG_CHARS = 8000;
 
 export const DEFAULT_PACKAGE_NAME = "lala";

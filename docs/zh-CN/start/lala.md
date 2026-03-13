@@ -45,7 +45,7 @@ npm install -g lala@latest
 从源代码（开发）：
 
 ```bash
-git clone https://github.com/lala/lala.git
+git clone https://github.com/JonusNattapong/lala.git
 cd lala
 pnpm install
 pnpm ui:build # 首次运行时自动安装 UI 依赖

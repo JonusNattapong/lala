@@ -58,7 +58,7 @@ lala agents set-identity --workspace ~/.lala/workspace --from-identity
 显式覆盖字段：
 
 ```bash
-lala agents set-identity --agent main --name "Lala" --emoji "🦞" --avatar avatars/lala.png
+lala agents set-identity --agent main --name "Lala" --emoji "🦋" --avatar avatars/lala.png
 ```
 
 配置示例：
@@ -72,7 +72,7 @@ lala agents set-identity --agent main --name "Lala" --emoji "🦞" --avatar avat
         identity: {
           name: "Lala",
           theme: "space lobster",
-          emoji: "🦞",
+          emoji: "🦋",
           avatar: "avatars/lala.png",
         },
       },

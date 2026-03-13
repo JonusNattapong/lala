@@ -251,19 +251,27 @@ export function buildServiceEnvironment(params: {
   const { env, port, launchdLabel } = params;
   const platform = params.platform ?? process.platform;
   const sharedEnv = resolveSharedServiceEnvironmentFields(env, platform);
-  const profile = env.OPENCLAW_PROFILE;
+  const profile = env.LALA_PROFILE ?? env.OPENCLAW_PROFILE;
   const resolvedLaunchdLabel =
     launchdLabel || (platform === "darwin" ? resolveGatewayLaunchAgentLabel(profile) : undefined);
   const systemdUnit = `${resolveGatewaySystemdServiceName(profile)}.service`;
   return {
     ...buildCommonServiceEnvironment(env, sharedEnv),
+    LALA_PROFILE: profile,
     OPENCLAW_PROFILE: profile,
+    LALA_GATEWAY_PORT: String(port),
     OPENCLAW_GATEWAY_PORT: String(port),
+    LALA_LAUNCHD_LABEL: resolvedLaunchdLabel,
     OPENCLAW_LAUNCHD_LABEL: resolvedLaunchdLabel,
+    LALA_SYSTEMD_UNIT: systemdUnit,
     OPENCLAW_SYSTEMD_UNIT: systemdUnit,
+    LALA_WINDOWS_TASK_NAME: resolveGatewayWindowsTaskName(profile),
     OPENCLAW_WINDOWS_TASK_NAME: resolveGatewayWindowsTaskName(profile),
+    LALA_SERVICE_MARKER: GATEWAY_SERVICE_MARKER,
     OPENCLAW_SERVICE_MARKER: GATEWAY_SERVICE_MARKER,
+    LALA_SERVICE_KIND: GATEWAY_SERVICE_KIND,
     OPENCLAW_SERVICE_KIND: GATEWAY_SERVICE_KIND,
+    LALA_SERVICE_VERSION: VERSION,
     OPENCLAW_SERVICE_VERSION: VERSION,
   };
 }
@@ -276,17 +284,29 @@ export function buildNodeServiceEnvironment(params: {
   const platform = params.platform ?? process.platform;
   const sharedEnv = resolveSharedServiceEnvironmentFields(env, platform);
   const gatewayToken =
-    env.OPENCLAW_GATEWAY_TOKEN?.trim() || env.CLAWDBOT_GATEWAY_TOKEN?.trim() || undefined;
+    env.LALA_GATEWAY_TOKEN?.trim() ||
+    env.OPENCLAW_GATEWAY_TOKEN?.trim() ||
+    env.CLAWDBOT_GATEWAY_TOKEN?.trim() ||
+    undefined;
   return {
     ...buildCommonServiceEnvironment(env, sharedEnv),
+    LALA_GATEWAY_TOKEN: gatewayToken,
     OPENCLAW_GATEWAY_TOKEN: gatewayToken,
+    LALA_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
     OPENCLAW_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
+    LALA_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
     OPENCLAW_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
+    LALA_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
     OPENCLAW_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
+    LALA_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
     OPENCLAW_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
+    LALA_LOG_PREFIX: "node",
     OPENCLAW_LOG_PREFIX: "node",
+    LALA_SERVICE_MARKER: NODE_SERVICE_MARKER,
     OPENCLAW_SERVICE_MARKER: NODE_SERVICE_MARKER,
+    LALA_SERVICE_KIND: NODE_SERVICE_KIND,
     OPENCLAW_SERVICE_KIND: NODE_SERVICE_KIND,
+    LALA_SERVICE_VERSION: VERSION,
     OPENCLAW_SERVICE_VERSION: VERSION,
   };
 }
@@ -301,7 +321,9 @@ function buildCommonServiceEnvironment(
     ...sharedEnv.proxyEnv,
     NODE_EXTRA_CA_CERTS: sharedEnv.nodeCaCerts,
     NODE_USE_SYSTEM_CA: sharedEnv.nodeUseSystemCa,
+    LALA_STATE_DIR: sharedEnv.stateDir,
     OPENCLAW_STATE_DIR: sharedEnv.stateDir,
+    LALA_CONFIG_PATH: sharedEnv.configPath,
     OPENCLAW_CONFIG_PATH: sharedEnv.configPath,
   };
   if (sharedEnv.minimalPath) {
@@ -314,8 +336,8 @@ function resolveSharedServiceEnvironmentFields(
   env: Record<string, string | undefined>,
   platform: NodeJS.Platform,
 ): SharedServiceEnvironmentFields {
-  const stateDir = env.OPENCLAW_STATE_DIR;
-  const configPath = env.OPENCLAW_CONFIG_PATH;
+  const stateDir = env.LALA_STATE_DIR ?? env.OPENCLAW_STATE_DIR;
+  const configPath = env.LALA_CONFIG_PATH ?? env.OPENCLAW_CONFIG_PATH;
   // Keep a usable temp directory for supervised services even when the host env omits TMPDIR.
   const tmpDir = env.TMPDIR?.trim() || os.tmpdir();
   const proxyEnv = readServiceProxyEnvironment(env);

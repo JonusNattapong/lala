@@ -113,18 +113,28 @@ describe("shell env fallback", () => {
     expect(exec).toHaveBeenCalledWith("/bin/sh", ["-l", "-c", "env -0"], expect.any(Object));
   }
 
-  it("is disabled by default", () => {
+  it("is disabled by default, supports LALA_ then OPENCLAW_", () => {
     expect(shouldEnableShellEnvFallback({} as NodeJS.ProcessEnv)).toBe(false);
-    expect(shouldEnableShellEnvFallback({ OPENCLAW_LOAD_SHELL_ENV: "0" })).toBe(false);
+    expect(shouldEnableShellEnvFallback({ LALA_LOAD_SHELL_ENV: "1" })).toBe(true);
     expect(shouldEnableShellEnvFallback({ OPENCLAW_LOAD_SHELL_ENV: "1" })).toBe(true);
+    expect(
+      shouldEnableShellEnvFallback({ LALA_LOAD_SHELL_ENV: "0", OPENCLAW_LOAD_SHELL_ENV: "1" }),
+    ).toBe(false);
   });
 
-  it("resolves timeout from env with default fallback", () => {
+  it("resolves timeout from env with default fallback, supports LALA_ then OPENCLAW_", () => {
     expect(resolveShellEnvFallbackTimeoutMs({} as NodeJS.ProcessEnv)).toBe(15000);
+    expect(resolveShellEnvFallbackTimeoutMs({ LALA_SHELL_ENV_TIMEOUT_MS: "42" })).toBe(42);
     expect(resolveShellEnvFallbackTimeoutMs({ OPENCLAW_SHELL_ENV_TIMEOUT_MS: "42" })).toBe(42);
     expect(
       resolveShellEnvFallbackTimeoutMs({
-        OPENCLAW_SHELL_ENV_TIMEOUT_MS: "nope",
+        LALA_SHELL_ENV_TIMEOUT_MS: "84",
+        OPENCLAW_SHELL_ENV_TIMEOUT_MS: "42",
+      }),
+    ).toBe(84);
+    expect(
+      resolveShellEnvFallbackTimeoutMs({
+        LALA_SHELL_ENV_TIMEOUT_MS: "nope",
       }),
     ).toBe(15000);
   });

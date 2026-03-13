@@ -536,11 +536,21 @@ describe("tts", () => {
       });
     });
 
-    it("picks up OPENAI_TTS_BASE_URL env var when no config baseUrl is set", () => {
-      withEnv({ OPENAI_TTS_BASE_URL: "http://localhost:8880/v1" }, () => {
+    it("picks up LALA_TTS_BASE_URL env var when no config baseUrl is set", () => {
+      withEnv({ LALA_TTS_BASE_URL: "http://localhost:8880/v1" }, () => {
         const config = resolveTtsConfig(baseCfg);
         expect(config.openai.baseUrl).toBe("http://localhost:8880/v1");
       });
+    });
+
+    it("prioritizes LALA_TTS_BASE_URL over OPENAI_TTS_BASE_URL", () => {
+      withEnv(
+        { LALA_TTS_BASE_URL: "http://lala:8880/v1", OPENAI_TTS_BASE_URL: "http://openai:8880/v1" },
+        () => {
+          const config = resolveTtsConfig(baseCfg);
+          expect(config.openai.baseUrl).toBe("http://lala:8880/v1");
+        },
+      );
     });
 
     it("config baseUrl takes precedence over env var", () => {
@@ -668,8 +678,10 @@ describe("tts", () => {
     const withMockedAutoTtsFetch = async (
       run: (fetchMock: ReturnType<typeof vi.fn>) => Promise<void>,
     ) => {
-      const prevPrefs = process.env.OPENCLAW_TTS_PREFS;
-      process.env.OPENCLAW_TTS_PREFS = `/tmp/tts-test-${Date.now()}.json`;
+      const prevLala = process.env.LALA_TTS_PREFS;
+      const prevOpenClaw = process.env.OPENCLAW_TTS_PREFS;
+      process.env.LALA_TTS_PREFS = `/tmp/tts-test-lala-${Date.now()}.json`;
+      process.env.OPENCLAW_TTS_PREFS = `/tmp/tts-test-legacy-${Date.now()}.json`;
       const originalFetch = globalThis.fetch;
       const fetchMock = vi.fn(async () => ({
         ok: true,
@@ -680,7 +692,8 @@ describe("tts", () => {
         await run(fetchMock);
       } finally {
         globalThis.fetch = originalFetch;
-        process.env.OPENCLAW_TTS_PREFS = prevPrefs;
+        process.env.LALA_TTS_PREFS = prevLala;
+        process.env.OPENCLAW_TTS_PREFS = prevOpenClaw;
       }
     };
 

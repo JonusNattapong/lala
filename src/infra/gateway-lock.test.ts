@@ -20,6 +20,8 @@ async function makeEnv() {
   await fs.mkdir(resolveGatewayLockDir(), { recursive: true });
   return {
     ...process.env,
+    LALA_STATE_DIR: dir,
+    LALA_CONFIG_PATH: configPath,
     OPENCLAW_STATE_DIR: dir,
     OPENCLAW_CONFIG_PATH: configPath,
   };
@@ -270,12 +272,17 @@ describe("gateway lock", () => {
     }
   });
 
-  it("returns null when multi-gateway override is enabled", async () => {
+  it("returns null when multi-gateway override is enabled (LALA_ or OPENCLAW_)", async () => {
     const env = await makeEnv();
-    const lock = await acquireGatewayLock({
+    const lockLala = await acquireGatewayLock({
+      env: { ...env, LALA_ALLOW_MULTI_GATEWAY: "1", VITEST: "" },
+    });
+    expect(lockLala).toBeNull();
+
+    const lockOpenClaw = await acquireGatewayLock({
       env: { ...env, OPENCLAW_ALLOW_MULTI_GATEWAY: "1", VITEST: "" },
     });
-    expect(lock).toBeNull();
+    expect(lockOpenClaw).toBeNull();
   });
 
   it("returns null in test env unless allowInTests is set", async () => {

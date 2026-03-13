@@ -102,29 +102,31 @@ describe("light background detection", () => {
 
   it("uses dark palette by default", async () => {
     const mod = await importThemeWithEnv({
+      LALA_THEME: undefined,
       OPENCLAW_THEME: undefined,
       COLORFGBG: undefined,
     });
     expect(mod.lightMode).toBe(false);
   });
 
-  it("selects light palette when OPENCLAW_THEME=light", async () => {
-    const mod = await importThemeWithEnv({ OPENCLAW_THEME: "light" });
+  it("selects light palette when LALA_THEME=light", async () => {
+    const mod = await importThemeWithEnv({ LALA_THEME: "light" });
     expect(mod.lightMode).toBe(true);
   });
 
-  it("selects dark palette when OPENCLAW_THEME=dark", async () => {
-    const mod = await importThemeWithEnv({ OPENCLAW_THEME: "dark" });
+  it("selects dark palette when LALA_THEME=dark", async () => {
+    const mod = await importThemeWithEnv({ LALA_THEME: "dark" });
     expect(mod.lightMode).toBe(false);
   });
 
-  it("treats OPENCLAW_THEME case-insensitively", async () => {
-    const mod = await importThemeWithEnv({ OPENCLAW_THEME: "LiGhT" });
+  it("treats LALA_THEME case-insensitively", async () => {
+    const mod = await importThemeWithEnv({ LALA_THEME: "LiGhT" });
     expect(mod.lightMode).toBe(true);
   });
 
   it("detects light background from COLORFGBG", async () => {
     const mod = await importThemeWithEnv({
+      LALA_THEME: undefined,
       OPENCLAW_THEME: undefined,
       COLORFGBG: "0;15",
     });
@@ -219,17 +221,18 @@ describe("light background detection", () => {
     expect(mod.lightMode).toBe(false);
   });
 
-  it("OPENCLAW_THEME overrides COLORFGBG", async () => {
+  it("LALA_THEME overrides OPENCLAW_THEME and COLORFGBG", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: "dark",
+      LALA_THEME: "dark",
+      OPENCLAW_THEME: "light",
       COLORFGBG: "0;15",
     });
     expect(mod.lightMode).toBe(false);
   });
 
   it("keeps assistantText as identity in both modes", async () => {
-    const lightMod = await importThemeWithEnv({ OPENCLAW_THEME: "light" });
-    const darkMod = await importThemeWithEnv({ OPENCLAW_THEME: "dark" });
+    const lightMod = await importThemeWithEnv({ LALA_THEME: "light" });
+    const darkMod = await importThemeWithEnv({ LALA_THEME: "dark" });
     expect(lightMod.theme.assistantText("hello")).toBe("hello");
     expect(darkMod.theme.assistantText("hello")).toBe("hello");
   });
@@ -238,7 +241,7 @@ describe("light background detection", () => {
 describe("light palette accessibility", () => {
   it("keeps light theme text colors at WCAG AA contrast or better", async () => {
     vi.resetModules();
-    process.env.OPENCLAW_THEME = "light";
+    process.env.LALA_THEME = "light";
     const mod = await import("./theme.js");
     const backgrounds = {
       page: "#FFFFFF",

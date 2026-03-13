@@ -24,9 +24,11 @@ beforeAll(async () => {
 });
 
 beforeEach(() => {
-  originalTestFileLog = process.env.OPENCLAW_TEST_FILE_LOG;
-  originalLalaLogLevel = process.env.OPENCLAW_LOG_LEVEL;
+  originalTestFileLog = process.env.LALA_TEST_FILE_LOG ?? process.env.OPENCLAW_TEST_FILE_LOG;
+  originalLalaLogLevel = process.env.LALA_LOG_LEVEL ?? process.env.OPENCLAW_LOG_LEVEL;
+  delete process.env.LALA_TEST_FILE_LOG;
   delete process.env.OPENCLAW_TEST_FILE_LOG;
+  delete process.env.LALA_LOG_LEVEL;
   delete process.env.OPENCLAW_LOG_LEVEL;
   readLoggingConfigMock.mockClear();
   fallbackRequireMock.mockClear();
@@ -36,14 +38,16 @@ beforeEach(() => {
 
 afterEach(() => {
   if (originalTestFileLog === undefined) {
+    delete process.env.LALA_TEST_FILE_LOG;
     delete process.env.OPENCLAW_TEST_FILE_LOG;
   } else {
-    process.env.OPENCLAW_TEST_FILE_LOG = originalTestFileLog;
+    process.env.LALA_TEST_FILE_LOG = originalTestFileLog;
   }
   if (originalLalaLogLevel === undefined) {
+    delete process.env.LALA_LOG_LEVEL;
     delete process.env.OPENCLAW_LOG_LEVEL;
   } else {
-    process.env.OPENCLAW_LOG_LEVEL = originalLalaLogLevel;
+    process.env.LALA_LOG_LEVEL = originalLalaLogLevel;
   }
   logging.resetLogger();
   logging.setLoggerOverride(null);
@@ -59,7 +63,7 @@ describe("getResolvedLoggerSettings", () => {
   });
 
   it("reads logging config when test file logging is explicitly enabled", () => {
-    process.env.OPENCLAW_TEST_FILE_LOG = "1";
+    process.env.LALA_TEST_FILE_LOG = "1";
     const settings = logging.getResolvedLoggerSettings();
     expect(settings.level).toBe("info");
   });

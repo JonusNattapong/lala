@@ -12,11 +12,14 @@ import { loggingState } from "./state.js";
 const testLogPath = path.join(os.tmpdir(), "lala-test-env-log-level.log");
 const defaultMaxFileBytes = 500 * 1024 * 1024;
 
-describe("OPENCLAW_LOG_LEVEL", () => {
-  let originalEnv: string | undefined;
+describe("LALA_LOG_LEVEL", () => {
+  let originalLala: string | undefined;
+  let originalOpenClaw: string | undefined;
 
   beforeEach(() => {
-    originalEnv = process.env.OPENCLAW_LOG_LEVEL;
+    originalLala = process.env.LALA_LOG_LEVEL;
+    originalOpenClaw = process.env.OPENCLAW_LOG_LEVEL;
+    delete process.env.LALA_LOG_LEVEL;
     delete process.env.OPENCLAW_LOG_LEVEL;
     loggingState.invalidEnvLogLevelValue = null;
     resetLogger();
@@ -24,10 +27,15 @@ describe("OPENCLAW_LOG_LEVEL", () => {
   });
 
   afterEach(() => {
-    if (originalEnv === undefined) {
+    if (originalLala === undefined) {
+      delete process.env.LALA_LOG_LEVEL;
+    } else {
+      process.env.LALA_LOG_LEVEL = originalLala;
+    }
+    if (originalOpenClaw === undefined) {
       delete process.env.OPENCLAW_LOG_LEVEL;
     } else {
-      process.env.OPENCLAW_LOG_LEVEL = originalEnv;
+      process.env.OPENCLAW_LOG_LEVEL = originalOpenClaw;
     }
     loggingState.invalidEnvLogLevelValue = null;
     resetLogger();
@@ -42,7 +50,7 @@ describe("OPENCLAW_LOG_LEVEL", () => {
       consoleStyle: "json",
       file: testLogPath,
     });
-    process.env.OPENCLAW_LOG_LEVEL = "debug";
+    process.env.LALA_LOG_LEVEL = "debug";
 
     expect(getResolvedLoggerSettings()).toEqual({
       level: "debug",
@@ -55,6 +63,14 @@ describe("OPENCLAW_LOG_LEVEL", () => {
     });
   });
 
+  it("prioritizes LALA_LOG_LEVEL over OPENCLAW_LOG_LEVEL", () => {
+    process.env.LALA_LOG_LEVEL = "debug";
+    process.env.OPENCLAW_LOG_LEVEL = "error";
+
+    expect(getResolvedLoggerSettings().level).toBe("debug");
+    expect(getResolvedConsoleSettings().level).toBe("debug");
+  });
+
   it("warns once and ignores invalid env values", () => {
     setLoggerOverride({
       level: "error",
@@ -62,7 +78,7 @@ describe("OPENCLAW_LOG_LEVEL", () => {
       consoleStyle: "compact",
       file: testLogPath,
     });
-    process.env.OPENCLAW_LOG_LEVEL = "nope";
+    process.env.LALA_LOG_LEVEL = "nope";
     const stderrSpy = vi.spyOn(process.stderr, "write").mockImplementation(
       () => true as unknown as ReturnType<typeof process.stderr.write>, // preserve stream contract in test spy
     );
@@ -74,8 +90,8 @@ describe("OPENCLAW_LOG_LEVEL", () => {
 
     const warnings = stderrSpy.mock.calls
       .map(([firstArg]) => String(firstArg))
-      .filter((line) => line.includes("OPENCLAW_LOG_LEVEL"));
+      .filter((line) => line.includes("LALA_LOG_LEVEL"));
     expect(warnings).toHaveLength(1);
-    expect(warnings[0]).toContain('Ignoring invalid OPENCLAW_LOG_LEVEL="nope"');
+    expect(warnings[0]).toContain('Ignoring invalid LALA_LOG_LEVEL="nope"');
   });
 });

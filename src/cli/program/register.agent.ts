@@ -219,7 +219,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.lala.ai/cli/agent")
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['lala agents set-identity --agent main --name "Lala" --emoji "🦞"', "Set name + emoji."],
+  ['lala agents set-identity --agent main --name "Lala" --emoji "🦋"', "Set name + emoji."],
   ["lala agents set-identity --agent main --avatar avatars/lala.png", "Set avatar path."],
   [
     "lala agents set-identity --workspace ~/.lala/workspace --from-identity",

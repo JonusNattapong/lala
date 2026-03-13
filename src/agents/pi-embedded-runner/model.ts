@@ -289,7 +289,7 @@ export function resolveModel(
  * error.  This detects known providers that require opt-in auth and adds
  * a hint.
  *
- * See: https://github.com/lala/lala/issues/17328
+ * See: https://github.com/JonusNattapong/lala/issues/17328
  */
 const LOCAL_PROVIDER_HINTS: Record<string, string> = {
   ollama:

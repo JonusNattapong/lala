@@ -99,7 +99,7 @@ lala agents set-identity --workspace ~/.lala/workspace --from-identity
 Override fields explicitly:
 
 ```bash
-lala agents set-identity --agent main --name "Lala" --emoji "🦞" --avatar avatars/lala.png
+lala agents set-identity --agent main --name "Lala" --emoji "🦋" --avatar avatars/lala.png
 ```
 
 Config sample:
@@ -113,7 +113,7 @@ Config sample:
         identity: {
           name: "Lala",
           theme: "space lobster",
-          emoji: "🦞",
+          emoji: "🦋",
           avatar: "avatars/lala.png",
         },
       },

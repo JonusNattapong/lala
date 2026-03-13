@@ -471,7 +471,7 @@ export function buildVeniceModelDefinition(entry: VeniceCatalogEntry): ModelDefi
     contextWindow: entry.contextWindow,
     maxTokens: entry.maxTokens,
     // Avoid usage-only streaming chunks that can break OpenAI-compatible parsers.
-    // See: https://github.com/lala/lala/issues/15819
+    // See: https://github.com/JonusNattapong/lala/issues/15819
     compat: {
       supportsUsageInStreaming: false,
       ...("supportsTools" in entry && !entry.supportsTools ? { supportsTools: false } : {}),

@@ -6,8 +6,10 @@ import type { MockFn } from "../test-utils/vitest-mock-fn.js";
 import type { LegacyStateDetection } from "./doctor-state-migrations.js";
 
 let originalIsTTY: boolean | undefined;
-let originalStateDir: string | undefined;
-let originalUpdateInProgress: string | undefined;
+let originalOpenClawStateDir: string | undefined;
+let originalLalaStateDir: string | undefined;
+let originalOpenClawUpdateInProgress: string | undefined;
+let originalLalaUpdateInProgress: string | undefined;
 let tempStateDir: string | undefined;
 
 function setStdinTty(value: boolean | undefined) {
@@ -396,10 +398,14 @@ beforeEach(() => {
 
   originalIsTTY = process.stdin.isTTY;
   setStdinTty(true);
-  originalStateDir = process.env.OPENCLAW_STATE_DIR;
-  originalUpdateInProgress = process.env.OPENCLAW_UPDATE_IN_PROGRESS;
+  originalOpenClawStateDir = process.env.OPENCLAW_STATE_DIR;
+  originalLalaStateDir = process.env.LALA_STATE_DIR;
+  originalOpenClawUpdateInProgress = process.env.OPENCLAW_UPDATE_IN_PROGRESS;
+  originalLalaUpdateInProgress = process.env.LALA_UPDATE_IN_PROGRESS;
+  process.env.LALA_UPDATE_IN_PROGRESS = "1";
   process.env.OPENCLAW_UPDATE_IN_PROGRESS = "1";
   tempStateDir = fs.mkdtempSync(path.join(os.tmpdir(), "lala-doctor-state-"));
+  process.env.LALA_STATE_DIR = tempStateDir;
   process.env.OPENCLAW_STATE_DIR = tempStateDir;
   fs.mkdirSync(path.join(tempStateDir, "agents", "main", "sessions"), {
     recursive: true,
@@ -409,15 +415,25 @@ beforeEach(() => {
 
 afterEach(() => {
   setStdinTty(originalIsTTY);
-  if (originalStateDir === undefined) {
+  if (originalLalaStateDir === undefined) {
+    delete process.env.LALA_STATE_DIR;
+  } else {
+    process.env.LALA_STATE_DIR = originalLalaStateDir;
+  }
+  if (originalOpenClawStateDir === undefined) {
     delete process.env.OPENCLAW_STATE_DIR;
   } else {
-    process.env.OPENCLAW_STATE_DIR = originalStateDir;
+    process.env.OPENCLAW_STATE_DIR = originalOpenClawStateDir;
   }
-  if (originalUpdateInProgress === undefined) {
+  if (originalLalaUpdateInProgress === undefined) {
+    delete process.env.LALA_UPDATE_IN_PROGRESS;
+  } else {
+    process.env.LALA_UPDATE_IN_PROGRESS = originalLalaUpdateInProgress;
+  }
+  if (originalOpenClawUpdateInProgress === undefined) {
     delete process.env.OPENCLAW_UPDATE_IN_PROGRESS;
   } else {
-    process.env.OPENCLAW_UPDATE_IN_PROGRESS = originalUpdateInProgress;
+    process.env.OPENCLAW_UPDATE_IN_PROGRESS = originalOpenClawUpdateInProgress;
   }
   if (tempStateDir) {
     fs.rmSync(tempStateDir, { recursive: true, force: true });

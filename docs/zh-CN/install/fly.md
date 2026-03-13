@@ -32,7 +32,7 @@ x-i18n:
 
 ```bash
 # Clone the repo
-git clone https://github.com/lala/lala.git
+git clone https://github.com/JonusNattapong/lala.git
 cd lala
 
 # Create a new Fly app (pick your own name)

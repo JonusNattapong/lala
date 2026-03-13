@@ -41,7 +41,8 @@ async function withDotEnvFixture(run: (fixture: DotEnvFixture) => Promise<void>)
   const base = await fs.mkdtemp(path.join(os.tmpdir(), "lala-dotenv-test-"));
   const cwdDir = path.join(base, "cwd");
   const stateDir = path.join(base, "state");
-  process.env.OPENCLAW_STATE_DIR = stateDir;
+  process.env.LALA_STATE_DIR = stateDir;
+  delete process.env.OPENCLAW_STATE_DIR;
   await fs.mkdir(cwdDir, { recursive: true });
   await fs.mkdir(stateDir, { recursive: true });
   await run({ base, cwdDir, stateDir });

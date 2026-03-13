@@ -55,7 +55,7 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
     )
     .option(
       "--profile <name>",
-      "Use a named profile (isolates OPENCLAW_STATE_DIR/OPENCLAW_CONFIG_PATH under ~/.lala-<name>)",
+      "Use a named profile (isolates LALA_STATE_DIR/LALA_CONFIG_PATH under ~/.lala-<name>)",
     )
     .option(
       "--log-level <level>",

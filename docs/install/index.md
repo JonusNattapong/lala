@@ -109,10 +109,10 @@ For VPS/cloud hosts, avoid third-party "1-click" marketplace images when possibl
 
     <Steps>
       <Step title="Clone and build">
-        Clone the [Lala repo](https://github.com/lala/lala) and build:
+        Clone the [Lala repo](https://github.com/JonusNattapong/lala) and build:
 
         ```bash
-        git clone https://github.com/lala/lala.git
+        git clone https://github.com/JonusNattapong/lala.git
         cd lala
         pnpm install
         pnpm ui:build

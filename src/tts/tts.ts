@@ -302,7 +302,7 @@ export function resolveTtsConfig(cfg: LalaConfig): ResolvedTtsConfig {
       // Config > env var > default; strip trailing slashes for consistency.
       baseUrl: (
         raw.openai?.baseUrl?.trim() ||
-        process.env.OPENAI_TTS_BASE_URL?.trim() ||
+        (process.env.LALA_TTS_BASE_URL ?? process.env.OPENAI_TTS_BASE_URL)?.trim() ||
         DEFAULT_OPENAI_BASE_URL
       ).replace(/\/+$/, ""),
       model: raw.openai?.model ?? DEFAULT_OPENAI_MODEL,
@@ -333,7 +333,7 @@ export function resolveTtsPrefsPath(config: ResolvedTtsConfig): string {
   if (config.prefsPath?.trim()) {
     return resolveUserPath(config.prefsPath.trim());
   }
-  const envPath = process.env.OPENCLAW_TTS_PREFS?.trim();
+  const envPath = (process.env.LALA_TTS_PREFS ?? process.env.OPENCLAW_TTS_PREFS)?.trim();
   if (envPath) {
     return resolveUserPath(envPath);
   }

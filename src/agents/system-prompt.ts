@@ -177,7 +177,7 @@ function buildDocsSection(params: { docsPath?: string; isMinimal: boolean; readT
     "## Documentation",
     `Lala docs: ${docsPath}`,
     "Mirror: https://docs.lala.ai",
-    "Source: https://github.com/lala/lala",
+    "Source: https://github.com/JonusNattapong/lala",
     "Community: https://discord.com/invite/clawd",
     "Find new skills: https://clawhub.com",
     "For Lala behavior, commands, config, or architecture: consult local docs first.",

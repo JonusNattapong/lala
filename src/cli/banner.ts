@@ -62,8 +62,8 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
   const commitLabel = commit ?? "unknown";
   const tagline = pickTagline({ ...options, mode: resolveTaglineMode(options) });
   const rich = options.richTty ?? isRich();
-  const title = "🦞 Lala";
-  const prefix = "🦞 ";
+  const title = "🦋 Lala";
+  const prefix = "🦋 ";
   const columns = options.columns ?? process.stdout.columns ?? 120;
   const plainBaseLine = `${title} ${version} (${commitLabel})`;
   const plainFullLine = tagline ? `${plainBaseLine} — ${tagline}` : plainBaseLine;
@@ -97,46 +97,42 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
   return `${line1}\n${line2}`;
 }
 
-const LOBSTER_ASCII = [
-  "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄",
-  "██░▄▄▄░██░▄▄░██░▄▄▄██░▀██░██░▄▄▀██░████░▄▄▀██░███░██",
-  "██░███░██░▀▀░██░▄▄▄██░█░█░██░█████░████░▀▀░██░█░█░██",
-  "██░▀▀▀░██░█████░▀▀▀██░██▄░██░▀▀▄██░▀▀░█░██░██▄▀▄▀▄██",
-  "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
-  "                  🦞 OPENCLAW 🦞                    ",
-  " ",
+const LALA_ASCII = [
+  "                               ",
+  ".---.          .---.           ",
+  "|   |          |   |           ",
+  "|   |          |   |           ",
+  "|   |          |   |           ",
+  "|   |    __    |   |    __     ",
+  "|   | .:--.'.  |   | .:--.'.   ",
+  "|   |/ |   \\ | |   |/ |   \\ |  ",
+  "|   |`\" __ | | |   |`\" __ | |  ",
+  "|   | .'.''| | |   | .'.''| |  ",
+  "'---'/ /   | |_'---'/ /   | |_ ",
+  "     \\ \\._,\\ '/     \\ \\._,\\ '/ ",
+  "      `--'  `\"       `--'  `\"  ",
 ];
 
 export function formatCliBannerArt(options: BannerOptions = {}): string {
   const rich = options.richTty ?? isRich();
   if (!rich) {
-    return LOBSTER_ASCII.join("\n");
+    return LALA_ASCII.join("\n");
   }
 
   const colorChar = (ch: string) => {
-    if (ch === "█") {
+    if (/[A-Za-z]/.test(ch)) {
       return theme.accentBright(ch);
     }
-    if (ch === "░") {
-      return theme.accentDim(ch);
-    }
-    if (ch === "▀") {
+    if (/[|/\\\\]/.test(ch)) {
       return theme.accent(ch);
+    }
+    if (/[.'`:_-]/.test(ch)) {
+      return theme.accentDim(ch);
     }
     return theme.muted(ch);
   };
 
-  const colored = LOBSTER_ASCII.map((line) => {
-    if (line.includes("OPENCLAW")) {
-      return (
-        theme.muted("              ") +
-        theme.accent("🦞") +
-        theme.info(" OPENCLAW ") +
-        theme.accent("🦞")
-      );
-    }
-    return splitGraphemes(line).map(colorChar).join("");
-  });
+  const colored = LALA_ASCII.map((line) => splitGraphemes(line).map(colorChar).join(""));
 
   return colored.join("\n");
 }

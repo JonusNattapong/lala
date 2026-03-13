@@ -62,9 +62,11 @@ function attachExternalTransport(logger: TsLogger<LogObj>, transport: LogTranspo
 }
 
 function canUseSilentVitestFileLogFastPath(envLevel: LogLevel | undefined): boolean {
+  const isTestFileLogEnabled =
+    process.env.LALA_TEST_FILE_LOG === "1" || process.env.OPENCLAW_TEST_FILE_LOG === "1";
   return (
     process.env.VITEST === "true" &&
-    process.env.OPENCLAW_TEST_FILE_LOG !== "1" &&
+    !isTestFileLogEnabled &&
     !envLevel &&
     !loggingState.overrideSettings
   );
@@ -96,8 +98,9 @@ function resolveSettings(): ResolvedSettings {
       cfg = undefined;
     }
   }
-  const defaultLevel =
-    process.env.VITEST === "true" && process.env.OPENCLAW_TEST_FILE_LOG !== "1" ? "silent" : "info";
+  const isTestFileLogEnabled =
+    process.env.LALA_TEST_FILE_LOG === "1" || process.env.OPENCLAW_TEST_FILE_LOG === "1";
+  const defaultLevel = process.env.VITEST === "true" && !isTestFileLogEnabled ? "silent" : "info";
   const fromConfig = normalizeLogLevel(cfg?.level, defaultLevel);
   const level = envLevel ?? fromConfig;
   const file = cfg?.file ?? defaultRollingPathForToday();

@@ -191,7 +191,7 @@ docker compose version
 ## 6) Clone the Lala repository
 
 ```bash
-git clone https://github.com/lala/lala.git
+git clone https://github.com/JonusNattapong/lala.git
 cd lala
 ```
 

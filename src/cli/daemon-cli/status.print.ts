@@ -132,9 +132,11 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
           "Root cause: CLI and service are using different config paths (likely a profile/state-dir mismatch).",
         ),
       );
+      const fixDir = process.env.LALA_STATE_DIR || process.env.OPENCLAW_STATE_DIR;
+      const fixArg = fixDir ? ` --state-dir ${fixDir}` : "";
       defaultRuntime.error(
         errorText(
-          `Fix: rerun \`${formatCliCommand("lala gateway install --force")}\` from the same --profile / OPENCLAW_STATE_DIR you expect.`,
+          `Fix: rerun \`${formatCliCommand("lala gateway install --force")}\`${fixArg} from the same --profile you expect.`,
         ),
       );
     }
@@ -224,7 +226,8 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
 
   if (service.runtime?.cachedLabel) {
     const env = service.command?.environment ?? process.env;
-    const labelValue = resolveGatewayLaunchAgentLabel(env.OPENCLAW_PROFILE);
+    const profile = env.LALA_PROFILE ?? env.OPENCLAW_PROFILE;
+    const labelValue = resolveGatewayLaunchAgentLabel(profile);
     defaultRuntime.error(
       errorText(
         `LaunchAgent label cached but plist missing. Clear with: launchctl bootout gui/$UID/${labelValue}`,
@@ -267,7 +270,8 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     }
     if (process.platform === "linux") {
       const env = service.command?.environment ?? process.env;
-      const unit = resolveGatewaySystemdServiceName(env.OPENCLAW_PROFILE);
+      const profile = env.LALA_PROFILE ?? env.OPENCLAW_PROFILE;
+      const unit = resolveGatewaySystemdServiceName(profile);
       defaultRuntime.error(
         errorText(`Logs: journalctl --user -u ${unit}.service -n 200 --no-pager`),
       );

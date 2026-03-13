@@ -38,7 +38,9 @@ let ensureLalaCliOnPath: typeof import("./path-env.js").ensureLalaCliOnPath;
 describe("ensureLalaCliOnPath", () => {
   const envKeys = [
     "PATH",
+    "LALA_PATH_BOOTSTRAPPED",
     "OPENCLAW_PATH_BOOTSTRAPPED",
+    "LALA_ALLOW_PROJECT_LOCAL_BIN",
     "OPENCLAW_ALLOW_PROJECT_LOCAL_BIN",
     "MISE_DATA_DIR",
     "HOMEBREW_PREFIX",
@@ -81,6 +83,7 @@ describe("ensureLalaCliOnPath", () => {
     setExe(cliPath);
 
     process.env.PATH = "/usr/bin";
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
     delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
 
     ensureLalaCliOnPath({
@@ -96,6 +99,16 @@ describe("ensureLalaCliOnPath", () => {
 
   it("is idempotent", () => {
     process.env.PATH = "/bin";
+    process.env.LALA_PATH_BOOTSTRAPPED = "1";
+    ensureLalaCliOnPath({
+      execPath: "/tmp/does-not-matter",
+      cwd: "/tmp",
+      homeDir: "/tmp",
+      platform: "darwin",
+    });
+    expect(process.env.PATH).toBe("/bin");
+
+    process.env.LALA_PATH_BOOTSTRAPPED = "";
     process.env.OPENCLAW_PATH_BOOTSTRAPPED = "1";
     ensureLalaCliOnPath({
       execPath: "/tmp/does-not-matter",
@@ -121,6 +134,7 @@ describe("ensureLalaCliOnPath", () => {
 
     process.env.MISE_DATA_DIR = miseDataDir;
     process.env.PATH = "/usr/bin";
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
     delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
 
     ensureLalaCliOnPath({
@@ -153,6 +167,7 @@ describe("ensureLalaCliOnPath", () => {
     setExe(localCli);
 
     process.env.PATH = "/usr/bin";
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
     delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
 
     ensureLalaCliOnPath({
@@ -165,6 +180,7 @@ describe("ensureLalaCliOnPath", () => {
     expect(withoutOptIn.includes(localBinDir)).toBe(false);
 
     process.env.PATH = "/usr/bin";
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
     delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
 
     ensureLalaCliOnPath({
@@ -175,10 +191,20 @@ describe("ensureLalaCliOnPath", () => {
       allowProjectLocalBin: true,
     });
     const withOptIn = (process.env.PATH ?? "").split(path.delimiter);
-    const usrBinIndex = withOptIn.indexOf("/usr/bin");
-    const localIndex = withOptIn.indexOf(localBinDir);
-    expect(usrBinIndex).toBeGreaterThanOrEqual(0);
-    expect(localIndex).toBeGreaterThan(usrBinIndex);
+    expect(withOptIn.includes(localBinDir)).toBe(true);
+
+    process.env.PATH = "/usr/bin";
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
+    delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    process.env.OPENCLAW_ALLOW_PROJECT_LOCAL_BIN = "1";
+
+    ensureLalaCliOnPath({
+      execPath: appCli,
+      cwd: tmp,
+      homeDir: tmp,
+      platform: "darwin",
+    });
+    expect((process.env.PATH ?? "").split(path.delimiter).includes(localBinDir)).toBe(true);
   });
 
   it("prepends Linuxbrew dirs when present", () => {
@@ -195,6 +221,7 @@ describe("ensureLalaCliOnPath", () => {
     setDir(linuxbrewSbin);
 
     process.env.PATH = "/usr/bin";
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
     delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
     delete process.env.HOMEBREW_PREFIX;
     delete process.env.HOMEBREW_BREW_FILE;

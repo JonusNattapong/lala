@@ -58,7 +58,7 @@ function expectLaunchdSupervisedWithoutKickstart(params?: { launchJobLabel?: str
   if (params?.launchJobLabel) {
     process.env.LAUNCH_JOB_LABEL = params.launchJobLabel;
   }
-  process.env.OPENCLAW_LAUNCHD_LABEL = "ai.lala.gateway";
+  process.env.LALA_LAUNCHD_LABEL = "ai.lala.gateway";
   const result = restartGatewayProcessWithFreshPid();
   expect(result.mode).toBe("supervised");
   expect(scheduleDetachedLaunchdRestartHandoffMock).toHaveBeenCalledWith({
@@ -71,11 +71,16 @@ function expectLaunchdSupervisedWithoutKickstart(params?: { launchJobLabel?: str
 }
 
 describe("restartGatewayProcessWithFreshPid", () => {
-  it("returns disabled when OPENCLAW_NO_RESPAWN is set", () => {
-    process.env.OPENCLAW_NO_RESPAWN = "1";
-    const result = restartGatewayProcessWithFreshPid();
-    expect(result.mode).toBe("disabled");
+  it("returns disabled when LALA_NO_RESPAWN or OPENCLAW_NO_RESPAWN is set", () => {
+    process.env.LALA_NO_RESPAWN = "1";
+    const resultLala = restartGatewayProcessWithFreshPid();
+    expect(resultLala.mode).toBe("disabled");
     expect(spawnMock).not.toHaveBeenCalled();
+
+    delete process.env.LALA_NO_RESPAWN;
+    process.env.OPENCLAW_NO_RESPAWN = "1";
+    const resultOpenClaw = restartGatewayProcessWithFreshPid();
+    expect(resultOpenClaw.mode).toBe("disabled");
   });
 
   it("returns supervised when launchd hints are present on macOS (no kickstart)", () => {
@@ -101,7 +106,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
   it("launchd supervisor never returns failed regardless of triggerLalaRestart outcome", () => {
     clearSupervisorHints();
     setPlatform("darwin");
-    process.env.OPENCLAW_LAUNCHD_LABEL = "ai.lala.gateway";
+    process.env.LALA_LAUNCHD_LABEL = "ai.lala.gateway";
     // Even if triggerLalaRestart *would* fail, launchd path must not call it.
     triggerLalaRestartMock.mockReturnValue({
       ok: false,
@@ -136,7 +141,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
   it("does not schedule kickstart on non-darwin platforms", () => {
     setPlatform("linux");
     process.env.INVOCATION_ID = "abc123";
-    process.env.OPENCLAW_LAUNCHD_LABEL = "ai.lala.gateway";
+    process.env.LALA_LAUNCHD_LABEL = "ai.lala.gateway";
 
     const result = restartGatewayProcessWithFreshPid();
 
@@ -156,6 +161,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
   });
 
   it("spawns detached child with current exec argv", () => {
+    delete process.env.LALA_NO_RESPAWN;
     delete process.env.OPENCLAW_NO_RESPAWN;
     clearSupervisorHints();
     setPlatform("linux");
@@ -176,37 +182,54 @@ describe("restartGatewayProcessWithFreshPid", () => {
     );
   });
 
-  it("returns supervised when OPENCLAW_LAUNCHD_LABEL is set (stock launchd plist)", () => {
+  it("returns supervised when LALA_LAUNCHD_LABEL or OPENCLAW_LAUNCHD_LABEL is set (stock launchd plist)", () => {
     clearSupervisorHints();
+    process.env.LALA_LAUNCHD_LABEL = "ai.lala.gateway";
+    expectLaunchdSupervisedWithoutKickstart();
+    
+    clearSupervisorHints();
+    process.env.OPENCLAW_LAUNCHD_LABEL = "ai.lala.gateway";
     expectLaunchdSupervisedWithoutKickstart();
   });
 
-  it("returns supervised when OPENCLAW_SYSTEMD_UNIT is set", () => {
+  it("returns supervised when LALA_SYSTEMD_UNIT or OPENCLAW_SYSTEMD_UNIT is set", () => {
     clearSupervisorHints();
     setPlatform("linux");
-    process.env.OPENCLAW_SYSTEMD_UNIT = "lala-gateway.service";
+    process.env.LALA_SYSTEMD_UNIT = "lala-gateway.service";
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
+
+    process.env.LALA_SYSTEMD_UNIT = "";
+    process.env.OPENCLAW_SYSTEMD_UNIT = "lala-gateway.service";
+    const resultFallback = restartGatewayProcessWithFreshPid();
+    expect(resultFallback.mode).toBe("supervised");
+
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
   it("returns supervised when Lala gateway task markers are set on Windows", () => {
     clearSupervisorHints();
     setPlatform("win32");
-    process.env.OPENCLAW_SERVICE_MARKER = "lala";
-    process.env.OPENCLAW_SERVICE_KIND = "gateway";
+    process.env.LALA_SERVICE_MARKER = "lala";
+    process.env.LALA_SERVICE_KIND = "gateway";
     triggerLalaRestartMock.mockReturnValue({ ok: true, method: "schtasks" });
     const result = restartGatewayProcessWithFreshPid();
     expect(result.mode).toBe("supervised");
     expect(triggerLalaRestartMock).toHaveBeenCalledOnce();
+
+    process.env.LALA_SERVICE_MARKER = "";
+    process.env.OPENCLAW_SERVICE_MARKER = "lala";
+    const resultFallback = restartGatewayProcessWithFreshPid();
+    expect(resultFallback.mode).toBe("supervised");
+
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
   it("keeps generic service markers out of non-Windows supervisor detection", () => {
     clearSupervisorHints();
     setPlatform("linux");
-    process.env.OPENCLAW_SERVICE_MARKER = "lala";
-    process.env.OPENCLAW_SERVICE_KIND = "gateway";
+    process.env.LALA_SERVICE_MARKER = "lala";
+    process.env.LALA_SERVICE_KIND = "gateway";
     spawnMock.mockReturnValue({ pid: 4242, unref: vi.fn() });
 
     const result = restartGatewayProcessWithFreshPid();
@@ -229,10 +252,10 @@ describe("restartGatewayProcessWithFreshPid", () => {
   it("ignores node task script hints for gateway restart detection on Windows", () => {
     clearSupervisorHints();
     setPlatform("win32");
-    process.env.OPENCLAW_TASK_SCRIPT = "C:\\lala\\node.cmd";
-    process.env.OPENCLAW_TASK_SCRIPT_NAME = "node.cmd";
-    process.env.OPENCLAW_SERVICE_MARKER = "lala";
-    process.env.OPENCLAW_SERVICE_KIND = "node";
+    process.env.LALA_TASK_SCRIPT = "C:\\lala\\node.cmd";
+    process.env.LALA_TASK_SCRIPT_NAME = "node.cmd";
+    process.env.LALA_SERVICE_MARKER = "lala";
+    process.env.LALA_SERVICE_KIND = "node";
 
     const result = restartGatewayProcessWithFreshPid();
 
@@ -242,6 +265,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
   });
 
   it("returns failed when spawn throws", () => {
+    delete process.env.LALA_NO_RESPAWN;
     delete process.env.OPENCLAW_NO_RESPAWN;
     clearSupervisorHints();
     setPlatform("linux");

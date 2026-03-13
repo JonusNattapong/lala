@@ -86,7 +86,12 @@ describe("resolveGatewayConnection", () => {
   let envSnapshot: ReturnType<typeof captureEnv>;
 
   beforeEach(() => {
-    envSnapshot = captureEnv(["OPENCLAW_GATEWAY_TOKEN", "OPENCLAW_GATEWAY_PASSWORD"]);
+    envSnapshot = captureEnv([
+      "LALA_GATEWAY_TOKEN",
+      "LALA_GATEWAY_PASSWORD",
+      "OPENCLAW_GATEWAY_TOKEN",
+      "OPENCLAW_GATEWAY_PASSWORD",
+    ]);
     loadConfig.mockClear();
     resolveGatewayPort.mockClear();
     pickPrimaryTailnetIPv4.mockClear();
@@ -94,6 +99,8 @@ describe("resolveGatewayConnection", () => {
     resolveGatewayPort.mockReturnValue(18789);
     pickPrimaryTailnetIPv4.mockReturnValue(undefined);
     pickPrimaryLanIPv4.mockReturnValue(undefined);
+    delete process.env.LALA_GATEWAY_TOKEN;
+    delete process.env.LALA_GATEWAY_PASSWORD;
     delete process.env.OPENCLAW_GATEWAY_TOKEN;
     delete process.env.OPENCLAW_GATEWAY_PASSWORD;
   });
@@ -151,7 +158,7 @@ describe("resolveGatewayConnection", () => {
     resolveGatewayPort.mockReturnValue(18800);
     setup();
 
-    const result = await withEnvAsync({ OPENCLAW_GATEWAY_TOKEN: "env-token" }, async () => {
+    const result = await withEnvAsync({ LALA_GATEWAY_TOKEN: "env-token" }, async () => {
       return await resolveGatewayConnection({});
     });
 
@@ -161,16 +168,16 @@ describe("resolveGatewayConnection", () => {
   it("uses config auth token for local mode when both config and env tokens are set", async () => {
     loadConfig.mockReturnValue({ gateway: { mode: "local", auth: { token: "config-token" } } });
 
-    await withEnvAsync({ OPENCLAW_GATEWAY_TOKEN: "env-token" }, async () => {
+    await withEnvAsync({ LALA_GATEWAY_TOKEN: "env-token" }, async () => {
       const result = await resolveGatewayConnection({});
       expect(result.token).toBe("config-token");
     });
   });
 
-  it("falls back to OPENCLAW_GATEWAY_TOKEN when config token is missing", async () => {
+  it("falls back to LALA_GATEWAY_TOKEN when config token is missing", async () => {
     loadConfig.mockReturnValue({ gateway: { mode: "local" } });
 
-    await withEnvAsync({ OPENCLAW_GATEWAY_TOKEN: "env-token" }, async () => {
+    await withEnvAsync({ LALA_GATEWAY_TOKEN: "env-token" }, async () => {
       const result = await resolveGatewayConnection({});
       expect(result.token).toBe("env-token");
     });
@@ -239,7 +246,7 @@ describe("resolveGatewayConnection", () => {
     );
   });
 
-  it("prefers OPENCLAW_GATEWAY_PASSWORD over remote password fallback", async () => {
+  it("prefers LALA_GATEWAY_PASSWORD over remote password fallback", async () => {
     loadConfig.mockReturnValue({
       gateway: {
         mode: "remote",
@@ -247,12 +254,15 @@ describe("resolveGatewayConnection", () => {
       },
     });
 
-    const gatewayPasswordEnv = "OPENCLAW_GATEWAY_PASSWORD"; // pragma: allowlist secret
-    const gatewayPassword = "env-pass"; // pragma: allowlist secret
-    await withEnvAsync({ [gatewayPasswordEnv]: gatewayPassword }, async () => {
-      const result = await resolveGatewayConnection({});
-      expect(result.password).toBe(gatewayPassword);
-    });
+    const lalaPassword = "lala-env-pass"; // pragma: allowlist secret
+    const legacyPassword = "legacy-env-pass"; // pragma: allowlist secret
+    await withEnvAsync(
+      { LALA_GATEWAY_PASSWORD: lalaPassword, OPENCLAW_GATEWAY_PASSWORD: legacyPassword },
+      async () => {
+        const result = await resolveGatewayConnection({});
+        expect(result.password).toBe(lalaPassword);
+      },
+    );
   });
 
   it.runIf(process.platform !== "win32")(

@@ -161,7 +161,7 @@ lala health
 
 Notes:
 
-- `pnpm build` matters when you run the packaged `lala` binary ([`lala.mjs`](https://github.com/lala/lala/blob/main/lala.mjs)) or use Node to run `dist/`.
+- `pnpm build` matters when you run the packaged `lala` binary ([`lala.mjs`](https://github.com/JonusNattapong/lala/blob/main/lala.mjs)) or use Node to run `dist/`.
 - If you run from a repo checkout without a global install, use `pnpm lala ...` for CLI commands.
 - If you run directly from TypeScript (`pnpm lala ...`), a rebuild is usually unnecessary, but **config migrations still apply** → run doctor.
 - Switching between global and git installs is easy: install the other flavor, then run `lala doctor` so the gateway service entrypoint is rewritten to the current install.

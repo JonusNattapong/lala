@@ -36,12 +36,12 @@
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/lala/lala",
+        "href": "https://github.com/JonusNattapong/lala",
         "icon": "github"
       },
       {
         "label": "Releases",
-        "href": "https://github.com/lala/lala/releases",
+        "href": "https://github.com/JonusNattapong/lala/releases",
         "icon": "package"
       }
     ]

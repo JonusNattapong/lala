@@ -34,7 +34,7 @@ function Write-Host {
 
 function Write-Banner {
     Write-Host ""
-    Write-Host "${ACCENT}  🦞 Lala Installer$NC" -Level info
+    Write-Host "${ACCENT}  🦋 Lala Installer$NC" -Level info
     Write-Host "${MUTED}  All your chats, one Lala.$NC" -Level info
     Write-Host ""
 }
@@ -65,7 +65,8 @@ function Ensure-ExecutionPolicy {
             Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -ErrorAction Stop
             Write-Host "Set execution policy to RemoteSigned for current process" -Level success
             return $true
-        } catch {
+        }
+        catch {
             Write-Host "Could not automatically set execution policy" -Level error
             Write-Host ""
             Write-Host "To fix this, run:" -Level info
@@ -85,7 +86,8 @@ function Get-NodeVersion {
         if ($version) {
             return $version -replace '^v', ''
         }
-    } catch { }
+    }
+    catch { }
     return $null
 }
 
@@ -95,7 +97,8 @@ function Get-NpmVersion {
         if ($version) {
             return $version
         }
-    } catch { }
+    }
+    catch { }
     return $null
 }
 
@@ -109,10 +112,11 @@ function Install-Node {
         try {
             winget install OpenJS.NodeJS.LTS --accept-package-agreements --accept-source-agreements 2>&1 | Out-Null
             # Refresh PATH
-            $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+            $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
             Write-Host "  Node.js installed via winget" -Level success
             return $true
-        } catch {
+        }
+        catch {
             Write-Host "  Winget install failed: $_" -Level warn
         }
     }
@@ -122,10 +126,11 @@ function Install-Node {
         Write-Host "  Using chocolatey..." -Level info
         try {
             choco install nodejs-lts -y 2>&1 | Out-Null
-            $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+            $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
             Write-Host "  Node.js installed via chocolatey" -Level success
             return $true
-        } catch {
+        }
+        catch {
             Write-Host "  Chocolatey install failed: $_" -Level warn
         }
     }
@@ -135,10 +140,11 @@ function Install-Node {
         Write-Host "  Using scoop..." -Level info
         try {
             scoop install nodejs-lts 2>&1 | Out-Null
-            $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+            $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
             Write-Host "  Node.js installed via scoop" -Level success
             return $true
-        } catch {
+        }
+        catch {
             Write-Host "  Scoop install failed: $_" -Level warn
         }
     }
@@ -167,7 +173,8 @@ function Get-GitVersion {
         if ($version) {
             return $version
         }
-    } catch { }
+    }
+    catch { }
     return $null
 }
 
@@ -178,10 +185,11 @@ function Install-Git {
         Write-Host "  Installing Git via winget..." -Level info
         try {
             winget install Git.Git --accept-package-agreements --accept-source-agreements 2>&1 | Out-Null
-            $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+            $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
             Write-Host "  Git installed" -Level success
             return $true
-        } catch {
+        }
+        catch {
             Write-Host "  Winget install failed" -Level warn
         }
     }
@@ -209,7 +217,8 @@ function Install-LalaNpm {
         npm install -g lala@$Version --no-fund --no-audit 2>&1
         Write-Host "Lala installed" -Level success
         return $true
-    } catch {
+    }
+    catch {
         Write-Host "npm install failed: $_" -Level error
         return $false
     }
@@ -222,8 +231,9 @@ function Install-LalaGit {
     
     if (!(Test-Path $RepoDir)) {
         Write-Host "  Cloning repository..." -Level info
-        git clone https://github.com/lala/lala.git $RepoDir 2>&1
-    } elseif ($Update) {
+        git clone https://github.com/JonusNattapong/lala.git $RepoDir 2>&1
+    }
+    elseif ($Update) {
         Write-Host "  Updating repository..." -Level info
         git -C $RepoDir pull --rebase 2>&1
     }
@@ -291,10 +301,12 @@ function Main {
         
         if ($DryRun) {
             Write-Host "[DRY RUN] Would install Lala from git to $GitDir" -Level info
-        } else {
+        }
+        else {
             Install-LalaGit -RepoDir $GitDir -Update:(-not $NoGitUpdate)
         }
-    } else {
+    }
+    else {
         # npm method
         if (!(Ensure-Git)) {
             Write-Host "Git is required for npm installs. Please install Git and try again." -Level warn
@@ -302,7 +314,8 @@ function Main {
         
         if ($DryRun) {
             Write-Host "[DRY RUN] Would install Lala via npm (tag: $Tag)" -Level info
-        } else {
+        }
+        else {
             if (!(Install-LalaNpm -Version $Tag)) {
                 exit 1
             }
@@ -315,7 +328,8 @@ function Main {
         if ($npmPrefix) {
             Add-ToPath -Path "$npmPrefix"
         }
-    } catch { }
+    }
+    catch { }
     
     if (!$NoOnboard -and !$DryRun) {
         Write-Host ""
@@ -323,7 +337,7 @@ function Main {
     }
     
     Write-Host ""
-    Write-Host "🦞 Lala installed successfully!" -Level success
+    Write-Host "🦋 Lala installed successfully!" -Level success
 }
 
 Main

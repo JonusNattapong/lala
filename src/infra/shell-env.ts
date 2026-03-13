@@ -189,15 +189,15 @@ export function loadShellEnvFallback(opts: ShellEnvFallbackOptions): ShellEnvFal
 }
 
 export function shouldEnableShellEnvFallback(env: NodeJS.ProcessEnv): boolean {
-  return isTruthyEnvValue(env.OPENCLAW_LOAD_SHELL_ENV);
+  return isTruthyEnvValue(env.LALA_LOAD_SHELL_ENV ?? env.OPENCLAW_LOAD_SHELL_ENV);
 }
 
 export function shouldDeferShellEnvFallback(env: NodeJS.ProcessEnv): boolean {
-  return isTruthyEnvValue(env.OPENCLAW_DEFER_SHELL_ENV_FALLBACK);
+  return isTruthyEnvValue(env.LALA_DEFER_SHELL_ENV_FALLBACK ?? env.OPENCLAW_DEFER_SHELL_ENV_FALLBACK);
 }
 
 export function resolveShellEnvFallbackTimeoutMs(env: NodeJS.ProcessEnv): number {
-  const raw = env.OPENCLAW_SHELL_ENV_TIMEOUT_MS?.trim();
+  const raw = (env.LALA_SHELL_ENV_TIMEOUT_MS ?? env.OPENCLAW_SHELL_ENV_TIMEOUT_MS)?.trim();
   if (!raw) {
     return DEFAULT_TIMEOUT_MS;
   }

@@ -5,7 +5,9 @@ import { resolveUserPath } from "../utils.js";
 
 export function resolveLalaAgentDir(): string {
   const override =
-    process.env.OPENCLAW_AGENT_DIR?.trim() || process.env.PI_CODING_AGENT_DIR?.trim();
+    process.env.LALA_AGENT_DIR?.trim() ||
+    process.env.OPENCLAW_AGENT_DIR?.trim() ||
+    process.env.PI_CODING_AGENT_DIR?.trim();
   if (override) {
     return resolveUserPath(override);
   }
@@ -15,6 +17,9 @@ export function resolveLalaAgentDir(): string {
 
 export function ensureLalaAgentEnv(): string {
   const dir = resolveLalaAgentDir();
+  if (!process.env.LALA_AGENT_DIR) {
+    process.env.LALA_AGENT_DIR = dir;
+  }
   if (!process.env.OPENCLAW_AGENT_DIR) {
     process.env.OPENCLAW_AGENT_DIR = dir;
   }

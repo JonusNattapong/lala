@@ -118,7 +118,7 @@ curl -fsSL https://lala.ai/install.sh | bash
 ### Option B: Hackable Install (For tinkering)
 
 ```bash
-git clone https://github.com/lala/lala.git
+git clone https://github.com/JonusNattapong/lala.git
 cd lala
 npm install
 npm run build

@@ -31,7 +31,17 @@ export async function maybeOfferUpdateBeforeDoctor(params: {
   confirm: (p: { message: string; initialValue: boolean }) => Promise<boolean>;
   outro: (message: string) => void;
 }) {
-  const updateInProgress = isTruthyEnvValue(process.env.OPENCLAW_UPDATE_IN_PROGRESS);
+  // Prioritize LALA_ variant, but check OPENCLAW_ for backward compatibility.
+  // If either is set, ensure both are set for consistency.
+  const lalaUpdateInProgress = isTruthyEnvValue(process.env.LALA_UPDATE_IN_PROGRESS);
+  const openclawUpdateInProgress = isTruthyEnvValue(process.env.OPENCLAW_UPDATE_IN_PROGRESS);
+
+  if (lalaUpdateInProgress || openclawUpdateInProgress) {
+    process.env.LALA_UPDATE_IN_PROGRESS = "1";
+    process.env.OPENCLAW_UPDATE_IN_PROGRESS = "1";
+  }
+  const updateInProgress = lalaUpdateInProgress || openclawUpdateInProgress;
+
   const canOfferUpdate =
     !updateInProgress &&
     params.options.nonInteractive !== true &&
@@ -52,6 +62,9 @@ export async function maybeOfferUpdateBeforeDoctor(params: {
       return { updated: false };
     }
     note("Running update (fetch/rebase/build/ui:build/doctor)…", "Update");
+    // Set both LALA_ and OPENCLAW_ update in progress flags for backward compatibility
+    process.env.LALA_UPDATE_IN_PROGRESS = "1";
+    process.env.OPENCLAW_UPDATE_IN_PROGRESS = "1";
     const result = await runGatewayUpdate({
       cwd: params.root,
       argv1: process.argv[1],

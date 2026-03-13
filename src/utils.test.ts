@@ -128,34 +128,45 @@ describe("resolveConfigDir", () => {
     }
   });
 
-  it("expands OPENCLAW_STATE_DIR using the provided env", () => {
-    const env = {
+  it("expands LALA_STATE_DIR or OPENCLAW_STATE_DIR using the provided env", () => {
+    const envOpenClaw = {
       HOME: "/tmp/lala-home",
       OPENCLAW_STATE_DIR: "~/state",
     } as NodeJS.ProcessEnv;
+    expect(resolveConfigDir(envOpenClaw)).toBe(path.resolve("/tmp/lala-home", "state"));
 
-    expect(resolveConfigDir(env)).toBe(path.resolve("/tmp/lala-home", "state"));
+    const envLala = {
+      HOME: "/tmp/lala-home",
+      LALA_STATE_DIR: "~/lala-state",
+      OPENCLAW_STATE_DIR: "~/state",
+    } as NodeJS.ProcessEnv;
+    expect(resolveConfigDir(envLala)).toBe(path.resolve("/tmp/lala-home", "lala-state"));
   });
 });
 
 describe("resolveHomeDir", () => {
-  it("prefers OPENCLAW_HOME over HOME", () => {
+  it("prefers LALA_HOME or OPENCLAW_HOME over HOME", () => {
     vi.stubEnv("OPENCLAW_HOME", "/srv/lala-home");
     vi.stubEnv("HOME", "/home/other");
-
     expect(resolveHomeDir()).toBe(path.resolve("/srv/lala-home"));
+
+    vi.stubEnv("LALA_HOME", "/srv/new-lala-home");
+    expect(resolveHomeDir()).toBe(path.resolve("/srv/new-lala-home"));
 
     vi.unstubAllEnvs();
   });
 });
 
 describe("shortenHomePath", () => {
-  it("uses $OPENCLAW_HOME prefix when OPENCLAW_HOME is set", () => {
+  it("uses $LALA_HOME or $OPENCLAW_HOME prefix when set", () => {
     vi.stubEnv("OPENCLAW_HOME", "/srv/lala-home");
-    vi.stubEnv("HOME", "/home/other");
-
     expect(shortenHomePath(`${path.resolve("/srv/lala-home")}/.lala/lala.json`)).toBe(
       "$OPENCLAW_HOME/.lala/lala.json",
+    );
+
+    vi.stubEnv("LALA_HOME", "/srv/new-lala-home");
+    expect(shortenHomePath(`${path.resolve("/srv/new-lala-home")}/.lala/lala.json`)).toBe(
+      "$LALA_HOME/.lala/lala.json",
     );
 
     vi.unstubAllEnvs();
@@ -163,13 +174,16 @@ describe("shortenHomePath", () => {
 });
 
 describe("shortenHomeInString", () => {
-  it("uses $OPENCLAW_HOME replacement when OPENCLAW_HOME is set", () => {
+  it("uses $LALA_HOME or $OPENCLAW_HOME replacement when set", () => {
     vi.stubEnv("OPENCLAW_HOME", "/srv/lala-home");
-    vi.stubEnv("HOME", "/home/other");
-
     expect(
       shortenHomeInString(`config: ${path.resolve("/srv/lala-home")}/.lala/lala.json`),
     ).toBe("config: $OPENCLAW_HOME/.lala/lala.json");
+
+    vi.stubEnv("LALA_HOME", "/srv/new-lala-home");
+    expect(
+      shortenHomeInString(`config: ${path.resolve("/srv/new-lala-home")}/.lala/lala.json`),
+    ).toBe("config: $LALA_HOME/.lala/lala.json");
 
     vi.unstubAllEnvs();
   });
@@ -214,11 +228,12 @@ describe("resolveUserPath", () => {
     expect(resolveUserPath("tmp/dir")).toBe(path.resolve("tmp/dir"));
   });
 
-  it("prefers OPENCLAW_HOME for tilde expansion", () => {
+  it("prefers LALA_HOME or OPENCLAW_HOME for tilde expansion", () => {
     vi.stubEnv("OPENCLAW_HOME", "/srv/lala-home");
-    vi.stubEnv("HOME", "/home/other");
-
     expect(resolveUserPath("~/lala")).toBe(path.resolve("/srv/lala-home", "lala"));
+
+    vi.stubEnv("LALA_HOME", "/srv/new-lala-home");
+    expect(resolveUserPath("~/lala")).toBe(path.resolve("/srv/new-lala-home", "lala"));
 
     vi.unstubAllEnvs();
   });
@@ -226,10 +241,10 @@ describe("resolveUserPath", () => {
   it("uses the provided env for tilde expansion", () => {
     const env = {
       HOME: "/tmp/lala-home",
-      OPENCLAW_HOME: "/srv/lala-home",
+      LALA_HOME: "/srv/new-lala-home",
     } as NodeJS.ProcessEnv;
 
-    expect(resolveUserPath("~/lala", env)).toBe(path.resolve("/srv/lala-home", "lala"));
+    expect(resolveUserPath("~/lala", env)).toBe(path.resolve("/srv/new-lala-home", "lala"));
   });
 
   it("keeps blank paths blank", () => {

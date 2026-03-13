@@ -1,5 +1,6 @@
 import { formatCliCommand } from "../cli/command-format.js";
 import type {
+  AuthChoice,
   GatewayAuthChoice,
   OnboardMode,
   OnboardOptions,
@@ -20,7 +21,7 @@ import { resolveOnboardingSecretInputString } from "./onboarding.secret-input.js
 import type { QuickstartGatewayDefaults, WizardFlow } from "./onboarding.types.js";
 import { WizardCancelledError, type WizardPrompter } from "./prompts.js";
 
-const OAUTH_WIZARD_NOTES: Partial<Record<OnboardOptions["authChoice"], { title: string; body: string }>> = {
+const OAUTH_WIZARD_NOTES: Partial<Record<AuthChoice, { title: string; body: string }>> = {
   "openai-codex": {
     title: "OAuth",
     body: "OpenAI Codex uses ChatGPT OAuth. The wizard will start a browser/device-login flow next.",
@@ -41,7 +42,11 @@ const OAUTH_WIZARD_NOTES: Partial<Record<OnboardOptions["authChoice"], { title: 
     title: "OAuth",
     body: "Qwen uses OAuth via the portal plugin. The wizard will start that sign-in flow next.",
   },
-  "minimax-portal": {
+  "minimax-global-oauth": {
+    title: "OAuth",
+    body: "MiniMax portal uses OAuth. The wizard will start the sign-in flow next.",
+  },
+  "minimax-cn-oauth": {
     title: "OAuth",
     body: "MiniMax portal uses OAuth. The wizard will start the sign-in flow next.",
   },
@@ -308,7 +313,10 @@ export async function runOnboardingWizard(
 
   const localPort = resolveGatewayPort(baseConfig);
   const localUrl = `ws://127.0.0.1:${localPort}`;
-  let localGatewayToken = process.env.OPENCLAW_GATEWAY_TOKEN ?? process.env.CLAWDBOT_GATEWAY_TOKEN;
+  let localGatewayToken =
+    process.env.LALA_GATEWAY_TOKEN ??
+    process.env.OPENCLAW_GATEWAY_TOKEN ??
+    process.env.CLAWDBOT_GATEWAY_TOKEN;
   try {
     const resolvedGatewayToken = await resolveOnboardingSecretInputString({
       config: baseConfig,
@@ -329,7 +337,9 @@ export async function runOnboardingWizard(
     );
   }
   let localGatewayPassword =
-    process.env.OPENCLAW_GATEWAY_PASSWORD ?? process.env.CLAWDBOT_GATEWAY_PASSWORD;
+    process.env.LALA_GATEWAY_PASSWORD ??
+    process.env.OPENCLAW_GATEWAY_PASSWORD ??
+    process.env.CLAWDBOT_GATEWAY_PASSWORD;
   try {
     const resolvedGatewayPassword = await resolveOnboardingSecretInputString({
       config: baseConfig,

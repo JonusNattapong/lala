@@ -106,7 +106,7 @@ docker compose version
 ## 3) 克隆 Lala 仓库
 
 ```bash
-git clone https://github.com/lala/lala.git
+git clone https://github.com/JonusNattapong/lala.git
 cd lala
 ```
 

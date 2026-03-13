@@ -7,7 +7,7 @@ title: "Podman"
 
 # Podman
 
-Run the Lala gateway in a **rootless** Podman container. Uses the same image as Docker (build from the repo [Dockerfile](https://github.com/lala/lala/blob/main/Dockerfile)).
+Run the Lala gateway in a **rootless** Podman container. Uses the same image as Docker (build from the repo [Dockerfile](https://github.com/JonusNattapong/lala/blob/main/Dockerfile)).
 
 ## Requirements
 

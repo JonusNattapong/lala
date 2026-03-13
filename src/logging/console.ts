@@ -41,7 +41,9 @@ function normalizeConsoleLevel(level?: string): LogLevel {
   if (isVerbose()) {
     return "debug";
   }
-  if (!level && process.env.VITEST === "true" && process.env.OPENCLAW_TEST_CONSOLE !== "1") {
+  const isTestConsoleEnabled =
+    process.env.LALA_TEST_CONSOLE === "1" || process.env.OPENCLAW_TEST_CONSOLE === "1";
+  if (!level && process.env.VITEST === "true" && !isTestConsoleEnabled) {
     return "silent";
   }
   return normalizeLogLevel(level, "info");
@@ -61,9 +63,11 @@ function resolveConsoleSettings(): ConsoleSettings {
   const envLevel = resolveEnvLogLevelOverride();
   // Test runs default to silent console logging unless explicitly overridden.
   // Skip config-file and full config fallback reads in this fast path.
+  const isTestConsoleEnabled =
+    process.env.LALA_TEST_CONSOLE === "1" || process.env.OPENCLAW_TEST_CONSOLE === "1";
   if (
     process.env.VITEST === "true" &&
-    process.env.OPENCLAW_TEST_CONSOLE !== "1" &&
+    !isTestConsoleEnabled &&
     !isVerbose() &&
     !envLevel &&
     !loggingState.overrideSettings

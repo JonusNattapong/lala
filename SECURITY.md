@@ -6,10 +6,10 @@ If you believe you've found a security issue in Lala, please report it privately
 
 Report vulnerabilities directly to the repository where the issue lives:
 
-- **Core CLI and gateway** — [lala/lala](https://github.com/lala/lala)
-- **macOS desktop app** — [lala/lala](https://github.com/lala/lala) (apps/macos)
-- **iOS app** — [lala/lala](https://github.com/lala/lala) (apps/ios)
-- **Android app** — [lala/lala](https://github.com/lala/lala) (apps/android)
+- **Core CLI and gateway** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala)
+- **macOS desktop app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/macos)
+- **iOS app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/ios)
+- **Android app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/android)
 - **ClawHub** — [lala/clawhub](https://github.com/lala/clawhub)
 - **Trust and threat model** — [lala/trust](https://github.com/lala/trust)
 
@@ -273,7 +273,7 @@ Example secure Docker run:
 ```bash
 docker run --read-only --cap-drop=ALL \
   -v lala-data:/app/data \
-  lala/lala:latest
+  JonusNattapong/lala:latest
 ```
 
 ## Security Scanning

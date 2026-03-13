@@ -72,9 +72,9 @@
 <li>Security/system.run: bind approved <code>bun</code> and <code>deno run</code> script operands to on-disk file snapshots so post-approval script rewrites are denied before execution.</li>
 <li>Skills/download installs: pin the validated per-skill tools root before writing downloaded archives, so rebinding the lexical tools path cannot redirect download writes outside the intended tools directory. Thanks @tdjackey.</li>
 </ul>
-<p><a href="https://github.com/lala/lala/blob/main/CHANGELOG.md">View full changelog</a></p>
+<p><a href="https://github.com/JonusNattapong/lala/blob/main/CHANGELOG.md">View full changelog</a></p>
 ]]></description>
-            <enclosure url="https://github.com/lala/lala/releases/download/v2026.3.8-beta.1/Lala-2026.3.8-beta.1.zip" length="23407015" type="application/octet-stream" sparkle:edSignature="KCqhSmu4b0tHf55RqcQOHorsc55CgBI5BUmK/NTizxNq04INn/7QvsamHYQou9DbB2IW6B2nawBC4nn4au5yDA=="/>
+            <enclosure url="https://github.com/JonusNattapong/lala/releases/download/v2026.3.8-beta.1/Lala-2026.3.8-beta.1.zip" length="23407015" type="application/octet-stream" sparkle:edSignature="KCqhSmu4b0tHf55RqcQOHorsc55CgBI5BUmK/NTizxNq04INn/7QvsamHYQou9DbB2IW6B2nawBC4nn4au5yDA=="/>
         </item>
         <item>
             <title>2026.3.7</title>
@@ -434,9 +434,9 @@
 <li>ACPX/MCP session bootstrap: inject configured MCP servers into ACP <code>session/new</code> and <code>session/load</code> for acpx-backed sessions, restoring Canva and other external MCP tools. Landed from contributor PR #39337. Thanks @goodspeed-apps.</li>
 <li>Control UI/Telegram sender labels: preserve inbound sender labels in sanitized chat history so dashboard user-message groups split correctly and show real group-member names instead of <code>You</code>. (#39414) Thanks @obviyus.</li>
 </ul>
-<p><a href="https://github.com/lala/lala/blob/main/CHANGELOG.md">View full changelog</a></p>
+<p><a href="https://github.com/JonusNattapong/lala/blob/main/CHANGELOG.md">View full changelog</a></p>
 ]]></description>
-            <enclosure url="https://github.com/lala/lala/releases/download/v2026.3.7/Lala-2026.3.7.zip" length="23263833" type="application/octet-stream" sparkle:edSignature="SO0zedZMzrvSDltLkuaSVQTWFPPPe1iu/enS4TGGb5EGckhqRCmNJWMKNID5lKwFC8vefTbfG9JTlSrZedP4Bg=="/>
+            <enclosure url="https://github.com/JonusNattapong/lala/releases/download/v2026.3.7/Lala-2026.3.7.zip" length="23263833" type="application/octet-stream" sparkle:edSignature="SO0zedZMzrvSDltLkuaSVQTWFPPPe1iu/enS4TGGb5EGckhqRCmNJWMKNID5lKwFC8vefTbfG9JTlSrZedP4Bg=="/>
         </item>
         <item>
             <title>2026.3.2</title>
@@ -653,9 +653,9 @@
 <li>Tests/Windows backup rotation: skip chmod-only backup permission assertions on Windows while retaining compose/rotation/prune coverage across platforms to avoid false CI failures from Windows non-POSIX mode semantics. (#32286) Thanks @jalehman.</li>
 <li>Tests/Subagent announce: set <code>OPENCLAW_TEST_FAST=1</code> before importing <code>subagent-announce</code> format suites so module-level fast-mode constants are captured deterministically on Windows CI, preventing timeout flakes in nested completion announce coverage. (#31370) Thanks @zwffff.</li>
 </ul>
-<p><a href="https://github.com/lala/lala/blob/main/CHANGELOG.md">View full changelog</a></p>
+<p><a href="https://github.com/JonusNattapong/lala/blob/main/CHANGELOG.md">View full changelog</a></p>
 ]]></description>
-            <enclosure url="https://github.com/lala/lala/releases/download/v2026.3.2/Lala-2026.3.2.zip" length="23181513" type="application/octet-stream" sparkle:edSignature="THMgkcoMgz2vv5zse3Po3K7l3Or2RhBKurXZIi8iYVXN76yJy1YXAY6kXi6ovD+dbYn68JKYDIKA1Ya78bO7BQ=="/>
+            <enclosure url="https://github.com/JonusNattapong/lala/releases/download/v2026.3.2/Lala-2026.3.2.zip" length="23181513" type="application/octet-stream" sparkle:edSignature="THMgkcoMgz2vv5zse3Po3K7l3Or2RhBKurXZIi8iYVXN76yJy1YXAY6kXi6ovD+dbYn68JKYDIKA1Ya78bO7BQ=="/>
             <!-- pragma: allowlist secret -->
         </item>
     </channel>

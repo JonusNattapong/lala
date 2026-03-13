@@ -398,9 +398,12 @@ describe("runOnboardingWizard", () => {
     }
   });
 
-  it("resolves gateway.auth.password SecretRef for local onboarding probe", async () => {
-    const previous = process.env.OPENCLAW_GATEWAY_PASSWORD;
-    process.env.OPENCLAW_GATEWAY_PASSWORD = "gateway-ref-password"; // pragma: allowlist secret
+  it("resolves gateway.auth.password SecretRef for local onboarding probe with prioritized env", async () => {
+    const prevLala = process.env.LALA_GATEWAY_PASSWORD;
+    const prevOpenClaw = process.env.OPENCLAW_GATEWAY_PASSWORD;
+    process.env.LALA_GATEWAY_PASSWORD = "lala-ref-password"; // pragma: allowlist secret
+    process.env.OPENCLAW_GATEWAY_PASSWORD = "legacy-ref-password"; // pragma: allowlist secret
+
     probeGatewayReachable.mockClear();
     readConfigFileSnapshot.mockResolvedValueOnce({
       path: "/tmp/.lala/lala.json",
@@ -416,7 +419,7 @@ describe("runOnboardingWizard", () => {
             password: {
               source: "env",
               provider: "default",
-              id: "OPENCLAW_GATEWAY_PASSWORD",
+              id: "LALA_GATEWAY_PASSWORD",
             },
           },
         },
@@ -452,17 +455,22 @@ describe("runOnboardingWizard", () => {
         prompter,
       );
     } finally {
-      if (previous === undefined) {
+      if (prevLala === undefined) {
+        delete process.env.LALA_GATEWAY_PASSWORD;
+      } else {
+        process.env.LALA_GATEWAY_PASSWORD = prevLala;
+      }
+      if (prevOpenClaw === undefined) {
         delete process.env.OPENCLAW_GATEWAY_PASSWORD;
       } else {
-        process.env.OPENCLAW_GATEWAY_PASSWORD = previous;
+        process.env.OPENCLAW_GATEWAY_PASSWORD = prevOpenClaw;
       }
     }
 
     expect(probeGatewayReachable).toHaveBeenCalledWith(
       expect.objectContaining({
         url: "ws://127.0.0.1:18789",
-        password: "gateway-ref-password", // pragma: allowlist secret
+        password: "lala-ref-password", // pragma: allowlist secret
       }),
     );
   });

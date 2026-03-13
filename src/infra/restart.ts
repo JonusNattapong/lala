@@ -300,8 +300,8 @@ export function triggerLalaRestart(): RestartAttempt {
   const tried: string[] = [];
   if (process.platform === "linux") {
     const unit = normalizeSystemdUnit(
-      process.env.OPENCLAW_SYSTEMD_UNIT,
-      process.env.OPENCLAW_PROFILE,
+      process.env.LALA_SYSTEMD_UNIT ?? process.env.OPENCLAW_SYSTEMD_UNIT,
+      process.env.LALA_PROFILE ?? process.env.OPENCLAW_PROFILE,
     );
     const userArgs = ["--user", "restart", unit];
     tried.push(`systemctl ${userArgs.join(" ")}`);
@@ -341,8 +341,9 @@ export function triggerLalaRestart(): RestartAttempt {
   }
 
   const label =
-    process.env.OPENCLAW_LAUNCHD_LABEL ||
-    resolveGatewayLaunchAgentLabel(process.env.OPENCLAW_PROFILE);
+    process.env.LALA_LAUNCHD_LABEL ??
+    process.env.OPENCLAW_LAUNCHD_LABEL ??
+    resolveGatewayLaunchAgentLabel(process.env.LALA_PROFILE ?? process.env.OPENCLAW_PROFILE);
   const uid = typeof process.getuid === "function" ? process.getuid() : undefined;
   const domain = uid !== undefined ? `gui/${uid}` : "gui/501";
   const target = `${domain}/${label}`;

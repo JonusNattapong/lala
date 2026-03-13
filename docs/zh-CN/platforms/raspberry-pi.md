@@ -125,7 +125,7 @@ curl -fsSL https://lala.ai/install.sh | bash
 ### 选项 B：可修改安装（用于调试）
 
 ```bash
-git clone https://github.com/lala/lala.git
+git clone https://github.com/JonusNattapong/lala.git
 cd lala
 npm install
 npm run build

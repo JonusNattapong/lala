@@ -264,6 +264,7 @@ async function runAutoUpdateCommand(params: {
       }
     }
   }
+
   if (argv.length === 0) {
     argv.push("lala", ...baseArgs);
   }
@@ -272,6 +273,7 @@ async function runAutoUpdateCommand(params: {
     const res = await runCommandWithTimeout(argv, {
       timeoutMs: params.timeoutMs,
       env: {
+        LALA_AUTO_UPDATE: "1",
         OPENCLAW_AUTO_UPDATE: "1",
       },
     });

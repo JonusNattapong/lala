@@ -150,7 +150,7 @@ Running on a VPS? See [Hetzner (Docker VPS)](/install/hetzner).
 
 Official pre-built images are published at:
 
-- [GitHub Container Registry package](https://github.com/lala/lala/pkgs/container/lala)
+- [GitHub Container Registry package](https://github.com/JonusNattapong/lala/pkgs/container/lala)
 
 Use image name `ghcr.io/lala/lala` (not similarly named Docker Hub
 images).
@@ -172,7 +172,7 @@ and points at the pinned multi-arch manifest list for that tag):
 
 - `org.opencontainers.image.base.name=docker.io/library/node:24-bookworm`
 - `org.opencontainers.image.base.digest=sha256:3a09aa6354567619221ef6c45a5051b671f953f0a1924d1f819ffb236e520e6b`
-- `org.opencontainers.image.source=https://github.com/lala/lala`
+- `org.opencontainers.image.source=https://github.com/JonusNattapong/lala`
 - `org.opencontainers.image.url=https://lala.ai`
 - `org.opencontainers.image.documentation=https://docs.lala.ai/install/docker`
 - `org.opencontainers.image.licenses=MIT`
@@ -219,7 +219,7 @@ echo 'source ~/.clawdock/clawdock-helpers.sh' >> ~/.zshrc && source ~/.zshrc
 
 Then use `clawdock-start`, `clawdock-stop`, `clawdock-dashboard`, etc. Run `clawdock-help` for all commands.
 
-See [`ClawDock` Helper README](https://github.com/lala/lala/blob/main/scripts/shell-helpers/README.md) for details.
+See [`ClawDock` Helper README](https://github.com/JonusNattapong/lala/blob/main/scripts/shell-helpers/README.md) for details.
 
 ### Manual flow (compose)
 
@@ -833,7 +833,7 @@ Example:
 
 ## Troubleshooting
 
-- Image missing: build with [`scripts/sandbox-setup.sh`](https://github.com/lala/lala/blob/main/scripts/sandbox-setup.sh) or set `agents.defaults.sandbox.docker.image`.
+- Image missing: build with [`scripts/sandbox-setup.sh`](https://github.com/JonusNattapong/lala/blob/main/scripts/sandbox-setup.sh) or set `agents.defaults.sandbox.docker.image`.
 - Container not running: it will auto-create per session on demand.
 - Permission errors in sandbox: set `docker.user` to a UID:GID that matches your
   mounted workspace ownership (or chown the workspace folder).

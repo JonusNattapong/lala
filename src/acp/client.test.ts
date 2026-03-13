@@ -47,21 +47,24 @@ afterEach(async () => {
 });
 
 describe("resolveAcpClientSpawnEnv", () => {
-  it("sets OPENCLAW_SHELL marker and preserves existing env values", () => {
+  it("sets LALA_SHELL marker and preserves existing env values", () => {
     const env = resolveAcpClientSpawnEnv({
       PATH: "/usr/bin",
       USER: "lala",
     });
 
+    expect(env.LALA_SHELL).toBe("acp-client");
     expect(env.OPENCLAW_SHELL).toBe("acp-client");
     expect(env.PATH).toBe("/usr/bin");
     expect(env.USER).toBe("lala");
   });
 
-  it("overrides pre-existing OPENCLAW_SHELL to acp-client", () => {
+  it("overrides pre-existing LALA_SHELL to acp-client", () => {
     const env = resolveAcpClientSpawnEnv({
+      LALA_SHELL: "wrong",
       OPENCLAW_SHELL: "wrong",
     });
+    expect(env.LALA_SHELL).toBe("acp-client");
     expect(env.OPENCLAW_SHELL).toBe("acp-client");
   });
 
@@ -99,16 +102,18 @@ describe("resolveAcpClientSpawnEnv", () => {
     expect(baseEnv.OPENAI_API_KEY).toBe("openai-original");
   });
 
-  it("preserves OPENCLAW_SHELL even when stripKeys contains it", () => {
+  it("preserves LALA_SHELL even when stripKeys contains it", () => {
     const openAiApiKeyEnv = envVar("OPENAI", "API", "KEY");
     const env = resolveAcpClientSpawnEnv(
       {
+        LALA_SHELL: "skill-overridden",
         OPENCLAW_SHELL: "skill-overridden",
         [openAiApiKeyEnv]: "openai-leaked", // pragma: allowlist secret
       },
-      { stripKeys: new Set(["OPENCLAW_SHELL", openAiApiKeyEnv]) },
+      { stripKeys: new Set(["LALA_SHELL", "OPENCLAW_SHELL", openAiApiKeyEnv]) },
     );
 
+    expect(env.LALA_SHELL).toBe("acp-client");
     expect(env.OPENCLAW_SHELL).toBe("acp-client");
     expect(env.OPENAI_API_KEY).toBeUndefined();
   });
@@ -120,7 +125,8 @@ describe("resolveAcpClientSpawnEnv", () => {
         OPENAI_API_KEY: "openai-secret", // pragma: allowlist secret
         GITHUB_TOKEN: "gh-secret", // pragma: allowlist secret
         HF_TOKEN: "hf-secret", // pragma: allowlist secret
-        OPENCLAW_API_KEY: "keep-me",
+        LALA_API_KEY: "keep-me",
+        OPENCLAW_API_KEY: "keep-me-legacy",
         PATH: "/usr/bin",
       },
       { stripKeys },
@@ -129,8 +135,10 @@ describe("resolveAcpClientSpawnEnv", () => {
     expect(env.OPENAI_API_KEY).toBeUndefined();
     expect(env.GITHUB_TOKEN).toBeUndefined();
     expect(env.HF_TOKEN).toBeUndefined();
-    expect(env.OPENCLAW_API_KEY).toBe("keep-me");
+    expect(env.LALA_API_KEY).toBe("keep-me");
+    expect(env.OPENCLAW_API_KEY).toBe("keep-me-legacy");
     expect(env.PATH).toBe("/usr/bin");
+    expect(env.LALA_SHELL).toBe("acp-client");
     expect(env.OPENCLAW_SHELL).toBe("acp-client");
   });
 
@@ -139,14 +147,17 @@ describe("resolveAcpClientSpawnEnv", () => {
       {
         OpenAI_Api_Key: "openai-secret", // pragma: allowlist secret
         Github_Token: "gh-secret", // pragma: allowlist secret
-        OPENCLAW_API_KEY: "keep-me",
+        LALA_API_KEY: "keep-me",
+        OPENCLAW_API_KEY: "keep-me-legacy",
       },
       { stripKeys: new Set(["OPENAI_API_KEY", "GITHUB_TOKEN"]) },
     );
 
     expect(env.OpenAI_Api_Key).toBeUndefined();
     expect(env.Github_Token).toBeUndefined();
-    expect(env.OPENCLAW_API_KEY).toBe("keep-me");
+    expect(env.LALA_API_KEY).toBe("keep-me");
+    expect(env.OPENCLAW_API_KEY).toBe("keep-me-legacy");
+    expect(env.LALA_SHELL).toBe("acp-client");
     expect(env.OPENCLAW_SHELL).toBe("acp-client");
   });
 
@@ -155,13 +166,16 @@ describe("resolveAcpClientSpawnEnv", () => {
       OPENAI_API_KEY: "openai-secret", // pragma: allowlist secret
       GITHUB_TOKEN: "gh-secret", // pragma: allowlist secret
       HF_TOKEN: "hf-secret", // pragma: allowlist secret
-      OPENCLAW_API_KEY: "keep-me",
+      LALA_API_KEY: "keep-me",
+      OPENCLAW_API_KEY: "keep-me-legacy",
     });
 
     expect(env.OPENAI_API_KEY).toBe("openai-secret");
     expect(env.GITHUB_TOKEN).toBe("gh-secret");
     expect(env.HF_TOKEN).toBe("hf-secret");
-    expect(env.OPENCLAW_API_KEY).toBe("keep-me");
+    expect(env.LALA_API_KEY).toBe("keep-me");
+    expect(env.OPENCLAW_API_KEY).toBe("keep-me-legacy");
+    expect(env.LALA_SHELL).toBe("acp-client");
     expect(env.OPENCLAW_SHELL).toBe("acp-client");
   });
 });
@@ -224,6 +238,7 @@ describe("buildAcpClientStripKeys", () => {
     expect(stripKeys.has("OPENAI_API_KEY")).toBe(true);
     expect(stripKeys.has("GITHUB_TOKEN")).toBe(true);
     expect(stripKeys.has("HF_TOKEN")).toBe(true);
+    expect(stripKeys.has("LALA_API_KEY")).toBe(false);
     expect(stripKeys.has("OPENCLAW_API_KEY")).toBe(false);
   });
 });
