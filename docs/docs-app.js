@@ -215,7 +215,11 @@ function escapeHtml(value) {
 function renderMarkdown(markdown) {
   const rawHtmlBlocks = [];
   const normalizedMarkdown = markdown.replace(/\r\n/g, "\n");
-  const markdownWithHtmlPlaceholders = extractRawHtmlBlocks(normalizedMarkdown, rawHtmlBlocks);
+  const markdownWithMintlifyBlocks = transformMintlifyBlocks(normalizedMarkdown);
+  const markdownWithHtmlPlaceholders = extractRawHtmlBlocks(
+    markdownWithMintlifyBlocks,
+    rawHtmlBlocks,
+  );
   const escaped = escapeHtml(markdownWithHtmlPlaceholders);
   const blocks = [];
 
@@ -366,6 +370,42 @@ function extractRawHtmlBlocks(markdown, rawHtmlBlocks) {
     rawHtmlBlocks.push(sanitizeTrustedHtml(htmlBlock.trim()));
     return `${leading}\n__HTML_BLOCK_${index}__\n`;
   });
+}
+
+function transformMintlifyBlocks(markdown) {
+  return markdown.replace(/<Columns>([\s\S]*?)<\/Columns>/gi, (_match, content) => {
+    const cards = [...content.matchAll(/<Card\b([\s\S]*?)>([\s\S]*?)<\/Card>/gi)];
+    if (cards.length === 0) {
+      return content;
+    }
+    const rendered = cards
+      .map((cardMatch) => {
+        const attrs = cardMatch[1] ?? "";
+        const body = (cardMatch[2] ?? "").trim();
+        const title = extractAttribute(attrs, "title");
+        const icon = extractAttribute(attrs, "icon");
+        const description = renderInline(body.replace(/\n+/g, " ").trim());
+        const iconBadge = icon
+          ? `<span class="mint-card__icon" aria-hidden="true">${escapeHtml(icon.slice(0, 1).toUpperCase())}</span>`
+          : "";
+        const heading = title ? `<h3>${escapeHtml(title)}</h3>` : "";
+        return `
+<div class="feature-card mint-card">
+  <div class="mint-card__header">
+    ${iconBadge}
+    ${heading}
+  </div>
+  <p>${description}</p>
+</div>`.trim();
+      })
+      .join("\n");
+    return `\n<div class="feature-grid">\n${rendered}\n</div>\n`;
+  });
+}
+
+function extractAttribute(attrs, name) {
+  const match = attrs.match(new RegExp(`${name}\\s*=\\s*"([^"]*)"`, "i"));
+  return match?.[1]?.trim() ?? "";
 }
 
 function restoreHtmlBlocks(text, rawHtmlBlocks) {
