@@ -8,16 +8,9 @@ summary: "Lala is a multi-channel gateway for AI agents that runs on any OS."
 
 <p align="center">
     <img
-        src="/assets/lala-logo-text-dark.png"
+        src="/assets/lala-bg.png"
         alt="Lala"
         width="500"
-        class="dark:hidden"
-    />
-    <img
-        src="/assets/lala-logo-text.png"
-        alt="Lala"
-        width="500"
-        class="hidden dark:block"
     />
 </p>
 
