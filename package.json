@@ -261,7 +261,7 @@
     "@vitest/coverage-v8": "^4.0.18",
     "jscpd": "4.0.8",
     "lit": "^3.3.2",
-    "mint": "^14.8.0",
+    "mint": "^4.2.429",
     "oxfmt": "0.38.0",
     "oxlint": "^1.53.0",
     "oxlint-tsgolint": "^0.16.0",
