@@ -1,4 +1,5 @@
-const manifestUrl = new URL("./docs-manifest.json", window.location.href);
+const appBaseUrl = new URL("./", window.location.href);
+const manifestUrl = new URL("./docs-manifest.json", appBaseUrl);
 const contentEl = document.getElementById("docs-content");
 const titleEl = document.getElementById("doc-title");
 const pathPillEl = document.getElementById("doc-path-pill");
@@ -68,7 +69,7 @@ async function openDoc(path) {
   renderNav();
   sidebarEl.classList.remove("docs-sidebar--open");
 
-  const url = new URL(path, window.location.href);
+  const url = new URL(path, appBaseUrl);
   const response = await fetch(url);
   if (!response.ok) {
     contentEl.innerHTML = "";
@@ -327,7 +328,7 @@ function renderInline(text) {
   });
   
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, href) => {
-    const src = new URL(href, window.location.href).toString();
+    const src = new URL(href, appBaseUrl).toString();
     return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}">`;
   });
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label, href) => {
