@@ -1,0 +1,35 @@
+theme: jekyll-theme-minimal
+title: Lala Documentation
+description: Self-hosted gateway for AI agents across messaging platforms
+baseurl: "/lala"
+url: "https://jonusnattapong.github.io"
+
+# Enable Markdown processing with GitHub Flavored Markdown
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Exclude files from processing
+exclude:
+  - package.json
+  - package-lock.json
+  - node_modules/
+  - .git/
+  - .gitignore
+  - docs.json
+  - .i18n/
+  - assets/src/
+
+# Include folders
+include:
+  - _pages
+
+# Default values
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
