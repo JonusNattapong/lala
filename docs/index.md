@@ -14,7 +14,7 @@ summary: "Lala is a multi-channel gateway for AI agents that runs on any OS."
     />
 </p>
 
-> _"EXFOLIATE! EXFOLIATE!"_ — A space lobster, probably
+<p align="center">_"EXFOLIATE! EXFOLIATE!"_ — A space lobster, probably</p>
 
 <p align="center">
   <strong>Any OS gateway for AI agents across WhatsApp, Telegram, Discord, iMessage, and more.</strong><br />

@@ -245,6 +245,12 @@ function renderBlock(chunk) {
   if (!chunk) {
     return "";
   }
+  
+  // Skip processing HTML blocks - they'll be restored later
+  if (/^__HTML_BLOCK_\d+__$/.test(chunk)) {
+    return chunk;
+  }
+  
   if (/^#{1,6}\s/m.test(chunk) && !chunk.includes("\n")) {
     const [, hashes, content] = chunk.match(/^(#{1,6})\s+(.*)$/) || [];
     if (hashes && content) {
@@ -267,9 +273,6 @@ function renderBlock(chunk) {
   }
   if (/^(-{3,}|\*{3,})$/.test(chunk)) {
     return "<hr>";
-  }
-  if (/^__BLOCK_\d+__$/.test(chunk)) {
-    return chunk;
   }
   return `<p>${renderInline(chunk.replace(/\n/g, "<br>"))}</p>`;
 }
@@ -363,8 +366,8 @@ function restoreBlocks(text, blocks) {
 }
 
 function extractRawHtmlBlocks(markdown, rawHtmlBlocks) {
-  const blockPattern =
-    /(^|\n)(<(?:p|div|table)\b[\s\S]*?<\/(?:p|div|table)>|<img\b[\s\S]*?\/?>)(?=\n|$)/gi;
+  // Match complete HTML blocks including nested content
+  const blockPattern = /(^|\n)(<(?:p|div|table)\b[^>]*>[\s\S]*?<\/(?:p|div|table)>|<img\b[^>]*\/?>)(?=\n|$)/gi;
   return markdown.replace(blockPattern, (match, leading, htmlBlock) => {
     const index = rawHtmlBlocks.length;
     rawHtmlBlocks.push(sanitizeTrustedHtml(htmlBlock.trim()));
@@ -409,9 +412,8 @@ function extractAttribute(attrs, name) {
 }
 
 function restoreHtmlBlocks(text, rawHtmlBlocks) {
-  return text.replace(/<p>__HTML_BLOCK_(\d+)__<\/p>|__HTML_BLOCK_(\d+)__/g, (_match, wrapped, bare) => {
-    const index = Number(wrapped ?? bare);
-    return rawHtmlBlocks[index] ?? "";
+  return text.replace(/__HTML_BLOCK_(\d+)__/g, (_match, index) => {
+    return rawHtmlBlocks[Number(index)] ?? "";
   });
 }
 
