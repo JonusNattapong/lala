@@ -39,11 +39,11 @@ LAUNCH_SCRIPT="$OPENCLAW_HOME/run-lala-podman.sh"
 if [[ "${1:-}" == "setup-host" ]]; then
   shift
   REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-  SETUP_PODMAN="$REPO_ROOT/setup-podman.sh"
+  SETUP_PODMAN="$REPO_ROOT/infrastructure/podman/setup-podman.sh"
   if [[ -f "$SETUP_PODMAN" ]]; then
     exec "$SETUP_PODMAN" "$@"
   fi
-  echo "setup-podman.sh not found at $SETUP_PODMAN. Run from repo root: ./setup-podman.sh" >&2
+  echo "setup-podman.sh not found at $SETUP_PODMAN. Run from repo root: ./infrastructure/podman/setup-podman.sh" >&2
   exit 1
 fi
 
@@ -228,4 +228,4 @@ podman run --pull="$PODMAN_PULL" -d --replace \
 
 echo "Container $CONTAINER_NAME started. Dashboard: http://127.0.0.1:${HOST_GATEWAY_PORT}/"
 echo "Logs: podman logs -f $CONTAINER_NAME"
-echo "For auto-start/restarts, use: ./setup-podman.sh --quadlet (Quadlet + systemd user service)."
+echo "For auto-start/restarts, use: ./infrastructure/podman/setup-podman.sh --quadlet (Quadlet + systemd user service)."

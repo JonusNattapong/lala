@@ -16,7 +16,7 @@
 set -euo pipefail
 
 OPENCLAW_USER="${OPENCLAW_PODMAN_USER:-lala}"
-REPO_PATH="${OPENCLAW_REPO_PATH:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+REPO_PATH="${OPENCLAW_REPO_PATH:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 RUN_SCRIPT_SRC="$REPO_PATH/scripts/run-lala-podman.sh"
 QUADLET_TEMPLATE="$REPO_PATH/scripts/podman/lala.container.in"
 

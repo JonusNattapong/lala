@@ -104,6 +104,7 @@ jobs:
         uses: useblacksmith/build-push-action@v2
         with:
           context: .
+          file: infrastructure/docker/Dockerfile
           platforms: linux/amd64
           tags: ${{ steps.tags.outputs.value }}
           labels: ${{ steps.labels.outputs.value }}
@@ -115,6 +116,7 @@ jobs:
         uses: useblacksmith/build-push-action@v2
         with:
           context: .
+          file: infrastructure/docker/Dockerfile
           platforms: linux/amd64
           build-args: |
             OPENCLAW_VARIANT=slim
@@ -205,6 +207,7 @@ jobs:
         uses: useblacksmith/build-push-action@v2
         with:
           context: .
+          file: infrastructure/docker/Dockerfile
           platforms: linux/arm64
           tags: ${{ steps.tags.outputs.value }}
           labels: ${{ steps.labels.outputs.value }}
@@ -216,6 +219,7 @@ jobs:
         uses: useblacksmith/build-push-action@v2
         with:
           context: .
+          file: infrastructure/docker/Dockerfile
           platforms: linux/arm64
           build-args: |
             OPENCLAW_VARIANT=slim
