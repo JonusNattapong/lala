@@ -1,0 +1,71 @@
+---
+layout: default
+title: "Gateway Runbook"
+---
+
+# 🌉 Gateway Runbook
+
+Use this page for day-1 startup and day-2 operations of the Gateway service.
+
+<div class="feature-grid">
+
+<div class="feature-card">
+<h3><a href="/gateway/configuration">⚙️ Configuration</a></h3>
+<p>Complete Gateway configuration reference and examples.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/gateway/troubleshooting">🔧 Troubleshooting</a></h3>
+<p>Deep troubleshooting with exact command ladders and log signatures.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/gateway/security">🛡️ Security</a></h3>
+<p>Tokens, allowlists, and safety controls.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/gateway/remote">🌐 Remote Access</a></h3>
+<p>SSH and tailnet access patterns.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/gateway/doctor">🩺 Doctor</a></h3>
+<p>Gateway diagnostics and health checks.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/gateway/logging">📝 Logging</a></h3>
+<p>Configure and analyze Gateway logs.</p>
+</div>
+
+</div>
+
+## Quick commands
+
+### Start Gateway
+```bash
+lala gateway --port 18789
+```
+
+### Check status
+```bash
+lala channels status
+```
+
+### View logs
+```bash
+lala logs --follow
+```
+
+### Configuration location
+```
+~/.lala/lala.json
+```
+
+## Common tasks
+
+- **Add a new channel**: `lala channels login`
+- **Test connection**: `lala channels status --probe`
+- **Restart service**: `lala restart`
+- **Update configuration**: Edit `~/.lala/lala.json` then restart

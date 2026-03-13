@@ -1,0 +1,71 @@
+---
+layout: default
+title: "Help & Support"
+---
+
+# 🆘 Help & Support
+
+If you want a quick "get unstuck" flow, start here:
+
+<div class="feature-grid">
+
+<div class="feature-card">
+<h3><a href="/help/troubleshooting">🔧 Troubleshooting</a></h3>
+<p>Start here for common issues and quick fixes.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/help/faq">❓ FAQ</a></h3>
+<p>Frequently asked questions and answers.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/help/debugging">🔍 Debugging</a></h3>
+<p>Debug common issues with step-by-step guides.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/help/testing">🧪 Testing</a></h3>
+<p>Test your Lala setup and configuration.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/help/environment">🌍 Environment</a></h3>
+<p>Environment setup and variables.</p>
+</div>
+
+<div class="feature-card">
+<h3><a href="/help/scripts">📜 Scripts</a></h3>
+<p>Helpful scripts and automation.</p>
+</div>
+
+</div>
+
+## Quick fixes
+
+### Installation issues
+- Check Node version: `node --version` (needs 22.16+)
+- Clear npm cache: `npm cache clean --force`
+- Reinstall: `npm uninstall -g lala && npm install -g lala@latest`
+
+### Gateway won't start
+- Check configuration: `lala config validate`
+- View logs: `lala logs --follow`
+- Check ports: `lsof -i :18789`
+
+### Channel connection problems
+- Test connection: `lala channels status --probe`
+- Re-authenticate: `lala channels login`
+- Check logs for specific channel errors
+
+## Getting help
+
+- **GitHub Issues**: [Create an issue](https://github.com/JonusNattapong/lala/issues)
+- **Discord Community**: Join our Discord server
+- **Documentation**: [Full docs](/docs)
+
+## Common error messages
+
+- `EADDRINUSE`: Port already in use - change port or kill existing process
+- `AUTH_FAILED`: Channel authentication failed - re-login with `lala channels login`
+- `CONFIG_INVALID`: Configuration error - run `lala config validate`

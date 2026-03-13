@@ -1,0 +1,64 @@
+---
+layout: default
+title: "Chat Channels"
+---
+
+# Chat Channels
+
+Lala can talk to you on any chat app you already use. Each channel connects via the Gateway.
+Text is supported everywhere; media and reactions vary by channel.
+
+## Supported channels
+
+- [Discord](/channels/discord) — Discord Bot API + Gateway; supports servers, channels, and DMs.
+- [LINE](/channels/line) — LINE Messaging API; supports 1-on-1 and group chats.
+- [Telegram](/channels/telegram) — Telegram Bot API; supports commands, media, and inline modes.
+
+## Channel features
+
+- **Multi-channel support**: Run multiple channels simultaneously
+- **Media handling**: Send and receive images, audio, documents
+- **Group chat support**: Configure group message handling
+- **Security**: Allowlists and mention requirements for groups
+
+## Quick setup
+
+1. **Install Lala**
+   ```bash
+   npm install -g lala@latest
+   ```
+
+2. **Configure your channel**
+   ```bash
+   lala channels login
+   ```
+
+3. **Start the Gateway**
+   ```bash
+   lala gateway --port 18789
+   ```
+
+## Configuration example
+
+```json5
+{
+  channels: {
+    discord: {
+      allowFrom: ["server-id"],
+      groups: { "*": { requireMention: true } }
+    },
+    telegram: {
+      allowFrom: ["@username"],
+      groups: { "*": { requireMention: false } }
+    }
+  }
+}
+```
+
+## Next steps
+
+- [Discord setup](/channels/discord)
+- [Telegram setup](/channels/telegram)
+- [LINE setup](/channels/line)
+- [Group message configuration](/channels/groups)
+- [Troubleshooting](/channels/troubleshooting)
