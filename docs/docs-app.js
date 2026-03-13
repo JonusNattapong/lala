@@ -213,7 +213,10 @@ function escapeHtml(value) {
 }
 
 function renderMarkdown(markdown) {
-  const escaped = escapeHtml(markdown.replace(/\r\n/g, "\n"));
+  const rawHtmlBlocks = [];
+  const normalizedMarkdown = markdown.replace(/\r\n/g, "\n");
+  const markdownWithHtmlPlaceholders = extractRawHtmlBlocks(normalizedMarkdown, rawHtmlBlocks);
+  const escaped = escapeHtml(markdownWithHtmlPlaceholders);
   const blocks = [];
 
   let text = escaped.replace(/```([\w-]*)\n([\s\S]*?)```/g, (_match, lang, code) => {
@@ -231,7 +234,7 @@ function renderMarkdown(markdown) {
     .filter(Boolean)
     .join("\n");
 
-  return restoreBlocks(text, blocks);
+  return restoreHtmlBlocks(restoreBlocks(text, blocks), rawHtmlBlocks);
 }
 
 function renderBlock(chunk) {
@@ -346,4 +349,74 @@ function renderInline(text) {
 
 function restoreBlocks(text, blocks) {
   return text.replace(/__BLOCK_(\d+)__/g, (_match, index) => blocks[Number(index)] ?? "");
+}
+
+function extractRawHtmlBlocks(markdown, rawHtmlBlocks) {
+  return markdown.replace(
+    /<(div|p|img|strong|em|a|h1|h2|h3|h4|h5|h6|br)([\s\S]*?)>([\s\S]*?)<\/\1>|<(img|br)([\s\S]*?)\/?>/gi,
+    (match) => {
+      const index = rawHtmlBlocks.length;
+      rawHtmlBlocks.push(sanitizeTrustedHtml(match));
+      return `\n\n__HTML_BLOCK_${index}__\n\n`;
+    },
+  );
+}
+
+function restoreHtmlBlocks(text, rawHtmlBlocks) {
+  return text.replace(/<p>__HTML_BLOCK_(\d+)__<\/p>|__HTML_BLOCK_(\d+)__/g, (_match, wrapped, bare) => {
+    const index = Number(wrapped ?? bare);
+    return rawHtmlBlocks[index] ?? "";
+  });
+}
+
+function sanitizeTrustedHtml(html) {
+  const template = document.createElement("template");
+  template.innerHTML = html;
+  const allowedTags = new Set([
+    "A",
+    "BR",
+    "CODE",
+    "DIV",
+    "EM",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "IMG",
+    "P",
+    "STRONG",
+  ]);
+  const allowedAttrs = new Set(["alt", "align", "class", "href", "src", "target", "rel", "width"]);
+
+  for (const element of template.content.querySelectorAll("*")) {
+    if (!allowedTags.has(element.tagName)) {
+      element.replaceWith(document.createTextNode(element.outerHTML));
+      continue;
+    }
+    for (const attr of [...element.attributes]) {
+      if (!allowedAttrs.has(attr.name.toLowerCase())) {
+        element.removeAttribute(attr.name);
+      }
+    }
+    if (element instanceof HTMLAnchorElement) {
+      const href = element.getAttribute("href") ?? "";
+      const resolved = resolveDocHref(href);
+      if (resolved.kind === "doc") {
+        element.setAttribute("href", `#${encodeURIComponent(resolved.path)}`);
+        element.removeAttribute("target");
+        element.removeAttribute("rel");
+      } else {
+        element.setAttribute("target", "_blank");
+        element.setAttribute("rel", "noreferrer");
+      }
+    }
+    if (element instanceof HTMLImageElement) {
+      const src = element.getAttribute("src") ?? "";
+      element.setAttribute("src", new URL(src, appBaseUrl).toString());
+    }
+  }
+
+  return template.innerHTML;
 }
