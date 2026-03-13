@@ -352,14 +352,13 @@ function restoreBlocks(text, blocks) {
 }
 
 function extractRawHtmlBlocks(markdown, rawHtmlBlocks) {
-  return markdown.replace(
-    /<(div|p|img|strong|em|a|h1|h2|h3|h4|h5|h6|br)([\s\S]*?)>([\s\S]*?)<\/\1>|<(img|br)([\s\S]*?)\/?>/gi,
-    (match) => {
-      const index = rawHtmlBlocks.length;
-      rawHtmlBlocks.push(sanitizeTrustedHtml(match));
-      return `\n\n__HTML_BLOCK_${index}__\n\n`;
-    },
-  );
+  const blockPattern =
+    /(^|\n)(<(?:p|div)\b[\s\S]*?<\/(?:p|div)>|<img\b[\s\S]*?\/?>)(?=\n|$)/gi;
+  return markdown.replace(blockPattern, (match, leading, htmlBlock) => {
+    const index = rawHtmlBlocks.length;
+    rawHtmlBlocks.push(sanitizeTrustedHtml(htmlBlock.trim()));
+    return `${leading}\n__HTML_BLOCK_${index}__\n`;
+  });
 }
 
 function restoreHtmlBlocks(text, rawHtmlBlocks) {
