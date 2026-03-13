@@ -28,17 +28,20 @@ summary: "Lala is a multi-channel gateway for AI agents that runs on any OS."
   Send a message, get an agent response from your pocket. Plugins add Mattermost and more.
 </p>
 
-<Columns>
-  <Card title="Get Started" href="/start/getting-started" icon="rocket">
-    Install Lala and bring up the Gateway in minutes.
-  </Card>
-  <Card title="Run the Wizard" href="/start/wizard" icon="sparkles">
-    Guided setup with `lala onboard` and pairing flows.
-  </Card>
-  <Card title="Open the Control UI" href="/web/control-ui" icon="layout-dashboard">
-    Launch the browser dashboard for chat, config, and sessions.
-  </Card>
-</Columns>
+<div class="feature-grid">
+<div class="feature-card">
+<h3><a href="/start/getting-started">Get Started</a></h3>
+<p>Install Lala and bring up the Gateway in minutes.</p>
+</div>
+<div class="feature-card">
+<h3><a href="/start/wizard">Run the Wizard</a></h3>
+<p>Guided setup with <code>lala onboard</code> and pairing flows.</p>
+</div>
+<div class="feature-card">
+<h3><a href="/web/control-ui">Open the Control UI</a></h3>
+<p>Launch the browser dashboard for chat, config, and sessions.</p>
+</div>
+</div>
 
 ## What is Lala?
 
@@ -57,15 +60,9 @@ Lala is a **self-hosted gateway** that connects your favorite chat apps — What
 
 ## How it works
 
-```mermaid
-flowchart LR
-  A["Chat apps + plugins"] --> B["Gateway"]
-  B --> C["Pi agent"]
-  B --> D["CLI"]
-  B --> E["Web Control UI"]
-  B --> F["macOS app"]
-  B --> G["iOS and Android nodes"]
-```
+1. Chat apps and plugins send messages into the Gateway.
+2. The Gateway routes requests to agents, tools, CLI flows, and the web UI.
+3. Sessions, routing, and channel connections stay centralized in one place.
 
 The Gateway is the single source of truth for sessions, routing, and channel connections.
 
@@ -114,24 +111,24 @@ The Gateway is the single source of truth for sessions, routing, and channel con
 
 ## Quick start
 
-<Steps>
-  <Step title="Install Lala">
-    ```bash
-    npm install -g lala@latest
-    ```
-  </Step>
-  <Step title="Onboard and install the service">
-    ```bash
-    lala onboard --install-daemon
-    ```
-  </Step>
-  <Step title="Pair WhatsApp and start the Gateway">
-    ```bash
-    lala channels login
-    lala gateway --port 18789
-    ```
-  </Step>
-</Steps>
+1. Install Lala
+
+```bash
+npm install -g lala@latest
+```
+
+2. Onboard and install the service
+
+```bash
+lala onboard --install-daemon
+```
+
+3. Pair WhatsApp and start the Gateway
+
+```bash
+lala channels login
+lala gateway --port 18789
+```
 
 Need the full install and dev setup? See [Quick start](/start/quickstart).
 
