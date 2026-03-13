@@ -5,15 +5,8 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const DOCS_DIR = path.join(ROOT, "docs");
-const DOCS_JSON_PATH = path.join(DOCS_DIR, "docs.json");
-
 if (!fs.existsSync(DOCS_DIR) || !fs.statSync(DOCS_DIR).isDirectory()) {
   console.error("docs:check-links: missing docs directory; run from repo root.");
-  process.exit(1);
-}
-
-if (!fs.existsSync(DOCS_JSON_PATH)) {
-  console.error("docs:check-links: missing docs/docs.json.");
   process.exit(1);
 }
 
@@ -52,12 +45,15 @@ function stripInlineCode(text) {
   return text.replace(/`[^`]+`/g, "");
 }
 
-const docsConfig = JSON.parse(fs.readFileSync(DOCS_JSON_PATH, "utf8"));
 const redirects = new Map();
-for (const item of docsConfig.redirects || []) {
-  const source = normalizeRoute(String(item.source || ""));
-  const destination = normalizeRoute(String(item.destination || ""));
-  redirects.set(source, destination);
+const redirectsPath = path.join(DOCS_DIR, "_redirects.json");
+if (fs.existsSync(redirectsPath)) {
+  const redirectsConfig = JSON.parse(fs.readFileSync(redirectsPath, "utf8"));
+  for (const item of redirectsConfig.redirects || []) {
+    const source = normalizeRoute(String(item.source || ""));
+    const destination = normalizeRoute(String(item.destination || ""));
+    redirects.set(source, destination);
+  }
 }
 
 const allFiles = walk(DOCS_DIR);
@@ -176,8 +172,7 @@ for (const abs of markdownFiles) {
             continue;
           }
         }
-        // Skip anchor validation - Mintlify generates anchors from MDX components,
-        // accordions, and config schemas that we can't reliably extract from markdown.
+        // Skip anchor validation because generated HTML anchors may differ from raw markdown.
         continue;
       }
 

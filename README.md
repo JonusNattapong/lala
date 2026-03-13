@@ -11,7 +11,6 @@
 <p align="center">
   <a href="https://github.com/JonusNattapong/lala/actions"><img src="https://img.shields.io/github/actions/workflow/status/JonusNattapong/lala/ci.yml?branch=main&style=for-the-badge" alt="CI Status"></a>
   <a href="https://github.com/JonusNattapong/lala/releases"><img src="https://img.shields.io/github/v/release/JonusNattapong/lala?include_prereleases&style=for-the-badge" alt="Release"></a>
-  <a href="https://docs.lala.ai"><img src="https://img.shields.io/badge/Docs-Mintlify-blue?style=for-the-badge" alt="Docs"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="MIT License"></a>
 </p>
 
