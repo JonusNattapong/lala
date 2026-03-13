@@ -71,26 +71,46 @@ The Gateway is the single source of truth for sessions, routing, and channel con
 
 ## Key capabilities
 
-<Columns>
-  <Card title="Multi-channel gateway" icon="network">
-    WhatsApp, Telegram, Discord, and iMessage with a single Gateway process.
-  </Card>
-  <Card title="Plugin channels" icon="plug">
-    Add Mattermost and more with extension packages.
-  </Card>
-  <Card title="Multi-agent routing" icon="route">
-    Isolated sessions per agent, workspace, or sender.
-  </Card>
-  <Card title="Media support" icon="image">
-    Send and receive images, audio, and documents.
-  </Card>
-  <Card title="Web Control UI" icon="monitor">
-    Browser dashboard for chat, config, sessions, and nodes.
-  </Card>
-  <Card title="Mobile nodes" icon="smartphone">
-    Pair iOS and Android nodes for Canvas, camera, and voice-enabled workflows.
-  </Card>
-</Columns>
+<div class="feature-grid">
+
+<div class="feature-card">
+<h3>🚀 Multi-channel gateway</h3>
+<p>WhatsApp, Telegram, Discord, and iMessage with a single Gateway process.</p>
+</div>
+
+<div class="feature-card">
+<h3>🔌 Plugin channels</h3>
+<p>Add Mattermost and more with extension packages.</p>
+</div>
+
+<div class="feature-card">
+<h3>🎯 Multi-agent routing</h3>
+<p>Isolated sessions per agent, workspace, or sender.</p>
+</div>
+
+<div class="feature-card">
+<h3>📎 Media support</h3>
+<p>Send and receive images, audio, and documents.</p>
+</div>
+
+<div class="feature-card">
+<h3>🖥️ Web Control UI</h3>
+<p>Browser dashboard for chat, config, sessions, and nodes.</p>
+</div>
+
+<div class="feature-card">
+<h3>📱 Mobile nodes</h3>
+<p>Pair iOS and Android nodes for Canvas, camera, and voice-enabled workflows.</p>
+</div>
+
+</div>
+
+<div class="cta-section">
+<div class="cta-content">
+<h3>🚀 Ready to get started?</h3>
+<p>Check out the <a href="https://github.com/JonusNattapong/lala">GitHub repository</a> to install Lala and join our community!</p>
+</div>
+</div>
 
 ## Quick start
 
