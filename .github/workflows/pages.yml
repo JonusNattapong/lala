@@ -40,7 +40,7 @@ jobs:
       - name: Build docs with Mintlify
         run: |
           cd docs
-          pnpm mint build
+          npx mint build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
