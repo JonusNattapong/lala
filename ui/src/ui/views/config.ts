@@ -508,7 +508,7 @@ function renderDiffValue(path: string, value: unknown, _uiHints: ConfigUiHints):
 
 type ThemeOption = { id: ThemeName; label: string; description: string; icon: TemplateResult };
 const THEME_OPTIONS: ThemeOption[] = [
-  { id: "claw", label: "Claw", description: "Chroma family", icon: icons.zap },
+  { id: "lala", label: "LaLa", description: "Chroma family", icon: icons.zap },
   { id: "knot", label: "Knot", description: "Knot family", icon: icons.link },
   { id: "dash", label: "Dash", description: "Field family", icon: icons.barChart },
 ];

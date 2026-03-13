@@ -26,11 +26,17 @@ function resolveGuiDomain(): string {
 }
 
 function resolveLaunchAgentLabel(env?: Record<string, string | undefined>): string {
-  const envLabel = env?.OPENCLAW_LAUNCHD_LABEL?.trim();
+  const envLabel = (
+    env?.LALA_LAUNCHD_LABEL ??
+    env?.LALABOT_LAUNCHD_LABEL ??
+    env?.OPENCLAW_LAUNCHD_LABEL
+  )?.trim();
   if (envLabel) {
     return envLabel;
   }
-  return resolveGatewayLaunchAgentLabel(env?.OPENCLAW_PROFILE);
+  return resolveGatewayLaunchAgentLabel(
+    env?.LALA_PROFILE ?? env?.LALABOT_PROFILE ?? env?.OPENCLAW_PROFILE,
+  );
 }
 
 export function resolveLaunchdRestartTarget(
@@ -57,7 +63,11 @@ export function isCurrentProcessLaunchdServiceLabel(
   if (launchdLabel) {
     return launchdLabel === label;
   }
-  const configuredLabel = env.OPENCLAW_LAUNCHD_LABEL?.trim();
+  const configuredLabel = (
+    env.LALA_LAUNCHD_LABEL ??
+    env.LALABOT_LAUNCHD_LABEL ??
+    env.OPENCLAW_LAUNCHD_LABEL
+  )?.trim();
   return Boolean(configuredLabel && configuredLabel === label);
 }
 

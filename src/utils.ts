@@ -299,7 +299,10 @@ export function resolveConfigDir(
   homedir: () => string = os.homedir,
 ): string {
   const override =
-    env.LALA_STATE_DIR?.trim() || env.OPENCLAW_STATE_DIR?.trim() || env.CLAWDBOT_STATE_DIR?.trim();
+    env.LALA_STATE_DIR?.trim() ||
+    env.LALABOT_STATE_DIR?.trim() ||
+    env.OPENCLAW_STATE_DIR?.trim() ||
+    env.CLAWDBOT_STATE_DIR?.trim();
   if (override) {
     return resolveUserPath(override, env, homedir);
   }
@@ -324,9 +327,17 @@ function resolveHomeDisplayPrefix(): { home: string; prefix: string } | undefine
   if (!home) {
     return undefined;
   }
-  const explicitHome = (process.env.LALA_HOME ?? process.env.OPENCLAW_HOME)?.trim();
+  const explicitHome = (
+    process.env.LALA_HOME ??
+    process.env.LALABOT_HOME ??
+    process.env.OPENCLAW_HOME
+  )?.trim();
   if (explicitHome) {
-    const prefix = process.env.LALA_HOME?.trim() ? "$LALA_HOME" : "$OPENCLAW_HOME";
+    const prefix = process.env.LALA_HOME?.trim()
+      ? "$LALA_HOME"
+      : process.env.LALABOT_HOME?.trim()
+        ? "$LALABOT_HOME"
+        : "$OPENCLAW_HOME";
     return { home, prefix };
   }
   return { home, prefix: "~" };

@@ -357,7 +357,7 @@ export async function finalizeOnboardingWizard(
     await prompter.note(
       [
         "Gateway token: shared auth for the Gateway + Control UI.",
-        "Stored in: ~/.lala/lala.json (gateway.auth.token) or LALA_GATEWAY_TOKEN / OPENCLAW_GATEWAY_TOKEN.",
+        "Stored in: ~/.lala/lala.json (gateway.auth.token) or LALA_GATEWAY_TOKEN (legacy: OPENCLAW_GATEWAY_TOKEN).",
         `View token: ${formatCliCommand("lala config get gateway.auth.token")}`,
         `Generate token: ${formatCliCommand("lala doctor --generate-gateway-token")}`,
         "Web UI keeps dashboard URL tokens in memory for the current tab and strips them from the URL after load.",

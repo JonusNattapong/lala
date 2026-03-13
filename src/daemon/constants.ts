@@ -10,12 +10,20 @@ export const NODE_WINDOWS_TASK_NAME = "Lala Node";
 export const NODE_SERVICE_MARKER = "lala";
 export const NODE_SERVICE_KIND = "node";
 export const NODE_WINDOWS_TASK_SCRIPT_NAME = "node.cmd";
-export const LEGACY_GATEWAY_LAUNCH_AGENT_LABELS: string[] = [];
+export const LEGACY_GATEWAY_LAUNCH_AGENT_LABELS: string[] = [
+  "ai.openclaw.gateway",
+  "ai.lalabot.gateway",
+];
 export const LEGACY_GATEWAY_SYSTEMD_SERVICE_NAMES: string[] = [
+  "openclaw-gateway",
+  "lalabot-gateway",
   "clawdbot-gateway",
   "moltbot-gateway",
 ];
-export const LEGACY_GATEWAY_WINDOWS_TASK_NAMES: string[] = [];
+export const LEGACY_GATEWAY_WINDOWS_TASK_NAMES: string[] = [
+  "OpenClaw Gateway",
+  "Lalabot Gateway",
+];
 
 export function normalizeGatewayProfile(profile?: string): string | null {
   const trimmed = profile?.trim();
@@ -39,8 +47,13 @@ export function resolveGatewayLaunchAgentLabel(profile?: string): string {
 }
 
 export function resolveLegacyGatewayLaunchAgentLabels(profile?: string): string[] {
-  void profile;
-  return [];
+  const normalized = normalizeGatewayProfile(profile);
+  const labels = [...LEGACY_GATEWAY_LAUNCH_AGENT_LABELS];
+  if (normalized) {
+    labels.push(`ai.openclaw.${normalized}`);
+    labels.push(`ai.lalabot.${normalized}`);
+  }
+  return labels;
 }
 
 export function resolveGatewaySystemdServiceName(profile?: string): string {
@@ -86,10 +99,15 @@ export function resolveGatewayServiceDescription(params: {
   return (
     params.description ??
     formatGatewayServiceDescription({
-      profile: params.env.LALA_PROFILE ?? params.env.OPENCLAW_PROFILE,
+      profile:
+        params.env.LALA_PROFILE ??
+        params.env.LALABOT_PROFILE ??
+        params.env.OPENCLAW_PROFILE,
       version:
         params.environment?.LALA_SERVICE_VERSION ??
         params.env.LALA_SERVICE_VERSION ??
+        params.environment?.LALABOT_SERVICE_VERSION ??
+        params.env.LALABOT_SERVICE_VERSION ??
         params.environment?.OPENCLAW_SERVICE_VERSION ??
         params.env.OPENCLAW_SERVICE_VERSION,
     })

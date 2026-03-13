@@ -165,7 +165,10 @@ export function resolveConfigPath(
   stateDir: string = resolveStateDir(env, envHomedir(env)),
   homedir: () => string = envHomedir(env),
 ): string {
-  const override = env.LALA_CONFIG_PATH?.trim() || env.OPENCLAW_CONFIG_PATH?.trim();
+  const override =
+    env.LALA_CONFIG_PATH?.trim() ||
+    env.LALABOT_CONFIG_PATH?.trim() ||
+    env.OPENCLAW_CONFIG_PATH?.trim();
   if (override) {
     return resolveUserPath(override, env, homedir);
   }

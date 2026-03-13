@@ -20,4 +20,4 @@ Purpose: attach Lala to an existing Chrome tab so the Gateway can automate it (v
 ## Options
 
 - `Relay port`: defaults to `18792`.
-- `Gateway token`: required. Set this to `gateway.auth.token` (or `OPENCLAW_GATEWAY_TOKEN`).
+- `Gateway token`: required. Set this to `gateway.auth.token` (or `LALA_GATEWAY_TOKEN` / `OPENCLAW_GATEWAY_TOKEN`).
