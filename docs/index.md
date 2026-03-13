@@ -4,11 +4,11 @@ title: "Lala - Multi-channel AI Gateway"
 summary: "Lala is a multi-channel gateway for AI agents that runs on any OS."
 ---
 
-# Lala 🦋
+# Lala
 
 <p align="center">
     <img
-        src="/assets/lala-bg.png"
+        src="../assets/lala-bg.png"
         alt="Lala"
         width="500"
     />
