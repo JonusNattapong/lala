@@ -62,9 +62,7 @@ function createModelDefaultsConfig(params: {
   } as LalaConfig;
 }
 
-function createLegacyRuntimeListConfig(
-  models?: Record<string, Record<string, never>>,
-): LalaConfig {
+function createLegacyRuntimeListConfig(models?: Record<string, Record<string, never>>): LalaConfig {
   return createModelDefaultsConfig({
     primary: "google-gemini-cli/gemini-3-pro-preview",
     ...(models ? { models } : {}),

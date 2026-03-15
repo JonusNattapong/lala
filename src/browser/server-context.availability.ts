@@ -3,12 +3,7 @@ import {
   PROFILE_POST_RESTART_WS_TIMEOUT_MS,
   resolveCdpReachabilityTimeouts,
 } from "./cdp-timeouts.js";
-import {
-  isChromeCdpReady,
-  isChromeReachable,
-  launchLalaChrome,
-  stopLalaChrome,
-} from "./chrome.js";
+import { isChromeCdpReady, isChromeReachable, launchLalaChrome, stopLalaChrome } from "./chrome.js";
 import type { ResolvedBrowserProfile } from "./config.js";
 import { BrowserConfigurationError, BrowserProfileUnavailableError } from "./errors.js";
 import {

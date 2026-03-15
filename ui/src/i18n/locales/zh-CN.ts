@@ -4,12 +4,14 @@ export const zh_CN: TranslationMap = {
   common: {
     health: "健康状况",
     ok: "正常",
+    online: "在线",
     offline: "离线",
     connect: "连接",
     refresh: "刷新",
     enabled: "已启用",
     disabled: "已禁用",
     na: "不适用",
+    version: "版本",
     docs: "文档",
     resources: "资源",
     search: "搜索",
@@ -54,7 +56,7 @@ export const zh_CN: TranslationMap = {
     skills: "技能和 API 密钥。",
     nodes: "配对设备和命令。",
     chat: "网关聊天，快速干预。",
-    config: "编辑 lala.json。",
+    config: "编辑 openclaw.json。",
     communications: "频道、消息和音频设置。",
     appearance: "主题、界面和设置向导设置。",
     automation: "命令、钩子、定时任务和插件设置。",
@@ -109,7 +111,7 @@ export const zh_CN: TranslationMap = {
     pairing: {
       hint: "此设备需要网关主机的配对批准。",
       mobileHint:
-        "在手机上？从桌面运行 lala dashboard --no-open 复制完整 URL（包括 #token=...）。",
+        "在手机上？从桌面运行 openclaw dashboard --no-open 复制完整 URL（包括 #token=...）。",
     },
     insecure: {
       hint: "此页面为 HTTP，因此浏览器阻止设备标识。请使用 HTTPS (Tailscale Serve) 或在网关主机上打开 {url}。",

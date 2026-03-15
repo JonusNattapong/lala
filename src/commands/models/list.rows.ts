@@ -53,10 +53,7 @@ function buildRow(params: {
   });
 }
 
-export async function loadListModelRegistry(
-  cfg: LalaConfig,
-  opts?: { sourceConfig?: LalaConfig },
-) {
+export async function loadListModelRegistry(cfg: LalaConfig, opts?: { sourceConfig?: LalaConfig }) {
   const loaded = await loadModelRegistry(cfg, opts);
   return {
     ...loaded,

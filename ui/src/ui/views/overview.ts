@@ -18,8 +18,7 @@ import { renderOverviewAttention } from "./overview-attention.ts";
 import { renderOverviewCards } from "./overview-cards.ts";
 import { renderOverviewEventLog } from "./overview-event-log.ts";
 import {
-  shouldShowAuthHint,
-  shouldShowAuthRequiredHint,
+  resolveAuthHintKind,
   shouldShowInsecureContextHint,
   shouldShowPairingHint,
 } from "./overview-hints.ts";
@@ -103,15 +102,17 @@ export function renderOverview(props: OverviewProps) {
   })();
 
   const authHint = (() => {
-    if (props.connected || !props.lastError) {
+    const authHintKind = resolveAuthHintKind({
+      connected: props.connected,
+      lastError: props.lastError,
+      lastErrorCode: props.lastErrorCode,
+      hasToken: Boolean(props.settings.token.trim()),
+      hasPassword: Boolean(props.password.trim()),
+    });
+    if (authHintKind == null) {
       return null;
     }
-    if (!shouldShowAuthHint(props.connected, props.lastError, props.lastErrorCode)) {
-      return null;
-    }
-    const hasToken = Boolean(props.settings.token.trim());
-    const hasPassword = Boolean(props.password.trim());
-    if (shouldShowAuthRequiredHint(hasToken, hasPassword, props.lastErrorCode)) {
+    if (authHintKind === "required") {
       return html`
         <div class="muted" style="margin-top: 8px">
           ${t("overview.auth.required")}
@@ -134,7 +135,7 @@ export function renderOverview(props: OverviewProps) {
     }
     return html`
       <div class="muted" style="margin-top: 8px">
-        ${t("overview.auth.failed", { command: "lala dashboard --no-open" })}
+        ${t("overview.auth.failed", { command: "openclaw dashboard --no-open" })}
         <div style="margin-top: 6px">
           <a
             class="session-link"
@@ -228,7 +229,7 @@ export function renderOverview(props: OverviewProps) {
                         const v = (e.target as HTMLInputElement).value;
                         props.onSettingsChange({ ...props.settings, token: v });
                       }}
-                      placeholder="OPENCLAW_GATEWAY_TOKEN"
+                      placeholder="LALA_GATEWAY_TOKEN"
                     />
                     <button
                       type="button"

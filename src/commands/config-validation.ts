@@ -3,9 +3,7 @@ import { type LalaConfig, readConfigFileSnapshot } from "../config/config.js";
 import { formatConfigIssueLines } from "../config/issue-format.js";
 import type { RuntimeEnv } from "../runtime.js";
 
-export async function requireValidConfigSnapshot(
-  runtime: RuntimeEnv,
-): Promise<LalaConfig | null> {
+export async function requireValidConfigSnapshot(runtime: RuntimeEnv): Promise<LalaConfig | null> {
   const snapshot = await readConfigFileSnapshot();
   if (snapshot.exists && !snapshot.valid) {
     const issues =

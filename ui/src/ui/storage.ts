@@ -17,6 +17,7 @@ export type UiSettings = {
   themeMode: ThemeMode;
   chatFocusMode: boolean;
   chatShowThinking: boolean;
+  chatShowToolCalls: boolean;
   splitRatio: number; // Sidebar split ratio (0.4 to 0.7, default 0.6)
   navCollapsed: boolean; // Collapsible sidebar state
   navWidth: number; // Sidebar width when expanded (240–400px)
@@ -40,8 +41,8 @@ function deriveDefaultGatewayUrl(): { pageUrl: string; effectiveUrl: string } {
   const proto = location.protocol === "https:" ? "wss" : "ws";
   const configured =
     typeof window !== "undefined" &&
-    typeof window.__OPENCLAW_CONTROL_UI_BASE_PATH__ === "string" &&
-    window.__OPENCLAW_CONTROL_UI_BASE_PATH__.trim();
+    typeof window.__LALA_CONTROL_UI_BASE_PATH__ === "string" &&
+    window.__LALA_CONTROL_UI_BASE_PATH__.trim();
   const basePath = configured
     ? normalizeBasePath(configured)
     : inferBasePathFromPathname(location.pathname);
@@ -131,6 +132,7 @@ export function loadSettings(): UiSettings {
     themeMode: "system",
     chatFocusMode: false,
     chatShowThinking: true,
+    chatShowToolCalls: true,
     splitRatio: 0.6,
     navCollapsed: false,
     navWidth: 220,
@@ -173,6 +175,10 @@ export function loadSettings(): UiSettings {
         typeof parsed.chatShowThinking === "boolean"
           ? parsed.chatShowThinking
           : defaults.chatShowThinking,
+      chatShowToolCalls:
+        typeof parsed.chatShowToolCalls === "boolean"
+          ? parsed.chatShowToolCalls
+          : defaults.chatShowToolCalls,
       splitRatio:
         typeof parsed.splitRatio === "number" &&
         parsed.splitRatio >= 0.4 &&
@@ -214,6 +220,7 @@ function persistSettings(next: UiSettings) {
     themeMode: next.themeMode,
     chatFocusMode: next.chatFocusMode,
     chatShowThinking: next.chatShowThinking,
+    chatShowToolCalls: next.chatShowToolCalls,
     splitRatio: next.splitRatio,
     navCollapsed: next.navCollapsed,
     navWidth: next.navWidth,

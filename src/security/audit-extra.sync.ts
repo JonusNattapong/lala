@@ -1024,9 +1024,7 @@ export function collectNodeDenyCommandPatternFindings(cfg: LalaConfig): Security
   return findings;
 }
 
-export function collectNodeDangerousAllowCommandFindings(
-  cfg: LalaConfig,
-): SecurityAuditFinding[] {
+export function collectNodeDangerousAllowCommandFindings(cfg: LalaConfig): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
   const allowRaw = cfg.gateway?.nodes?.allowCommands;
   if (!Array.isArray(allowRaw) || allowRaw.length === 0) {

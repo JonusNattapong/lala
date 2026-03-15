@@ -29,7 +29,8 @@ async function init() {
   visibleDocs = [...allDocs];
   renderNav();
 
-  const requested = normalizeDocPath(decodeURIComponent(window.location.hash.slice(1))) || "index.md";
+  const requested =
+    normalizeDocPath(decodeURIComponent(window.location.hash.slice(1))) || "index.md";
   const initial = resolveExistingDoc(requested);
   await openDoc(initial);
 
@@ -188,9 +189,7 @@ function buildDocLabel(path) {
 }
 
 function prettifySegment(value) {
-  return value
-    .replace(/[-_]/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+  return value.replace(/[-_]/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 function showStatus(message) {
@@ -226,9 +225,7 @@ function renderMarkdown(markdown) {
   let text = escaped.replace(/```([\w-]*)\n([\s\S]*?)```/g, (_match, lang, code) => {
     const index = blocks.length;
     const label = lang ? `<div class="code-lang">${lang}</div>` : "";
-    blocks.push(
-      `<pre><code>${code.replace(/^\n+|\n+$/g, "")}</code></pre>`,
-    );
+    blocks.push(`<pre><code>${code.replace(/^\n+|\n+$/g, "")}</code></pre>`);
     return `__BLOCK_${index}__`;
   });
 
@@ -245,12 +242,12 @@ function renderBlock(chunk) {
   if (!chunk) {
     return "";
   }
-  
+
   // Skip processing HTML blocks - they'll be restored later
   if (/^__HTML_BLOCK_\d+__$/.test(chunk)) {
     return chunk;
   }
-  
+
   if (/^#{1,6}\s/m.test(chunk) && !chunk.includes("\n")) {
     const [, hashes, content] = chunk.match(/^(#{1,6})\s+(.*)$/) || [];
     if (hashes && content) {
@@ -297,8 +294,7 @@ function renderTable(chunk) {
   const alignments = splitTableCells(dividerLine).map(resolveTableAlignment);
   const headers = splitTableCells(headerLine)
     .map(
-      (cell, index) =>
-        `<th${renderTableAlignAttr(alignments[index])}>${renderInline(cell)}</th>`,
+      (cell, index) => `<th${renderTableAlignAttr(alignments[index])}>${renderInline(cell)}</th>`,
     )
     .join("");
   const rows = bodyLines
@@ -325,11 +321,7 @@ function splitTableCells(line) {
 
 function isTableBlock(chunk) {
   const lines = chunk.split("\n");
-  return (
-    lines.length >= 2 &&
-    lines[0].includes("|") &&
-    /^\|?[\s:-|]+\|?$/.test(lines[1])
-  );
+  return lines.length >= 2 && lines[0].includes("|") && /^\|?[\s:-|]+\|?$/.test(lines[1]);
 }
 
 function isListBlock(chunk) {
@@ -338,12 +330,12 @@ function isListBlock(chunk) {
 
 function renderInline(text) {
   let html = text;
-  
+
   // Handle <Note> components first
   html = html.replace(/<Note>([\s\S]*?)<\/Note>/g, (_match, content) => {
     return `<div class="note-component">${renderInline(content.trim())}</div>`;
   });
-  
+
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, href) => {
     const src = new URL(href, appBaseUrl).toString();
     return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}">`;
@@ -367,7 +359,8 @@ function restoreBlocks(text, blocks) {
 
 function extractRawHtmlBlocks(markdown, rawHtmlBlocks) {
   // Match complete HTML blocks including nested content
-  const blockPattern = /(^|\n)(<(?:p|div|table)\b[^>]*>[\s\S]*?<\/(?:p|div|table)>|<img\b[^>]*\/?>)(?=\n|$)/gi;
+  const blockPattern =
+    /(^|\n)(<(?:p|div|table)\b[^>]*>[\s\S]*?<\/(?:p|div|table)>|<img\b[^>]*\/?>)(?=\n|$)/gi;
   return markdown.replace(blockPattern, (match, leading, htmlBlock) => {
     const index = rawHtmlBlocks.length;
     rawHtmlBlocks.push(sanitizeTrustedHtml(htmlBlock.trim()));

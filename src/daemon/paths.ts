@@ -31,11 +31,7 @@ export function resolveUserPathWithHome(input: string, home?: string): string {
 }
 
 export function resolveGatewayStateDir(env: Record<string, string | undefined>): string {
-  const override = (
-    env.LALA_STATE_DIR ??
-    env.LALABOT_STATE_DIR ??
-    env.OPENCLAW_STATE_DIR
-  )?.trim();
+  const override = (env.LALA_STATE_DIR ?? env.LALABOT_STATE_DIR ?? env.OPENCLAW_STATE_DIR)?.trim();
   if (override) {
     const home = override.startsWith("~") ? resolveHomeDir(env) : undefined;
     return resolveUserPathWithHome(override, home);

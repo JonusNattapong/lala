@@ -31,7 +31,7 @@ import { detectTextDirection } from "../text-direction.ts";
 import type { GatewaySessionRow, SessionsListResult } from "../types.ts";
 import type { ChatItem, MessageGroup } from "../types/chat-types.ts";
 import type { ChatAttachment, ChatQueueItem } from "../ui-types.ts";
-import { agentLogoUrl } from "./agents-utils.ts";
+import { agentLogoUrl, resolveAgentAvatarUrl } from "./agents-utils.ts";
 import { renderMarkdownSidebar } from "./markdown-sidebar.ts";
 import "../components/resizable-divider.ts";
 
@@ -56,6 +56,7 @@ export type ChatProps = {
   onSessionKeyChange: (next: string) => void;
   thinkingLevel: string | null;
   showThinking: boolean;
+  showToolCalls: boolean;
   loading: boolean;
   sending: boolean;
   canAbort?: boolean;
@@ -566,7 +567,12 @@ const WELCOME_SUGGESTIONS = [
 
 function renderWelcomeState(props: ChatProps): TemplateResult {
   const name = props.assistantName || "Assistant";
-  const avatar = props.assistantAvatar ?? props.assistantAvatarUrl;
+  const avatar = resolveAgentAvatarUrl({
+    identity: {
+      avatar: props.assistantAvatar ?? undefined,
+      avatarUrl: props.assistantAvatarUrl ?? undefined,
+    },
+  });
   const logoUrl = agentLogoUrl(props.basePath ?? "");
 
   return html`
@@ -575,7 +581,7 @@ function renderWelcomeState(props: ChatProps): TemplateResult {
       ${
         avatar
           ? html`<img src=${avatar} alt=${name} style="width:56px; height:56px; border-radius:50%; object-fit:cover;" />`
-          : html`<div class="agent-chat__avatar agent-chat__avatar--logo"><img src=${logoUrl} alt="Lala" /></div>`
+          : html`<div class="agent-chat__avatar agent-chat__avatar--logo"><img src=${logoUrl} alt="OpenClaw" /></div>`
       }
       <h2>${name}</h2>
       <div class="agent-chat__badges">
@@ -802,7 +808,13 @@ export function renderChat(props: ChatProps) {
   const showReasoning = props.showThinking && reasoningLevel !== "off";
   const assistantIdentity = {
     name: props.assistantName,
-    avatar: props.assistantAvatar ?? props.assistantAvatarUrl ?? null,
+    avatar:
+      resolveAgentAvatarUrl({
+        identity: {
+          avatar: props.assistantAvatar ?? undefined,
+          avatarUrl: props.assistantAvatarUrl ?? undefined,
+        },
+      }) ?? null,
   };
   const pinned = getPinnedMessages(props.sessionKey);
   const deleted = getDeletedMessages(props.sessionKey);
@@ -921,6 +933,7 @@ export function renderChat(props: ChatProps) {
             return renderMessageGroup(item, {
               onOpenSidebar: props.onOpenSidebar,
               showReasoning,
+              showToolCalls: props.showToolCalls,
               assistantName: props.assistantName,
               assistantAvatar: assistantIdentity.avatar,
               basePath: props.basePath,
@@ -1158,7 +1171,7 @@ export function renderChat(props: ChatProps) {
         props.showNewMessages
           ? html`
             <button
-              class="agent-chat__scroll-pill"
+              class="chat-new-messages"
               type="button"
               @click=${props.onScrollToBottom}
             >
@@ -1384,7 +1397,7 @@ function buildChatItems(props: ChatProps): Array<ChatItem | MessageGroup> {
     const msg = history[i];
     const normalized = normalizeMessage(msg);
     const raw = msg as Record<string, unknown>;
-    const marker = raw.__lala as Record<string, unknown> | undefined;
+    const marker = raw.__openclaw as Record<string, unknown> | undefined;
     if (marker && marker.kind === "compaction") {
       items.push({
         kind: "divider",
@@ -1398,7 +1411,7 @@ function buildChatItems(props: ChatProps): Array<ChatItem | MessageGroup> {
       continue;
     }
 
-    if (!props.showThinking && normalized.role.toLowerCase() === "toolresult") {
+    if (!props.showToolCalls && normalized.role.toLowerCase() === "toolresult") {
       continue;
     }
 
@@ -1427,7 +1440,7 @@ function buildChatItems(props: ChatProps): Array<ChatItem | MessageGroup> {
         startedAt: segments[i].ts,
       });
     }
-    if (i < tools.length) {
+    if (i < tools.length && props.showToolCalls) {
       items.push({
         kind: "message",
         key: messageKey(tools[i], i + history.length),

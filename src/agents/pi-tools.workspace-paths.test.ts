@@ -80,9 +80,7 @@ describe("workspace path resolution", () => {
             oldText: "world",
             newText: "lala",
           });
-          expect(await fs.readFile(path.join(workspaceDir, editFile), "utf8")).toBe(
-            "hello lala",
-          );
+          expect(await fs.readFile(path.join(workspaceDir, editFile), "utf8")).toBe("hello lala");
         } finally {
           cwdSpy.mockRestore();
         }

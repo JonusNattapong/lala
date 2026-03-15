@@ -131,10 +131,7 @@ function resolveChannelAccountConfig<T>(
 
 // Discord has component-based exec approvals; skip text fallback only when the
 // Discord-specific handler is enabled for the same target account.
-function shouldSkipDiscordForwarding(
-  target: ExecApprovalForwardTarget,
-  cfg: LalaConfig,
-): boolean {
+function shouldSkipDiscordForwarding(target: ExecApprovalForwardTarget, cfg: LalaConfig): boolean {
   const channel = normalizeMessageChannel(target.channel) ?? target.channel;
   if (channel !== "discord") {
     return false;

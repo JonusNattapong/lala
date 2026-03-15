@@ -1149,11 +1149,7 @@ export function createConfigIO(overrides: ConfigIoDeps = {}) {
           // TOCTOU issues where env changes between load and write. Falls back to
           // live env if no snapshot exists (e.g., first write before any load).
           const envForRestore = options.envSnapshotForRestore ?? deps.env;
-          cfgToWrite = restoreEnvVarRefs(
-            cfgToWrite,
-            parsedRes.parsed,
-            envForRestore,
-          ) as LalaConfig;
+          cfgToWrite = restoreEnvVarRefs(cfgToWrite, parsedRes.parsed, envForRestore) as LalaConfig;
         }
       }
     } catch {
@@ -1383,10 +1379,7 @@ export function clearConfigCache(): void {
   configCache = null;
 }
 
-export function setRuntimeConfigSnapshot(
-  config: LalaConfig,
-  sourceConfig?: LalaConfig,
-): void {
+export function setRuntimeConfigSnapshot(config: LalaConfig, sourceConfig?: LalaConfig): void {
   runtimeConfigSnapshot = config;
   runtimeConfigSourceSnapshot = sourceConfig ?? null;
   clearConfigCache();

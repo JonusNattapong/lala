@@ -34,7 +34,9 @@ describe("scheduleDetachedLaunchdRestartHandoff", () => {
     const [, args] = spawnMock.mock.calls[0] as [string, string[]];
     expect(args[0]).toBe("-c");
     expect(args[2]).toBe("lala-launchd-restart-handoff");
-    expect(args[3]).toBe(`${typeof process.getuid === "function" ? `gui/${process.getuid()}` : "gui/501"}/ai.lala.custom`);
+    expect(args[3]).toBe(
+      `${typeof process.getuid === "function" ? `gui/${process.getuid()}` : "gui/501"}/ai.lala.custom`,
+    );
     expect(args[6]).toBe("9876");
     expect(args[1]).toContain('while kill -0 "$wait_pid" >/dev/null 2>&1; do');
     expect(args[1]).toContain('launchctl kickstart -k "$service_target" >/dev/null 2>&1');

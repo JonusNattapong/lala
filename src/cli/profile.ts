@@ -128,8 +128,7 @@ export function applyCliProfileEnv(params: {
   }
 
   if (!env.LALA_CONFIG_PATH?.trim()) {
-    env.LALA_CONFIG_PATH =
-      env.OPENCLAW_CONFIG_PATH?.trim() || path.join(stateDir, "lala.json");
+    env.LALA_CONFIG_PATH = env.OPENCLAW_CONFIG_PATH?.trim() || path.join(stateDir, "lala.json");
   }
   if (!env.OPENCLAW_CONFIG_PATH?.trim()) {
     env.OPENCLAW_CONFIG_PATH = env.LALA_CONFIG_PATH;

@@ -42,6 +42,7 @@ export async function buildStatusReply(params: {
   resolvedThinkLevel?: ThinkLevel;
   resolvedVerboseLevel: VerboseLevel;
   resolvedReasoningLevel: ReasoningLevel;
+  resolvedFastMode?: boolean;
   resolvedElevatedLevel?: ElevatedLevel;
   resolveDefaultThinkingLevel: () => Promise<ThinkLevel | undefined>;
   isGroup: boolean;
@@ -183,6 +184,7 @@ export async function buildStatusReply(params: {
     resolvedThink: resolvedThinkLevel ?? (await resolveDefaultThinkingLevel()),
     resolvedVerbose: resolvedVerboseLevel,
     resolvedReasoning: resolvedReasoningLevel,
+    resolvedFast: params.resolvedFastMode,
     resolvedElevated: resolvedElevatedLevel,
     modelAuth: selectedModelAuth,
     activeModelAuth,

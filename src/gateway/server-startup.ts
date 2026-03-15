@@ -136,9 +136,7 @@ export async function startGatewaySidecars(params: {
       params.logChannels.error(`channel startup failed: ${String(err)}`);
     }
   } else {
-    params.logChannels.info(
-      "skipping channel start (LALA_SKIP_CHANNELS=1 or legacy equivalents)",
-    );
+    params.logChannels.info("skipping channel start (LALA_SKIP_CHANNELS=1 or legacy equivalents)");
   }
 
   if (params.cfg.hooks?.internal?.enabled) {

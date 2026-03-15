@@ -22,10 +22,7 @@ const ROOT_COMMANDS_HINT =
 
 const EXAMPLES = [
   ["lala models --help", "Show detailed help for the models command."],
-  [
-    "lala channels login --verbose",
-    "Link personal WhatsApp Web and show QR + connection logs.",
-  ],
+  ["lala channels login --verbose", "Link personal WhatsApp Web and show QR + connection logs."],
   [
     'lala message send --target +15555550123 --message "Hi" --json',
     "Send via your web session and print JSON result.",
@@ -111,9 +108,7 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
     hasRootVersionAlias(process.argv)
   ) {
     const commit = resolveCommitHash({ moduleUrl: import.meta.url });
-    console.log(
-      commit ? `Lala ${ctx.programVersion} (${commit})` : `Lala ${ctx.programVersion}`,
-    );
+    console.log(commit ? `Lala ${ctx.programVersion} (${commit})` : `Lala ${ctx.programVersion}`);
     process.exit(0);
   }
 

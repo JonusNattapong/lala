@@ -126,10 +126,7 @@ export function isProfileDecorated(
  * Best-effort profile decoration (name + lobster-orange). Chrome preference keys
  * vary by version; we keep this conservative and idempotent.
  */
-export function decorateLalaProfile(
-  userDataDir: string,
-  opts?: { name?: string; color?: string },
-) {
+export function decorateLalaProfile(userDataDir: string, opts?: { name?: string; color?: string }) {
   const desiredName = opts?.name ?? DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME;
   const desiredColor = (opts?.color ?? DEFAULT_OPENCLAW_BROWSER_COLOR).toUpperCase();
   const desiredColorInt = parseHexRgbToSignedArgbInt(desiredColor);

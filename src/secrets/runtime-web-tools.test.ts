@@ -25,10 +25,7 @@ async function runRuntimeWebTools(params: { config: LalaConfig; env?: NodeJS.Pro
   return { metadata, resolvedConfig, context };
 }
 
-function createProviderSecretRefConfig(
-  provider: ProviderUnderTest,
-  envRefId: string,
-): LalaConfig {
+function createProviderSecretRefConfig(provider: ProviderUnderTest, envRefId: string): LalaConfig {
   const search: Record<string, unknown> = {
     enabled: true,
     provider,

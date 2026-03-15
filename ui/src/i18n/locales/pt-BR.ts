@@ -4,12 +4,14 @@ export const pt_BR: TranslationMap = {
   common: {
     health: "Saúde",
     ok: "OK",
+    online: "Online",
     offline: "Offline",
     connect: "Conectar",
     refresh: "Atualizar",
     enabled: "Ativado",
     disabled: "Desativado",
     na: "n/a",
+    version: "Versão",
     docs: "Docs",
     resources: "Recursos",
     search: "Pesquisar",
@@ -54,7 +56,7 @@ export const pt_BR: TranslationMap = {
     skills: "Habilidades e chaves API.",
     nodes: "Dispositivos e comandos.",
     chat: "Chat do gateway para intervenções rápidas.",
-    config: "Editar lala.json.",
+    config: "Editar openclaw.json.",
     communications: "Configurações de canais, mensagens e áudio.",
     appearance: "Configurações de tema, UI e assistente de configuração.",
     automation: "Configurações de comandos, hooks, cron e plugins.",
@@ -112,7 +114,7 @@ export const pt_BR: TranslationMap = {
     pairing: {
       hint: "Este dispositivo precisa de aprovação de pareamento do host do gateway.",
       mobileHint:
-        "No celular? Copie a URL completa (incluindo #token=...) executando lala dashboard --no-open no desktop.",
+        "No celular? Copie a URL completa (incluindo #token=...) executando openclaw dashboard --no-open no desktop.",
     },
     insecure: {
       hint: "Esta página é HTTP, então o navegador bloqueia a identidade do dispositivo. Use HTTPS (Tailscale Serve) ou abra {url} no host do gateway.",

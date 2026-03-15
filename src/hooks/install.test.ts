@@ -318,10 +318,7 @@ describe("installHooksFromPath", () => {
       hooksDir: path.join(stateDir, "hooks"),
     });
 
-    expectPathInstallFailureContains(
-      result,
-      "lala.hooks entry resolves outside package directory",
-    );
+    expectPathInstallFailureContains(result, "lala.hooks entry resolves outside package directory");
   });
 });
 

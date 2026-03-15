@@ -248,8 +248,7 @@ describe("runDaemonRestart health checks", () => {
     mockSpawnSync.mockReturnValue({
       error: null,
       status: 0,
-      stdout:
-        'CommandLine="C:\\\\Program Files\\\\Lala\\\\lala.exe" gateway --port 18789\r\n',
+      stdout: 'CommandLine="C:\\\\Program Files\\\\Lala\\\\lala.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceStop.mockImplementation(async (params: { onNotLoaded?: () => Promise<unknown> }) => {
@@ -270,8 +269,7 @@ describe("runDaemonRestart health checks", () => {
     mockSpawnSync.mockReturnValue({
       error: null,
       status: 0,
-      stdout:
-        'CommandLine="C:\\\\Program Files\\\\Lala\\\\lala.exe" gateway --port 18789\r\n',
+      stdout: 'CommandLine="C:\\\\Program Files\\\\Lala\\\\lala.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceRestart.mockImplementation(
@@ -306,8 +304,7 @@ describe("runDaemonRestart health checks", () => {
     mockSpawnSync.mockReturnValue({
       error: null,
       status: 0,
-      stdout:
-        'CommandLine="C:\\\\Program Files\\\\Lala\\\\lala.exe" gateway --port 18789\r\n',
+      stdout: 'CommandLine="C:\\\\Program Files\\\\Lala\\\\lala.exe" gateway --port 18789\r\n',
       stderr: "",
     });
     runServiceRestart.mockImplementation(

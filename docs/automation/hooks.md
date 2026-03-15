@@ -142,8 +142,7 @@ The `HOOK.md` file contains metadata in YAML frontmatter plus Markdown documenta
 name: my-hook
 description: "Short description of what this hook does"
 homepage: https://docs.lala.ai/automation/hooks#my-hook
-metadata:
-  { "lala": { "emoji": "🔗", "events": ["command:new"], "requires": { "bins": ["node"] } } }
+metadata: { "lala": { "emoji": "🔗", "events": ["command:new"], "requires": { "bins": ["node"] } } }
 ---
 
 # My Hook

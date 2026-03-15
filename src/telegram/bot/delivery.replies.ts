@@ -14,9 +14,9 @@ import {
 } from "../../hooks/message-hook-mappers.js";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { buildOutboundMediaLoadOptions } from "../../media/load-options.js";
+import { loadWebMedia } from "../../media/media-loader.js";
 import { isGifMedia, kindFromMime } from "../../media/mime.js";
 import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import { loadWebMedia } from "../../media/media-loader.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import type { TelegramInlineButtons } from "../button-types.js";
 import { splitTelegramCaption } from "../caption.js";

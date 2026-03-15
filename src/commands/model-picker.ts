@@ -521,10 +521,7 @@ export function applyModelAllowlist(cfg: LalaConfig, models: string[]): LalaConf
   };
 }
 
-export function applyModelFallbacksFromSelection(
-  cfg: LalaConfig,
-  selection: string[],
-): LalaConfig {
+export function applyModelFallbacksFromSelection(cfg: LalaConfig, selection: string[]): LalaConfig {
   const normalized = normalizeModelKeys(selection);
   if (normalized.length <= 1) {
     return cfg;

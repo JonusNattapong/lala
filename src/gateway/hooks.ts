@@ -165,9 +165,7 @@ export function extractHookToken(req: IncomingMessage): string | undefined {
     }
   }
   const headerToken =
-    typeof req.headers["x-lala-token"] === "string"
-      ? req.headers["x-lala-token"].trim()
-      : "";
+    typeof req.headers["x-lala-token"] === "string" ? req.headers["x-lala-token"].trim() : "";
   if (headerToken) {
     return headerToken;
   }

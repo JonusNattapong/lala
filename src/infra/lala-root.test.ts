@@ -94,8 +94,7 @@ describe("resolveLalaPackageRoot", () => {
   let resolveLalaPackageRootSync: typeof import("./lala-root.js").resolveLalaPackageRootSync;
 
   beforeAll(async () => {
-    ({ resolveLalaPackageRoot, resolveLalaPackageRootSync } =
-      await import("./lala-root.js"));
+    ({ resolveLalaPackageRoot, resolveLalaPackageRootSync } = await import("./lala-root.js"));
   });
 
   beforeEach(() => {
@@ -145,9 +144,7 @@ describe("resolveLalaPackageRoot", () => {
     const pkgRoot = fx("invalid-moduleurl");
     setFile(path.join(pkgRoot, "package.json"), JSON.stringify({ name: "lala" }));
 
-    expect(resolveLalaPackageRootSync({ moduleUrl: "not-a-file-url", cwd: pkgRoot })).toBe(
-      pkgRoot,
-    );
+    expect(resolveLalaPackageRootSync({ moduleUrl: "not-a-file-url", cwd: pkgRoot })).toBe(pkgRoot);
     await expect(
       resolveLalaPackageRoot({ moduleUrl: "not-a-file-url", cwd: pkgRoot }),
     ).resolves.toBe(pkgRoot);

@@ -82,10 +82,16 @@ if (
     if (shouldSkipRespawnForArgv(process.argv)) {
       return false;
     }
-    if (isTruthyEnvValue(process.env.LALA_NO_RESPAWN) || isTruthyEnvValue(process.env.OPENCLAW_NO_RESPAWN)) {
+    if (
+      isTruthyEnvValue(process.env.LALA_NO_RESPAWN) ||
+      isTruthyEnvValue(process.env.OPENCLAW_NO_RESPAWN)
+    ) {
       return false;
     }
-    if (isTruthyEnvValue(process.env.LALA_NODE_OPTIONS_READY) || isTruthyEnvValue(process.env.OPENCLAW_NODE_OPTIONS_READY)) {
+    if (
+      isTruthyEnvValue(process.env.LALA_NODE_OPTIONS_READY) ||
+      isTruthyEnvValue(process.env.OPENCLAW_NODE_OPTIONS_READY)
+    ) {
       return false;
     }
     if (hasExperimentalWarningSuppressed()) {

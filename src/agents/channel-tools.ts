@@ -86,10 +86,7 @@ export function resolveChannelMessageToolHints(params: {
 
 const loggedListActionErrors = new Set<string>();
 
-function runPluginListActions(
-  plugin: ChannelPlugin,
-  cfg: LalaConfig,
-): ChannelMessageActionName[] {
+function runPluginListActions(plugin: ChannelPlugin, cfg: LalaConfig): ChannelMessageActionName[] {
   if (!plugin.actions?.listActions) {
     return [];
   }

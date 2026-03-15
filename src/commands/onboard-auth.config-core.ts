@@ -183,10 +183,7 @@ export function applyMoonshotProviderConfigCn(cfg: LalaConfig): LalaConfig {
   return applyMoonshotProviderConfigWithBaseUrl(cfg, MOONSHOT_CN_BASE_URL);
 }
 
-function applyMoonshotProviderConfigWithBaseUrl(
-  cfg: LalaConfig,
-  baseUrl: string,
-): LalaConfig {
+function applyMoonshotProviderConfigWithBaseUrl(cfg: LalaConfig, baseUrl: string): LalaConfig {
   const models = { ...cfg.agents?.defaults?.models };
   models[MOONSHOT_DEFAULT_MODEL_REF] = {
     ...models[MOONSHOT_DEFAULT_MODEL_REF],
@@ -580,10 +577,7 @@ export function applyQianfanConfig(cfg: LalaConfig): LalaConfig {
 
 // Alibaba Cloud Model Studio Coding Plan
 
-function applyModelStudioProviderConfigWithBaseUrl(
-  cfg: LalaConfig,
-  baseUrl: string,
-): LalaConfig {
+function applyModelStudioProviderConfigWithBaseUrl(cfg: LalaConfig, baseUrl: string): LalaConfig {
   const models = { ...cfg.agents?.defaults?.models };
 
   const modelStudioModelIds = [

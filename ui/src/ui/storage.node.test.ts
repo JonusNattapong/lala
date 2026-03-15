@@ -85,21 +85,21 @@ describe("loadSettings default gateway URL derivation", () => {
       host: "gateway.example:8443",
       pathname: "/ignored/path",
     });
-    setControlUiBasePath(" /lala/ ");
+    setControlUiBasePath(" /openclaw/ ");
 
     const { loadSettings } = await import("./storage.ts");
-    expect(loadSettings().gatewayUrl).toBe(expectedGatewayUrl("/lala"));
+    expect(loadSettings().gatewayUrl).toBe(expectedGatewayUrl("/openclaw"));
   });
 
   it("infers base path from nested pathname when configured base path is not set", async () => {
     setTestLocation({
       protocol: "http:",
       host: "gateway.example:18789",
-      pathname: "/apps/lala/chat",
+      pathname: "/apps/openclaw/chat",
     });
 
     const { loadSettings } = await import("./storage.ts");
-    expect(loadSettings().gatewayUrl).toBe(expectedGatewayUrl("/apps/lala"));
+    expect(loadSettings().gatewayUrl).toBe(expectedGatewayUrl("/apps/openclaw"));
   });
 
   it("ignores and scrubs legacy persisted tokens", async () => {
@@ -108,11 +108,11 @@ describe("loadSettings default gateway URL derivation", () => {
       host: "gateway.example:8443",
       pathname: "/",
     });
-    sessionStorage.setItem("lala.control.token.v1", "legacy-session-token");
+    sessionStorage.setItem("openclaw.control.token.v1", "legacy-session-token");
     localStorage.setItem(
-      "lala.control.settings.v1",
+      "openclaw.control.settings.v1",
       JSON.stringify({
-        gatewayUrl: "wss://gateway.example:8443/lala",
+        gatewayUrl: "wss://gateway.example:8443/openclaw",
         token: "persisted-token",
         sessionKey: "agent",
       }),
@@ -120,18 +120,19 @@ describe("loadSettings default gateway URL derivation", () => {
 
     const { loadSettings } = await import("./storage.ts");
     expect(loadSettings()).toMatchObject({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "",
       sessionKey: "agent",
     });
-    expect(JSON.parse(localStorage.getItem("lala.control.settings.v1") ?? "{}")).toEqual({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}")).toEqual({
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       sessionKey: "agent",
       lastActiveSessionKey: "agent",
       theme: "claw",
       themeMode: "system",
       chatFocusMode: false,
       chatShowThinking: true,
+      chatShowToolCalls: true,
       splitRatio: 0.6,
       navCollapsed: false,
       navWidth: 220,
@@ -149,7 +150,7 @@ describe("loadSettings default gateway URL derivation", () => {
 
     const { loadSettings, saveSettings } = await import("./storage.ts");
     saveSettings({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "session-token",
       sessionKey: "main",
       lastActiveSessionKey: "main",
@@ -157,6 +158,7 @@ describe("loadSettings default gateway URL derivation", () => {
       themeMode: "system",
       chatFocusMode: false,
       chatShowThinking: true,
+      chatShowToolCalls: true,
       splitRatio: 0.6,
       navCollapsed: false,
       navWidth: 220,
@@ -164,7 +166,7 @@ describe("loadSettings default gateway URL derivation", () => {
     });
 
     expect(loadSettings()).toMatchObject({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "session-token",
     });
   });
@@ -178,7 +180,7 @@ describe("loadSettings default gateway URL derivation", () => {
 
     const { loadSettings, saveSettings } = await import("./storage.ts");
     saveSettings({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "gateway-a-token",
       sessionKey: "main",
       lastActiveSessionKey: "main",
@@ -186,6 +188,7 @@ describe("loadSettings default gateway URL derivation", () => {
       themeMode: "system",
       chatFocusMode: false,
       chatShowThinking: true,
+      chatShowToolCalls: true,
       splitRatio: 0.6,
       navCollapsed: false,
       navWidth: 220,
@@ -193,15 +196,16 @@ describe("loadSettings default gateway URL derivation", () => {
     });
 
     localStorage.setItem(
-      "lala.control.settings.v1",
+      "openclaw.control.settings.v1",
       JSON.stringify({
-        gatewayUrl: "wss://other-gateway.example:8443/lala",
+        gatewayUrl: "wss://other-gateway.example:8443/openclaw",
         sessionKey: "main",
         lastActiveSessionKey: "main",
         theme: "claw",
         themeMode: "system",
         chatFocusMode: false,
         chatShowThinking: true,
+        chatShowToolCalls: true,
         splitRatio: 0.6,
         navCollapsed: false,
         navWidth: 220,
@@ -210,7 +214,7 @@ describe("loadSettings default gateway URL derivation", () => {
     );
 
     expect(loadSettings()).toMatchObject({
-      gatewayUrl: "wss://other-gateway.example:8443/lala",
+      gatewayUrl: "wss://other-gateway.example:8443/openclaw",
       token: "",
     });
   });
@@ -224,7 +228,7 @@ describe("loadSettings default gateway URL derivation", () => {
 
     const { loadSettings, saveSettings } = await import("./storage.ts");
     saveSettings({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "memory-only-token",
       sessionKey: "main",
       lastActiveSessionKey: "main",
@@ -232,24 +236,26 @@ describe("loadSettings default gateway URL derivation", () => {
       themeMode: "system",
       chatFocusMode: false,
       chatShowThinking: true,
+      chatShowToolCalls: true,
       splitRatio: 0.6,
       navCollapsed: false,
       navWidth: 220,
       navGroupsCollapsed: {},
     });
     expect(loadSettings()).toMatchObject({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "memory-only-token",
     });
 
-    expect(JSON.parse(localStorage.getItem("lala.control.settings.v1") ?? "{}")).toEqual({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}")).toEqual({
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       sessionKey: "main",
       lastActiveSessionKey: "main",
       theme: "claw",
       themeMode: "system",
       chatFocusMode: false,
       chatShowThinking: true,
+      chatShowToolCalls: true,
       splitRatio: 0.6,
       navCollapsed: false,
       navWidth: 220,
@@ -267,7 +273,7 @@ describe("loadSettings default gateway URL derivation", () => {
 
     const { loadSettings, saveSettings } = await import("./storage.ts");
     saveSettings({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "stale-token",
       sessionKey: "main",
       lastActiveSessionKey: "main",
@@ -275,13 +281,14 @@ describe("loadSettings default gateway URL derivation", () => {
       themeMode: "system",
       chatFocusMode: false,
       chatShowThinking: true,
+      chatShowToolCalls: true,
       splitRatio: 0.6,
       navCollapsed: false,
       navWidth: 220,
       navGroupsCollapsed: {},
     });
     saveSettings({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "",
       sessionKey: "main",
       lastActiveSessionKey: "main",
@@ -289,6 +296,7 @@ describe("loadSettings default gateway URL derivation", () => {
       themeMode: "system",
       chatFocusMode: false,
       chatShowThinking: true,
+      chatShowToolCalls: true,
       splitRatio: 0.6,
       navCollapsed: false,
       navWidth: 220,
@@ -308,7 +316,7 @@ describe("loadSettings default gateway URL derivation", () => {
 
     const { saveSettings } = await import("./storage.ts");
     saveSettings({
-      gatewayUrl: "wss://gateway.example:8443/lala",
+      gatewayUrl: "wss://gateway.example:8443/openclaw",
       token: "",
       sessionKey: "main",
       lastActiveSessionKey: "main",
@@ -316,13 +324,14 @@ describe("loadSettings default gateway URL derivation", () => {
       themeMode: "light",
       chatFocusMode: false,
       chatShowThinking: true,
+      chatShowToolCalls: true,
       splitRatio: 0.6,
       navCollapsed: false,
       navWidth: 320,
       navGroupsCollapsed: {},
     });
 
-    expect(JSON.parse(localStorage.getItem("lala.control.settings.v1") ?? "{}")).toMatchObject({
+    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}")).toMatchObject({
       theme: "dash",
       themeMode: "light",
       navWidth: 320,

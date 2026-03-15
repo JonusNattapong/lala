@@ -416,10 +416,7 @@ type SummaryModelSelection = {
   source: "summaryModel" | "default";
 };
 
-function resolveSummaryModelRef(
-  cfg: LalaConfig,
-  config: ResolvedTtsConfig,
-): SummaryModelSelection {
+function resolveSummaryModelRef(cfg: LalaConfig, config: ResolvedTtsConfig): SummaryModelSelection {
   const defaultRef = resolveDefaultModelForAgent({ cfg });
   const override = config.summaryModel?.trim();
   if (!override) {

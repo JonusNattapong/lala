@@ -68,9 +68,7 @@ async function isPluginConfigured(plugin: ChannelPlugin, cfg: LalaConfig): Promi
   return false;
 }
 
-export async function listConfiguredMessageChannels(
-  cfg: LalaConfig,
-): Promise<MessageChannelId[]> {
+export async function listConfiguredMessageChannels(cfg: LalaConfig): Promise<MessageChannelId[]> {
   const channels: MessageChannelId[] = [];
   for (const plugin of listChannelPlugins()) {
     if (!isKnownChannel(plugin.id)) {

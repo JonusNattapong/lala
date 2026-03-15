@@ -47,8 +47,7 @@ body {
   padding: 28px 20px 28px 24px;
   border-right: 1px solid var(--line);
   background:
-    linear-gradient(180deg, rgba(255, 252, 247, 0.96), rgba(245, 237, 224, 0.92)),
-    var(--panel);
+    linear-gradient(180deg, rgba(255, 252, 247, 0.96), rgba(245, 237, 224, 0.92)), var(--panel);
   backdrop-filter: blur(18px);
 }
 
@@ -140,7 +139,10 @@ body {
   color: var(--text);
   text-decoration: none;
   line-height: 1.35;
-  transition: background-color 140ms ease, transform 140ms ease, color 140ms ease;
+  transition:
+    background-color 140ms ease,
+    transform 140ms ease,
+    color 140ms ease;
 }
 
 .nav-link:hover,
@@ -455,7 +457,9 @@ body {
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(68, 55, 37, 0.08);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .feature-card:hover {

@@ -85,8 +85,7 @@ export async function noteMacLaunchctlGatewayEnvOverrides(
     const lines = [
       "- Deprecated launchctl environment variables detected (ignored or low-precedence).",
       ...deprecatedLaunchctlEntries.map(
-        ([key]) =>
-          `- \`${key}\` is set; use \`LALA_${key.slice(key.indexOf("_") + 1)}\` instead.`,
+        ([key]) => `- \`${key}\` is set; use \`LALA_${key.slice(key.indexOf("_") + 1)}\` instead.`,
       ),
     ];
     (deps?.noteFn ?? note)(lines.join("\n"), "Gateway (macOS)");

@@ -266,10 +266,6 @@ describe("browser server-context listKnownProfileNames", () => {
       ]),
     };
 
-    expect(listKnownProfileNames(state).toSorted()).toEqual([
-      "chrome",
-      "lala",
-      "stale-removed",
-    ]);
+    expect(listKnownProfileNames(state).toSorted()).toEqual(["chrome", "lala", "stale-removed"]);
   });
 });

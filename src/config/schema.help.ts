@@ -374,8 +374,7 @@ export const FIELD_HELP: Record<string, string> = {
     "Optional CIDR allowlist for container-edge CDP ingress (for example 172.21.0.1/32).",
   "agents.list[].sandbox.browser.cdpSourceRange":
     "Per-agent override for CDP source CIDR allowlist.",
-  "gateway.controlUi.basePath":
-    "Optional URL prefix where the Control UI is served (e.g. /lala).",
+  "gateway.controlUi.basePath": "Optional URL prefix where the Control UI is served (e.g. /lala).",
   "gateway.controlUi.root":
     "Optional filesystem root for Control UI assets (defaults to dist/control-ui).",
   "gateway.controlUi.allowedOrigins":
@@ -976,8 +975,7 @@ export const FIELD_HELP: Record<string, string> = {
   "plugins.installs.*.source": 'Install source ("npm", "archive", or "path").',
   "plugins.installs.*.spec": "Original npm spec used for install (if source is npm).",
   "plugins.installs.*.sourcePath": "Original archive/path used for install (if any).",
-  "plugins.installs.*.installPath":
-    "Resolved install directory (usually ~/.lala/extensions/<id>).",
+  "plugins.installs.*.installPath": "Resolved install directory (usually ~/.lala/extensions/<id>).",
   "plugins.installs.*.version": "Version recorded at install time (if available).",
   "plugins.installs.*.resolvedName": "Resolved npm package name from the fetched artifact.",
   "plugins.installs.*.resolvedVersion":

@@ -110,7 +110,9 @@ describe("relaunchGatewayScheduledTask", () => {
 
     const scriptPathOpenClaw = [...createdScriptPaths][0];
     const scriptOpenClaw = fs.readFileSync(scriptPathOpenClaw, "utf8");
-    expect(scriptOpenClaw).toContain('schtasks /Run /TN "Lala Gateway (openclaw-custom)" >nul 2>&1');
+    expect(scriptOpenClaw).toContain(
+      'schtasks /Run /TN "Lala Gateway (openclaw-custom)" >nul 2>&1',
+    );
   });
 
   it("returns failed when the helper cannot be spawned", () => {

@@ -61,6 +61,8 @@ export function renderSkills(props: SkillsProps) {
             .value=${props.filter}
             @input=${(e: Event) => props.onFilterChange((e.target as HTMLInputElement).value)}
             placeholder="Search skills"
+            autocomplete="off"
+            name="skills-filter"
           />
         </label>
         <div class="muted">${filtered.length} shown</div>
@@ -111,7 +113,7 @@ function renderSkill(skill: SkillStatusEntry, props: SkillsProps) {
   const apiKey = props.edits[skill.skillKey] ?? "";
   const message = props.messages[skill.skillKey] ?? null;
   const canInstall = skill.install.length > 0 && skill.missing.bins.length > 0;
-  const showBundledBadge = Boolean(skill.bundled && skill.source !== "lala-bundled");
+  const showBundledBadge = Boolean(skill.bundled && skill.source !== "openclaw-bundled");
   const missing = computeSkillMissing(skill);
   const reasons = computeSkillReasons(skill);
   return html`

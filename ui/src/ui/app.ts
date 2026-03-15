@@ -90,7 +90,7 @@ import type { NostrProfileFormState } from "./views/channels.nostr-profile-form.
 
 declare global {
   interface Window {
-    __OPENCLAW_CONTROL_UI_BASE_PATH__?: string;
+    __LALA_CONTROL_UI_BASE_PATH__?: string;
   }
 }
 
@@ -109,7 +109,7 @@ function resolveOnboardingMode(): boolean {
   return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
 }
 
-@customElement("lala-app")
+@customElement("lala-control-ui")
 export class LalaApp extends LitElement {
   private i18nController = new I18nController(this);
   clientInstanceId = generateUUID();
@@ -158,9 +158,13 @@ export class LalaApp extends LitElement {
   @state() fallbackStatus: FallbackStatus | null = null;
   @state() chatAvatarUrl: string | null = null;
   @state() chatThinkingLevel: string | null = null;
+  @state() chatModelOverrides: Record<string, string | null> = {};
+  @state() chatModelsLoading = false;
+  @state() chatModelCatalog: ModelCatalogEntry[] = [];
   @state() chatQueue: ChatQueueItem[] = [];
   @state() chatAttachments: ChatAttachment[] = [];
   @state() chatManualRefreshInFlight = false;
+  @state() navDrawerOpen = false;
 
   onSlashAction?: (action: string) => void;
 
@@ -541,6 +545,7 @@ export class LalaApp extends LitElement {
 
   setTab(next: Tab) {
     setTabInternal(this as unknown as Parameters<typeof setTabInternal>[0], next);
+    this.navDrawerOpen = false;
   }
 
   setTheme(next: ThemeName, context?: Parameters<typeof setThemeInternal>[2]) {

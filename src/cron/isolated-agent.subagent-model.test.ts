@@ -37,11 +37,7 @@ async function writeSessionStore(home: string) {
   return storePath;
 }
 
-function makeCfg(
-  home: string,
-  storePath: string,
-  overrides: Partial<LalaConfig> = {},
-): LalaConfig {
+function makeCfg(home: string, storePath: string, overrides: Partial<LalaConfig> = {}): LalaConfig {
   const base: LalaConfig = {
     agents: {
       defaults: {

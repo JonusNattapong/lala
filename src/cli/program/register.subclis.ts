@@ -34,15 +34,14 @@ const shouldEagerRegisterSubcommands = (_argv: string[]) => {
   );
 };
 
-export const loadValidatedConfigForPluginRegistration =
-  async (): Promise<LalaConfig | null> => {
-    const mod = await import("../../config/config.js");
-    const snapshot = await mod.readConfigFileSnapshot();
-    if (!snapshot.valid) {
-      return null;
-    }
-    return mod.loadConfig();
-  };
+export const loadValidatedConfigForPluginRegistration = async (): Promise<LalaConfig | null> => {
+  const mod = await import("../../config/config.js");
+  const snapshot = await mod.readConfigFileSnapshot();
+  if (!snapshot.valid) {
+    return null;
+  }
+  return mod.loadConfig();
+};
 
 // Note for humans and agents:
 // If you update the list of commands, also check whether they have subcommands

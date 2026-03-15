@@ -88,11 +88,7 @@ export function getPath(root: unknown, segments: string[]): unknown {
   return cursor;
 }
 
-export function setPathCreateStrict(
-  root: LalaConfig,
-  segments: string[],
-  value: unknown,
-): boolean {
+export function setPathCreateStrict(root: LalaConfig, segments: string[], value: unknown): boolean {
   if (segments.length === 0) {
     throw new Error("Target path is empty.");
   }

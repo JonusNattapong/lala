@@ -4,10 +4,11 @@ import { renderThemeToggle } from "../app-render.helpers.ts";
 import type { AppViewState } from "../app-view-state.ts";
 import { icons } from "../icons.ts";
 import { normalizeBasePath } from "../navigation.ts";
+import { agentLogoUrl } from "./agents-utils.ts";
 
 export function renderLoginGate(state: AppViewState) {
   const basePath = normalizeBasePath(state.basePath ?? "");
-  const faviconSrc = basePath ? `${basePath}/favicon.svg` : "/favicon.svg";
+  const faviconSrc = agentLogoUrl(basePath);
 
   return html`
     <div class="login-gate">
@@ -42,7 +43,7 @@ export function renderLoginGate(state: AppViewState) {
                   const v = (e.target as HTMLInputElement).value;
                   state.applySettings({ ...state.settings, token: v });
                 }}
-                placeholder="OPENCLAW_GATEWAY_TOKEN (${t("login.passwordPlaceholder")})"
+                placeholder="LALA_GATEWAY_TOKEN (${t("login.passwordPlaceholder")})"
                 @keydown=${(e: KeyboardEvent) => {
                   if (e.key === "Enter") {
                     state.connect();

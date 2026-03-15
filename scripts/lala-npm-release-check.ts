@@ -138,9 +138,7 @@ export function collectReleasePackageMetadataErrors(pkg: PackageJson): string[] 
     );
   }
   if (pkg.bin?.lala !== "lala.mjs") {
-    errors.push(
-      `package.json bin.lala must be "lala.mjs"; found "${pkg.bin?.lala ?? ""}".`,
-    );
+    errors.push(`package.json bin.lala must be "lala.mjs"; found "${pkg.bin?.lala ?? ""}".`);
   }
   if (pkg.peerDependencies?.["node-llama-cpp"] !== "3.16.2") {
     errors.push(

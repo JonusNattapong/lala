@@ -651,10 +651,7 @@ export async function promptParsedAllowFromForScopedChannel(params: {
   message: string;
   placeholder: string;
   parseEntries: (raw: string) => ParsedAllowFromResult;
-  getExistingAllowFrom: (params: {
-    cfg: LalaConfig;
-    accountId: string;
-  }) => Array<string | number>;
+  getExistingAllowFrom: (params: { cfg: LalaConfig; accountId: string }) => Array<string | number>;
 }): Promise<LalaConfig> {
   const accountId = resolveOnboardingAccountId({
     accountId: params.accountId,

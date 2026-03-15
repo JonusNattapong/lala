@@ -133,10 +133,7 @@ export function isHeartbeatEnabledForAgent(cfg: LalaConfig, agentId?: string): b
   return resolvedAgentId === resolveDefaultAgentId(cfg);
 }
 
-function resolveHeartbeatConfig(
-  cfg: LalaConfig,
-  agentId?: string,
-): HeartbeatConfig | undefined {
+function resolveHeartbeatConfig(cfg: LalaConfig, agentId?: string): HeartbeatConfig | undefined {
   const defaults = cfg.agents?.defaults?.heartbeat;
   if (!agentId) {
     return defaults;

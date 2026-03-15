@@ -74,9 +74,7 @@ function expectDockerSetupCommand(command: string) {
   ).toBe(true);
 }
 
-function createDefaultsSandboxConfig(
-  scope: "agent" | "shared" | "session" = "agent",
-): LalaConfig {
+function createDefaultsSandboxConfig(scope: "agent" | "shared" | "session" = "agent"): LalaConfig {
   return {
     agents: {
       defaults: {

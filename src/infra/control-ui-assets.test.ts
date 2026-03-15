@@ -139,9 +139,9 @@ describe("control UI assets helpers (fs-mocked)", () => {
 
   it("uses resolveLalaPackageRoot when available", async () => {
     const pkgRoot = abs("fixtures/lala");
-    (
-      lalaRoot.resolveLalaPackageRoot as unknown as ReturnType<typeof vi.fn>
-    ).mockResolvedValueOnce(pkgRoot);
+    (lalaRoot.resolveLalaPackageRoot as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce(
+      pkgRoot,
+    );
 
     await expect(resolveControlUiDistIndexPath(abs("fixtures/bin/lala"))).resolves.toBe(
       path.join(pkgRoot, "dist", "control-ui", "index.html"),

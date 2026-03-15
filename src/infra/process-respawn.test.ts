@@ -186,7 +186,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     clearSupervisorHints();
     process.env.LALA_LAUNCHD_LABEL = "ai.lala.gateway";
     expectLaunchdSupervisedWithoutKickstart();
-    
+
     clearSupervisorHints();
     process.env.OPENCLAW_LAUNCHD_LABEL = "ai.lala.gateway";
     expectLaunchdSupervisedWithoutKickstart();

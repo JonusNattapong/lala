@@ -7,9 +7,7 @@ import {
 describe("resolveGatewayDevMode", () => {
   it("detects src ts entrypoints", () => {
     expect(resolveGatewayDevMode(["node", "/Users/me/lala/src/cli/index.ts"])).toBe(true);
-    expect(resolveGatewayDevMode(["node", "C:\\Users\\me\\lala\\src\\cli\\index.ts"])).toBe(
-      true,
-    );
+    expect(resolveGatewayDevMode(["node", "C:\\Users\\me\\lala\\src\\cli\\index.ts"])).toBe(true);
     expect(resolveGatewayDevMode(["node", "/Users/me/lala/dist/cli/index.js"])).toBe(false);
   });
 });

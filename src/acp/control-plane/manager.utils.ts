@@ -50,10 +50,7 @@ export function normalizeSessionKey(sessionKey: string): string {
   return sessionKey.trim();
 }
 
-export function canonicalizeAcpSessionKey(params: {
-  cfg: LalaConfig;
-  sessionKey: string;
-}): string {
+export function canonicalizeAcpSessionKey(params: { cfg: LalaConfig; sessionKey: string }): string {
   const normalized = normalizeSessionKey(params.sessionKey);
   if (!normalized) {
     return "";

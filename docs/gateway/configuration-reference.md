@@ -1705,7 +1705,7 @@ Local onboarding defaults new local configs to `tools.profile: "coding"` when un
 | `group:automation` | `cron`, `gateway`                                                                        |
 | `group:messaging`  | `message`                                                                                |
 | `group:nodes`      | `nodes`                                                                                  |
-| `group:lala`   | All built-in tools (excludes provider plugins)                                           |
+| `group:lala`       | All built-in tools (excludes provider plugins)                                           |
 
 ### `tools.allow` / `tools.deny`
 

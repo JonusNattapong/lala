@@ -5,13 +5,7 @@ import { applyCliProfileEnv, parseCliProfileArgs } from "./profile.js";
 
 describe("parseCliProfileArgs", () => {
   it("leaves gateway --dev for subcommands", () => {
-    const res = parseCliProfileArgs([
-      "node",
-      "lala",
-      "gateway",
-      "--dev",
-      "--allow-unconfigured",
-    ]);
+    const res = parseCliProfileArgs(["node", "lala", "gateway", "--dev", "--allow-unconfigured"]);
     if (!res.ok) {
       throw new Error(res.error);
     }
@@ -94,9 +88,7 @@ describe("applyCliProfileEnv", () => {
 
     const resolvedHome = path.resolve("/srv/lala-home");
     expect(env.OPENCLAW_STATE_DIR).toBe(path.join(resolvedHome, ".lala-work"));
-    expect(env.OPENCLAW_CONFIG_PATH).toBe(
-      path.join(resolvedHome, ".lala-work", "lala.json"),
-    );
+    expect(env.OPENCLAW_CONFIG_PATH).toBe(path.join(resolvedHome, ".lala-work", "lala.json"));
   });
 });
 
@@ -155,9 +147,7 @@ describe("formatCliCommand", () => {
   });
 
   it("handles command with no args after lala", () => {
-    expect(formatCliCommand("lala", { OPENCLAW_PROFILE: "test" })).toBe(
-      "lala --profile test",
-    );
+    expect(formatCliCommand("lala", { OPENCLAW_PROFILE: "test" })).toBe("lala --profile test");
   });
 
   it("handles pnpm wrapper", () => {

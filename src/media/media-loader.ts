@@ -1,6 +1,6 @@
+import { createSubsystemLogger } from "../logging/subsystem.js";
 import type { OutboundMediaLoadOptions } from "../media/load-options.js";
 import { detectMime } from "../media/mime.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
 
 const mediaLog = createSubsystemLogger("media").child("loader");
 
@@ -19,27 +19,28 @@ export async function loadWebMedia(
     if (!response.ok) {
       throw new Error(`Failed to fetch media: ${response.status} ${response.statusText}`);
     }
-    
+
     const buffer = Buffer.from(await response.arrayBuffer());
-    const contentType = response.headers.get('content-type') || detectMime(buffer) || 'application/octet-stream';
-    
+    const contentType =
+      response.headers.get("content-type") || detectMime(buffer) || "application/octet-stream";
+
     // Extract filename from URL or content-disposition if available
     let fileName: string | undefined;
-    const urlFilename = new URL(url).pathname.split('/').pop();
+    const urlFilename = new URL(url).pathname.split("/").pop();
     if (urlFilename) {
       fileName = urlFilename;
     }
-    
-    const contentDisposition = response.headers.get('content-disposition');
+
+    const contentDisposition = response.headers.get("content-disposition");
     if (contentDisposition) {
       const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
       if (filenameMatch?.[1]) {
-        fileName = filenameMatch[1].replace(/['"]/g, '');
+        fileName = filenameMatch[1].replace(/['"]/g, "");
       }
     }
-    
+
     mediaLog.debug("Loaded media", { url, contentType, fileName, size: buffer.length });
-    
+
     return {
       buffer,
       contentType,

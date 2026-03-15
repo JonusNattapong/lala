@@ -186,10 +186,7 @@ export type InternalHookHandler = (event: InternalHookEvent) => Promise<void> | 
 const _g = globalThis as typeof globalThis & {
   __lala_internal_hook_handlers__?: Map<string, InternalHookHandler[]>;
 };
-const handlers = (_g.__lala_internal_hook_handlers__ ??= new Map<
-  string,
-  InternalHookHandler[]
->());
+const handlers = (_g.__lala_internal_hook_handlers__ ??= new Map<string, InternalHookHandler[]>());
 const log = createSubsystemLogger("internal-hooks");
 
 /**

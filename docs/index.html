@@ -1,80 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lala Docs</title>
+    <meta
+      name="description"
+      content="Static Markdown documentation viewer for Lala, built for GitHub Pages."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./docs-app.css?v=20260313e" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lala Docs</title>
-  <meta name="description" content="Static Markdown documentation viewer for Lala, built for GitHub Pages.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="./docs-app.css?v=20260313e">
-</head>
-
-<body>
-  <div class="docs-shell">
-    <aside class="docs-sidebar" id="docs-sidebar">
-      <div class="sidebar-brand">
-        <img src="./assets/logo-page-transparent.png" alt="L" class="sidebar-brand__mark">
-        <div>
-          <p class="sidebar-brand__eyebrow">GitHub Pages</p>
-          <h1>Lala Docs</h1>
+  <body>
+    <div class="docs-shell">
+      <aside class="docs-sidebar" id="docs-sidebar">
+        <div class="sidebar-brand">
+          <img src="./assets/logo-page-transparent.png" alt="L" class="sidebar-brand__mark" />
+          <div>
+            <p class="sidebar-brand__eyebrow">GitHub Pages</p>
+            <h1>Lala Docs</h1>
+          </div>
         </div>
-      </div>
 
-      <label class="search-box" for="docs-search">
-        <span>Search docs</span>
-        <input id="docs-search" type="search" placeholder="Find a guide, command, or topic">
-      </label>
+        <label class="search-box" for="docs-search">
+          <span>Search docs</span>
+          <input id="docs-search" type="search" placeholder="Find a guide, command, or topic" />
+        </label>
 
-      <nav class="docs-nav" id="docs-nav" aria-label="Documentation sections"></nav>
-    </aside>
+        <nav class="docs-nav" id="docs-nav" aria-label="Documentation sections"></nav>
+      </aside>
 
-    <main class="docs-main">
-      <header class="docs-topbar">
-        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <div class="docs-topbar__meta">
-          <p class="docs-topbar__eyebrow">Markdown Viewer</p>
-          <h2 id="doc-title">Loading…</h2>
-        </div>
-        <div class="docs-topbar__actions">
-          <a class="ghost-button" href="https://github.com/JonusNattapong/lala" target="_blank"
-            rel="noreferrer">GitHub</a>
-        </div>
-      </header>
+      <main class="docs-main">
+        <header class="docs-topbar">
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div class="docs-topbar__meta">
+            <p class="docs-topbar__eyebrow">Markdown Viewer</p>
+            <h2 id="doc-title">Loading…</h2>
+          </div>
+          <div class="docs-topbar__actions">
+            <a
+              class="ghost-button"
+              href="https://github.com/JonusNattapong/lala"
+              target="_blank"
+              rel="noreferrer"
+              >GitHub</a
+            >
+          </div>
+        </header>
 
-      <section class="hero-panel">
-        <div>
-          <p class="hero-panel__eyebrow">Static, searchable, zero backend</p>
-          <h3>Browse Markdown docs directly from this repository.</h3>
-          <p class="hero-panel__body">
-            This viewer fetches files from <code>docs/</code>, renders Markdown in the browser,
-            and works on GitHub Pages without Jekyll plugins or a runtime server.
-          </p>
-        </div>
-        <div class="hero-panel__pillbox">
-          <span class="hero-pill" id="doc-path-pill">docs/index.md</span>
-          <button class="hero-pill hero-pill--button" id="copy-link" type="button">Copy link</button>
-        </div>
-      </section>
+        <section class="hero-panel">
+          <div>
+            <p class="hero-panel__eyebrow">Static, searchable, zero backend</p>
+            <h3>Browse Markdown docs directly from this repository.</h3>
+            <p class="hero-panel__body">
+              This viewer fetches files from <code>docs/</code>, renders Markdown in the browser,
+              and works on GitHub Pages without Jekyll plugins or a runtime server.
+            </p>
+          </div>
+          <div class="hero-panel__pillbox">
+            <span class="hero-pill" id="doc-path-pill">docs/index.md</span>
+            <button class="hero-pill hero-pill--button" id="copy-link" type="button">
+              Copy link
+            </button>
+          </div>
+        </section>
 
-      <section class="status-banner" id="status-banner" hidden></section>
+        <section class="status-banner" id="status-banner" hidden></section>
 
-      <article class="docs-article">
-        <div class="docs-meta" id="docs-meta"></div>
-        <div class="markdown-body" id="docs-content"></div>
-      </article>
-    </main>
-  </div>
+        <article class="docs-article">
+          <div class="docs-meta" id="docs-meta"></div>
+          <div class="markdown-body" id="docs-content"></div>
+        </article>
+      </main>
+    </div>
 
-  <script defer src="./docs-app.js?v=20260313e"></script>
-</body>
-
+    <script defer src="./docs-app.js?v=20260313e"></script>
+  </body>
 </html>

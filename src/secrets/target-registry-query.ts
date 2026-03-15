@@ -239,9 +239,7 @@ export function resolvePlanTargetAgainstRegistry(candidate: {
   return null;
 }
 
-export function discoverConfigSecretTargets(
-  config: LalaConfig,
-): DiscoveredConfigSecretTarget[] {
+export function discoverConfigSecretTargets(config: LalaConfig): DiscoveredConfigSecretTarget[] {
   return discoverConfigSecretTargetsByIds(config);
 }
 

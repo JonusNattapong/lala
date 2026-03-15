@@ -48,10 +48,7 @@ function createPerplexityConfig(apiKey: string, enabled?: boolean): LalaConfig {
   };
 }
 
-async function runBlankPerplexityKeyEntry(
-  apiKey: string,
-  enabled?: boolean,
-): Promise<LalaConfig> {
+async function runBlankPerplexityKeyEntry(apiKey: string, enabled?: boolean): Promise<LalaConfig> {
   const cfg = createPerplexityConfig(apiKey, enabled);
   const { prompter } = createPrompter({
     selectValue: "perplexity",

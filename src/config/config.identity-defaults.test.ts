@@ -27,11 +27,7 @@ describe("config identity defaults", () => {
   const writeAndLoadConfig = async (home: string, config: Record<string, unknown>) => {
     const configDir = path.join(home, ".lala");
     await fs.mkdir(configDir, { recursive: true });
-    await fs.writeFile(
-      path.join(configDir, "lala.json"),
-      JSON.stringify(config, null, 2),
-      "utf-8",
-    );
+    await fs.writeFile(path.join(configDir, "lala.json"), JSON.stringify(config, null, 2), "utf-8");
     return loadConfig();
   };
 

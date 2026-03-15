@@ -41,10 +41,7 @@ function expectPrimaryModelChanged(
   expect(applied.next.agents?.defaults?.model).toEqual({ primary });
 }
 
-function expectConfigUnchanged(
-  applied: { changed: boolean; next: LalaConfig },
-  cfg: LalaConfig,
-) {
+function expectConfigUnchanged(applied: { changed: boolean; next: LalaConfig }, cfg: LalaConfig) {
   expect(applied.changed).toBe(false);
   expect(applied.next).toEqual(cfg);
 }

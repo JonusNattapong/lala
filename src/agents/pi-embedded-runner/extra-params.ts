@@ -5,9 +5,11 @@ import type { ThinkLevel } from "../../auto-reply/thinking.js";
 import type { LalaConfig } from "../../config/config.js";
 import {
   createAnthropicBetaHeadersWrapper,
+  createAnthropicFastModeWrapper,
   createAnthropicToolPayloadCompatibilityWrapper,
   createBedrockNoCacheWrapper,
   isAnthropicBedrockModel,
+  resolveAnthropicFastMode,
   resolveAnthropicBetas,
   resolveCacheRetention,
 } from "./anthropic-stream-wrappers.js";
@@ -22,8 +24,10 @@ import {
 import {
   createCodexDefaultTransportWrapper,
   createOpenAIDefaultTransportWrapper,
+  createOpenAIFastModeWrapper,
   createOpenAIResponsesContextManagementWrapper,
   createOpenAIServiceTierWrapper,
+  resolveOpenAIFastMode,
   resolveOpenAIServiceTier,
 } from "./openai-stream-wrappers.js";
 import {
@@ -447,6 +451,18 @@ export function applyExtraParamsToAgent(
   // Force `store=true` for direct OpenAI Responses models and auto-enable
   // server-side compaction for compatible OpenAI Responses payloads.
   agent.streamFn = createOpenAIResponsesContextManagementWrapper(agent.streamFn, merged);
+
+  const anthropicFastMode = resolveAnthropicFastMode(merged);
+  if (anthropicFastMode !== undefined) {
+    log.debug(`applying Anthropic fast mode=${anthropicFastMode} for ${provider}/${modelId}`);
+    agent.streamFn = createAnthropicFastModeWrapper(agent.streamFn, anthropicFastMode);
+  }
+
+  const openAIFastMode = resolveOpenAIFastMode(merged);
+  if (openAIFastMode) {
+    log.debug(`applying OpenAI fast mode for ${provider}/${modelId}`);
+    agent.streamFn = createOpenAIFastModeWrapper(agent.streamFn);
+  }
 
   const rawParallelToolCalls = resolveAliasedParamValue(
     [resolvedExtraParams, override],

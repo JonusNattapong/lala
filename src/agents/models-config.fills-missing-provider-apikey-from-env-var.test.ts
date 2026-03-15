@@ -86,10 +86,7 @@ async function runCustomProviderMergeTest(params: {
   }>();
 }
 
-function createMoonshotConfig(overrides: {
-  contextWindow: number;
-  maxTokens: number;
-}): LalaConfig {
+function createMoonshotConfig(overrides: { contextWindow: number; maxTokens: number }): LalaConfig {
   return {
     models: {
       providers: {

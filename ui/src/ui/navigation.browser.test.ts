@@ -33,22 +33,22 @@ describe("control UI routing", () => {
   });
 
   it("infers nested base paths", async () => {
-    const app = mountApp("/apps/lala/cron");
+    const app = mountApp("/apps/openclaw/cron");
     await app.updateComplete;
 
-    expect(app.basePath).toBe("/apps/lala");
+    expect(app.basePath).toBe("/apps/openclaw");
     expect(app.tab).toBe("cron");
-    expect(window.location.pathname).toBe("/apps/lala/cron");
+    expect(window.location.pathname).toBe("/apps/openclaw/cron");
   });
 
   it("honors explicit base path overrides", async () => {
-    window.__OPENCLAW_CONTROL_UI_BASE_PATH__ = "/lala";
-    const app = mountApp("/lala/sessions");
+    window.__OPENCLAW_CONTROL_UI_BASE_PATH__ = "/openclaw";
+    const app = mountApp("/openclaw/sessions");
     await app.updateComplete;
 
-    expect(app.basePath).toBe("/lala");
+    expect(app.basePath).toBe("/openclaw");
     expect(app.tab).toBe("sessions");
-    expect(window.location.pathname).toBe("/lala/sessions");
+    expect(window.location.pathname).toBe("/openclaw/sessions");
   });
 
   it("updates the URL when clicking nav items", async () => {
@@ -62,6 +62,85 @@ describe("control UI routing", () => {
     await app.updateComplete;
     expect(app.tab).toBe("channels");
     expect(window.location.pathname).toBe("/channels");
+  });
+
+  it("renders the refreshed top navigation shell", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    expect(app.querySelector(".topnav-shell")).not.toBeNull();
+    expect(app.querySelector(".topnav-shell__content")).not.toBeNull();
+    expect(app.querySelector(".topnav-shell__actions")).not.toBeNull();
+    expect(app.querySelector(".topnav-shell .brand-title")).toBeNull();
+  });
+
+  it("renders the refreshed sidebar shell structure", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    expect(app.querySelector(".sidebar-shell")).not.toBeNull();
+    expect(app.querySelector(".sidebar-shell__header")).not.toBeNull();
+    expect(app.querySelector(".sidebar-shell__body")).not.toBeNull();
+    expect(app.querySelector(".sidebar-shell__footer")).not.toBeNull();
+    expect(app.querySelector(".sidebar-brand")).not.toBeNull();
+    expect(app.querySelector(".sidebar-brand__logo")).not.toBeNull();
+    expect(app.querySelector(".sidebar-brand__copy")).not.toBeNull();
+  });
+
+  it("does not render a desktop sidebar resizer or inject a custom nav width", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    app.applySettings({ ...app.settings, navWidth: 360 });
+    await app.updateComplete;
+
+    expect(app.querySelector(".sidebar-resizer")).toBeNull();
+    const shell = app.querySelector<HTMLElement>(".shell");
+    expect(shell?.style.getPropertyValue("--shell-nav-width")).toBe("");
+  });
+
+  it("hides section labels in collapsed mode", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    app.applySettings({ ...app.settings, navCollapsed: true });
+    await app.updateComplete;
+
+    expect(app.querySelector(".nav-section__label")).toBeNull();
+    expect(app.querySelector(".sidebar-brand__logo")).toBeNull();
+  });
+
+  it("keeps footer utilities available in collapsed mode", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    app.applySettings({ ...app.settings, navCollapsed: true });
+    await app.updateComplete;
+
+    expect(app.querySelector(".sidebar-shell__footer")).not.toBeNull();
+    expect(app.querySelector(".sidebar-utility-link")).not.toBeNull();
+  });
+
+  it("keeps the collapsed desktop rail compact", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    app.applySettings({ ...app.settings, navCollapsed: true });
+    await app.updateComplete;
+
+    const item = app.querySelector<HTMLElement>(".sidebar .nav-item");
+    const header = app.querySelector<HTMLElement>(".sidebar-shell__header");
+    expect(item).not.toBeNull();
+    expect(header).not.toBeNull();
+    if (!item || !header) {
+      return;
+    }
+
+    const itemStyles = getComputedStyle(item);
+    const headerStyles = getComputedStyle(header);
+    expect(itemStyles.width).toBe("44px");
+    expect(itemStyles.minHeight).toBe("44px");
+    expect(headerStyles.justifyContent).toBe("center");
   });
 
   it("resets to the main session when opening chat from sidebar navigation", async () => {
@@ -105,6 +184,96 @@ describe("control UI routing", () => {
     if (chatMain) {
       expect(getComputedStyle(chatMain).display).toBe("none");
     }
+  });
+
+  it("stacks the refreshed top navigation for narrow viewports", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    expect(window.matchMedia("(max-width: 768px)").matches).toBe(true);
+
+    const shell = app.querySelector<HTMLElement>(".topnav-shell");
+    const content = app.querySelector<HTMLElement>(".topnav-shell__content");
+    expect(shell).not.toBeNull();
+    expect(content).not.toBeNull();
+    if (!shell || !content) {
+      return;
+    }
+
+    expect(getComputedStyle(shell).flexWrap).toBe("wrap");
+    expect(getComputedStyle(content).width).not.toBe("auto");
+  });
+
+  it("keeps the mobile topbar nav toggle visible beside the search row", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    expect(window.matchMedia("(max-width: 768px)").matches).toBe(true);
+
+    const shell = app.querySelector<HTMLElement>(".topnav-shell");
+    const toggle = app.querySelector<HTMLElement>(".topbar-nav-toggle");
+    const actions = app.querySelector<HTMLElement>(".topnav-shell__actions");
+    expect(shell).not.toBeNull();
+    expect(toggle).not.toBeNull();
+    expect(actions).not.toBeNull();
+    if (!shell || !toggle || !actions) {
+      return;
+    }
+
+    const shellWidth = parseFloat(getComputedStyle(shell).width);
+    const toggleWidth = parseFloat(getComputedStyle(toggle).width);
+    const actionsWidth = parseFloat(getComputedStyle(actions).width);
+
+    expect(toggleWidth).toBeGreaterThan(0);
+    expect(actionsWidth).toBeLessThan(shellWidth);
+  });
+
+  it("opens the mobile sidenav as a drawer from the topbar toggle", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    expect(window.matchMedia("(max-width: 768px)").matches).toBe(true);
+
+    const toggle = app.querySelector<HTMLButtonElement>(".topbar-nav-toggle");
+    const shell = app.querySelector<HTMLElement>(".shell");
+    const nav = app.querySelector<HTMLElement>(".shell-nav");
+    expect(toggle).not.toBeNull();
+    expect(shell).not.toBeNull();
+    expect(nav).not.toBeNull();
+    if (!toggle || !shell || !nav) {
+      return;
+    }
+
+    expect(shell.classList.contains("shell--nav-drawer-open")).toBe(false);
+    toggle.click();
+    await app.updateComplete;
+
+    expect(shell.classList.contains("shell--nav-drawer-open")).toBe(true);
+    const styles = getComputedStyle(nav);
+    expect(styles.position).toBe("fixed");
+    expect(styles.transform).not.toBe("none");
+  });
+
+  it("closes the mobile sidenav drawer after navigation", async () => {
+    const app = mountApp("/chat");
+    await app.updateComplete;
+
+    expect(window.matchMedia("(max-width: 768px)").matches).toBe(true);
+
+    const toggle = app.querySelector<HTMLButtonElement>(".topbar-nav-toggle");
+    expect(toggle).not.toBeNull();
+    toggle?.click();
+    await app.updateComplete;
+
+    const link = app.querySelector<HTMLAnchorElement>('a.nav-item[href="/channels"]');
+    const shell = app.querySelector<HTMLElement>(".shell");
+    expect(link).not.toBeNull();
+    expect(shell?.classList.contains("shell--nav-drawer-open")).toBe(true);
+    link?.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }));
+
+    await app.updateComplete;
+    expect(app.tab).toBe("channels");
+    expect(shell?.classList.contains("shell--nav-drawer-open")).toBe(false);
   });
 
   it("auto-scrolls chat history to the latest message", async () => {
@@ -151,7 +320,7 @@ describe("control UI routing", () => {
     await app.updateComplete;
 
     expect(app.settings.token).toBe("");
-    expect(JSON.parse(localStorage.getItem("lala.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -169,17 +338,17 @@ describe("control UI routing", () => {
 
   it("hydrates token from URL hash when settings already set", async () => {
     localStorage.setItem(
-      "lala.control.settings.v1",
-      JSON.stringify({ token: "existing-token", gatewayUrl: "wss://gateway.example/lala" }),
+      "openclaw.control.settings.v1",
+      JSON.stringify({ token: "existing-token", gatewayUrl: "wss://gateway.example/openclaw" }),
     );
     const app = mountApp("/ui/overview#token=abc123");
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("lala.control.settings.v1") ?? "{}")).toMatchObject({
-      gatewayUrl: "wss://gateway.example/lala",
+    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}")).toMatchObject({
+      gatewayUrl: "wss://gateway.example/openclaw",
     });
-    expect(JSON.parse(localStorage.getItem("lala.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -191,7 +360,7 @@ describe("control UI routing", () => {
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("lala.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -206,21 +375,21 @@ describe("control UI routing", () => {
       'input[placeholder="ws://100.x.y.z:18789"]',
     );
     expect(gatewayUrlInput).not.toBeNull();
-    gatewayUrlInput!.value = "wss://other-gateway.example/lala";
+    gatewayUrlInput!.value = "wss://other-gateway.example/openclaw";
     gatewayUrlInput!.dispatchEvent(new Event("input", { bubbles: true }));
     await app.updateComplete;
 
-    expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/lala");
+    expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/openclaw");
     expect(app.settings.token).toBe("");
   });
 
   it("keeps a hash token pending until the gateway URL change is confirmed", async () => {
     const app = mountApp(
-      "/ui/overview?gatewayUrl=wss://other-gateway.example/lala#token=abc123",
+      "/ui/overview?gatewayUrl=wss://other-gateway.example/openclaw#token=abc123",
     );
     await app.updateComplete;
 
-    expect(app.settings.gatewayUrl).not.toBe("wss://other-gateway.example/lala");
+    expect(app.settings.gatewayUrl).not.toBe("wss://other-gateway.example/openclaw");
     expect(app.settings.token).toBe("");
 
     const confirmButton = Array.from(app.querySelectorAll<HTMLButtonElement>("button")).find(
@@ -230,7 +399,7 @@ describe("control UI routing", () => {
     confirmButton?.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
     await app.updateComplete;
 
-    expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/lala");
+    expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/openclaw");
     expect(app.settings.token).toBe("abc123");
     expect(window.location.search).toBe("");
     expect(window.location.hash).toBe("");
@@ -245,7 +414,7 @@ describe("control UI routing", () => {
     await refreshed.updateComplete;
 
     expect(refreshed.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("lala.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
   });

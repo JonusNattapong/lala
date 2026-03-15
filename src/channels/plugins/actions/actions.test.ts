@@ -67,8 +67,7 @@ async function runSignalAction(
     toolContext?: SignalActionInput["toolContext"];
   },
 ) {
-  const cfg =
-    options?.cfg ?? ({ channels: { signal: { account: "+15550001111" } } } as LalaConfig);
+  const cfg = options?.cfg ?? ({ channels: { signal: { account: "+15550001111" } } } as LalaConfig);
   const handleAction = signalMessageActions.handleAction;
   if (!handleAction) {
     throw new Error("signal handleAction unavailable");
@@ -140,9 +139,7 @@ function createSignalAccountOverrideCfg(): LalaConfig {
   } as LalaConfig;
 }
 
-function createDiscordModerationOverrideCfg(params?: {
-  channelsEnabled?: boolean;
-}): LalaConfig {
+function createDiscordModerationOverrideCfg(params?: { channelsEnabled?: boolean }): LalaConfig {
   const accountActions = params?.channelsEnabled
     ? { moderation: true, channels: true }
     : { moderation: true };

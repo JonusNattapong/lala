@@ -271,9 +271,7 @@ function resolveBrowserBaseUrl(params: {
     throw new Error("Host browser control is disabled by sandbox policy.");
   }
   if (!resolved.enabled) {
-    throw new Error(
-      "Browser control is disabled. Set browser.enabled=true in ~/.lala/lala.json.",
-    );
+    throw new Error("Browser control is disabled. Set browser.enabled=true in ~/.lala/lala.json.");
   }
   return undefined;
 }

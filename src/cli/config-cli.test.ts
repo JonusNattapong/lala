@@ -34,10 +34,7 @@ vi.mock("../runtime.js", () => ({
   },
 }));
 
-function buildSnapshot(params: {
-  resolved: LalaConfig;
-  config: LalaConfig;
-}): ConfigFileSnapshot {
+function buildSnapshot(params: { resolved: LalaConfig; config: LalaConfig }): ConfigFileSnapshot {
   return {
     path: "/tmp/lala.json",
     exists: true,

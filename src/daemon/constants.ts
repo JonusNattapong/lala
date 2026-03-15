@@ -20,10 +20,7 @@ export const LEGACY_GATEWAY_SYSTEMD_SERVICE_NAMES: string[] = [
   "clawdbot-gateway",
   "moltbot-gateway",
 ];
-export const LEGACY_GATEWAY_WINDOWS_TASK_NAMES: string[] = [
-  "OpenClaw Gateway",
-  "Lalabot Gateway",
-];
+export const LEGACY_GATEWAY_WINDOWS_TASK_NAMES: string[] = ["OpenClaw Gateway", "Lalabot Gateway"];
 
 export function normalizeGatewayProfile(profile?: string): string | null {
   const trimmed = profile?.trim();
@@ -99,10 +96,7 @@ export function resolveGatewayServiceDescription(params: {
   return (
     params.description ??
     formatGatewayServiceDescription({
-      profile:
-        params.env.LALA_PROFILE ??
-        params.env.LALABOT_PROFILE ??
-        params.env.OPENCLAW_PROFILE,
+      profile: params.env.LALA_PROFILE ?? params.env.LALABOT_PROFILE ?? params.env.OPENCLAW_PROFILE,
       version:
         params.environment?.LALA_SERVICE_VERSION ??
         params.env.LALA_SERVICE_VERSION ??

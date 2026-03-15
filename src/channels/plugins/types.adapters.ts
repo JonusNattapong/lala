@@ -32,11 +32,7 @@ export type ChannelSetupAdapter = {
     agentId: string;
     accountId?: string;
   }) => string | undefined;
-  applyAccountName?: (params: {
-    cfg: LalaConfig;
-    accountId: string;
-    name?: string;
-  }) => LalaConfig;
+  applyAccountName?: (params: { cfg: LalaConfig; accountId: string; name?: string }) => LalaConfig;
   applyAccountConfig: (params: {
     cfg: LalaConfig;
     accountId: string;
@@ -74,10 +70,7 @@ export type ChannelConfigAdapter<ResolvedAccount> = {
     accountId?: string | null;
     allowFrom: Array<string | number>;
   }) => string[];
-  resolveDefaultTo?: (params: {
-    cfg: LalaConfig;
-    accountId?: string | null;
-  }) => string | undefined;
+  resolveDefaultTo?: (params: { cfg: LalaConfig; accountId?: string | null }) => string | undefined;
 };
 
 export type ChannelGroupAdapter = {
@@ -265,11 +258,7 @@ export type ChannelLogoutContext<ResolvedAccount = unknown> = {
 export type ChannelPairingAdapter = {
   idLabel: string;
   normalizeAllowEntry?: (entry: string) => string;
-  notifyApproval?: (params: {
-    cfg: LalaConfig;
-    id: string;
-    runtime?: RuntimeEnv;
-  }) => Promise<void>;
+  notifyApproval?: (params: { cfg: LalaConfig; id: string; runtime?: RuntimeEnv }) => Promise<void>;
 };
 
 export type ChannelGatewayAdapter<ResolvedAccount = unknown> = {

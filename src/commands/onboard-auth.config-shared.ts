@@ -40,10 +40,7 @@ export function applyOnboardAuthAgentModelsAndProviders(
   };
 }
 
-export function applyAgentDefaultModelPrimary(
-  cfg: LalaConfig,
-  primary: string,
-): LalaConfig {
+export function applyAgentDefaultModelPrimary(cfg: LalaConfig, primary: string): LalaConfig {
   const existingFallbacks = extractAgentDefaultModelFallbacks(cfg.agents?.defaults?.model);
   return {
     ...cfg,

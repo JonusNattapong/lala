@@ -18,11 +18,7 @@ import {
 import type { ModelRow } from "./list.types.js";
 import { isLocalBaseUrl, modelKey } from "./shared.js";
 
-const hasAuthForProvider = (
-  provider: string,
-  cfg?: LalaConfig,
-  authStore?: AuthProfileStore,
-) => {
+const hasAuthForProvider = (provider: string, cfg?: LalaConfig, authStore?: AuthProfileStore) => {
   if (!cfg || !authStore) {
     return false;
   }
@@ -93,10 +89,7 @@ function loadAvailableModels(registry: ModelRegistry): Model<Api>[] {
   }
 }
 
-export async function loadModelRegistry(
-  _cfg: LalaConfig,
-  _opts?: { sourceConfig?: LalaConfig },
-) {
+export async function loadModelRegistry(_cfg: LalaConfig, _opts?: { sourceConfig?: LalaConfig }) {
   const agentDir = resolveLalaAgentDir();
   const authStorage = discoverAuthStorage(agentDir);
   const registry = discoverModels(authStorage, agentDir);

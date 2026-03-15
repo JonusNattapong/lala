@@ -414,10 +414,7 @@ export async function launchLalaChrome(
   };
 }
 
-export async function stopLalaChrome(
-  running: RunningChrome,
-  timeoutMs = CHROME_STOP_TIMEOUT_MS,
-) {
+export async function stopLalaChrome(running: RunningChrome, timeoutMs = CHROME_STOP_TIMEOUT_MS) {
   const proc = running.proc;
   if (proc.killed) {
     return;

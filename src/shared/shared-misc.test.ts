@@ -75,9 +75,7 @@ describe("shared/frontmatter", () => {
 
   test("resolveLalaManifestBlock returns undefined for invalid input", () => {
     expect(resolveLalaManifestBlock({ frontmatter: {} })).toBeUndefined();
-    expect(
-      resolveLalaManifestBlock({ frontmatter: { metadata: "not-json5" } }),
-    ).toBeUndefined();
+    expect(resolveLalaManifestBlock({ frontmatter: { metadata: "not-json5" } })).toBeUndefined();
     expect(
       resolveLalaManifestBlock({ frontmatter: { metadata: "{ nope: { a: 1 } }" } }),
     ).toBeUndefined();

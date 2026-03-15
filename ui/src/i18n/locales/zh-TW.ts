@@ -4,12 +4,14 @@ export const zh_TW: TranslationMap = {
   common: {
     health: "健康狀況",
     ok: "正常",
+    online: "在線",
     offline: "離線",
     connect: "連接",
     refresh: "刷新",
     enabled: "已啟用",
     disabled: "已禁用",
     na: "不適用",
+    version: "版本",
     docs: "文檔",
     resources: "資源",
     search: "搜尋",
@@ -54,7 +56,7 @@ export const zh_TW: TranslationMap = {
     skills: "技能和 API 密鑰。",
     nodes: "配對設備和命令。",
     chat: "網關聊天，快速干預。",
-    config: "編輯 lala.json。",
+    config: "編輯 openclaw.json。",
     communications: "頻道、消息和音頻設置。",
     appearance: "主題、界面和設置向導設置。",
     automation: "命令、鉤子、定時任務和插件設置。",
@@ -109,7 +111,7 @@ export const zh_TW: TranslationMap = {
     pairing: {
       hint: "此裝置需要閘道主機的配對批准。",
       mobileHint:
-        "在手機上？從桌面執行 lala dashboard --no-open 複製完整 URL（包括 #token=...）。",
+        "在手機上？從桌面執行 openclaw dashboard --no-open 複製完整 URL（包括 #token=...）。",
     },
     insecure: {
       hint: "此頁面為 HTTP，因此瀏覽器阻止設備標識。請使用 HTTPS (Tailscale Serve) 或在網關主機上打開 {url}。",

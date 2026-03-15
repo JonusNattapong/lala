@@ -232,9 +232,7 @@ function resolveAccountPatternKey(accountPattern: string): string {
   return normalizeAccountId(accountPattern);
 }
 
-function buildEvaluatedBindingsByChannel(
-  cfg: LalaConfig,
-): Map<string, EvaluatedBindingsByChannel> {
+function buildEvaluatedBindingsByChannel(cfg: LalaConfig): Map<string, EvaluatedBindingsByChannel> {
   const byChannel = new Map<string, EvaluatedBindingsByChannel>();
   let order = 0;
   for (const binding of listBindings(cfg)) {

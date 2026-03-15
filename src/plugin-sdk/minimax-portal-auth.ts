@@ -3,9 +3,5 @@
 
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 export { buildOauthProviderAuthResult } from "./provider-auth-result.js";
-export type {
-  LalaPluginApi,
-  ProviderAuthContext,
-  ProviderAuthResult,
-} from "../plugins/types.js";
+export type { LalaPluginApi, ProviderAuthContext, ProviderAuthResult } from "../plugins/types.js";
 export { generatePkceVerifierChallenge, toFormUrlEncoded } from "./oauth-utils.js";

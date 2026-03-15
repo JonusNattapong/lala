@@ -615,12 +615,13 @@ export async function resolveApnsAuthConfigFromEnv(
     };
   }
 
-  const keyPath = normalizeNonEmptyString(env.LALA_APNS_PRIVATE_KEY_PATH ?? env.OPENCLAW_APNS_PRIVATE_KEY_PATH);
+  const keyPath = normalizeNonEmptyString(
+    env.LALA_APNS_PRIVATE_KEY_PATH ?? env.OPENCLAW_APNS_PRIVATE_KEY_PATH,
+  );
   if (!keyPath) {
     return {
       ok: false,
-      error:
-        "APNs private key missing: set LALA_APNS_PRIVATE_KEY_P8 or LALA_APNS_PRIVATE_KEY_PATH",
+      error: "APNs private key missing: set LALA_APNS_PRIVATE_KEY_P8 or LALA_APNS_PRIVATE_KEY_PATH",
     };
   }
   try {

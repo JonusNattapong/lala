@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import { resolveSessionAuthProfileOverride } from "../../agents/auth-profiles/session-override.js";
 import type { ExecToolDefaults } from "../../agents/bash-tools.js";
+import { resolveFastModeState } from "../../agents/fast-mode.js";
 import {
   abortEmbeddedPiRun,
   isEmbeddedPiRunActive,
@@ -140,6 +141,7 @@ type RunPreparedReplyParams = {
   resolvedThinkLevel: ThinkLevel | undefined;
   resolvedVerboseLevel: VerboseLevel | undefined;
   resolvedReasoningLevel: ReasoningLevel;
+  resolvedFastLevel: boolean;
   resolvedElevatedLevel: ElevatedLevel;
   execOverrides?: ExecOverrides;
   elevatedEnabled: boolean;
@@ -222,6 +224,7 @@ export async function runPreparedReply(
   let {
     sessionEntry,
     resolvedThinkLevel,
+    resolvedFastLevel,
     resolvedVerboseLevel,
     resolvedReasoningLevel,
     resolvedElevatedLevel,
@@ -509,6 +512,7 @@ export async function runPreparedReply(
       authProfileId,
       authProfileIdSource,
       thinkLevel: resolvedThinkLevel,
+      fastMode: resolvedFastLevel,
       verboseLevel: resolvedVerboseLevel,
       reasoningLevel: resolvedReasoningLevel,
       elevatedLevel: resolvedElevatedLevel,

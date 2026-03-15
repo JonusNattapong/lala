@@ -37,6 +37,7 @@ export type ReplyDirectiveContinuation = {
   elevatedFailures: Array<{ gate: string; key: string }>;
   defaultActivation: ReturnType<typeof defaultGroupActivation>;
   resolvedThinkLevel: ThinkLevel | undefined;
+  resolvedFastLevel: boolean;
   resolvedVerboseLevel: VerboseLevel | undefined;
   resolvedReasoningLevel: ReasoningLevel;
   resolvedElevatedLevel: ElevatedLevel;
@@ -340,6 +341,7 @@ export async function resolveReplyDirectives(params: {
   const defaultActivation = defaultGroupActivation(requireMention);
   const resolvedThinkLevel =
     directives.thinkLevel ?? (sessionEntry?.thinkingLevel as ThinkLevel | undefined);
+  const currentFastMode = sessionEntry?.fastMode as boolean | undefined;
 
   const resolvedVerboseLevel =
     directives.verboseLevel ??
@@ -479,6 +481,7 @@ export async function resolveReplyDirectives(params: {
       elevatedFailures,
       defaultActivation,
       resolvedThinkLevel: resolvedThinkLevelWithDefault,
+      resolvedFastLevel: applyResult.directives.fastMode ?? currentFastMode ?? false,
       resolvedVerboseLevel,
       resolvedReasoningLevel,
       resolvedElevatedLevel,

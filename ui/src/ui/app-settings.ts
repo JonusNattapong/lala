@@ -7,7 +7,7 @@ import {
   stopDebugPolling,
 } from "./app-polling.ts";
 import { scheduleChatScroll, scheduleLogsScroll } from "./app-scroll.ts";
-import type { LalaApp } from "./app.ts";
+import type { OpenClawApp } from "./app.ts";
 import { loadAgentIdentities, loadAgentIdentity } from "./controllers/agent-identity.ts";
 import { loadAgentSkills } from "./controllers/agent-skills.ts";
 import { loadAgents } from "./controllers/agents.ts";
@@ -205,33 +205,33 @@ export async function refreshActiveTab(host: SettingsHost) {
     await loadChannelsTab(host);
   }
   if (host.tab === "instances") {
-    await loadPresence(host as unknown as LalaApp);
+    await loadPresence(host as unknown as OpenClawApp);
   }
   if (host.tab === "sessions") {
-    await loadSessions(host as unknown as LalaApp);
+    await loadSessions(host as unknown as OpenClawApp);
   }
   if (host.tab === "cron") {
     await loadCron(host);
   }
   if (host.tab === "skills") {
-    await loadSkills(host as unknown as LalaApp);
+    await loadSkills(host as unknown as OpenClawApp);
   }
   if (host.tab === "agents") {
-    await loadAgents(host as unknown as LalaApp);
-    await loadConfig(host as unknown as LalaApp);
+    await loadAgents(host as unknown as OpenClawApp);
+    await loadConfig(host as unknown as OpenClawApp);
     const agentIds = host.agentsList?.agents?.map((entry) => entry.id) ?? [];
     if (agentIds.length > 0) {
-      void loadAgentIdentities(host as unknown as LalaApp, agentIds);
+      void loadAgentIdentities(host as unknown as OpenClawApp, agentIds);
     }
     const agentId =
       host.agentsSelectedId ?? host.agentsList?.defaultId ?? host.agentsList?.agents?.[0]?.id;
     if (agentId) {
-      void loadAgentIdentity(host as unknown as LalaApp, agentId);
+      void loadAgentIdentity(host as unknown as OpenClawApp, agentId);
       if (host.agentsPanel === "skills") {
-        void loadAgentSkills(host as unknown as LalaApp, agentId);
+        void loadAgentSkills(host as unknown as OpenClawApp, agentId);
       }
       if (host.agentsPanel === "channels") {
-        void loadChannels(host as unknown as LalaApp, false);
+        void loadChannels(host as unknown as OpenClawApp, false);
       }
       if (host.agentsPanel === "cron") {
         void loadCron(host);
@@ -239,10 +239,10 @@ export async function refreshActiveTab(host: SettingsHost) {
     }
   }
   if (host.tab === "nodes") {
-    await loadNodes(host as unknown as LalaApp);
-    await loadDevices(host as unknown as LalaApp);
-    await loadConfig(host as unknown as LalaApp);
-    await loadExecApprovals(host as unknown as LalaApp);
+    await loadNodes(host as unknown as OpenClawApp);
+    await loadDevices(host as unknown as OpenClawApp);
+    await loadConfig(host as unknown as OpenClawApp);
+    await loadExecApprovals(host as unknown as OpenClawApp);
   }
   if (host.tab === "chat") {
     await refreshChat(host as unknown as Parameters<typeof refreshChat>[0]);
@@ -259,16 +259,16 @@ export async function refreshActiveTab(host: SettingsHost) {
     host.tab === "infrastructure" ||
     host.tab === "aiAgents"
   ) {
-    await loadConfigSchema(host as unknown as LalaApp);
-    await loadConfig(host as unknown as LalaApp);
+    await loadConfigSchema(host as unknown as OpenClawApp);
+    await loadConfig(host as unknown as OpenClawApp);
   }
   if (host.tab === "debug") {
-    await loadDebug(host as unknown as LalaApp);
+    await loadDebug(host as unknown as OpenClawApp);
     host.eventLog = host.eventLogBuffer;
   }
   if (host.tab === "logs") {
     host.logsAtBottom = true;
-    await loadLogs(host as unknown as LalaApp, { reset: true });
+    await loadLogs(host as unknown as OpenClawApp, { reset: true });
     scheduleLogsScroll(host as unknown as Parameters<typeof scheduleLogsScroll>[0], true);
   }
 }
@@ -460,7 +460,7 @@ export function syncUrlWithSessionKey(host: SettingsHost, sessionKey: string, re
 }
 
 export async function loadOverview(host: SettingsHost) {
-  const app = host as unknown as LalaApp;
+  const app = host as unknown as OpenClawApp;
   await Promise.allSettled([
     loadChannels(app, false),
     loadPresence(app),
@@ -497,7 +497,7 @@ export function hasMissingSkillDependencies(
   return Object.values(missing).some((value) => Array.isArray(value) && value.length > 0);
 }
 
-async function loadOverviewLogs(host: LalaApp) {
+async function loadOverviewLogs(host: OpenClawApp) {
   if (!host.client || !host.connected) {
     return;
   }
@@ -523,7 +523,7 @@ async function loadOverviewLogs(host: LalaApp) {
   }
 }
 
-function buildAttentionItems(host: LalaApp) {
+function buildAttentionItems(host: OpenClawApp) {
   const items: AttentionItem[] = [];
 
   if (host.lastError) {
@@ -544,7 +544,7 @@ function buildAttentionItems(host: LalaApp) {
       title: "Missing operator.read scope",
       description:
         "This connection does not have the operator.read scope. Some features may be unavailable.",
-      href: "https://docs.lala.ai/web/dashboard",
+      href: "https://docs.openclaw.ai/web/dashboard",
       external: true,
     });
   }
@@ -601,14 +601,14 @@ function buildAttentionItems(host: LalaApp) {
 
 export async function loadChannelsTab(host: SettingsHost) {
   await Promise.all([
-    loadChannels(host as unknown as LalaApp, true),
-    loadConfigSchema(host as unknown as LalaApp),
-    loadConfig(host as unknown as LalaApp),
+    loadChannels(host as unknown as OpenClawApp, true),
+    loadConfigSchema(host as unknown as OpenClawApp),
+    loadConfig(host as unknown as OpenClawApp),
   ]);
 }
 
 export async function loadCron(host: SettingsHost) {
-  const app = host as unknown as LalaApp;
+  const app = host as unknown as OpenClawApp;
   const activeCronJobId = app.cronRunsScope === "job" ? app.cronRunsJobId : null;
   await Promise.all([
     loadChannels(app, false),

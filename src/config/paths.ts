@@ -21,7 +21,12 @@ export const isNixMode = resolveIsNixMode();
 const LEGACY_STATE_DIRNAMES = [".lala", ".clawdbot", ".moldbot", ".moltbot"] as const;
 const NEW_STATE_DIRNAME = ".lala";
 const CONFIG_FILENAME = "lala.json";
-const LEGACY_CONFIG_FILENAMES = ["lala.json", "clawdbot.json", "moldbot.json", "moltbot.json"] as const;
+const LEGACY_CONFIG_FILENAMES = [
+  "lala.json",
+  "clawdbot.json",
+  "moldbot.json",
+  "moltbot.json",
+] as const;
 
 function resolveDefaultHomeDir(): string {
   return resolveRequiredHomeDir(process.env, os.homedir);
@@ -63,9 +68,7 @@ export function resolveStateDir(
 ): string {
   const effectiveHomedir = () => resolveRequiredHomeDir(env, homedir);
   const override =
-    env.LALA_STATE_DIR?.trim() ||
-    env.LALABOT_STATE_DIR?.trim() ||
-    env.OPENCLAW_STATE_DIR?.trim();
+    env.LALA_STATE_DIR?.trim() || env.LALABOT_STATE_DIR?.trim() || env.OPENCLAW_STATE_DIR?.trim();
   if (override) {
     return resolveUserPath(override, env, effectiveHomedir);
   }
@@ -221,9 +224,7 @@ export function resolveDefaultConfigCandidates(
 
   const candidates: string[] = [];
   const lalaStateDir =
-    env.LALA_STATE_DIR?.trim() ||
-    env.LALABOT_STATE_DIR?.trim() ||
-    env.OPENCLAW_STATE_DIR?.trim();
+    env.LALA_STATE_DIR?.trim() || env.LALABOT_STATE_DIR?.trim() || env.OPENCLAW_STATE_DIR?.trim();
   if (lalaStateDir) {
     const resolved = resolveUserPath(lalaStateDir, env, effectiveHomedir);
     candidates.push(path.join(resolved, CONFIG_FILENAME));
@@ -278,10 +279,7 @@ export function resolveOAuthPath(
   return path.join(resolveOAuthDir(env, stateDir), OAUTH_FILENAME);
 }
 
-export function resolveGatewayPort(
-  cfg?: LalaConfig,
-  env: NodeJS.ProcessEnv = process.env,
-): number {
+export function resolveGatewayPort(cfg?: LalaConfig, env: NodeJS.ProcessEnv = process.env): number {
   const envRaw =
     env.LALA_GATEWAY_PORT?.trim() ||
     env.LALABOT_GATEWAY_PORT?.trim() ||
@@ -300,4 +298,3 @@ export function resolveGatewayPort(
   }
   return DEFAULT_GATEWAY_PORT;
 }
-

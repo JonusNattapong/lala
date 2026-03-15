@@ -176,9 +176,9 @@ describe("shortenHomePath", () => {
 describe("shortenHomeInString", () => {
   it("uses $LALA_HOME or $OPENCLAW_HOME replacement when set", () => {
     vi.stubEnv("OPENCLAW_HOME", "/srv/lala-home");
-    expect(
-      shortenHomeInString(`config: ${path.resolve("/srv/lala-home")}/.lala/lala.json`),
-    ).toBe("config: $OPENCLAW_HOME/.lala/lala.json");
+    expect(shortenHomeInString(`config: ${path.resolve("/srv/lala-home")}/.lala/lala.json`)).toBe(
+      "config: $OPENCLAW_HOME/.lala/lala.json",
+    );
 
     vi.stubEnv("LALA_HOME", "/srv/new-lala-home");
     expect(

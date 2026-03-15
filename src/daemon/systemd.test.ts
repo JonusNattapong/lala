@@ -186,9 +186,7 @@ describe("isSystemdServiceEnabled", () => {
       cb(err, "", "");
     });
 
-    await expect(
-      isSystemdServiceEnabled({ env: { HOME: "/tmp/lala-test-home" } }),
-    ).rejects.toThrow(
+    await expect(isSystemdServiceEnabled({ env: { HOME: "/tmp/lala-test-home" } })).rejects.toThrow(
       "systemctl is-enabled unavailable: Command failed: systemctl --user is-enabled lala-gateway.service",
     );
   });
@@ -264,9 +262,9 @@ describe("isSystemdServiceEnabled", () => {
       cb(err, "", "read-only file system");
     });
 
-    await expect(
-      isSystemdServiceEnabled({ env: { HOME: "/tmp/lala-test-home" } }),
-    ).rejects.toThrow("systemctl is-enabled unavailable: read-only file system");
+    await expect(isSystemdServiceEnabled({ env: { HOME: "/tmp/lala-test-home" } })).rejects.toThrow(
+      "systemctl is-enabled unavailable: read-only file system",
+    );
   });
 
   it("throws when systemctl is-enabled fails for non-state errors", async () => {
@@ -287,9 +285,9 @@ describe("isSystemdServiceEnabled", () => {
         err.code = 1;
         cb(err, "", "permission denied");
       });
-    await expect(
-      isSystemdServiceEnabled({ env: { HOME: "/tmp/lala-test-home" } }),
-    ).rejects.toThrow("systemctl is-enabled unavailable: permission denied");
+    await expect(isSystemdServiceEnabled({ env: { HOME: "/tmp/lala-test-home" } })).rejects.toThrow(
+      "systemctl is-enabled unavailable: permission denied",
+    );
   });
 
   it("returns false when systemctl is-enabled exits with code 4 (not-found)", async () => {

@@ -193,7 +193,9 @@ export function shouldEnableShellEnvFallback(env: NodeJS.ProcessEnv): boolean {
 }
 
 export function shouldDeferShellEnvFallback(env: NodeJS.ProcessEnv): boolean {
-  return isTruthyEnvValue(env.LALA_DEFER_SHELL_ENV_FALLBACK ?? env.OPENCLAW_DEFER_SHELL_ENV_FALLBACK);
+  return isTruthyEnvValue(
+    env.LALA_DEFER_SHELL_ENV_FALLBACK ?? env.OPENCLAW_DEFER_SHELL_ENV_FALLBACK,
+  );
 }
 
 export function resolveShellEnvFallbackTimeoutMs(env: NodeJS.ProcessEnv): number {

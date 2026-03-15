@@ -59,10 +59,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
           ["lala status --all", "Full diagnosis (read-only)."],
           ["lala status --json", "Machine-readable output."],
           ["lala status --usage", "Show model provider usage/quota snapshots."],
-          [
-            "lala status --deep",
-            "Run channel probes (WA + Telegram + Discord + Slack + Signal).",
-          ],
+          ["lala status --deep", "Run channel probes (WA + Telegram + Discord + Slack + Signal)."],
           ["lala status --deep --timeout 5000", "Tighten probe timeout."],
         ])}`,
     )
@@ -182,10 +179,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
           ["lala sessions cleanup --enforce", "Apply maintenance now."],
           ["lala sessions cleanup --agent work --dry-run", "Preview one agent store."],
           ["lala sessions cleanup --all-agents --dry-run", "Preview all agent stores."],
-          [
-            "lala sessions cleanup --enforce --store ./tmp/sessions.json",
-            "Use a specific store.",
-          ],
+          ["lala sessions cleanup --enforce --store ./tmp/sessions.json", "Use a specific store."],
         ])}`,
     )
     .action(async (opts, command) => {

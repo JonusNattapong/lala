@@ -8,11 +8,7 @@ import {
   resolveModelRefFromString,
 } from "../../agents/model-selection.js";
 import { formatCliCommand } from "../../cli/command-format.js";
-import {
-  type LalaConfig,
-  readConfigFileSnapshot,
-  writeConfigFile,
-} from "../../config/config.js";
+import { type LalaConfig, readConfigFileSnapshot, writeConfigFile } from "../../config/config.js";
 import { formatConfigIssueLines } from "../../config/issue-format.js";
 import { toAgentModelListLike } from "../../config/model-input.js";
 import type { AgentModelEntryConfig } from "../../config/types.agent-defaults.js";
@@ -73,9 +69,7 @@ export async function loadValidConfigOrThrow(): Promise<LalaConfig> {
   return snapshot.config;
 }
 
-export async function updateConfig(
-  mutator: (cfg: LalaConfig) => LalaConfig,
-): Promise<LalaConfig> {
+export async function updateConfig(mutator: (cfg: LalaConfig) => LalaConfig): Promise<LalaConfig> {
   const config = await loadValidConfigOrThrow();
   const next = mutator(config);
   await writeConfigFile(next);

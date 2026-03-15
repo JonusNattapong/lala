@@ -36,11 +36,7 @@ async function resolveChannelPluginForMode(
   return { channelInput, channelId, plugin: plugin as ChannelPlugin };
 }
 
-function resolveAccountContext(
-  plugin: ChannelPlugin,
-  opts: ChannelAuthOptions,
-  cfg: LalaConfig,
-) {
+function resolveAccountContext(plugin: ChannelPlugin, opts: ChannelAuthOptions, cfg: LalaConfig) {
   const accountId = opts.account?.trim() || resolveChannelDefaultAccountId({ plugin, cfg });
   return { accountId };
 }

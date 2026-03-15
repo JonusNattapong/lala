@@ -408,10 +408,7 @@ function resolveDefaultStoreAgentId(cfg: LalaConfig): string {
   return normalizeAgentId(resolveDefaultAgentId(cfg));
 }
 
-export function resolveSessionStoreKey(params: {
-  cfg: LalaConfig;
-  sessionKey: string;
-}): string {
+export function resolveSessionStoreKey(params: { cfg: LalaConfig; sessionKey: string }): string {
   const raw = (params.sessionKey ?? "").trim();
   if (!raw) {
     return raw;

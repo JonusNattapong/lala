@@ -361,8 +361,7 @@ function resolveSharedServiceEnvironmentFields(
   platform: NodeJS.Platform,
 ): SharedServiceEnvironmentFields {
   const stateDir = env.LALA_STATE_DIR ?? env.LALABOT_STATE_DIR ?? env.OPENCLAW_STATE_DIR;
-  const configPath =
-    env.LALA_CONFIG_PATH ?? env.LALABOT_CONFIG_PATH ?? env.OPENCLAW_CONFIG_PATH;
+  const configPath = env.LALA_CONFIG_PATH ?? env.LALABOT_CONFIG_PATH ?? env.OPENCLAW_CONFIG_PATH;
   // Keep a usable temp directory for supervised services even when the host env omits TMPDIR.
   const tmpDir = env.TMPDIR?.trim() || os.tmpdir();
   const proxyEnv = readServiceProxyEnvironment(env);

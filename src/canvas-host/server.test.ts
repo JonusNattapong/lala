@@ -287,9 +287,7 @@ describe("canvas host", () => {
       expect(html).toContain("lala-a2ui-host");
       expect(html).toContain("lalaCanvasA2UIAction");
 
-      const bundleRes = await fetch(
-        `http://127.0.0.1:${server.port}/__lala__/a2ui/a2ui.bundle.js`,
-      );
+      const bundleRes = await fetch(`http://127.0.0.1:${server.port}/__lala__/a2ui/a2ui.bundle.js`);
       const js = await bundleRes.text();
       expect(bundleRes.status).toBe(200);
       expect(js).toContain("lalaA2UI");

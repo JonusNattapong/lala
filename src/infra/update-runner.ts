@@ -770,7 +770,10 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
     const doctorNodePath = await resolveStableNodePath(process.execPath);
     const doctorArgv = [doctorNodePath, doctorEntry, "doctor", "--non-interactive", "--fix"];
     const doctorStep = await runStep(
-      step("lala doctor", doctorArgv, gitRoot, { LALA_UPDATE_IN_PROGRESS: "1", OPENCLAW_UPDATE_IN_PROGRESS: "1" }),
+      step("lala doctor", doctorArgv, gitRoot, {
+        LALA_UPDATE_IN_PROGRESS: "1",
+        OPENCLAW_UPDATE_IN_PROGRESS: "1",
+      }),
     );
     steps.push(doctorStep);
 

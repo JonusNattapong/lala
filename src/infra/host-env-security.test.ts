@@ -227,10 +227,7 @@ describe("git env exploit regression", () => {
       path.join(os.tmpdir(), `lala-git-exec-path-${process.pid}-${Date.now()}-`),
     );
     const helperPath = path.join(helperDir, "git-remote-https");
-    const marker = path.join(
-      os.tmpdir(),
-      `lala-git-exec-path-marker-${process.pid}-${Date.now()}`,
-    );
+    const marker = path.join(os.tmpdir(), `lala-git-exec-path-marker-${process.pid}-${Date.now()}`);
     try {
       try {
         fs.unlinkSync(marker);
