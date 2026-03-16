@@ -262,11 +262,9 @@ importers:
 
   extensions/line: {}
 
-  extensions/memory-core: {}
-
   extensions/telegram: {}
 
-  packages/lalabot:
+  packages/clawdbot:
     dependencies:
       lala:
         specifier: workspace:*
