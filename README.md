@@ -2,7 +2,9 @@
   <img src="assets/lala-bg.png" width="400" alt="lala banner" />
 </p>
 
+<p align="center">
 # 🦋 lala — Personal AI Assistant
+</p>
 
 <p align="center">
   <strong>RELAX! RELAX!</strong>
