@@ -1,33 +1,36 @@
 <p align="center">
-  <img src="assets/lala-bg.png" width="400" alt="lala banner" />
+  <img src="assets/lala-bg.png" width="450" alt="lala banner" />
 </p>
 
 <p align="center">
-  <strong>🦋 lala — Personal AI Assistant
+  <h1 align="center">🦋 lala</h1>
+  <p align="center">
+    <strong>The Premium Personal AI Assistant Gateway</strong><br />
+    <em>Deep Ocean Aesthetics · Aurora Performance · Personal Sovereignty</em>
+  </p>
 </p>
 
 <p align="center">
-  <strong>RELAX! RELAX!</strong>
+  <a href="https://github.com/JonusNattapong/lala/actions"><img src="https://img.shields.io/github/actions/workflow/status/JonusNattapong/lala/ci.yml?branch=main&style=for-the-badge&color=2dd4bf" alt="CI Status"></a>
+  <a href="https://github.com/JonusNattapong/lala/releases"><img src="https://img.shields.io/github/v/release/JonusNattapong/lala?include_prereleases&style=for-the-badge&color=14b8a6" alt="Release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-0ea5e9.svg?style=for-the-badge" alt="MIT License"></a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/JonusNattapong/lala/actions"><img src="https://img.shields.io/github/actions/workflow/status/JonusNattapong/lala/ci.yml?branch=main&style=for-the-badge" alt="CI Status"></a>
-  <a href="https://github.com/JonusNattapong/lala/releases"><img src="https://img.shields.io/github/v/release/JonusNattapong/lala?include_prereleases&style=for-the-badge" alt="Release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="MIT License"></a>
-</p>
+---
 
-If you want a personal, single-user assistant that feels local, fast, and always-on, this is it. `lala` is a personal AI assistant gateway inspired by OpenClaw, focused on a simpler setup and a streamlined experience.
+`lala` is a high-performance, personal AI gateway designed for those who value **sovereignty, speed, and stunning aesthetics**. Evolved from its spiritual predecessor OpenClaw, `lala` introduces the **Aurora Design System**—a premium Deep Ocean interface that makes interacting with your AI feel like a state-of-the-art experience.
 
 [Docs](https://docs.lala.ai) · [Getting Started](https://docs.lala.ai/getting-started) · [Channels](/docs/channels) · [Skills](/docs/skills)
 
 ---
 
-## What lala is
+## Core Philosophy
 
-- **Local Assistant**: Runs on your own machine. Your data, your keys.
-- **Messaging Gateway**: Bridge your AI to Telegram, Discord, and LINE.
-- **CLI-First**: Optimized for terminal power users.
-- **Cross-Platform**: Optional companion apps for macOS, iOS, Android, and Web.
+- **Personal Sovereignty**: Your data, your keys, your machine. No middlemen.
+- **Aurora Aesthetics**: A premium UI featuring glassmorphism and deep ocean tones.
+- **Messaging Gateway**: Seamlessly bridge your AI to Telegram, Discord, Signal, and more.
+- **CLI-Native**: Optimized for power users who live in the terminal.
+- **Unified Ecosystem**: Native companion apps for macOS, iOS, Android, and Web.
 
 ## Recommended: Onboarding Wizard
 
