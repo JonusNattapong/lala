@@ -19,7 +19,7 @@ export type SkillsCheckOptions = {
   json?: boolean;
 };
 
-function appendClawHubHint(output: string, json?: boolean): string {
+function appendLalaHubHint(output: string, json?: boolean): string {
   if (json) {
     return output;
   }
@@ -122,7 +122,7 @@ export function formatSkillsList(report: SkillStatusReport, opts: SkillsListOpti
     const message = opts.eligible
       ? `No eligible skills found. Run \`${formatCliCommand("lala skills list")}\` to see all skills.`
       : "No skills found.";
-    return appendClawHubHint(message, opts.json);
+    return appendLalaHubHint(message, opts.json);
   }
 
   const eligible = skills.filter((s) => s.eligible);
@@ -160,7 +160,7 @@ export function formatSkillsList(report: SkillStatusReport, opts: SkillsListOpti
     }).trimEnd(),
   );
 
-  return appendClawHubHint(lines.join("\n"), opts.json);
+  return appendLalaHubHint(lines.join("\n"), opts.json);
 }
 
 export function formatSkillInfo(
@@ -174,7 +174,7 @@ export function formatSkillInfo(
     if (opts.json) {
       return JSON.stringify({ error: "not found", skill: skillName }, null, 2);
     }
-    return appendClawHubHint(
+    return appendLalaHubHint(
       `Skill "${skillName}" not found. Run \`${formatCliCommand("lala skills list")}\` to see available skills.`,
       opts.json,
     );
@@ -265,7 +265,7 @@ export function formatSkillInfo(
     }
   }
 
-  return appendClawHubHint(lines.join("\n"), opts.json);
+  return appendLalaHubHint(lines.join("\n"), opts.json);
 }
 
 export function formatSkillsCheck(report: SkillStatusReport, opts: SkillsCheckOptions): string {
@@ -328,5 +328,5 @@ export function formatSkillsCheck(report: SkillStatusReport, opts: SkillsCheckOp
     }
   }
 
-  return appendClawHubHint(lines.join("\n"), opts.json);
+  return appendLalaHubHint(lines.join("\n"), opts.json);
 }

@@ -3,7 +3,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
 import { registerQrCli } from "./qr-cli.js";
 
-export function registerClawbotCli(program: Command) {
+export function registerLalabotCli(program: Command) {
   const clawbot = program
     .command("clawbot")
     .description("Legacy clawbot command aliases")

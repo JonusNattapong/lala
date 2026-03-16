@@ -1,4 +1,4 @@
-# ClawDock <!-- omit in toc -->
+# LalaDock <!-- omit in toc -->
 
 Stop typing `docker-compose` commands. Just type `clawdock-start`.
 
@@ -38,7 +38,7 @@ echo 'source ~/.clawdock/clawdock-helpers.sh' >> ~/.zshrc && source ~/.zshrc
 clawdock-help
 ```
 
-On first command, ClawDock auto-detects your Lala directory:
+On first command, LalaDock auto-detects your Lala directory:
 
 - Checks common paths (`~/lala`, `~/workspace/lala`, etc.)
 - If found, asks you to confirm

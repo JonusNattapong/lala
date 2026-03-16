@@ -10,7 +10,7 @@ Report vulnerabilities directly to the repository where the issue lives:
 - **macOS desktop app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/macos)
 - **iOS app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/ios)
 - **Android app** — [JonusNattapong/lala](https://github.com/JonusNattapong/lala) (apps/android)
-- **ClawHub** — [lala/clawhub](https://github.com/lala/clawhub)
+- **LalaHub** — [lala/clawhub](https://github.com/lala/clawhub)
 - **Trust and threat model** — [lala/trust](https://github.com/lala/trust)
 
 For issues that don't fit a specific repo, or if you're unsure, email **[security@lala.ai](mailto:security@lala.ai)** and we'll route it.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ClawDock - Docker helpers for Lala
+# LalaDock - Docker helpers for Lala
 # Inspired by Simon Willison's "Running Lala in Docker"
 # https://til.simonwillison.net/llms/lala-docker
 #
@@ -354,7 +354,7 @@ clawdock-approve() {
 
 # Show all available clawdock helper commands
 clawdock-help() {
-  echo -e "\n${_CLR_BOLD}${_CLR_CYAN}🦋 ClawDock - Docker Helpers for Lala${_CLR_RESET}\n"
+  echo -e "\n${_CLR_BOLD}${_CLR_CYAN}🦋 LalaDock - Docker Helpers for Lala${_CLR_RESET}\n"
 
   echo -e "${_CLR_BOLD}${_CLR_MAGENTA}⚡ Basic Operations${_CLR_RESET}"
   echo -e "  $(_cmd clawdock-start)       ${_CLR_DIM}Start the gateway${_CLR_RESET}"
