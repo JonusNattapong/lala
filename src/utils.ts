@@ -301,7 +301,7 @@ export function resolveConfigDir(
   const override =
     env.LALA_STATE_DIR?.trim() ||
     env.LALABOT_STATE_DIR?.trim() ||
-    env.OPENCLAW_STATE_DIR?.trim() ||
+    env.LALA_STATE_DIR?.trim() ||
     env.CLAWDBOT_STATE_DIR?.trim();
   if (override) {
     return resolveUserPath(override, env, homedir);
@@ -330,14 +330,14 @@ function resolveHomeDisplayPrefix(): { home: string; prefix: string } | undefine
   const explicitHome = (
     process.env.LALA_HOME ??
     process.env.LALABOT_HOME ??
-    process.env.OPENCLAW_HOME
+    process.env.LALA_HOME
   )?.trim();
   if (explicitHome) {
     const prefix = process.env.LALA_HOME?.trim()
       ? "$LALA_HOME"
       : process.env.LALABOT_HOME?.trim()
         ? "$LALABOT_HOME"
-        : "$OPENCLAW_HOME";
+        : "$LALA_HOME";
     return { home, prefix };
   }
   return { home, prefix: "~" };
@@ -396,5 +396,5 @@ export function formatTerminalLink(
   return `\u001b]8;;${safeUrl}\u0007${safeLabel}\u001b]8;;\u0007`;
 }
 
-// Configuration root; can be overridden via LALA_STATE_DIR or OPENCLAW_STATE_DIR.
+// Configuration root; can be overridden via LALA_STATE_DIR or LALA_STATE_DIR.
 export const CONFIG_DIR = resolveConfigDir();

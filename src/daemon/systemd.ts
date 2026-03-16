@@ -42,13 +42,13 @@ function resolveSystemdServiceName(env: GatewayServiceEnv): string {
   const override = (
     env.LALA_SYSTEMD_UNIT ??
     env.LALABOT_SYSTEMD_UNIT ??
-    env.OPENCLAW_SYSTEMD_UNIT
+    env.LALA_SYSTEMD_UNIT
   )?.trim();
   if (override) {
     return override.endsWith(".service") ? override.slice(0, -".service".length) : override;
   }
   return resolveGatewaySystemdServiceName(
-    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE,
+    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE,
   );
 }
 
@@ -489,7 +489,7 @@ export async function installSystemdService({
   await fs.writeFile(unitPath, unit, "utf8");
 
   const serviceName = resolveGatewaySystemdServiceName(
-    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE,
+    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE,
   );
   const unitName = `${serviceName}.service`;
   const reload = await execSystemctlUser(env, ["daemon-reload"]);
@@ -535,7 +535,7 @@ export async function uninstallSystemdService({
 }: GatewayServiceManageArgs): Promise<void> {
   await assertSystemdAvailable(env);
   const serviceName = resolveGatewaySystemdServiceName(
-    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE,
+    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE,
   );
   const unitName = `${serviceName}.service`;
   await execSystemctlUser(env, ["disable", "--now", unitName]);

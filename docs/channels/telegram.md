@@ -871,9 +871,9 @@ channels:
 ```
 
     - Environment overrides (temporary):
-      - `OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY=1`
-      - `OPENCLAW_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY=1`
-      - `OPENCLAW_TELEGRAM_DNS_RESULT_ORDER=ipv4first`
+      - `LALA_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY=1`
+      - `LALA_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY=1`
+      - `LALA_TELEGRAM_DNS_RESULT_ORDER=ipv4first`
     - Validate DNS answers:
 
 ```bash

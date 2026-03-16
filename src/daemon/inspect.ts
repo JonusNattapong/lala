@@ -27,7 +27,7 @@ const EXTRA_MARKERS = ["lala", "clawdbot", "moltbot"] as const;
 export function renderGatewayServiceCleanupHints(
   env: Record<string, string | undefined> = process.env as Record<string, string | undefined>,
 ): string[] {
-  const profile = env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE;
+  const profile = env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE;
   switch (process.platform) {
     case "darwin": {
       const label = resolveGatewayLaunchAgentLabel(profile);

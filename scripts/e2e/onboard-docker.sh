@@ -15,15 +15,15 @@ docker run --rm -t "$IMAGE_NAME" bash -lc '
 	  ONBOARD_FLAGS="--flow quickstart --auth-choice skip --skip-channels --skip-skills --skip-daemon --skip-ui"
 	  # tsdown may emit dist/index.js or dist/index.mjs depending on runtime/bundler.
 	  if [ -f dist/index.mjs ]; then
-	    OPENCLAW_ENTRY="dist/index.mjs"
+	    LALA_ENTRY="dist/index.mjs"
 	  elif [ -f dist/index.js ]; then
-	    OPENCLAW_ENTRY="dist/index.js"
+	    LALA_ENTRY="dist/index.js"
 	  else
 	    echo "Missing dist/index.(m)js (build output):"
 	    ls -la dist || true
 	    exit 1
 	  fi
-	  export OPENCLAW_ENTRY
+	  export LALA_ENTRY
 
   # Provide a minimal trash shim to avoid noisy "missing trash" logs in containers.
   export PATH="/tmp/lala-bin:$PATH"
@@ -106,7 +106,7 @@ TRASH
   }
 
 	  start_gateway() {
-	    node "$OPENCLAW_ENTRY" gateway --port 18789 --bind loopback --allow-unconfigured > /tmp/gateway-e2e.log 2>&1 &
+	    node "$LALA_ENTRY" gateway --port 18789 --bind loopback --allow-unconfigured > /tmp/gateway-e2e.log 2>&1 &
 	    GATEWAY_PID="$!"
 	  }
 
@@ -207,7 +207,7 @@ TRASH
     local validate_fn="${4:-}"
 
 	    # Default onboarding command wrapper.
-	    run_wizard_cmd "$case_name" "$home_dir" "node \"$OPENCLAW_ENTRY\" onboard $ONBOARD_FLAGS" "$send_fn" true "$validate_fn"
+	    run_wizard_cmd "$case_name" "$home_dir" "node \"$LALA_ENTRY\" onboard $ONBOARD_FLAGS" "$send_fn" true "$validate_fn"
 	  }
 
   make_home() {
@@ -217,10 +217,10 @@ TRASH
   set_isolated_lala_env() {
     local home_dir="$1"
     export HOME="$home_dir"
-    export OPENCLAW_HOME="$home_dir"
-    export OPENCLAW_STATE_DIR="$home_dir/.lala"
-    export OPENCLAW_CONFIG_PATH="$OPENCLAW_STATE_DIR/lala.json"
-    mkdir -p "$OPENCLAW_STATE_DIR"
+    export LALA_HOME="$home_dir"
+    export LALA_STATE_DIR="$home_dir/.lala"
+    export LALA_CONFIG_PATH="$LALA_STATE_DIR/lala.json"
+    mkdir -p "$LALA_STATE_DIR"
   }
 
   assert_file() {
@@ -294,7 +294,7 @@ TRASH
     local home_dir
     home_dir="$(make_home local-basic)"
     set_isolated_lala_env "$home_dir"
-    node "$OPENCLAW_ENTRY" onboard \
+    node "$LALA_ENTRY" onboard \
 	      --non-interactive \
 	      --accept-risk \
       --flow quickstart \
@@ -306,9 +306,9 @@ TRASH
       --skip-health
 
     # Assert config + workspace scaffolding.
-    workspace_dir="$OPENCLAW_STATE_DIR/workspace"
-    config_path="$OPENCLAW_CONFIG_PATH"
-    sessions_dir="$OPENCLAW_STATE_DIR/agents/main/sessions"
+    workspace_dir="$LALA_STATE_DIR/workspace"
+    config_path="$LALA_CONFIG_PATH"
+    sessions_dir="$LALA_STATE_DIR/agents/main/sessions"
 
     assert_file "$config_path"
     assert_dir "$sessions_dir"
@@ -370,14 +370,14 @@ NODE
     home_dir="$(make_home remote-non-interactive)"
     set_isolated_lala_env "$home_dir"
 	    # Smoke test non-interactive remote config write.
-	    node "$OPENCLAW_ENTRY" onboard --non-interactive --accept-risk \
+	    node "$LALA_ENTRY" onboard --non-interactive --accept-risk \
 	      --mode remote \
 	      --remote-url ws://gateway.local:18789 \
       --remote-token remote-token \
       --skip-skills \
       --skip-health
 
-    config_path="$OPENCLAW_CONFIG_PATH"
+    config_path="$LALA_CONFIG_PATH"
     assert_file "$config_path"
 
     CONFIG_PATH="$config_path" node --input-type=module - <<'"'"'NODE'"'"'
@@ -412,7 +412,7 @@ NODE
     home_dir="$(make_home reset-config)"
     set_isolated_lala_env "$home_dir"
     # Seed a remote config to exercise reset path.
-	    cat > "$OPENCLAW_CONFIG_PATH" <<'"'"'JSON'"'"'
+	    cat > "$LALA_CONFIG_PATH" <<'"'"'JSON'"'"'
 {
   "meta": {},
   "agents": { "defaults": { "workspace": "/root/old" } },
@@ -423,7 +423,7 @@ NODE
 }
 JSON
 
-	    node "$OPENCLAW_ENTRY" onboard \
+	    node "$LALA_ENTRY" onboard \
 	      --non-interactive \
 	      --accept-risk \
       --flow quickstart \
@@ -435,7 +435,7 @@ JSON
       --skip-ui \
       --skip-health
 
-    config_path="$OPENCLAW_CONFIG_PATH"
+    config_path="$LALA_CONFIG_PATH"
     assert_file "$config_path"
 
     CONFIG_PATH="$config_path" node --input-type=module - <<'"'"'NODE'"'"'
@@ -466,9 +466,9 @@ NODE
 	    local home_dir
 	    home_dir="$(make_home channels)"
 	    # Channels-only configure flow.
-	    run_wizard_cmd channels "$home_dir" "node \"$OPENCLAW_ENTRY\" configure --section channels" send_channels_flow
+	    run_wizard_cmd channels "$home_dir" "node \"$LALA_ENTRY\" configure --section channels" send_channels_flow
 
-    config_path="$OPENCLAW_CONFIG_PATH"
+    config_path="$LALA_CONFIG_PATH"
     assert_file "$config_path"
 
     CONFIG_PATH="$config_path" node --input-type=module - <<'"'"'NODE'"'"'
@@ -507,7 +507,7 @@ NODE
     home_dir="$(make_home skills)"
     set_isolated_lala_env "$home_dir"
     # Seed skills config to ensure it survives the wizard.
-	    cat > "$OPENCLAW_CONFIG_PATH" <<'"'"'JSON'"'"'
+	    cat > "$LALA_CONFIG_PATH" <<'"'"'JSON'"'"'
 {
   "meta": {},
   "skills": {
@@ -517,9 +517,9 @@ NODE
 }
 JSON
 
-	    run_wizard_cmd skills "$home_dir" "node \"$OPENCLAW_ENTRY\" configure --section skills" send_skills_flow
+	    run_wizard_cmd skills "$home_dir" "node \"$LALA_ENTRY\" configure --section skills" send_skills_flow
 
-    config_path="$OPENCLAW_CONFIG_PATH"
+    config_path="$LALA_CONFIG_PATH"
     assert_file "$config_path"
 
     CONFIG_PATH="$config_path" node --input-type=module - <<'"'"'NODE'"'"'

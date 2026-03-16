@@ -182,7 +182,7 @@ describe("security audit", () => {
     const credentialsDir = path.join(sharedChannelSecurityStateDir, "credentials");
     await fs.rm(credentialsDir, { recursive: true, force: true }).catch(() => undefined);
     await fs.mkdir(credentialsDir, { recursive: true, mode: 0o700 });
-    await withEnvAsync({ OPENCLAW_STATE_DIR: sharedChannelSecurityStateDir }, () =>
+    await withEnvAsync({ LALA_STATE_DIR: sharedChannelSecurityStateDir }, () =>
       fn(sharedChannelSecurityStateDir),
     );
   };
@@ -276,10 +276,10 @@ description: test skill
 
   it("flags non-loopback bind without auth as critical", async () => {
     // Clear env tokens so resolveGatewayAuth defaults to mode=none
-    const prevToken = process.env.OPENCLAW_GATEWAY_TOKEN;
-    const prevPassword = process.env.OPENCLAW_GATEWAY_PASSWORD;
-    delete process.env.OPENCLAW_GATEWAY_TOKEN;
-    delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+    const prevToken = process.env.LALA_GATEWAY_TOKEN;
+    const prevPassword = process.env.LALA_GATEWAY_PASSWORD;
+    delete process.env.LALA_GATEWAY_TOKEN;
+    delete process.env.LALA_GATEWAY_PASSWORD;
 
     try {
       const cfg: LalaConfig = {
@@ -295,14 +295,14 @@ description: test skill
     } finally {
       // Restore env
       if (prevToken === undefined) {
-        delete process.env.OPENCLAW_GATEWAY_TOKEN;
+        delete process.env.LALA_GATEWAY_TOKEN;
       } else {
-        process.env.OPENCLAW_GATEWAY_TOKEN = prevToken;
+        process.env.LALA_GATEWAY_TOKEN = prevToken;
       }
       if (prevPassword === undefined) {
-        delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+        delete process.env.LALA_GATEWAY_PASSWORD;
       } else {
-        process.env.OPENCLAW_GATEWAY_PASSWORD = prevPassword;
+        process.env.LALA_GATEWAY_PASSWORD = prevPassword;
       }
     }
   });
@@ -315,7 +315,7 @@ description: test skill
           password: {
             source: "env",
             provider: "default",
-            id: "OPENCLAW_GATEWAY_PASSWORD",
+            id: "LALA_GATEWAY_PASSWORD",
           },
         },
       },
@@ -1330,7 +1330,7 @@ description: test skill
           password: {
             source: "env",
             provider: "default",
-            id: "OPENCLAW_GATEWAY_PASSWORD",
+            id: "LALA_GATEWAY_PASSWORD",
           },
         },
       },
@@ -2626,8 +2626,8 @@ description: test skill
   });
 
   it("flags hooks token reuse of the gateway env token as critical", async () => {
-    const prevToken = process.env.OPENCLAW_GATEWAY_TOKEN;
-    process.env.OPENCLAW_GATEWAY_TOKEN = "shared-gateway-token-1234567890";
+    const prevToken = process.env.LALA_GATEWAY_TOKEN;
+    process.env.LALA_GATEWAY_TOKEN = "shared-gateway-token-1234567890";
     const cfg: LalaConfig = {
       hooks: { enabled: true, token: "shared-gateway-token-1234567890" },
     };
@@ -2637,9 +2637,9 @@ description: test skill
       expectFinding(res, "hooks.token_reuse_gateway_token", "critical");
     } finally {
       if (prevToken === undefined) {
-        delete process.env.OPENCLAW_GATEWAY_TOKEN;
+        delete process.env.LALA_GATEWAY_TOKEN;
       } else {
-        process.env.OPENCLAW_GATEWAY_TOKEN = prevToken;
+        process.env.LALA_GATEWAY_TOKEN = prevToken;
       }
     }
   });
@@ -3375,10 +3375,10 @@ description: test skill
     const makeProbeEnv = (env?: { token?: string; password?: string }) => {
       const probeEnv: NodeJS.ProcessEnv = {};
       if (env?.token !== undefined) {
-        probeEnv.OPENCLAW_GATEWAY_TOKEN = env.token;
+        probeEnv.LALA_GATEWAY_TOKEN = env.token;
       }
       if (env?.password !== undefined) {
-        probeEnv.OPENCLAW_GATEWAY_PASSWORD = env.password;
+        probeEnv.LALA_GATEWAY_PASSWORD = env.password;
       }
       return probeEnv;
     };

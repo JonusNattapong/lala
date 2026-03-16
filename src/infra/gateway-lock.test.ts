@@ -22,8 +22,8 @@ async function makeEnv() {
     ...process.env,
     LALA_STATE_DIR: dir,
     LALA_CONFIG_PATH: configPath,
-    OPENCLAW_STATE_DIR: dir,
-    OPENCLAW_CONFIG_PATH: configPath,
+    LALA_STATE_DIR: dir,
+    LALA_CONFIG_PATH: configPath,
   };
 }
 
@@ -272,7 +272,7 @@ describe("gateway lock", () => {
     }
   });
 
-  it("returns null when multi-gateway override is enabled (LALA_ or OPENCLAW_)", async () => {
+  it("returns null when multi-gateway override is enabled (LALA_ or LALA_)", async () => {
     const env = await makeEnv();
     const lockLala = await acquireGatewayLock({
       env: { ...env, LALA_ALLOW_MULTI_GATEWAY: "1", VITEST: "" },
@@ -280,7 +280,7 @@ describe("gateway lock", () => {
     expect(lockLala).toBeNull();
 
     const lockOpenClaw = await acquireGatewayLock({
-      env: { ...env, OPENCLAW_ALLOW_MULTI_GATEWAY: "1", VITEST: "" },
+      env: { ...env, LALA_ALLOW_MULTI_GATEWAY: "1", VITEST: "" },
     });
     expect(lockOpenClaw).toBeNull();
   });

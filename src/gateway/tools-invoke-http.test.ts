@@ -224,8 +224,8 @@ afterAll(async () => {
 });
 
 beforeEach(() => {
-  delete process.env.OPENCLAW_GATEWAY_TOKEN;
-  delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+  delete process.env.LALA_GATEWAY_TOKEN;
+  delete process.env.LALA_GATEWAY_PASSWORD;
   pluginHttpHandlers = [];
   cfg = {};
   lastCreateLalaToolsContext = undefined;

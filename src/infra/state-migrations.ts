@@ -465,7 +465,7 @@ export async function autoMigrateLegacyStateDir(params: {
   autoMigrateStateDirChecked = true;
 
   const env = params.env ?? process.env;
-  if ((env.LALA_STATE_DIR ?? env.OPENCLAW_STATE_DIR)?.trim()) {
+  if ((env.LALA_STATE_DIR ?? env.LALA_STATE_DIR)?.trim()) {
     return { migrated: false, skipped: true, changes: [], warnings: [] };
   }
 
@@ -1004,7 +1004,7 @@ export async function autoMigrateLegacyState(params: {
     homedir: params.homedir,
     log: params.log,
   });
-  if (env.OPENCLAW_AGENT_DIR?.trim() || env.PI_CODING_AGENT_DIR?.trim()) {
+  if (env.LALA_AGENT_DIR?.trim() || env.PI_CODING_AGENT_DIR?.trim()) {
     return {
       migrated: stateDirResult.migrated,
       skipped: true,

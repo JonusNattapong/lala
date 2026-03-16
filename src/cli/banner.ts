@@ -98,35 +98,27 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
 }
 
 const LALA_ASCII = [
-  "                               ",
-  ".---.          .---.           ",
-  "|   |          |   |           ",
-  "|   |          |   |           ",
-  "|   |          |   |           ",
-  "|   |    __    |   |    __     ",
-  "|   | .:--.'.  |   | .:--.'.   ",
-  "|   |/ |   \\ | |   |/ |   \\ |  ",
-  '|   |`" __ | | |   |`" __ | |  ',
-  "|   | .'.''| | |   | .'.''| |  ",
-  "'---'/ /   | |_'---'/ /   | |_ ",
-  "     \\ \\._,\\ '/     \\ \\._,\\ '/ ",
-  "      `--'  `\"       `--'  `\"  ",
+  "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄",
+  "██░░░░░░░░░░░░░░░░█░░░█▀█░█░░░█▀█░░░░░░░░░░░░░░░░░██",
+  "██░░░░░░░░░░░░░░░░█░░░█▀█░█░░░█▀█░░░░░░░░░░░░░░░░░██",
+  "██░░░░░░░░░░░░░░░░▀▀▀░▀░▀░▀▀▀░▀░▀░░░░░░░░░░░░░░░░░██",
+  "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
 ];
 
 export function formatCliBannerArt(options: BannerOptions = {}): string {
   const rich = options.richTty ?? isRich();
   if (!rich) {
-    return LALA_ASCII.join("\n");
+    return [...LALA_ASCII, "                      🦋 LALA 🦋"].join("\n");
   }
 
   const colorChar = (ch: string) => {
-    if (/[A-Za-z]/.test(ch)) {
+    if (/[▄█▀]/.test(ch)) {
       return theme.accentBright(ch);
     }
-    if (/[|/\\\\]/.test(ch)) {
+    if (/[A-Za-z|/\\\\]/.test(ch)) {
       return theme.accent(ch);
     }
-    if (/[.'`:_-]/.test(ch)) {
+    if (/[.'`:_░-]/.test(ch)) {
       return theme.accentDim(ch);
     }
     return theme.muted(ch);
@@ -134,7 +126,8 @@ export function formatCliBannerArt(options: BannerOptions = {}): string {
 
   const colored = LALA_ASCII.map((line) => splitGraphemes(line).map(colorChar).join(""));
 
-  return colored.join("\n");
+  const footer = "                      🦋 " + theme.heading("LALA") + " 🦋";
+  return [...colored, footer].join("\n");
 }
 
 export function emitCliBanner(version: string, options: BannerOptions = {}) {

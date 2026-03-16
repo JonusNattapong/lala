@@ -68,28 +68,13 @@ export function resolveStateDir(
 ): string {
   const effectiveHomedir = () => resolveRequiredHomeDir(env, homedir);
   const override =
-    env.LALA_STATE_DIR?.trim() || env.LALABOT_STATE_DIR?.trim() || env.OPENCLAW_STATE_DIR?.trim();
+    env.LALA_STATE_DIR?.trim() || env.LALABOT_STATE_DIR?.trim() || env.LALA_STATE_DIR?.trim();
   if (override) {
     return resolveUserPath(override, env, effectiveHomedir);
   }
   const newDir = newStateDir(effectiveHomedir);
   if (env.LALA_TEST_FAST === "1") {
     return newDir;
-  }
-  const legacyDirs = legacyStateDirs(effectiveHomedir);
-  const hasNew = fs.existsSync(newDir);
-  if (hasNew) {
-    return newDir;
-  }
-  const existingLegacy = legacyDirs.find((dir) => {
-    try {
-      return fs.existsSync(dir);
-    } catch {
-      return false;
-    }
-  });
-  if (existingLegacy) {
-    return existingLegacy;
   }
   return newDir;
 }
@@ -128,7 +113,7 @@ export function resolveCanonicalConfigPath(
   const override =
     env.LALA_CONFIG_PATH?.trim() ||
     env.LALABOT_CONFIG_PATH?.trim() ||
-    env.OPENCLAW_CONFIG_PATH?.trim();
+    env.LALA_CONFIG_PATH?.trim();
   if (override) {
     return resolveUserPath(override, env, envHomedir(env));
   }
@@ -143,20 +128,6 @@ export function resolveConfigPathCandidate(
   env: NodeJS.ProcessEnv = process.env,
   homedir: () => string = envHomedir(env),
 ): string {
-  if (env.LALA_TEST_FAST === "1") {
-    return resolveCanonicalConfigPath(env, resolveStateDir(env, homedir));
-  }
-  const candidates = resolveDefaultConfigCandidates(env, homedir);
-  const existing = candidates.find((candidate) => {
-    try {
-      return fs.existsSync(candidate);
-    } catch {
-      return false;
-    }
-  });
-  if (existing) {
-    return existing;
-  }
   return resolveCanonicalConfigPath(env, resolveStateDir(env, homedir));
 }
 
@@ -171,7 +142,7 @@ export function resolveConfigPath(
   const override =
     env.LALA_CONFIG_PATH?.trim() ||
     env.LALABOT_CONFIG_PATH?.trim() ||
-    env.OPENCLAW_CONFIG_PATH?.trim();
+    env.LALA_CONFIG_PATH?.trim();
   if (override) {
     return resolveUserPath(override, env, homedir);
   }
@@ -217,24 +188,37 @@ export function resolveDefaultConfigCandidates(
   const explicit =
     env.LALA_CONFIG_PATH?.trim() ||
     env.LALABOT_CONFIG_PATH?.trim() ||
-    env.OPENCLAW_CONFIG_PATH?.trim();
+    env.LALA_CONFIG_PATH?.trim();
   if (explicit) {
     return [resolveUserPath(explicit, env, effectiveHomedir)];
   }
 
   const candidates: string[] = [];
+  const seen = new Set<string>();
+  const addCandidate = (candidate: string) => {
+    const resolved = path.resolve(candidate);
+    if (seen.has(resolved)) {
+      return;
+    }
+    seen.add(resolved);
+    candidates.push(resolved);
+  };
   const lalaStateDir =
-    env.LALA_STATE_DIR?.trim() || env.LALABOT_STATE_DIR?.trim() || env.OPENCLAW_STATE_DIR?.trim();
+    env.LALA_STATE_DIR?.trim() || env.LALABOT_STATE_DIR?.trim() || env.LALA_STATE_DIR?.trim();
   if (lalaStateDir) {
     const resolved = resolveUserPath(lalaStateDir, env, effectiveHomedir);
-    candidates.push(path.join(resolved, CONFIG_FILENAME));
-    candidates.push(...LEGACY_CONFIG_FILENAMES.map((name) => path.join(resolved, name)));
+    addCandidate(path.join(resolved, CONFIG_FILENAME));
+    for (const name of LEGACY_CONFIG_FILENAMES) {
+      addCandidate(path.join(resolved, name));
+    }
   }
 
   const defaultDirs = [newStateDir(effectiveHomedir), ...legacyStateDirs(effectiveHomedir)];
   for (const dir of defaultDirs) {
-    candidates.push(path.join(dir, CONFIG_FILENAME));
-    candidates.push(...LEGACY_CONFIG_FILENAMES.map((name) => path.join(dir, name)));
+    addCandidate(path.join(dir, CONFIG_FILENAME));
+    for (const name of LEGACY_CONFIG_FILENAMES) {
+      addCandidate(path.join(dir, name));
+    }
   }
   return candidates;
 }
@@ -283,7 +267,7 @@ export function resolveGatewayPort(cfg?: LalaConfig, env: NodeJS.ProcessEnv = pr
   const envRaw =
     env.LALA_GATEWAY_PORT?.trim() ||
     env.LALABOT_GATEWAY_PORT?.trim() ||
-    env.OPENCLAW_GATEWAY_PORT?.trim();
+    env.LALA_GATEWAY_PORT?.trim();
   if (envRaw) {
     const parsed = Number.parseInt(envRaw, 10);
     if (Number.isFinite(parsed) && parsed > 0) {

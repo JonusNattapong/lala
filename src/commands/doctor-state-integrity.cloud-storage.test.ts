@@ -84,10 +84,10 @@ describe("detectMacCloudSyncedStateDir", () => {
     expect(result).toBeNull();
   });
 
-  it("anchors cloud detection to OS homedir when OPENCLAW_HOME is overridden", () => {
+  it("anchors cloud detection to OS homedir when LALA_HOME is overridden", () => {
     const stateDir = path.join(home, "Library", "CloudStorage", "iCloud Drive", ".lala");
-    const originalLalaHome = process.env.OPENCLAW_HOME;
-    process.env.OPENCLAW_HOME = "/tmp/lala-home-override";
+    const originalLalaHome = process.env.LALA_HOME;
+    process.env.LALA_HOME = "/tmp/lala-home-override";
     const homedirSpy = vi.spyOn(os, "homedir").mockReturnValue(home);
     try {
       const result = detectMacCloudSyncedStateDir(stateDir, {
@@ -101,9 +101,9 @@ describe("detectMacCloudSyncedStateDir", () => {
     } finally {
       homedirSpy.mockRestore();
       if (originalLalaHome === undefined) {
-        delete process.env.OPENCLAW_HOME;
+        delete process.env.LALA_HOME;
       } else {
-        process.env.OPENCLAW_HOME = originalLalaHome;
+        process.env.LALA_HOME = originalLalaHome;
       }
     }
   });

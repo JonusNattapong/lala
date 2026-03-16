@@ -15,8 +15,8 @@ import {
 
 describe("onboard auth credentials secret refs", () => {
   const lifecycle = createAuthTestLifecycle([
-    "OPENCLAW_STATE_DIR",
-    "OPENCLAW_AGENT_DIR",
+    "LALA_STATE_DIR",
+    "LALA_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "MOONSHOT_API_KEY",
     "OPENAI_API_KEY",

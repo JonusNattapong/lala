@@ -18,6 +18,8 @@ import { loadAgents } from "./controllers/agents.ts";
 import { loadAssistantIdentity } from "./controllers/assistant-identity.ts";
 import { loadChatHistory } from "./controllers/chat.ts";
 import { handleChatEvent, type ChatEventPayload } from "./controllers/chat.ts";
+import { loadChannels } from "./controllers/channels.ts";
+import { loadConfig } from "./controllers/config.ts";
 import { loadDevices } from "./controllers/devices.ts";
 import type { ExecApprovalRequest } from "./controllers/exec-approval.ts";
 import {
@@ -28,6 +30,7 @@ import {
 } from "./controllers/exec-approval.ts";
 import { loadHealthState } from "./controllers/health.ts";
 import { loadNodes } from "./controllers/nodes.ts";
+import { loadOnboardingWizard } from "./controllers/onboarding-wizard.ts";
 import { loadSessions } from "./controllers/sessions.ts";
 import {
   resolveGatewayErrorDetailCode,
@@ -82,6 +85,8 @@ type GatewayHost = {
   execApprovalQueue: ExecApprovalRequest[];
   execApprovalError: string | null;
   updateAvailable: UpdateAvailable | null;
+  onboardingWizardSessionId: string | null;
+  onboardingWizardStarted: boolean;
 };
 
 type SessionDefaultsSnapshot = {
@@ -193,7 +198,7 @@ export function connectGateway(host: GatewayHost) {
     url: host.settings.gatewayUrl,
     token: host.settings.token.trim() ? host.settings.token : undefined,
     password: host.password.trim() ? host.password : undefined,
-    clientName: "openclaw-control-ui",
+    clientName: "lala-control-ui",
     clientVersion,
     mode: "webchat",
     instanceId: host.clientInstanceId,
@@ -213,8 +218,17 @@ export function connectGateway(host: GatewayHost) {
       (host as unknown as { chatStream: string | null }).chatStream = null;
       (host as unknown as { chatStreamStartedAt: number | null }).chatStreamStartedAt = null;
       resetToolStream(host as unknown as Parameters<typeof resetToolStream>[0]);
+      const supportsRpc =
+        typeof (client as unknown as { request?: unknown }).request === "function";
       void loadAssistantIdentity(host as unknown as OpenClawApp);
       void loadAgents(host as unknown as OpenClawApp);
+      if (supportsRpc) {
+        void loadConfig(host as unknown as OpenClawApp);
+        void loadChannels(host as unknown as OpenClawApp, false);
+        if (host.onboardingWizardSessionId && !host.onboardingWizardStarted) {
+          void loadOnboardingWizard(host as unknown as Parameters<typeof loadOnboardingWizard>[0]);
+        }
+      }
       void loadHealthState(host as unknown as OpenClawApp);
       void loadNodes(host as unknown as OpenClawApp, { quiet: true });
       void loadDevices(host as unknown as OpenClawApp, { quiet: true });

@@ -17,7 +17,7 @@ type SubCliEntry = {
 const shouldRegisterPrimaryOnly = (argv: string[]) => {
   if (
     isTruthyEnvValue(process.env.LALA_DISABLE_LAZY_SUBCOMMANDS) ||
-    isTruthyEnvValue(process.env.OPENCLAW_DISABLE_LAZY_SUBCOMMANDS)
+    isTruthyEnvValue(process.env.LALA_DISABLE_LAZY_SUBCOMMANDS)
   ) {
     return false;
   }
@@ -30,7 +30,7 @@ const shouldRegisterPrimaryOnly = (argv: string[]) => {
 const shouldEagerRegisterSubcommands = (_argv: string[]) => {
   return (
     isTruthyEnvValue(process.env.LALA_DISABLE_LAZY_SUBCOMMANDS) ||
-    isTruthyEnvValue(process.env.OPENCLAW_DISABLE_LAZY_SUBCOMMANDS)
+    isTruthyEnvValue(process.env.LALA_DISABLE_LAZY_SUBCOMMANDS)
   );
 };
 

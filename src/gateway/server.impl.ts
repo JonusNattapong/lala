@@ -63,7 +63,7 @@ import {
   prepareSecretsRuntimeSnapshot,
   resolveCommandSecretsFromActiveRuntimeSnapshot,
 } from "../secrets/runtime.js";
-import { runOnboardingWizard } from "../wizard/onboarding.js";
+import { runOnboardingEngine } from "../wizard/onboarding-engine.js";
 import { createAuthRateLimiter, type AuthRateLimiter } from "./auth-rate-limit.js";
 import { startChannelHealthMonitor } from "./channel-health-monitor.js";
 import { startGatewayConfigReloader } from "./config-reload.js";
@@ -268,16 +268,16 @@ export async function startGatewayServer(
   opts: GatewayServerOptions = {},
 ): Promise<GatewayServer> {
   const minimalTestGateway =
-    process.env.VITEST === "1" && process.env.OPENCLAW_TEST_MINIMAL_GATEWAY === "1";
+    process.env.VITEST === "1" && process.env.LALA_TEST_MINIMAL_GATEWAY === "1";
 
   // Ensure all default port derivations (browser/canvas) see the actual runtime port.
-  process.env.OPENCLAW_GATEWAY_PORT = String(port);
+  process.env.LALA_GATEWAY_PORT = String(port);
   logAcceptedEnvOption({
-    key: "OPENCLAW_RAW_STREAM",
+    key: "LALA_RAW_STREAM",
     description: "raw stream logging enabled",
   });
   logAcceptedEnvOption({
-    key: "OPENCLAW_RAW_STREAM_PATH",
+    key: "LALA_RAW_STREAM_PATH",
     description: "raw stream log path override",
   });
 
@@ -559,7 +559,7 @@ export async function startGatewayServer(
       : { kind: "missing" };
   }
 
-  const wizardRunner = opts.wizardRunner ?? runOnboardingWizard;
+  const wizardRunner = opts.wizardRunner ?? runOnboardingEngine;
   const { wizardSessions, findRunningWizard, purgeWizardSession } = createWizardSessionTracker();
 
   const deps = createDefaultDeps();

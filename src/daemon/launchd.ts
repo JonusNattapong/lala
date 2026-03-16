@@ -37,13 +37,13 @@ function resolveLaunchAgentLabel(args?: { env?: Record<string, string | undefine
   const envLabel = (
     args?.env?.LALA_LAUNCHD_LABEL ??
     args?.env?.LALABOT_LAUNCHD_LABEL ??
-    args?.env?.OPENCLAW_LAUNCHD_LABEL
+    args?.env?.LALA_LAUNCHD_LABEL
   )?.trim();
   if (envLabel) {
     return envLabel;
   }
   return resolveGatewayLaunchAgentLabel(
-    args?.env?.LALA_PROFILE ?? args?.env?.LALABOT_PROFILE ?? args?.env?.OPENCLAW_PROFILE,
+    args?.env?.LALA_PROFILE ?? args?.env?.LALABOT_PROFILE ?? args?.env?.LALA_PROFILE,
   );
 }
 
@@ -68,7 +68,7 @@ export function resolveGatewayLogPaths(env: GatewayServiceEnv): {
   const stateDir = resolveGatewayStateDir(env);
   const logDir = path.join(stateDir, "logs");
   const prefix =
-    (env.LALA_LOG_PREFIX ?? env.LALABOT_LOG_PREFIX ?? env.OPENCLAW_LOG_PREFIX)?.trim() || "gateway";
+    (env.LALA_LOG_PREFIX ?? env.LALABOT_LOG_PREFIX ?? env.LALA_LOG_PREFIX)?.trim() || "gateway";
   return {
     logDir,
     stdoutPath: path.join(logDir, `${prefix}.log`),
@@ -261,7 +261,7 @@ export async function findLegacyLaunchAgents(env: GatewayServiceEnv): Promise<Le
   const domain = resolveGuiDomain();
   const results: LegacyLaunchAgent[] = [];
   for (const label of resolveLegacyGatewayLaunchAgentLabels(
-    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE,
+    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE,
   )) {
     const plistPath = resolveLaunchAgentPlistPathForLabel(env, label);
     const res = await execLaunchctl(["print", `${domain}/${label}`]);
@@ -390,7 +390,7 @@ export async function installLaunchAgent({
   const domain = resolveGuiDomain();
   const label = resolveLaunchAgentLabel({ env });
   for (const legacyLabel of resolveLegacyGatewayLaunchAgentLabels(
-    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE,
+    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE,
   )) {
     const legacyPlistPath = resolveLaunchAgentPlistPathForLabel(env, legacyLabel);
     await execLaunchctl(["bootout", domain, legacyPlistPath]);

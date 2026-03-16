@@ -67,6 +67,7 @@ import {
 } from "./controllers/exec-approvals.ts";
 import { loadLogs } from "./controllers/logs.ts";
 import { loadNodes } from "./controllers/nodes.ts";
+import { cancelOnboardingWizard, submitOnboardingWizardStep } from "./controllers/onboarding-wizard.ts";
 import { loadPresence } from "./controllers/presence.ts";
 import { deleteSessionAndRefresh, loadSessions, patchSession } from "./controllers/sessions.ts";
 import {
@@ -94,6 +95,8 @@ import { renderConfig } from "./views/config.ts";
 import { renderExecApprovalPrompt } from "./views/exec-approval.ts";
 import { renderGatewayUrlConfirmation } from "./views/gateway-url-confirmation.ts";
 import { renderLoginGate } from "./views/login-gate.ts";
+import { renderOnboardingView, resolveShouldShowOnboarding } from "./views/onboarding-view.ts";
+import { renderOnboardingWizard } from "./views/onboarding-wizard.ts";
 import { renderOverview } from "./views/overview.ts";
 
 // Lazy-loaded view modules – deferred so the initial bundle stays small.
@@ -283,6 +286,23 @@ function resolveAssistantAvatarUrl(state: AppViewState): string | undefined {
 }
 
 export function renderApp(state: AppViewState) {
+  const onboardingState = state as AppViewState & {
+    onboardingAutoDismissed: boolean;
+    onboardingStep: "welcome" | "setup" | "models" | "channels";
+    onboardingSelectedSetupMode: "local" | "remote";
+    onboardingSelectedModelProvider: string | null;
+    onboardingSelectedModelId: string | null;
+    onboardingSelectedChannels: string[];
+    onboardingWizardSessionId: string | null;
+    onboardingWizardStep: import("../../../src/wizard/session.js").WizardStep | null;
+    onboardingWizardStatus: import("../../../src/wizard/session.js").WizardSessionStatus | null;
+    onboardingWizardError: string | null;
+    onboardingWizardBusy: boolean;
+    onboardingWizardStarted: boolean;
+    onboardingWizardAnswerText: string;
+    onboardingWizardAnswerBoolean: boolean;
+    onboardingWizardAnswerMulti: string[];
+  };
   const updatableState = state as AppViewState & { requestUpdate?: () => void };
   const requestHostUpdate =
     typeof updatableState.requestUpdate === "function"
@@ -299,16 +319,25 @@ export function renderApp(state: AppViewState) {
     `;
   }
 
+  const onboardingActive = resolveShouldShowOnboarding({
+    forced: state.onboarding,
+    dismissed: onboardingState.onboardingAutoDismissed,
+    connected: state.connected,
+    configSnapshot: state.configSnapshot,
+    configForm: state.configForm,
+    channelsSnapshot: state.channelsSnapshot,
+  });
+
   const presenceCount = state.presenceEntries.length;
   const sessionsCount = state.sessionsResult?.count ?? null;
   const cronNext = state.cronStatus?.nextWakeAtMs ?? null;
   const chatDisabledReason = state.connected ? null : t("chat.disconnected");
   const isChat = state.tab === "chat";
-  const chatFocus = isChat && (state.settings.chatFocusMode || state.onboarding);
-  const navDrawerOpen = Boolean(state.navDrawerOpen && !chatFocus && !state.onboarding);
+  const chatFocus = isChat && (state.settings.chatFocusMode || onboardingActive);
+  const navDrawerOpen = Boolean(state.navDrawerOpen && !chatFocus && !onboardingActive);
   const navCollapsed = Boolean(state.settings.navCollapsed && !navDrawerOpen);
-  const showThinking = state.onboarding ? false : state.settings.chatShowThinking;
-  const showToolCalls = state.onboarding ? true : state.settings.chatShowToolCalls;
+  const showThinking = onboardingActive ? false : state.settings.chatShowThinking;
+  const showToolCalls = onboardingActive ? true : state.settings.chatShowToolCalls;
   const assistantAvatarUrl = resolveAssistantAvatarUrl(state);
   const chatAvatarUrl = state.chatAvatarUrl ?? assistantAvatarUrl ?? null;
   const configValue =
@@ -378,6 +407,117 @@ export function renderApp(state: AppViewState) {
       ? rawDeliveryToSuggestions.filter((value) => isHttpUrl(value))
       : rawDeliveryToSuggestions;
 
+  if (onboardingActive) {
+    if (onboardingState.onboardingWizardSessionId) {
+      return html`
+        ${renderOnboardingWizard({
+          sessionId: onboardingState.onboardingWizardSessionId,
+          step: onboardingState.onboardingWizardStep,
+          status: onboardingState.onboardingWizardStatus,
+          error: onboardingState.onboardingWizardError,
+          busy: onboardingState.onboardingWizardBusy,
+          textValue: onboardingState.onboardingWizardAnswerText,
+          booleanValue: onboardingState.onboardingWizardAnswerBoolean,
+          multiValue: onboardingState.onboardingWizardAnswerMulti,
+          onTextInput: (value) => {
+            onboardingState.onboardingWizardAnswerText = value;
+          },
+          onBooleanChange: (value) => {
+            onboardingState.onboardingWizardAnswerBoolean = value;
+          },
+          onToggleMulti: (value) => {
+            onboardingState.onboardingWizardAnswerMulti = onboardingState.onboardingWizardAnswerMulti.includes(value)
+              ? onboardingState.onboardingWizardAnswerMulti.filter((entry) => entry !== value)
+              : [...onboardingState.onboardingWizardAnswerMulti, value];
+          },
+          onSubmit: () => {
+            void submitOnboardingWizardStep(
+              onboardingState as unknown as Parameters<typeof submitOnboardingWizardStep>[0],
+            );
+          },
+          onCancel: () => {
+            void cancelOnboardingWizard(
+              onboardingState as unknown as Parameters<typeof cancelOnboardingWizard>[0],
+            );
+          },
+          onFinish: () => {
+            onboardingState.onboardingWizardSessionId = null;
+            onboardingState.onboardingAutoDismissed = true;
+            state.onboarding = false;
+            state.setTab("chat");
+          },
+        })}
+        ${renderGatewayUrlConfirmation(state)}
+      `;
+    }
+    return html`
+      ${renderOnboardingView({
+        state,
+        active: onboardingActive,
+        step: onboardingState.onboardingStep,
+        selectedProvider: onboardingState.onboardingSelectedModelProvider,
+        selectedModelId: onboardingState.onboardingSelectedModelId,
+        models: state.chatModelCatalog,
+        modelSaving: state.configSaving,
+        onStepChange: (step) => {
+          onboardingState.onboardingStep = step;
+        },
+        onProviderChange: (provider) => {
+          onboardingState.onboardingSelectedModelProvider = provider;
+        },
+        onModelChange: (modelId) => {
+          onboardingState.onboardingSelectedModelId = modelId;
+        },
+        onSaveModel: async () => {
+          const modelId = onboardingState.onboardingSelectedModelId?.trim();
+          if (!modelId) {
+            return;
+          }
+          const configValue =
+            state.configForm ?? (state.configSnapshot?.config as Record<string, unknown> | null);
+          const existingModel = (configValue?.agents as { defaults?: { model?: unknown } } | undefined)
+            ?.defaults?.model;
+          const fallbacks =
+            existingModel && typeof existingModel === "object" && !Array.isArray(existingModel)
+              ? (existingModel as { fallbacks?: string[] }).fallbacks
+              : undefined;
+          updateConfigFormValue(state, ["agents", "defaults", "model"], {
+            ...(fallbacks?.length ? { fallbacks } : {}),
+            primary: modelId,
+          });
+          updateConfigFormValue(state, ["agents", "defaults", "models", modelId], {});
+          await saveConfig(state);
+        },
+        onOpenAiSettings: () => {
+          onboardingState.onboardingAutoDismissed = true;
+          state.onboarding = false;
+          state.setTab("aiAgents");
+        },
+        onOpenInfrastructureSettings: () => {
+          onboardingState.onboardingAutoDismissed = true;
+          state.onboarding = false;
+          state.setTab("infrastructure");
+        },
+        onOpenChannelSettings: () => {
+          onboardingState.onboardingAutoDismissed = true;
+          state.onboarding = false;
+          state.setTab("channels");
+        },
+        onFinish: () => {
+          onboardingState.onboardingAutoDismissed = true;
+          state.onboarding = false;
+          state.setTab("chat");
+        },
+        onSkip: () => {
+          onboardingState.onboardingAutoDismissed = true;
+          state.onboarding = false;
+          state.setTab("chat");
+        },
+      })}
+      ${renderGatewayUrlConfirmation(state)}
+    `;
+  }
+
   return html`
     ${renderCommandPalette({
       open: state.paletteOpen,
@@ -401,7 +541,7 @@ export function renderApp(state: AppViewState) {
       },
     })}
     <div
-      class="shell ${isChat ? "shell--chat" : ""} ${chatFocus ? "shell--chat-focus" : ""} ${navCollapsed ? "shell--nav-collapsed" : ""} ${navDrawerOpen ? "shell--nav-drawer-open" : ""} ${state.onboarding ? "shell--onboarding" : ""}"
+        class="shell ${isChat ? "shell--chat" : ""} ${chatFocus ? "shell--chat-focus" : ""} ${navCollapsed ? "shell--nav-collapsed" : ""} ${navDrawerOpen ? "shell--nav-drawer-open" : ""} ${onboardingActive ? "shell--onboarding" : ""}"
     >
       <button
         type="button"

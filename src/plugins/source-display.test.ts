@@ -90,8 +90,8 @@ describe("formatPluginSourceForTable", () => {
     const homeDir = path.resolve(path.sep, "tmp", "lala-home");
     const roots = withEnv(
       {
-        OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(ignoredHome, "ignored-bundled"),
-        OPENCLAW_STATE_DIR: path.join(ignoredHome, "ignored-state"),
+        LALA_BUNDLED_PLUGINS_DIR: path.join(ignoredHome, "ignored-bundled"),
+        LALA_STATE_DIR: path.join(ignoredHome, "ignored-state"),
         HOME: ignoredHome,
       },
       () =>
@@ -99,8 +99,8 @@ describe("formatPluginSourceForTable", () => {
           env: {
             ...process.env,
             HOME: homeDir,
-            OPENCLAW_BUNDLED_PLUGINS_DIR: "~/bundled",
-            OPENCLAW_STATE_DIR: "~/state",
+            LALA_BUNDLED_PLUGINS_DIR: "~/bundled",
+            LALA_STATE_DIR: "~/state",
           },
           workspaceDir: "~/ws",
         }),

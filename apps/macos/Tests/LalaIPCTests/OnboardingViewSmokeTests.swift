@@ -33,7 +33,7 @@ struct OnboardingViewSmokeTests {
             .appendingPathComponent("lala.json")
             .path
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
+        await TestIsolation.withEnvValues(["LALA_CONFIG_PATH": override]) {
             let state = AppState(preview: true)
             state.remoteTransport = .ssh
             state.remoteTarget = "user@old-host:2222"

@@ -4,7 +4,7 @@ import Testing
 
 struct WideAreaGatewayDiscoveryTests {
     @Test func `discovers beacon from tailnet dns sd fallback`() {
-        setenv("OPENCLAW_WIDE_AREA_DOMAIN", "lala.internal", 1)
+        setenv("LALA_WIDE_AREA_DOMAIN", "lala.internal", 1)
         let statusJson = """
         {
           "Self": { "TailscaleIPs": ["100.69.232.64"] },

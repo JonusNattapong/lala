@@ -17,9 +17,9 @@ function makeTempDir() {
 function buildDiscoveryEnv(stateDir: string): NodeJS.ProcessEnv {
   return {
     ...process.env,
-    OPENCLAW_STATE_DIR: stateDir,
+    LALA_STATE_DIR: stateDir,
     CLAWDBOT_STATE_DIR: undefined,
-    OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+    LALA_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
   };
 }
 
@@ -341,9 +341,9 @@ describe("discoverLalaPlugins", () => {
       const result = discoverLalaPlugins({
         env: {
           ...process.env,
-          OPENCLAW_STATE_DIR: stateDir,
+          LALA_STATE_DIR: stateDir,
           CLAWDBOT_STATE_DIR: undefined,
-          OPENCLAW_BUNDLED_PLUGINS_DIR: bundledDir,
+          LALA_BUNDLED_PLUGINS_DIR: bundledDir,
         },
       });
 
@@ -389,7 +389,7 @@ describe("discoverLalaPlugins", () => {
     const first = discoverLalaPlugins({
       env: {
         ...buildDiscoveryEnv(stateDir),
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        LALA_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
     });
     expect(first.candidates.some((candidate) => candidate.idHint === "cached")).toBe(true);
@@ -399,7 +399,7 @@ describe("discoverLalaPlugins", () => {
     const second = discoverLalaPlugins({
       env: {
         ...buildDiscoveryEnv(stateDir),
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        LALA_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
     });
     expect(second.candidates.some((candidate) => candidate.idHint === "cached")).toBe(true);
@@ -409,7 +409,7 @@ describe("discoverLalaPlugins", () => {
     const third = discoverLalaPlugins({
       env: {
         ...buildDiscoveryEnv(stateDir),
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        LALA_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
     });
     expect(third.candidates.some((candidate) => candidate.idHint === "cached")).toBe(false);
@@ -428,13 +428,13 @@ describe("discoverLalaPlugins", () => {
     const first = discoverLalaPlugins({
       env: {
         ...buildDiscoveryEnv(stateDirA),
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        LALA_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
     });
     const second = discoverLalaPlugins({
       env: {
         ...buildDiscoveryEnv(stateDirB),
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        LALA_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
     });
 
@@ -460,7 +460,7 @@ describe("discoverLalaPlugins", () => {
       env: {
         ...buildDiscoveryEnv(stateDir),
         HOME: homeA,
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        LALA_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
     });
     const second = discoverLalaPlugins({
@@ -468,7 +468,7 @@ describe("discoverLalaPlugins", () => {
       env: {
         ...buildDiscoveryEnv(stateDir),
         HOME: homeB,
-        OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+        LALA_PLUGIN_DISCOVERY_CACHE_MS: "5000",
       },
     });
 
@@ -488,7 +488,7 @@ describe("discoverLalaPlugins", () => {
 
     const env = {
       ...buildDiscoveryEnv(stateDir),
-      OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS: "5000",
+      LALA_PLUGIN_DISCOVERY_CACHE_MS: "5000",
     };
 
     const first = discoverLalaPlugins({

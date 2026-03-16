@@ -231,7 +231,7 @@ describe("backupVerifyCommand", () => {
     const configPath = path.join(tempHome.home, "custom-config.json");
     const archiveDir = await fs.mkdtemp(path.join(os.tmpdir(), "lala-backup-verify-out-"));
     try {
-      process.env.OPENCLAW_CONFIG_PATH = configPath;
+      process.env.LALA_CONFIG_PATH = configPath;
       await fs.writeFile(
         configPath,
         JSON.stringify({
@@ -267,7 +267,7 @@ describe("backupVerifyCommand", () => {
       expect(verified.ok).toBe(true);
       expect(verified.assetCount).toBeGreaterThanOrEqual(2);
     } finally {
-      delete process.env.OPENCLAW_CONFIG_PATH;
+      delete process.env.LALA_CONFIG_PATH;
       await fs.rm(externalWorkspace, { recursive: true, force: true });
       await fs.rm(archiveDir, { recursive: true, force: true });
     }

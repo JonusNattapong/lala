@@ -23,7 +23,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(OPENCLAW_MARKETING_VERSION)</string>
+	<string>$(LALA_MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(OPENCLAW_BUILD_VERSION)</string>
+	<string>$(LALA_BUILD_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSAppTransportSecurity</key>
@@ -67,13 +67,13 @@
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>LalaPushAPNsEnvironment</key>
-	<string>$(OPENCLAW_PUSH_APNS_ENVIRONMENT)</string>
+	<string>$(LALA_PUSH_APNS_ENVIRONMENT)</string>
 	<key>LalaPushDistribution</key>
-	<string>$(OPENCLAW_PUSH_DISTRIBUTION)</string>
+	<string>$(LALA_PUSH_DISTRIBUTION)</string>
 	<key>LalaPushRelayBaseURL</key>
-	<string>$(OPENCLAW_PUSH_RELAY_BASE_URL)</string>
+	<string>$(LALA_PUSH_RELAY_BASE_URL)</string>
 	<key>LalaPushTransport</key>
-	<string>$(OPENCLAW_PUSH_TRANSPORT)</string>
+	<string>$(LALA_PUSH_TRANSPORT)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

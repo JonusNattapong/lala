@@ -206,16 +206,16 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
     run: (ctx: { tempHome: string }) => Promise<T>;
   }): Promise<T> {
     const tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "lala-exec-approvals-"));
-    const previousLalaHome = process.env.OPENCLAW_HOME;
-    process.env.OPENCLAW_HOME = tempHome;
+    const previousLalaHome = process.env.LALA_HOME;
+    process.env.LALA_HOME = tempHome;
     saveExecApprovals(params.approvals);
     try {
       return await params.run({ tempHome });
     } finally {
       if (previousLalaHome === undefined) {
-        delete process.env.OPENCLAW_HOME;
+        delete process.env.LALA_HOME;
       } else {
-        process.env.OPENCLAW_HOME = previousLalaHome;
+        process.env.LALA_HOME = previousLalaHome;
       }
       fs.rmSync(tempHome, { recursive: true, force: true });
     }

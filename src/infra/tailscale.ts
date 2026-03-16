@@ -151,7 +151,7 @@ let cachedTailscaleBinary: string | null = null;
 
 export async function getTailscaleBinary(): Promise<string> {
   const forcedBinary = (
-    process.env.LALA_TEST_TAILSCALE_BINARY ?? process.env.OPENCLAW_TEST_TAILSCALE_BINARY
+    process.env.LALA_TEST_TAILSCALE_BINARY ?? process.env.LALA_TEST_TAILSCALE_BINARY
   )?.trim();
   if (forcedBinary) {
     cachedTailscaleBinary = forcedBinary;

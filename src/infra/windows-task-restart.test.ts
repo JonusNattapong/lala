@@ -87,7 +87,7 @@ describe("relaunchGatewayScheduledTask", () => {
     expect(script).toContain('del "%~f0" >nul 2>&1');
   });
 
-  it("prefers LALA_WINDOWS_TASK_NAME then OPENCLAW_WINDOWS_TASK_NAME overrides", () => {
+  it("prefers LALA_WINDOWS_TASK_NAME then LALA_WINDOWS_TASK_NAME overrides", () => {
     spawnMock.mockImplementation((_file: string, args: string[]) => {
       createdScriptPaths.add(decodeCmdPathArg(args[3]));
       return { unref: vi.fn() };
@@ -104,8 +104,8 @@ describe("relaunchGatewayScheduledTask", () => {
 
     createdScriptPaths.clear();
     relaunchGatewayScheduledTask({
-      OPENCLAW_PROFILE: "work",
-      OPENCLAW_WINDOWS_TASK_NAME: "Lala Gateway (openclaw-custom)",
+      LALA_PROFILE: "work",
+      LALA_WINDOWS_TASK_NAME: "Lala Gateway (openclaw-custom)",
     });
 
     const scriptPathOpenClaw = [...createdScriptPaths][0];

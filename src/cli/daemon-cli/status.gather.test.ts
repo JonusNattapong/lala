@@ -21,8 +21,8 @@ const serviceReadRuntime = vi.fn(async (_env?: NodeJS.ProcessEnv) => ({ status: 
 const serviceReadCommand = vi.fn(async (_env?: NodeJS.ProcessEnv) => ({
   programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
   environment: {
-    OPENCLAW_STATE_DIR: "/tmp/lala-daemon",
-    OPENCLAW_CONFIG_PATH: "/tmp/lala-daemon/lala.json",
+    LALA_STATE_DIR: "/tmp/lala-daemon",
+    LALA_CONFIG_PATH: "/tmp/lala-daemon/lala.json",
   },
 }));
 const resolveGatewayBindHost = vi.fn(
@@ -31,10 +31,10 @@ const resolveGatewayBindHost = vi.fn(
 const pickPrimaryTailnetIPv4 = vi.fn(() => "100.64.0.9");
 const resolveGatewayPort = vi.fn((_cfg?: unknown, _env?: unknown) => 18789);
 const resolveStateDir = vi.fn(
-  (env: NodeJS.ProcessEnv) => env.OPENCLAW_STATE_DIR ?? "/tmp/lala-cli",
+  (env: NodeJS.ProcessEnv) => env.LALA_STATE_DIR ?? "/tmp/lala-cli",
 );
 const resolveConfigPath = vi.fn((env: NodeJS.ProcessEnv, stateDir: string) => {
-  return env.OPENCLAW_CONFIG_PATH ?? `${stateDir}/lala.json`;
+  return env.LALA_CONFIG_PATH ?? `${stateDir}/lala.json`;
 });
 let daemonLoadedConfig: Record<string, unknown> = {
   gateway: {
@@ -119,17 +119,17 @@ describe("gatherDaemonStatus", () => {
 
   beforeEach(() => {
     envSnapshot = captureEnv([
-      "OPENCLAW_STATE_DIR",
-      "OPENCLAW_CONFIG_PATH",
-      "OPENCLAW_GATEWAY_TOKEN",
-      "OPENCLAW_GATEWAY_PASSWORD",
+      "LALA_STATE_DIR",
+      "LALA_CONFIG_PATH",
+      "LALA_GATEWAY_TOKEN",
+      "LALA_GATEWAY_PASSWORD",
       "DAEMON_GATEWAY_TOKEN",
       "DAEMON_GATEWAY_PASSWORD",
     ]);
-    process.env.OPENCLAW_STATE_DIR = "/tmp/lala-cli";
-    process.env.OPENCLAW_CONFIG_PATH = "/tmp/lala-cli/lala.json";
-    delete process.env.OPENCLAW_GATEWAY_TOKEN;
-    delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+    process.env.LALA_STATE_DIR = "/tmp/lala-cli";
+    process.env.LALA_CONFIG_PATH = "/tmp/lala-cli/lala.json";
+    delete process.env.LALA_GATEWAY_TOKEN;
+    delete process.env.LALA_GATEWAY_PASSWORD;
     delete process.env.DAEMON_GATEWAY_TOKEN;
     delete process.env.DAEMON_GATEWAY_PASSWORD;
     callGatewayStatusProbe.mockClear();
@@ -298,8 +298,8 @@ describe("gatherDaemonStatus", () => {
         },
       },
     };
-    process.env.OPENCLAW_GATEWAY_TOKEN = "env-token";
-    process.env.OPENCLAW_GATEWAY_PASSWORD = "env-password"; // pragma: allowlist secret
+    process.env.LALA_GATEWAY_TOKEN = "env-token";
+    process.env.LALA_GATEWAY_PASSWORD = "env-password"; // pragma: allowlist secret
 
     await gatherDaemonStatus({
       rpc: {},

@@ -12,10 +12,10 @@ import {
 } from "./paths.js";
 
 describe("oauth paths", () => {
-  it("prefers OPENCLAW_OAUTH_DIR over OPENCLAW_STATE_DIR", () => {
+  it("prefers LALA_OAUTH_DIR over LALA_STATE_DIR", () => {
     const env = {
-      OPENCLAW_OAUTH_DIR: "/custom/oauth",
-      OPENCLAW_STATE_DIR: "/custom/state",
+      LALA_OAUTH_DIR: "/custom/oauth",
+      LALA_STATE_DIR: "/custom/state",
     } as NodeJS.ProcessEnv;
 
     expect(resolveOAuthDir(env, "/custom/state")).toBe(path.resolve("/custom/oauth"));
@@ -24,9 +24,9 @@ describe("oauth paths", () => {
     );
   });
 
-  it("derives oauth path from OPENCLAW_STATE_DIR when unset", () => {
+  it("derives oauth path from LALA_STATE_DIR when unset", () => {
     const env = {
-      OPENCLAW_STATE_DIR: "/custom/state",
+      LALA_STATE_DIR: "/custom/state",
     } as NodeJS.ProcessEnv;
 
     expect(resolveOAuthDir(env, "/custom/state")).toBe(path.join("/custom/state", "credentials"));
@@ -47,9 +47,9 @@ describe("state + config path candidates", () => {
   }
 
   function expectLalaHomeDefaults(env: NodeJS.ProcessEnv): void {
-    const configuredHome = env.OPENCLAW_HOME;
+    const configuredHome = env.LALA_HOME;
     if (!configuredHome) {
-      throw new Error("OPENCLAW_HOME must be set for this assertion helper");
+      throw new Error("LALA_HOME must be set for this assertion helper");
     }
     const resolvedHome = path.resolve(configuredHome);
     expect(resolveStateDir(env)).toBe(path.join(resolvedHome, ".lala"));
@@ -58,24 +58,24 @@ describe("state + config path candidates", () => {
     expect(candidates[0]).toBe(path.join(resolvedHome, ".lala", "lala.json"));
   }
 
-  it("uses OPENCLAW_STATE_DIR when set", () => {
+  it("uses LALA_STATE_DIR when set", () => {
     const env = {
-      OPENCLAW_STATE_DIR: "/new/state",
+      LALA_STATE_DIR: "/new/state",
     } as NodeJS.ProcessEnv;
 
     expect(resolveStateDir(env, () => "/home/test")).toBe(path.resolve("/new/state"));
   });
 
-  it("uses OPENCLAW_HOME for default state/config locations", () => {
+  it("uses LALA_HOME for default state/config locations", () => {
     const env = {
-      OPENCLAW_HOME: "/srv/lala-home",
+      LALA_HOME: "/srv/lala-home",
     } as NodeJS.ProcessEnv;
     expectLalaHomeDefaults(env);
   });
 
-  it("prefers OPENCLAW_HOME over HOME for default state/config locations", () => {
+  it("prefers LALA_HOME over HOME for default state/config locations", () => {
     const env = {
-      OPENCLAW_HOME: "/srv/lala-home",
+      LALA_HOME: "/srv/lala-home",
       HOME: "/home/other",
     } as NodeJS.ProcessEnv;
     expectLalaHomeDefaults(env);
@@ -115,24 +115,24 @@ describe("state + config path candidates", () => {
     });
   });
 
-  it("falls back to existing legacy state dir when ~/.lala is missing", async () => {
+  it("prefers ~/.lala even when a legacy state dir exists", async () => {
     await withTempRoot("lala-state-legacy-", async (root) => {
       const legacyDir = path.join(root, ".clawdbot");
       await fs.mkdir(legacyDir, { recursive: true });
       const resolved = resolveStateDir({} as NodeJS.ProcessEnv, () => root);
-      expect(resolved).toBe(legacyDir);
+      expect(resolved).toBe(path.join(root, ".lala"));
     });
   });
 
-  it("CONFIG_PATH prefers existing config when present", async () => {
+  it("CONFIG_PATH stays on the canonical .lala path even when legacy config exists", async () => {
     await withTempRoot("lala-config-", async (root) => {
-      const legacyDir = path.join(root, ".lala");
+      const legacyDir = path.join(root, ".clawdbot");
       await fs.mkdir(legacyDir, { recursive: true });
       const legacyPath = path.join(legacyDir, "lala.json");
       await fs.writeFile(legacyPath, "{}", "utf-8");
 
       const resolved = resolveConfigPathCandidate({} as NodeJS.ProcessEnv, () => root);
-      expect(resolved).toBe(legacyPath);
+      expect(resolved).toBe(path.join(root, ".lala", "lala.json"));
     });
   });
 
@@ -144,7 +144,7 @@ describe("state + config path candidates", () => {
       await fs.writeFile(legacyConfig, "{}", "utf-8");
 
       const overrideDir = path.join(root, "override");
-      const env = { OPENCLAW_STATE_DIR: overrideDir } as NodeJS.ProcessEnv;
+      const env = { LALA_STATE_DIR: overrideDir } as NodeJS.ProcessEnv;
       const resolved = resolveConfigPath(env, overrideDir, () => root);
       expect(resolved).toBe(path.join(overrideDir, "lala.json"));
     });

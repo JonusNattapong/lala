@@ -315,7 +315,7 @@ export async function runOnboardingWizard(
   const localUrl = `ws://127.0.0.1:${localPort}`;
   let localGatewayToken =
     process.env.LALA_GATEWAY_TOKEN ??
-    process.env.OPENCLAW_GATEWAY_TOKEN ??
+    process.env.LALA_GATEWAY_TOKEN ??
     process.env.CLAWDBOT_GATEWAY_TOKEN;
   try {
     const resolvedGatewayToken = await resolveOnboardingSecretInputString({
@@ -338,7 +338,7 @@ export async function runOnboardingWizard(
   }
   let localGatewayPassword =
     process.env.LALA_GATEWAY_PASSWORD ??
-    process.env.OPENCLAW_GATEWAY_PASSWORD ??
+    process.env.LALA_GATEWAY_PASSWORD ??
     process.env.CLAWDBOT_GATEWAY_PASSWORD;
   try {
     const resolvedGatewayPassword = await resolveOnboardingSecretInputString({

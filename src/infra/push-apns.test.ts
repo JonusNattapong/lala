@@ -285,9 +285,9 @@ describe("push APNs env config", () => {
 
   it("resolves inline private key and unescapes newlines", async () => {
     const env = {
-      OPENCLAW_APNS_TEAM_ID: "TEAM123",
-      OPENCLAW_APNS_KEY_ID: "KEY123",
-      OPENCLAW_APNS_PRIVATE_KEY_P8:
+      LALA_APNS_TEAM_ID: "TEAM123",
+      LALA_APNS_KEY_ID: "KEY123",
+      LALA_APNS_PRIVATE_KEY_P8:
         "-----BEGIN PRIVATE KEY-----\\nline-a\\nline-b\\n-----END PRIVATE KEY-----", // pragma: allowlist secret
     } as NodeJS.ProcessEnv;
     const resolved = await resolveApnsAuthConfigFromEnv(env);
@@ -306,13 +306,13 @@ describe("push APNs env config", () => {
     if (resolved.ok) {
       return;
     }
-    expect(resolved.error).toContain("OPENCLAW_APNS_TEAM_ID");
+    expect(resolved.error).toContain("LALA_APNS_TEAM_ID");
   });
 
   it("resolves APNs relay config from env", () => {
     const resolved = resolveApnsRelayConfigFromEnv({
-      OPENCLAW_APNS_RELAY_BASE_URL: "https://relay.example.com",
-      OPENCLAW_APNS_RELAY_TIMEOUT_MS: "2500",
+      LALA_APNS_RELAY_BASE_URL: "https://relay.example.com",
+      LALA_APNS_RELAY_TIMEOUT_MS: "2500",
     } as NodeJS.ProcessEnv);
     expect(resolved).toMatchObject({
       ok: true,
@@ -346,8 +346,8 @@ describe("push APNs env config", () => {
   it("lets relay env overrides win over gateway config", () => {
     const resolved = resolveApnsRelayConfigFromEnv(
       {
-        OPENCLAW_APNS_RELAY_BASE_URL: "https://relay-override.example.com",
-        OPENCLAW_APNS_RELAY_TIMEOUT_MS: "3000",
+        LALA_APNS_RELAY_BASE_URL: "https://relay-override.example.com",
+        LALA_APNS_RELAY_TIMEOUT_MS: "3000",
       } as NodeJS.ProcessEnv,
       {
         push: {
@@ -371,7 +371,7 @@ describe("push APNs env config", () => {
 
   it("rejects insecure APNs relay http URLs by default", () => {
     const resolved = resolveApnsRelayConfigFromEnv({
-      OPENCLAW_APNS_RELAY_BASE_URL: "http://relay.example.com",
+      LALA_APNS_RELAY_BASE_URL: "http://relay.example.com",
     } as NodeJS.ProcessEnv);
     expect(resolved).toMatchObject({
       ok: false,
@@ -379,13 +379,13 @@ describe("push APNs env config", () => {
     if (resolved.ok) {
       return;
     }
-    expect(resolved.error).toContain("OPENCLAW_APNS_RELAY_ALLOW_HTTP=true");
+    expect(resolved.error).toContain("LALA_APNS_RELAY_ALLOW_HTTP=true");
   });
 
   it("allows APNs relay http URLs only when explicitly enabled", () => {
     const resolved = resolveApnsRelayConfigFromEnv({
-      OPENCLAW_APNS_RELAY_BASE_URL: "http://127.0.0.1:8787",
-      OPENCLAW_APNS_RELAY_ALLOW_HTTP: "true",
+      LALA_APNS_RELAY_BASE_URL: "http://127.0.0.1:8787",
+      LALA_APNS_RELAY_ALLOW_HTTP: "true",
     } as NodeJS.ProcessEnv);
     expect(resolved).toMatchObject({
       ok: true,
@@ -398,8 +398,8 @@ describe("push APNs env config", () => {
 
   it("rejects http relay URLs for non-loopback hosts even when explicitly enabled", () => {
     const resolved = resolveApnsRelayConfigFromEnv({
-      OPENCLAW_APNS_RELAY_BASE_URL: "http://relay.example.com",
-      OPENCLAW_APNS_RELAY_ALLOW_HTTP: "true",
+      LALA_APNS_RELAY_BASE_URL: "http://relay.example.com",
+      LALA_APNS_RELAY_ALLOW_HTTP: "true",
     } as NodeJS.ProcessEnv);
     expect(resolved).toMatchObject({
       ok: false,
@@ -412,7 +412,7 @@ describe("push APNs env config", () => {
 
   it("rejects APNs relay URLs with query, fragment, or userinfo components", () => {
     const withQuery = resolveApnsRelayConfigFromEnv({
-      OPENCLAW_APNS_RELAY_BASE_URL: "https://relay.example.com/path?debug=1",
+      LALA_APNS_RELAY_BASE_URL: "https://relay.example.com/path?debug=1",
     } as NodeJS.ProcessEnv);
     expect(withQuery.ok).toBe(false);
     if (!withQuery.ok) {
@@ -420,7 +420,7 @@ describe("push APNs env config", () => {
     }
 
     const withUserinfo = resolveApnsRelayConfigFromEnv({
-      OPENCLAW_APNS_RELAY_BASE_URL: "https://user:pass@relay.example.com/path",
+      LALA_APNS_RELAY_BASE_URL: "https://user:pass@relay.example.com/path",
     } as NodeJS.ProcessEnv);
     expect(withUserinfo.ok).toBe(false);
     if (!withUserinfo.ok) {

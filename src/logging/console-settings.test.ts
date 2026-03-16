@@ -32,8 +32,8 @@ beforeEach(() => {
   loadConfigCalls = 0;
   snapshot = captureConsoleSnapshot();
   originalIsTty = process.stdout.isTTY;
-  originalLalaTestConsole = process.env.OPENCLAW_TEST_CONSOLE;
-  process.env.OPENCLAW_TEST_CONSOLE = "1";
+  originalLalaTestConsole = process.env.LALA_TEST_CONSOLE;
+  process.env.LALA_TEST_CONSOLE = "1";
   Object.defineProperty(process.stdout, "isTTY", { value: false, configurable: true });
 });
 
@@ -45,9 +45,9 @@ afterEach(() => {
   console.debug = snapshot.debug;
   console.trace = snapshot.trace;
   if (originalLalaTestConsole === undefined) {
-    delete process.env.OPENCLAW_TEST_CONSOLE;
+    delete process.env.LALA_TEST_CONSOLE;
   } else {
-    process.env.OPENCLAW_TEST_CONSOLE = originalLalaTestConsole;
+    process.env.LALA_TEST_CONSOLE = originalLalaTestConsole;
   }
   Object.defineProperty(process.stdout, "isTTY", { value: originalIsTty, configurable: true });
   logging.setConsoleConfigLoaderForTests();

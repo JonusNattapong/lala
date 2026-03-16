@@ -4,7 +4,7 @@ import { formatDocsLink } from "../../terminal/links.js";
 import { isRich, theme } from "../../terminal/theme.js";
 import { escapeRegExp } from "../../utils.js";
 import { hasFlag, hasRootVersionAlias } from "../argv.js";
-import { formatCliBannerLine, hasEmittedCliBanner } from "../banner.js";
+import { formatCliBannerArt, formatCliBannerLine, hasEmittedCliBanner } from "../banner.js";
 import { replaceCliName, resolveCliName } from "../cli-name.js";
 import { CLI_LOG_LEVEL_VALUES, parseCliLogLevelOption } from "../log-level-option.js";
 import { getCoreCliCommandsWithSubcommands } from "./command-registry.js";
@@ -117,8 +117,9 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
       return "";
     }
     const rich = isRich();
+    const art = formatCliBannerArt({ richTty: rich });
     const line = formatCliBannerLine(ctx.programVersion, { richTty: rich });
-    return `\n${line}\n`;
+    return `\n${art}\n\n${line}\n`;
   });
 
   const fmtExamples = EXAMPLES.map(

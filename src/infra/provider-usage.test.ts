@@ -237,7 +237,7 @@ describe("provider usage loading", () => {
     await withTempHome(
       async (tempHome) => {
         const agentDir = path.join(
-          process.env.OPENCLAW_STATE_DIR ?? path.join(tempHome, ".lala"),
+          process.env.LALA_STATE_DIR ?? path.join(tempHome, ".lala"),
           "agents",
           "main",
           "agent",
@@ -295,7 +295,7 @@ describe("provider usage loading", () => {
       },
       {
         env: {
-          OPENCLAW_STATE_DIR: (home) => path.join(home, ".lala"),
+          LALA_STATE_DIR: (home) => path.join(home, ".lala"),
         },
         prefix: "lala-provider-usage-",
       },

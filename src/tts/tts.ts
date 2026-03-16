@@ -333,7 +333,7 @@ export function resolveTtsPrefsPath(config: ResolvedTtsConfig): string {
   if (config.prefsPath?.trim()) {
     return resolveUserPath(config.prefsPath.trim());
   }
-  const envPath = (process.env.LALA_TTS_PREFS ?? process.env.OPENCLAW_TTS_PREFS)?.trim();
+  const envPath = (process.env.LALA_TTS_PREFS ?? process.env.LALA_TTS_PREFS)?.trim();
   if (envPath) {
     return resolveUserPath(envPath);
   }

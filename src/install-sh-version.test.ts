@@ -26,7 +26,7 @@ function resolveVersionFromInstaller(cliPath: string): string {
     [
       "-lc",
       `source "${installerPath}" >/dev/null 2>&1
-OPENCLAW_BIN="$FAKE_OPENCLAW_BIN"
+LALA_BIN="$FAKE_LALA_BIN"
 resolve_lala_version`,
     ],
     {
@@ -34,8 +34,8 @@ resolve_lala_version`,
       encoding: "utf-8",
       env: {
         ...process.env,
-        FAKE_OPENCLAW_BIN: cliPath,
-        OPENCLAW_INSTALL_SH_NO_RUN: "1",
+        FAKE_LALA_BIN: cliPath,
+        LALA_INSTALL_SH_NO_RUN: "1",
       },
     },
   );
@@ -49,13 +49,13 @@ function resolveVersionFromInstallerViaStdin(cliPath: string, cwd: string): stri
     cwd,
     encoding: "utf-8",
     input: `${installerSource}
-OPENCLAW_BIN="$FAKE_OPENCLAW_BIN"
+LALA_BIN="$FAKE_LALA_BIN"
 resolve_lala_version
 `,
     env: {
       ...process.env,
-      FAKE_OPENCLAW_BIN: cliPath,
-      OPENCLAW_INSTALL_SH_NO_RUN: "1",
+      FAKE_LALA_BIN: cliPath,
+      LALA_INSTALL_SH_NO_RUN: "1",
     },
   });
   return output.trim();

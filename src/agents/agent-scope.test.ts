@@ -414,19 +414,19 @@ describe("resolveAgentConfig", () => {
     expect(result?.workspace).toBe("~/lala");
   });
 
-  it("uses OPENCLAW_HOME for default agent workspace", () => {
+  it("uses LALA_HOME for default agent workspace", () => {
     const home = path.join(path.sep, "srv", "lala-home");
-    vi.stubEnv("OPENCLAW_HOME", home);
+    vi.stubEnv("LALA_HOME", home);
 
     const workspace = resolveAgentWorkspaceDir({} as LalaConfig, "main");
     expect(workspace).toBe(path.join(path.resolve(home), ".lala", "workspace"));
   });
 
-  it("uses OPENCLAW_HOME for default agentDir", () => {
+  it("uses LALA_HOME for default agentDir", () => {
     const home = path.join(path.sep, "srv", "lala-home");
-    vi.stubEnv("OPENCLAW_HOME", home);
-    // Clear state dir so it falls back to OPENCLAW_HOME
-    vi.stubEnv("OPENCLAW_STATE_DIR", "");
+    vi.stubEnv("LALA_HOME", home);
+    // Clear state dir so it falls back to LALA_HOME
+    vi.stubEnv("LALA_STATE_DIR", "");
 
     const agentDir = resolveAgentDir({} as LalaConfig, "main");
     expect(agentDir).toBe(path.join(path.resolve(home), ".lala", "agents", "main", "agent"));

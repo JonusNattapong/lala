@@ -43,7 +43,7 @@ describe("evaluateGatewayAuthSurfaceStates", () => {
           },
         },
       } as LalaConfig,
-      { OPENCLAW_GATEWAY_TOKEN: "env-token" } as NodeJS.ProcessEnv,
+      { LALA_GATEWAY_TOKEN: "env-token" } as NodeJS.ProcessEnv,
     );
 
     expect(states["gateway.auth.token"]).toMatchObject({
@@ -96,7 +96,7 @@ describe("evaluateGatewayAuthSurfaceStates", () => {
           },
         },
       } as LalaConfig,
-      { OPENCLAW_GATEWAY_TOKEN: "env-token" } as NodeJS.ProcessEnv,
+      { LALA_GATEWAY_TOKEN: "env-token" } as NodeJS.ProcessEnv,
     );
 
     expect(states["gateway.auth.password"]).toMatchObject({

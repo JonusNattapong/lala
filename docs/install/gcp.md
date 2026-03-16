@@ -216,13 +216,13 @@ mkdir -p ~/.lala/workspace
 Create `.env` in the repository root.
 
 ```bash
-OPENCLAW_IMAGE=lala:latest
-OPENCLAW_GATEWAY_TOKEN=change-me-now
-OPENCLAW_GATEWAY_BIND=lan
-OPENCLAW_GATEWAY_PORT=18789
+LALA_IMAGE=lala:latest
+LALA_GATEWAY_TOKEN=change-me-now
+LALA_GATEWAY_BIND=lan
+LALA_GATEWAY_PORT=18789
 
-OPENCLAW_CONFIG_DIR=/home/$USER/.lala
-OPENCLAW_WORKSPACE_DIR=/home/$USER/.lala/workspace
+LALA_CONFIG_DIR=/home/$USER/.lala
+LALA_WORKSPACE_DIR=/home/$USER/.lala/workspace
 
 GOG_KEYRING_PASSWORD=change-me-now
 XDG_CONFIG_HOME=/home/node/.lala
@@ -245,7 +245,7 @@ Create or update `docker-compose.yml`.
 ```yaml
 services:
   lala-gateway:
-    image: ${OPENCLAW_IMAGE}
+    image: ${LALA_IMAGE}
     build: .
     restart: unless-stopped
     env_file:
@@ -254,28 +254,28 @@ services:
       - HOME=/home/node
       - NODE_ENV=production
       - TERM=xterm-256color
-      - OPENCLAW_GATEWAY_BIND=${OPENCLAW_GATEWAY_BIND}
-      - OPENCLAW_GATEWAY_PORT=${OPENCLAW_GATEWAY_PORT}
-      - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN}
+      - LALA_GATEWAY_BIND=${LALA_GATEWAY_BIND}
+      - LALA_GATEWAY_PORT=${LALA_GATEWAY_PORT}
+      - LALA_GATEWAY_TOKEN=${LALA_GATEWAY_TOKEN}
       - GOG_KEYRING_PASSWORD=${GOG_KEYRING_PASSWORD}
       - XDG_CONFIG_HOME=${XDG_CONFIG_HOME}
       - PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     volumes:
-      - ${OPENCLAW_CONFIG_DIR}:/home/node/.lala
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.lala/workspace
+      - ${LALA_CONFIG_DIR}:/home/node/.lala
+      - ${LALA_WORKSPACE_DIR}:/home/node/.lala/workspace
     ports:
       # Recommended: keep the Gateway loopback-only on the VM; access via SSH tunnel.
       # To expose it publicly, remove the `127.0.0.1:` prefix and firewall accordingly.
-      - "127.0.0.1:${OPENCLAW_GATEWAY_PORT}:18789"
+      - "127.0.0.1:${LALA_GATEWAY_PORT}:18789"
     command:
       [
         "node",
         "dist/index.js",
         "gateway",
         "--bind",
-        "${OPENCLAW_GATEWAY_BIND}",
+        "${LALA_GATEWAY_BIND}",
         "--port",
-        "${OPENCLAW_GATEWAY_PORT}",
+        "${LALA_GATEWAY_PORT}",
       ]
 ```
 
@@ -353,7 +353,7 @@ docker compose up -d lala-gateway
 
 If build fails with `Killed` / `exit code 137` during `pnpm install --frozen-lockfile`, the VM is out of memory. Use `e2-small` minimum, or `e2-medium` for more reliable first builds.
 
-When binding to LAN (`OPENCLAW_GATEWAY_BIND=lan`), configure a trusted browser origin before continuing:
+When binding to LAN (`LALA_GATEWAY_BIND=lan`), configure a trusted browser origin before continuing:
 
 ```bash
 docker compose run --rm lala-cli config set gateway.controlUi.allowedOrigins '["http://127.0.0.1:18789"]' --strict-json

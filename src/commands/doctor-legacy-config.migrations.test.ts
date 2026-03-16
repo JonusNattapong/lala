@@ -23,16 +23,16 @@ describe("normalizeCompatibilityConfigValues", () => {
   };
 
   beforeEach(() => {
-    previousOauthDir = process.env.OPENCLAW_OAUTH_DIR;
+    previousOauthDir = process.env.LALA_OAUTH_DIR;
     tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "lala-oauth-"));
-    process.env.OPENCLAW_OAUTH_DIR = tempOauthDir;
+    process.env.LALA_OAUTH_DIR = tempOauthDir;
   });
 
   afterEach(() => {
     if (previousOauthDir === undefined) {
-      delete process.env.OPENCLAW_OAUTH_DIR;
+      delete process.env.LALA_OAUTH_DIR;
     } else {
-      process.env.OPENCLAW_OAUTH_DIR = previousOauthDir;
+      process.env.LALA_OAUTH_DIR = previousOauthDir;
     }
     if (tempOauthDir) {
       fs.rmSync(tempOauthDir, { recursive: true, force: true });

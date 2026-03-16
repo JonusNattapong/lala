@@ -18,9 +18,9 @@ describe("LALA_LOG_LEVEL", () => {
 
   beforeEach(() => {
     originalLala = process.env.LALA_LOG_LEVEL;
-    originalOpenClaw = process.env.OPENCLAW_LOG_LEVEL;
+    originalOpenClaw = process.env.LALA_LOG_LEVEL;
     delete process.env.LALA_LOG_LEVEL;
-    delete process.env.OPENCLAW_LOG_LEVEL;
+    delete process.env.LALA_LOG_LEVEL;
     loggingState.invalidEnvLogLevelValue = null;
     resetLogger();
     setLoggerOverride(null);
@@ -33,9 +33,9 @@ describe("LALA_LOG_LEVEL", () => {
       process.env.LALA_LOG_LEVEL = originalLala;
     }
     if (originalOpenClaw === undefined) {
-      delete process.env.OPENCLAW_LOG_LEVEL;
+      delete process.env.LALA_LOG_LEVEL;
     } else {
-      process.env.OPENCLAW_LOG_LEVEL = originalOpenClaw;
+      process.env.LALA_LOG_LEVEL = originalOpenClaw;
     }
     loggingState.invalidEnvLogLevelValue = null;
     resetLogger();
@@ -63,9 +63,9 @@ describe("LALA_LOG_LEVEL", () => {
     });
   });
 
-  it("prioritizes LALA_LOG_LEVEL over OPENCLAW_LOG_LEVEL", () => {
+  it("prioritizes LALA_LOG_LEVEL over LALA_LOG_LEVEL", () => {
     process.env.LALA_LOG_LEVEL = "debug";
-    process.env.OPENCLAW_LOG_LEVEL = "error";
+    process.env.LALA_LOG_LEVEL = "error";
 
     expect(getResolvedLoggerSettings().level).toBe("debug");
     expect(getResolvedConsoleSettings().level).toBe("debug");

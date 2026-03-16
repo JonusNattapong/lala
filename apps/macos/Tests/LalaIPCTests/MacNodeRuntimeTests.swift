@@ -119,7 +119,7 @@ struct MacNodeRuntimeTests {
 
     @Test func `handle invoke browser proxy rejects disabled browser control`() async throws {
         let override = TestIsolation.tempConfigPath()
-        try await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
+        try await TestIsolation.withEnvValues(["LALA_CONFIG_PATH": override]) {
             try JSONSerialization.data(withJSONObject: ["browser": ["enabled": false]])
                 .write(to: URL(fileURLWithPath: override))
 

@@ -162,11 +162,11 @@ Bonjour/DNS‑SD 经常将服务实例名称中的字节转义为十进制 `\DDD
 
 ## 禁用 / 配置
 
-- `OPENCLAW_DISABLE_BONJOUR=1` 禁用广播（旧版：`OPENCLAW_DISABLE_BONJOUR`）。
+- `LALA_DISABLE_BONJOUR=1` 禁用广播（旧版：`LALA_DISABLE_BONJOUR`）。
 - `~/.lala/lala.json` 中的 `gateway.bind` 控制 Gateway 网关绑定模式。
-- `OPENCLAW_SSH_PORT` 覆盖 TXT 中广播的 SSH 端口（旧版：`OPENCLAW_SSH_PORT`）。
-- `OPENCLAW_TAILNET_DNS` 在 TXT 中发布 MagicDNS 提示（旧版：`OPENCLAW_TAILNET_DNS`）。
-- `OPENCLAW_CLI_PATH` 覆盖广播的 CLI 路径（旧版：`OPENCLAW_CLI_PATH`）。
+- `LALA_SSH_PORT` 覆盖 TXT 中广播的 SSH 端口（旧版：`LALA_SSH_PORT`）。
+- `LALA_TAILNET_DNS` 在 TXT 中发布 MagicDNS 提示（旧版：`LALA_TAILNET_DNS`）。
+- `LALA_CLI_PATH` 覆盖广播的 CLI 路径（旧版：`LALA_CLI_PATH`）。
 
 ## 相关文档
 

@@ -163,9 +163,9 @@ describe("mergeExecApprovalsSocketDefaults", () => {
 describe("resolve exec approvals defaults", () => {
   it("expands home-prefixed default file and socket paths", () => {
     const dir = makeTempDir();
-    const prevLalaHome = process.env.OPENCLAW_HOME;
+    const prevLalaHome = process.env.LALA_HOME;
     try {
-      process.env.OPENCLAW_HOME = dir;
+      process.env.LALA_HOME = dir;
       expect(path.normalize(resolveExecApprovalsPath())).toBe(
         path.normalize(path.join(dir, ".lala", "exec-approvals.json")),
       );
@@ -174,9 +174,9 @@ describe("resolve exec approvals defaults", () => {
       );
     } finally {
       if (prevLalaHome === undefined) {
-        delete process.env.OPENCLAW_HOME;
+        delete process.env.LALA_HOME;
       } else {
-        process.env.OPENCLAW_HOME = prevLalaHome;
+        process.env.LALA_HOME = prevLalaHome;
       }
     }
   });

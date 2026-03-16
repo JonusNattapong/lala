@@ -42,7 +42,7 @@ function normalizeConsoleLevel(level?: string): LogLevel {
     return "debug";
   }
   const isTestConsoleEnabled =
-    process.env.LALA_TEST_CONSOLE === "1" || process.env.OPENCLAW_TEST_CONSOLE === "1";
+    process.env.LALA_TEST_CONSOLE === "1" || process.env.LALA_TEST_CONSOLE === "1";
   if (!level && process.env.VITEST === "true" && !isTestConsoleEnabled) {
     return "silent";
   }
@@ -64,7 +64,7 @@ function resolveConsoleSettings(): ConsoleSettings {
   // Test runs default to silent console logging unless explicitly overridden.
   // Skip config-file and full config fallback reads in this fast path.
   const isTestConsoleEnabled =
-    process.env.LALA_TEST_CONSOLE === "1" || process.env.OPENCLAW_TEST_CONSOLE === "1";
+    process.env.LALA_TEST_CONSOLE === "1" || process.env.LALA_TEST_CONSOLE === "1";
   if (
     process.env.VITEST === "true" &&
     !isTestConsoleEnabled &&

@@ -34,7 +34,7 @@ describe("sandbox skill mirroring", () => {
     const bundledDir = await fs.mkdtemp(path.join(os.tmpdir(), "lala-bundled-skills-"));
     await fs.mkdir(bundledDir, { recursive: true });
 
-    process.env.OPENCLAW_BUNDLED_SKILLS_DIR = bundledDir;
+    process.env.LALA_BUNDLED_SKILLS_DIR = bundledDir;
 
     const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "lala-workspace-"));
     await writeSkill({

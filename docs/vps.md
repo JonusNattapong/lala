@@ -60,13 +60,13 @@ If CLI commands feel slow on low-power VMs (or ARM hosts), enable Node's module 
 grep -q 'NODE_COMPILE_CACHE=/var/tmp/lala-compile-cache' ~/.bashrc || cat >> ~/.bashrc <<'EOF'
 export NODE_COMPILE_CACHE=/var/tmp/lala-compile-cache
 mkdir -p /var/tmp/lala-compile-cache
-export OPENCLAW_NO_RESPAWN=1
+export LALA_NO_RESPAWN=1
 EOF
 source ~/.bashrc
 ```
 
 - `NODE_COMPILE_CACHE` improves repeated command startup times.
-- `OPENCLAW_NO_RESPAWN=1` avoids extra startup overhead from a self-respawn path.
+- `LALA_NO_RESPAWN=1` avoids extra startup overhead from a self-respawn path.
 - First command run warms cache; subsequent runs are faster.
 - For Raspberry Pi specifics, see [Raspberry Pi](/platforms/raspberry-pi).
 
@@ -75,7 +75,7 @@ source ~/.bashrc
 For VM hosts using `systemd`, consider:
 
 - Add service env for stable startup path:
-  - `OPENCLAW_NO_RESPAWN=1`
+  - `LALA_NO_RESPAWN=1`
   - `NODE_COMPILE_CACHE=/var/tmp/lala-compile-cache`
 - Keep restart behavior explicit:
   - `Restart=always`
@@ -91,7 +91,7 @@ sudo systemctl edit lala
 
 ```ini
 [Service]
-Environment=OPENCLAW_NO_RESPAWN=1
+Environment=LALA_NO_RESPAWN=1
 Environment=NODE_COMPILE_CACHE=/var/tmp/lala-compile-cache
 Restart=always
 RestartSec=2

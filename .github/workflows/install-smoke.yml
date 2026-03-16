@@ -68,7 +68,7 @@ jobs:
           context: .
           file: ./Dockerfile
           build-args: |
-            OPENCLAW_EXTENSIONS=diagnostics-otel
+            LALA_EXTENSIONS=diagnostics-otel
           tags: openclaw-ext-smoke:local
           load: true
           push: false

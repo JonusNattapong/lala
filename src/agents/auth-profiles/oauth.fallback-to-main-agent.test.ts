@@ -9,8 +9,8 @@ import type { AuthProfileStore } from "./types.js";
 
 describe("resolveApiKeyForProfile fallback to main agent", () => {
   const envSnapshot = captureEnv([
-    "OPENCLAW_STATE_DIR",
-    "OPENCLAW_AGENT_DIR",
+    "LALA_STATE_DIR",
+    "LALA_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
   ]);
   let tmpDir: string;
@@ -25,8 +25,8 @@ describe("resolveApiKeyForProfile fallback to main agent", () => {
     await fs.mkdir(secondaryAgentDir, { recursive: true });
 
     // Set environment variables so resolveLalaAgentDir() returns mainAgentDir
-    process.env.OPENCLAW_STATE_DIR = tmpDir;
-    process.env.OPENCLAW_AGENT_DIR = mainAgentDir;
+    process.env.LALA_STATE_DIR = tmpDir;
+    process.env.LALA_AGENT_DIR = mainAgentDir;
     process.env.PI_CODING_AGENT_DIR = mainAgentDir;
   });
 

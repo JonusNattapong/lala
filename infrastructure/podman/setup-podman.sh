@@ -6,7 +6,7 @@
 # Usage: ./setup-podman.sh [--quadlet|--container]
 #   --quadlet   Install systemd Quadlet so the container runs as a user service
 #   --container Only install user + image + launch script; you start the container manually (default)
-#   Or set OPENCLAW_PODMAN_QUADLET=1 (or 0) to choose without a flag.
+#   Or set LALA_PODMAN_QUADLET=1 (or 0) to choose without a flag.
 #
 # After this, start the gateway manually:
 #   ./scripts/run-lala-podman.sh launch
@@ -15,8 +15,8 @@
 # If you used --quadlet, you can also: sudo systemctl --machine lala@ --user start lala.service
 set -euo pipefail
 
-OPENCLAW_USER="${OPENCLAW_PODMAN_USER:-lala}"
-REPO_PATH="${OPENCLAW_REPO_PATH:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+LALA_USER="${LALA_PODMAN_USER:-lala}"
+REPO_PATH="${LALA_REPO_PATH:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 RUN_SCRIPT_SRC="$REPO_PATH/scripts/run-lala-podman.sh"
 QUADLET_TEMPLATE="$REPO_PATH/scripts/podman/lala.container.in"
 
@@ -98,9 +98,9 @@ run_as_user() {
 }
 
 run_as_lala() {
-  # Avoid root writes into $OPENCLAW_HOME (symlink/hardlink/TOCTOU footguns).
+  # Avoid root writes into $LALA_HOME (symlink/hardlink/TOCTOU footguns).
   # Anything under the target user's home should be created/modified as that user.
-  run_as_user "$OPENCLAW_USER" env HOME="$OPENCLAW_HOME" "$@"
+  run_as_user "$LALA_USER" env HOME="$LALA_HOME" "$@"
 }
 
 escape_sed_replacement_pipe_delim() {
@@ -108,7 +108,7 @@ escape_sed_replacement_pipe_delim() {
   printf '%s' "$1" | sed -e 's/[\\&|]/\\&/g'
 }
 
-# Quadlet: opt-in via --quadlet or OPENCLAW_PODMAN_QUADLET=1
+# Quadlet: opt-in via --quadlet or LALA_PODMAN_QUADLET=1
 INSTALL_QUADLET=false
 for arg in "$@"; do
   case "$arg" in
@@ -116,8 +116,8 @@ for arg in "$@"; do
     --container) INSTALL_QUADLET=false ;;
   esac
 done
-if [[ -n "${OPENCLAW_PODMAN_QUADLET:-}" ]]; then
-  case "${OPENCLAW_PODMAN_QUADLET,,}" in
+if [[ -n "${LALA_PODMAN_QUADLET:-}" ]]; then
+  case "${LALA_PODMAN_QUADLET,,}" in
     1|yes|true)  INSTALL_QUADLET=true ;;
     0|no|false) INSTALL_QUADLET=false ;;
   esac
@@ -128,7 +128,7 @@ if ! is_root; then
   require_cmd sudo
 fi
 if [[ ! -f "$REPO_PATH/Dockerfile" ]]; then
-  echo "Dockerfile not found at $REPO_PATH. Set OPENCLAW_REPO_PATH to the repo root." >&2
+  echo "Dockerfile not found at $REPO_PATH. Set LALA_REPO_PATH to the repo root." >&2
   exit 1
 fi
 if [[ ! -f "$RUN_SCRIPT_SRC" ]]; then
@@ -153,7 +153,7 @@ PY
     od -An -N32 -tx1 /dev/urandom | tr -d " \n"
     return 0
   fi
-  echo "Missing dependency: need openssl or python3 (or od) to generate OPENCLAW_GATEWAY_TOKEN." >&2
+  echo "Missing dependency: need openssl or python3 (or od) to generate LALA_GATEWAY_TOKEN." >&2
   exit 1
 }
 
@@ -191,77 +191,77 @@ resolve_nologin_shell() {
 }
 
 # Create lala user (non-login, with home) if missing
-if ! user_exists "$OPENCLAW_USER"; then
+if ! user_exists "$LALA_USER"; then
   NOLOGIN_SHELL="$(resolve_nologin_shell)"
-  echo "Creating user $OPENCLAW_USER ($NOLOGIN_SHELL, with home)..."
+  echo "Creating user $LALA_USER ($NOLOGIN_SHELL, with home)..."
   if command -v useradd >/dev/null 2>&1; then
-    run_root useradd -m -s "$NOLOGIN_SHELL" "$OPENCLAW_USER"
+    run_root useradd -m -s "$NOLOGIN_SHELL" "$LALA_USER"
   elif command -v adduser >/dev/null 2>&1; then
     # Debian/Ubuntu: adduser supports --disabled-password/--gecos. Busybox adduser differs.
-    run_root adduser --disabled-password --gecos "" --shell "$NOLOGIN_SHELL" "$OPENCLAW_USER"
+    run_root adduser --disabled-password --gecos "" --shell "$NOLOGIN_SHELL" "$LALA_USER"
   else
-    echo "Neither useradd nor adduser found, cannot create user $OPENCLAW_USER." >&2
+    echo "Neither useradd nor adduser found, cannot create user $LALA_USER." >&2
     exit 1
   fi
 else
-  echo "User $OPENCLAW_USER already exists."
+  echo "User $LALA_USER already exists."
 fi
 
-OPENCLAW_HOME="$(resolve_user_home "$OPENCLAW_USER")"
-OPENCLAW_UID="$(id -u "$OPENCLAW_USER" 2>/dev/null || true)"
-OPENCLAW_CONFIG="$OPENCLAW_HOME/.lala"
-LAUNCH_SCRIPT_DST="$OPENCLAW_HOME/run-lala-podman.sh"
+LALA_HOME="$(resolve_user_home "$LALA_USER")"
+LALA_UID="$(id -u "$LALA_USER" 2>/dev/null || true)"
+LALA_CONFIG="$LALA_HOME/.lala"
+LAUNCH_SCRIPT_DST="$LALA_HOME/run-lala-podman.sh"
 
 # Prefer systemd user services (Quadlet) for production. Enable lingering early so rootless Podman can run
 # without an interactive login.
 if command -v loginctl &>/dev/null; then
-  run_root loginctl enable-linger "$OPENCLAW_USER" 2>/dev/null || true
+  run_root loginctl enable-linger "$LALA_USER" 2>/dev/null || true
 fi
-if [[ -n "${OPENCLAW_UID:-}" && -d /run/user ]] && command -v systemctl &>/dev/null; then
-  run_root systemctl start "user@${OPENCLAW_UID}.service" 2>/dev/null || true
+if [[ -n "${LALA_UID:-}" && -d /run/user ]] && command -v systemctl &>/dev/null; then
+  run_root systemctl start "user@${LALA_UID}.service" 2>/dev/null || true
 fi
 
 # Rootless Podman needs subuid/subgid for the run user
-if ! grep -q "^${OPENCLAW_USER}:" /etc/subuid 2>/dev/null; then
-  echo "Warning: $OPENCLAW_USER has no subuid range. Rootless Podman may fail." >&2
-  echo "  Add a line to /etc/subuid and /etc/subgid, e.g.: $OPENCLAW_USER:100000:65536" >&2
+if ! grep -q "^${LALA_USER}:" /etc/subuid 2>/dev/null; then
+  echo "Warning: $LALA_USER has no subuid range. Rootless Podman may fail." >&2
+  echo "  Add a line to /etc/subuid and /etc/subgid, e.g.: $LALA_USER:100000:65536" >&2
 fi
 
-echo "Creating $OPENCLAW_CONFIG and workspace..."
-run_as_lala mkdir -p "$OPENCLAW_CONFIG/workspace"
-run_as_lala chmod 700 "$OPENCLAW_CONFIG" "$OPENCLAW_CONFIG/workspace" 2>/dev/null || true
+echo "Creating $LALA_CONFIG and workspace..."
+run_as_lala mkdir -p "$LALA_CONFIG/workspace"
+run_as_lala chmod 700 "$LALA_CONFIG" "$LALA_CONFIG/workspace" 2>/dev/null || true
 
-ENV_FILE="$OPENCLAW_CONFIG/.env"
+ENV_FILE="$LALA_CONFIG/.env"
 if run_as_lala test -f "$ENV_FILE"; then
-  if ! run_as_lala grep -q '^OPENCLAW_GATEWAY_TOKEN=' "$ENV_FILE" 2>/dev/null; then
+  if ! run_as_lala grep -q '^LALA_GATEWAY_TOKEN=' "$ENV_FILE" 2>/dev/null; then
     TOKEN="$(generate_token_hex_32)"
-    printf 'OPENCLAW_GATEWAY_TOKEN=%s\n' "$TOKEN" | run_as_lala tee -a "$ENV_FILE" >/dev/null
-    echo "Added OPENCLAW_GATEWAY_TOKEN to $ENV_FILE."
+    printf 'LALA_GATEWAY_TOKEN=%s\n' "$TOKEN" | run_as_lala tee -a "$ENV_FILE" >/dev/null
+    echo "Added LALA_GATEWAY_TOKEN to $ENV_FILE."
   fi
   run_as_lala chmod 600 "$ENV_FILE" 2>/dev/null || true
 else
   TOKEN="$(generate_token_hex_32)"
-  printf 'OPENCLAW_GATEWAY_TOKEN=%s\n' "$TOKEN" | run_as_lala tee "$ENV_FILE" >/dev/null
+  printf 'LALA_GATEWAY_TOKEN=%s\n' "$TOKEN" | run_as_lala tee "$ENV_FILE" >/dev/null
   run_as_lala chmod 600 "$ENV_FILE" 2>/dev/null || true
   echo "Created $ENV_FILE with new token."
 fi
 
 # The gateway refuses to start unless gateway.mode=local is set in config.
 # Make first-run non-interactive; users can run the wizard later to configure channels/providers.
-OPENCLAW_JSON="$OPENCLAW_CONFIG/lala.json"
-if ! run_as_lala test -f "$OPENCLAW_JSON"; then
-  printf '%s\n' '{ gateway: { mode: "local" } }' | run_as_lala tee "$OPENCLAW_JSON" >/dev/null
-  run_as_lala chmod 600 "$OPENCLAW_JSON" 2>/dev/null || true
-  echo "Created $OPENCLAW_JSON (minimal gateway.mode=local)."
+LALA_JSON="$LALA_CONFIG/lala.json"
+if ! run_as_lala test -f "$LALA_JSON"; then
+  printf '%s\n' '{ gateway: { mode: "local" } }' | run_as_lala tee "$LALA_JSON" >/dev/null
+  run_as_lala chmod 600 "$LALA_JSON" 2>/dev/null || true
+  echo "Created $LALA_JSON (minimal gateway.mode=local)."
 fi
 
 echo "Building image from $REPO_PATH..."
 BUILD_ARGS=()
-[[ -n "${OPENCLAW_DOCKER_APT_PACKAGES:-}" ]] && BUILD_ARGS+=(--build-arg "OPENCLAW_DOCKER_APT_PACKAGES=${OPENCLAW_DOCKER_APT_PACKAGES}")
-[[ -n "${OPENCLAW_EXTENSIONS:-}" ]] && BUILD_ARGS+=(--build-arg "OPENCLAW_EXTENSIONS=${OPENCLAW_EXTENSIONS}")
+[[ -n "${LALA_DOCKER_APT_PACKAGES:-}" ]] && BUILD_ARGS+=(--build-arg "LALA_DOCKER_APT_PACKAGES=${LALA_DOCKER_APT_PACKAGES}")
+[[ -n "${LALA_EXTENSIONS:-}" ]] && BUILD_ARGS+=(--build-arg "LALA_EXTENSIONS=${LALA_EXTENSIONS}")
 podman build ${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"} -t lala:local -f "$REPO_PATH/Dockerfile" "$REPO_PATH"
 
-echo "Loading image into $OPENCLAW_USER's Podman store..."
+echo "Loading image into $LALA_USER's Podman store..."
 TMP_IMAGE_DIR="$(resolve_image_tmp_dir)"
 echo "Using temporary image dir: $TMP_IMAGE_DIR"
 TMP_STAGE_DIR="$(mktemp -d -p "$TMP_IMAGE_DIR" lala-image.XXXXXX)"
@@ -271,8 +271,8 @@ trap 'rm -rf "$TMP_STAGE_DIR"' EXIT
 podman save lala:local -o "$TMP_IMAGE"
 chmod 600 "$TMP_IMAGE"
 # Stream the image into the target user's podman load so private temp directories
-# do not need to be traversable by $OPENCLAW_USER.
-cat "$TMP_IMAGE" | run_as_user "$OPENCLAW_USER" env HOME="$OPENCLAW_HOME" podman load
+# do not need to be traversable by $LALA_USER.
+cat "$TMP_IMAGE" | run_as_user "$LALA_USER" env HOME="$LALA_HOME" podman load
 rm -rf "$TMP_STAGE_DIR"
 trap - EXIT
 
@@ -281,18 +281,18 @@ run_root cat "$RUN_SCRIPT_SRC" | run_as_lala tee "$LAUNCH_SCRIPT_DST" >/dev/null
 run_as_lala chmod 755 "$LAUNCH_SCRIPT_DST"
 
 # Optionally install systemd quadlet for lala user (rootless Podman + systemd)
-QUADLET_DIR="$OPENCLAW_HOME/.config/containers/systemd"
+QUADLET_DIR="$LALA_HOME/.config/containers/systemd"
 if [[ "$INSTALL_QUADLET" == true && -f "$QUADLET_TEMPLATE" ]]; then
-  echo "Installing systemd quadlet for $OPENCLAW_USER..."
+  echo "Installing systemd quadlet for $LALA_USER..."
   run_as_lala mkdir -p "$QUADLET_DIR"
-  OPENCLAW_HOME_SED="$(escape_sed_replacement_pipe_delim "$OPENCLAW_HOME")"
-  sed "s|{{OPENCLAW_HOME}}|$OPENCLAW_HOME_SED|g" "$QUADLET_TEMPLATE" | run_as_lala tee "$QUADLET_DIR/lala.container" >/dev/null
-  run_as_lala chmod 700 "$OPENCLAW_HOME/.config" "$OPENCLAW_HOME/.config/containers" "$QUADLET_DIR" 2>/dev/null || true
+  LALA_HOME_SED="$(escape_sed_replacement_pipe_delim "$LALA_HOME")"
+  sed "s|{{LALA_HOME}}|$LALA_HOME_SED|g" "$QUADLET_TEMPLATE" | run_as_lala tee "$QUADLET_DIR/lala.container" >/dev/null
+  run_as_lala chmod 700 "$LALA_HOME/.config" "$LALA_HOME/.config/containers" "$QUADLET_DIR" 2>/dev/null || true
   run_as_lala chmod 600 "$QUADLET_DIR/lala.container" 2>/dev/null || true
   if command -v systemctl &>/dev/null; then
-    run_root systemctl --machine "${OPENCLAW_USER}@" --user daemon-reload 2>/dev/null || true
-    run_root systemctl --machine "${OPENCLAW_USER}@" --user enable lala.service 2>/dev/null || true
-    run_root systemctl --machine "${OPENCLAW_USER}@" --user start lala.service 2>/dev/null || true
+    run_root systemctl --machine "${LALA_USER}@" --user daemon-reload 2>/dev/null || true
+    run_root systemctl --machine "${LALA_USER}@" --user enable lala.service 2>/dev/null || true
+    run_root systemctl --machine "${LALA_USER}@" --user start lala.service 2>/dev/null || true
   fi
 fi
 
@@ -300,13 +300,13 @@ echo ""
 echo "Setup complete. Start the gateway:"
 echo "  $RUN_SCRIPT_SRC launch"
 echo "  $RUN_SCRIPT_SRC launch setup   # onboarding wizard"
-echo "Or as $OPENCLAW_USER (e.g. from cron):"
-echo "  sudo -u $OPENCLAW_USER $LAUNCH_SCRIPT_DST"
-echo "  sudo -u $OPENCLAW_USER $LAUNCH_SCRIPT_DST setup"
+echo "Or as $LALA_USER (e.g. from cron):"
+echo "  sudo -u $LALA_USER $LAUNCH_SCRIPT_DST"
+echo "  sudo -u $LALA_USER $LAUNCH_SCRIPT_DST setup"
 if [[ "$INSTALL_QUADLET" == true ]]; then
   echo "Or use systemd (quadlet):"
-  echo "  sudo systemctl --machine ${OPENCLAW_USER}@ --user start lala.service"
-  echo "  sudo systemctl --machine ${OPENCLAW_USER}@ --user status lala.service"
+  echo "  sudo systemctl --machine ${LALA_USER}@ --user start lala.service"
+  echo "  sudo systemctl --machine ${LALA_USER}@ --user status lala.service"
 else
   echo "To install systemd quadlet later: $0 --quadlet"
 fi

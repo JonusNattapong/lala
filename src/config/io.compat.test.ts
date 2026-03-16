@@ -50,20 +50,20 @@ describe("config io paths", () => {
     });
   });
 
-  it("uses OPENCLAW_HOME for default config path", async () => {
+  it("uses LALA_HOME for default config path", async () => {
     await withTempHome(async (home) => {
       const io = createConfigIO({
-        env: { OPENCLAW_HOME: path.join(home, "svc-home") } as NodeJS.ProcessEnv,
+        env: { LALA_HOME: path.join(home, "svc-home") } as NodeJS.ProcessEnv,
         homedir: () => path.join(home, "ignored-home"),
       });
       expect(io.configPath).toBe(path.join(home, "svc-home", ".lala", "lala.json"));
     });
   });
 
-  it("honors explicit OPENCLAW_CONFIG_PATH override", async () => {
+  it("honors explicit LALA_CONFIG_PATH override", async () => {
     await withTempHome(async (home) => {
       const customPath = await writeConfig(home, ".lala", 20002, "custom.json");
-      const io = createIoForHome(home, { OPENCLAW_CONFIG_PATH: customPath } as NodeJS.ProcessEnv);
+      const io = createIoForHome(home, { LALA_CONFIG_PATH: customPath } as NodeJS.ProcessEnv);
       expect(io.configPath).toBe(customPath);
       expect(io.loadConfig().gateway?.port).toBe(20002);
     });

@@ -214,9 +214,9 @@ describe("applyPluginAutoEnable", () => {
       },
       env: {
         ...process.env,
-        OPENCLAW_STATE_DIR: stateDir,
+        LALA_STATE_DIR: stateDir,
         CLAWDBOT_STATE_DIR: undefined,
-        OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+        LALA_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
       },
     });
 
@@ -262,7 +262,7 @@ describe("applyPluginAutoEnable", () => {
       },
       env: {
         ...process.env,
-        OPENCLAW_STATE_DIR: stateDir,
+        LALA_STATE_DIR: stateDir,
         CLAWDBOT_STATE_DIR: undefined,
       },
       manifestRegistry: makeRegistry([]),
@@ -439,9 +439,9 @@ describe("applyPluginAutoEnable", () => {
         config: makeApnChannelConfig(),
         env: {
           ...process.env,
-          OPENCLAW_STATE_DIR: stateDir,
+          LALA_STATE_DIR: stateDir,
           CLAWDBOT_STATE_DIR: undefined,
-          OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+          LALA_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
         },
       });
 

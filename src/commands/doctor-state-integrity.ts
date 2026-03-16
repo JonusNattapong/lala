@@ -356,7 +356,7 @@ export function formatLinuxSdBackedStateDirWarning(
   return [
     `- State directory appears to be on SD/eMMC storage (${displayStateDir}; device ${safeSource}, fs ${safeFsType}, mount ${safeMountPoint}).`,
     "- SD/eMMC media can be slower for random I/O and wear faster under session/log churn.",
-    "- For better startup and state durability, prefer SSD/NVMe (or USB SSD on Raspberry Pi) for OPENCLAW_STATE_DIR.",
+    "- For better startup and state durability, prefer SSD/NVMe (or USB SSD on Raspberry Pi) for LALA_STATE_DIR.",
   ].join("\n");
 }
 
@@ -377,7 +377,7 @@ export function detectMacCloudSyncedStateDir(
   }
 
   // Cloud-sync roots should always be anchored to the OS account home on macOS.
-  // OPENCLAW_HOME can relocate app data defaults, but iCloud/CloudStorage remain under the OS home.
+  // LALA_HOME can relocate app data defaults, but iCloud/CloudStorage remain under the OS home.
   const homedir = deps?.homedir ?? os.homedir();
   const roots = [
     {
@@ -444,7 +444,7 @@ function isSlashRoutingSessionKey(sessionKey: string): boolean {
 }
 
 function shouldRequireOAuthDir(cfg: LalaConfig, env: NodeJS.ProcessEnv): boolean {
-  if (env.OPENCLAW_OAUTH_DIR?.trim()) {
+  if (env.LALA_OAUTH_DIR?.trim()) {
     return true;
   }
   const channels = cfg.channels;
@@ -499,7 +499,7 @@ export async function noteStateIntegrity(
         `- State directory is under macOS cloud-synced storage (${displayStateDir}; ${cloudSyncedStateDir.storage}).`,
         "- This can cause slow I/O and sync/lock races for sessions and credentials.",
         "- Prefer a local non-synced state dir (for example: ~/.lala).",
-        `  Set locally: OPENCLAW_STATE_DIR=~/.lala ${formatCliCommand("lala doctor")}`,
+        `  Set locally: LALA_STATE_DIR=~/.lala ${formatCliCommand("lala doctor")}`,
       ].join("\n"),
     );
   }

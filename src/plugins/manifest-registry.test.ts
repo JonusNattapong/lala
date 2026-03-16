@@ -293,14 +293,14 @@ describe("loadPluginManifestRegistry", () => {
       cache: true,
       env: {
         ...process.env,
-        OPENCLAW_BUNDLED_PLUGINS_DIR: bundledA,
+        LALA_BUNDLED_PLUGINS_DIR: bundledA,
       },
     });
     const second = loadPluginManifestRegistry({
       cache: true,
       env: {
         ...process.env,
-        OPENCLAW_BUNDLED_PLUGINS_DIR: bundledB,
+        LALA_BUNDLED_PLUGINS_DIR: bundledB,
       },
     });
 
@@ -346,7 +346,7 @@ describe("loadPluginManifestRegistry", () => {
       env: {
         ...process.env,
         HOME: homeA,
-        OPENCLAW_STATE_DIR: path.join(homeA, ".state"),
+        LALA_STATE_DIR: path.join(homeA, ".state"),
       },
     });
     const second = loadPluginManifestRegistry({
@@ -355,7 +355,7 @@ describe("loadPluginManifestRegistry", () => {
       env: {
         ...process.env,
         HOME: homeB,
-        OPENCLAW_STATE_DIR: path.join(homeB, ".state"),
+        LALA_STATE_DIR: path.join(homeB, ".state"),
       },
     });
 

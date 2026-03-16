@@ -60,7 +60,7 @@ lala channels status --probe
 </Steps>
 
 <Note>
-Gateway config reload watches the active config file path (resolved from profile/state defaults, or `OPENCLAW_CONFIG_PATH` when set).
+Gateway config reload watches the active config file path (resolved from profile/state defaults, or `LALA_CONFIG_PATH` when set).
 Default mode is `gateway.reload.mode="hybrid"`.
 </Note>
 
@@ -72,13 +72,13 @@ Default mode is `gateway.reload.mode="hybrid"`.
   - HTTP APIs (OpenAI-compatible, Responses, tools invoke)
   - Control UI and hooks
 - Default bind mode: `loopback`.
-- Auth is required by default (`gateway.auth.token` / `gateway.auth.password`, or `OPENCLAW_GATEWAY_TOKEN` / `OPENCLAW_GATEWAY_PASSWORD`).
+- Auth is required by default (`gateway.auth.token` / `gateway.auth.password`, or `LALA_GATEWAY_TOKEN` / `LALA_GATEWAY_PASSWORD`).
 
 ### Port and bind precedence
 
 | Setting      | Resolution order                                              |
 | ------------ | ------------------------------------------------------------- |
-| Gateway port | `--port` → `OPENCLAW_GATEWAY_PORT` → `gateway.port` → `18789` |
+| Gateway port | `--port` → `LALA_GATEWAY_PORT` → `gateway.port` → `18789` |
 | Bind mode    | CLI/override → `gateway.bind` → `loopback`                    |
 
 ### Hot reload modes
@@ -175,15 +175,15 @@ Use multiple only for strict isolation/redundancy (for example a rescue profile)
 Checklist per instance:
 
 - Unique `gateway.port`
-- Unique `OPENCLAW_CONFIG_PATH`
-- Unique `OPENCLAW_STATE_DIR`
+- Unique `LALA_CONFIG_PATH`
+- Unique `LALA_STATE_DIR`
 - Unique `agents.defaults.workspace`
 
 Example:
 
 ```bash
-OPENCLAW_CONFIG_PATH=~/.lala/a.json OPENCLAW_STATE_DIR=~/.lala-a lala gateway --port 19001
-OPENCLAW_CONFIG_PATH=~/.lala/b.json OPENCLAW_STATE_DIR=~/.lala-b lala gateway --port 19002
+LALA_CONFIG_PATH=~/.lala/a.json LALA_STATE_DIR=~/.lala-a lala gateway --port 19001
+LALA_CONFIG_PATH=~/.lala/b.json LALA_STATE_DIR=~/.lala-b lala gateway --port 19002
 ```
 
 See: [Multiple gateways](/gateway/multiple-gateways).

@@ -26,7 +26,7 @@ export type GatewayBonjourAdvertiseOpts = {
 };
 
 function isDisabledByEnv() {
-  if (isTruthyEnvValue(process.env.LALA_DISABLE_BONJOUR ?? process.env.OPENCLAW_DISABLE_BONJOUR)) {
+  if (isTruthyEnvValue(process.env.LALA_DISABLE_BONJOUR ?? process.env.LALA_DISABLE_BONJOUR)) {
     return true;
   }
   if (process.env.NODE_ENV === "test") {
@@ -96,7 +96,7 @@ export async function startGatewayBonjourAdvertiser(
   // Keep only the first label and normalize away a trailing `.local`.
   const hostnameRaw =
     process.env.LALA_MDNS_HOSTNAME?.trim() ||
-    process.env.OPENCLAW_MDNS_HOSTNAME?.trim() ||
+    process.env.LALA_MDNS_HOSTNAME?.trim() ||
     process.env.CLAWDBOT_MDNS_HOSTNAME?.trim() ||
     "lala";
   const hostname =

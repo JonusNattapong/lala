@@ -19,8 +19,8 @@ describe("resolveLalaAgentDir", () => {
     await withTempStateDir((stateDir) => {
       withEnv(
         {
-          OPENCLAW_STATE_DIR: stateDir,
-          OPENCLAW_AGENT_DIR: undefined,
+          LALA_STATE_DIR: stateDir,
+          LALA_AGENT_DIR: undefined,
           PI_CODING_AGENT_DIR: undefined,
         },
         () => {
@@ -31,13 +31,13 @@ describe("resolveLalaAgentDir", () => {
     });
   });
 
-  it("honors OPENCLAW_AGENT_DIR overrides", async () => {
+  it("honors LALA_AGENT_DIR overrides", async () => {
     await withTempStateDir((stateDir) => {
       const override = path.join(stateDir, "agent");
       withEnv(
         {
-          OPENCLAW_STATE_DIR: undefined,
-          OPENCLAW_AGENT_DIR: override,
+          LALA_STATE_DIR: undefined,
+          LALA_AGENT_DIR: override,
           PI_CODING_AGENT_DIR: undefined,
         },
         () => {
@@ -48,13 +48,13 @@ describe("resolveLalaAgentDir", () => {
     });
   });
 
-  it("honors PI_CODING_AGENT_DIR when OPENCLAW_AGENT_DIR is unset", async () => {
+  it("honors PI_CODING_AGENT_DIR when LALA_AGENT_DIR is unset", async () => {
     await withTempStateDir((stateDir) => {
       const override = path.join(stateDir, "pi-agent");
       withEnv(
         {
-          OPENCLAW_STATE_DIR: undefined,
-          OPENCLAW_AGENT_DIR: undefined,
+          LALA_STATE_DIR: undefined,
+          LALA_AGENT_DIR: undefined,
           PI_CODING_AGENT_DIR: override,
         },
         () => {
@@ -65,14 +65,14 @@ describe("resolveLalaAgentDir", () => {
     });
   });
 
-  it("prefers OPENCLAW_AGENT_DIR over PI_CODING_AGENT_DIR when both are set", async () => {
+  it("prefers LALA_AGENT_DIR over PI_CODING_AGENT_DIR when both are set", async () => {
     await withTempStateDir((stateDir) => {
       const primaryOverride = path.join(stateDir, "primary-agent");
       const fallbackOverride = path.join(stateDir, "fallback-agent");
       withEnv(
         {
-          OPENCLAW_STATE_DIR: undefined,
-          OPENCLAW_AGENT_DIR: primaryOverride,
+          LALA_STATE_DIR: undefined,
+          LALA_AGENT_DIR: primaryOverride,
           PI_CODING_AGENT_DIR: fallbackOverride,
         },
         () => {

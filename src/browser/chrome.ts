@@ -30,8 +30,8 @@ import {
 } from "./chrome.profile-decoration.js";
 import type { ResolvedBrowserConfig, ResolvedBrowserProfile } from "./config.js";
 import {
-  DEFAULT_OPENCLAW_BROWSER_COLOR,
-  DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME,
+  DEFAULT_LALA_BROWSER_COLOR,
+  DEFAULT_LALA_BROWSER_PROFILE_NAME,
 } from "./constants.js";
 
 const log = createSubsystemLogger("browser").child("chrome");
@@ -70,7 +70,7 @@ function resolveBrowserExecutable(resolved: ResolvedBrowserConfig): BrowserExecu
   return resolveBrowserExecutableForPlatform(resolved, process.platform);
 }
 
-export function resolveLalaUserDataDir(profileName = DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME) {
+export function resolveLalaUserDataDir(profileName = DEFAULT_LALA_BROWSER_PROFILE_NAME) {
   return path.join(CONFIG_DIR, "browser", profileName, "user-data");
 }
 
@@ -257,7 +257,7 @@ export async function launchLalaChrome(
   const needsDecorate = !isProfileDecorated(
     userDataDir,
     profile.name,
-    (profile.color ?? DEFAULT_OPENCLAW_BROWSER_COLOR).toUpperCase(),
+    (profile.color ?? DEFAULT_LALA_BROWSER_COLOR).toUpperCase(),
   );
 
   // First launch to create preference files if missing, then decorate and relaunch.

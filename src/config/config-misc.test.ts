@@ -377,11 +377,11 @@ describe("config strict validation", () => {
   it("does not mark resolved-only gateway.bind aliases as auto-migratable legacy", async () => {
     await withTempHome(async (home) => {
       await writeLalaConfig(home, {
-        gateway: { bind: "${OPENCLAW_BIND}" },
+        gateway: { bind: "${LALA_BIND}" },
       });
 
-      const prev = process.env.OPENCLAW_BIND;
-      process.env.OPENCLAW_BIND = "0.0.0.0";
+      const prev = process.env.LALA_BIND;
+      process.env.LALA_BIND = "0.0.0.0";
       try {
         const snap = await readConfigFileSnapshot();
         expect(snap.valid).toBe(false);
@@ -389,9 +389,9 @@ describe("config strict validation", () => {
         expect(snap.issues.some((issue) => issue.path === "gateway.bind")).toBe(true);
       } finally {
         if (prev === undefined) {
-          delete process.env.OPENCLAW_BIND;
+          delete process.env.LALA_BIND;
         } else {
-          process.env.OPENCLAW_BIND = prev;
+          process.env.LALA_BIND = prev;
         }
       }
     });

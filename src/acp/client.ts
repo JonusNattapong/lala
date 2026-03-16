@@ -360,7 +360,7 @@ export function resolveAcpClientSpawnEnv(
 ): NodeJS.ProcessEnv {
   const env = omitEnvKeysCaseInsensitive(baseEnv, options.stripKeys ?? []);
   env.LALA_SHELL = "acp-client";
-  env.OPENCLAW_SHELL = "acp-client";
+  env.LALA_SHELL = "acp-client";
   return env;
 }
 

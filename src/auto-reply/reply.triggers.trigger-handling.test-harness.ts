@@ -123,8 +123,8 @@ function snapshotTempHomeEnv(): TempHomeEnvSnapshot {
     userProfile: process.env.USERPROFILE,
     homeDrive: process.env.HOMEDRIVE,
     homePath: process.env.HOMEPATH,
-    lalaHome: process.env.OPENCLAW_HOME,
-    stateDir: process.env.OPENCLAW_STATE_DIR,
+    lalaHome: process.env.LALA_HOME,
+    stateDir: process.env.LALA_STATE_DIR,
   };
 }
 
@@ -141,15 +141,15 @@ function restoreTempHomeEnv(snapshot: TempHomeEnvSnapshot): void {
   restoreKey("USERPROFILE", snapshot.userProfile);
   restoreKey("HOMEDRIVE", snapshot.homeDrive);
   restoreKey("HOMEPATH", snapshot.homePath);
-  restoreKey("OPENCLAW_HOME", snapshot.lalaHome);
-  restoreKey("OPENCLAW_STATE_DIR", snapshot.stateDir);
+  restoreKey("LALA_HOME", snapshot.lalaHome);
+  restoreKey("LALA_STATE_DIR", snapshot.stateDir);
 }
 
 function setTempHomeEnv(home: string): void {
   process.env.HOME = home;
   process.env.USERPROFILE = home;
-  delete process.env.OPENCLAW_HOME;
-  process.env.OPENCLAW_STATE_DIR = join(home, ".lala");
+  delete process.env.LALA_HOME;
+  process.env.LALA_STATE_DIR = join(home, ".lala");
 
   if (process.platform !== "win32") {
     return;

@@ -157,7 +157,7 @@ function isTransientDirectCronDeliveryError(error: unknown): boolean {
 }
 
 function resolveDirectCronRetryDelaysMs(): readonly number[] {
-  return process.env.NODE_ENV === "test" && process.env.OPENCLAW_TEST_FAST === "1"
+  return process.env.NODE_ENV === "test" && process.env.LALA_TEST_FAST === "1"
     ? [8, 16, 32]
     : [5_000, 10_000, 20_000];
 }

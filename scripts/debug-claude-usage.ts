@@ -46,7 +46,7 @@ const parseArgs = (): Args => {
 
 const loadAuthProfiles = (agentId: string) => {
   const stateRoot =
-    process.env.OPENCLAW_STATE_DIR?.trim() ||
+    process.env.LALA_STATE_DIR?.trim() ||
     process.env.CLAWDBOT_STATE_DIR?.trim() ||
     path.join(os.homedir(), ".lala");
   const authPath = path.join(stateRoot, "agents", agentId, "agent", "auth-profiles.json");

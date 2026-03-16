@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { resolveUserPath } from "../utils.js";
 
 export function resolveBundledPluginsDir(env: NodeJS.ProcessEnv = process.env): string | undefined {
-  const override = env.OPENCLAW_BUNDLED_PLUGINS_DIR?.trim();
+  const override = env.LALA_BUNDLED_PLUGINS_DIR?.trim();
   if (override) {
     return resolveUserPath(override, env);
   }
@@ -33,6 +33,17 @@ export function resolveBundledPluginsDir(env: NodeJS.ProcessEnv = process.env): 
         break;
       }
       cursor = parent;
+    }
+  } catch {
+    // ignore
+  }
+
+  // Fallback to project root's extensions directory
+  try {
+    const projectRoot = "d:/Projects/Github/lala";
+    const candidate = path.join(projectRoot, "extensions");
+    if (fs.existsSync(candidate)) {
+      return candidate;
     }
   } catch {
     // ignore

@@ -772,7 +772,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
     const doctorStep = await runStep(
       step("lala doctor", doctorArgv, gitRoot, {
         LALA_UPDATE_IN_PROGRESS: "1",
-        OPENCLAW_UPDATE_IN_PROGRESS: "1",
+        LALA_UPDATE_IN_PROGRESS: "1",
       }),
     );
     steps.push(doctorStep);

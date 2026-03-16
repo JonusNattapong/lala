@@ -50,11 +50,11 @@ services:
         value: "8080"
       - key: SETUP_PASSWORD
         sync: false # prompts during deploy
-      - key: OPENCLAW_STATE_DIR
+      - key: LALA_STATE_DIR
         value: /data/.lala
-      - key: OPENCLAW_WORKSPACE_DIR
+      - key: LALA_WORKSPACE_DIR
         value: /data/workspace
-      - key: OPENCLAW_GATEWAY_TOKEN
+      - key: LALA_GATEWAY_TOKEN
         generateValue: true # auto-generates a secure token
     disk:
       name: lala-data

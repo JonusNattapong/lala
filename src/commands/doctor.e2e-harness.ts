@@ -402,17 +402,17 @@ beforeEach(() => {
   setStdinTty(true);
   originalLalaStateDir = process.env.LALA_STATE_DIR;
   originalLalabotStateDir = process.env.LALABOT_STATE_DIR;
-  originalOpenClawStateDir = process.env.OPENCLAW_STATE_DIR;
+  originalOpenClawStateDir = process.env.LALA_STATE_DIR;
   originalLalaUpdateInProgress = process.env.LALA_UPDATE_IN_PROGRESS;
   originalLalabotUpdateInProgress = process.env.LALABOT_UPDATE_IN_PROGRESS;
-  originalOpenClawUpdateInProgress = process.env.OPENCLAW_UPDATE_IN_PROGRESS;
+  originalOpenClawUpdateInProgress = process.env.LALA_UPDATE_IN_PROGRESS;
   process.env.LALA_UPDATE_IN_PROGRESS = "1";
   process.env.LALABOT_UPDATE_IN_PROGRESS = "1";
-  process.env.OPENCLAW_UPDATE_IN_PROGRESS = "1";
+  process.env.LALA_UPDATE_IN_PROGRESS = "1";
   tempStateDir = fs.mkdtempSync(path.join(os.tmpdir(), "lala-doctor-state-"));
   process.env.LALA_STATE_DIR = tempStateDir;
   process.env.LALABOT_STATE_DIR = tempStateDir;
-  process.env.OPENCLAW_STATE_DIR = tempStateDir;
+  process.env.LALA_STATE_DIR = tempStateDir;
   fs.mkdirSync(path.join(tempStateDir, "agents", "main", "sessions"), {
     recursive: true,
   });
@@ -432,9 +432,9 @@ afterEach(() => {
     process.env.LALABOT_STATE_DIR = originalLalabotStateDir;
   }
   if (originalOpenClawStateDir === undefined) {
-    delete process.env.OPENCLAW_STATE_DIR;
+    delete process.env.LALA_STATE_DIR;
   } else {
-    process.env.OPENCLAW_STATE_DIR = originalOpenClawStateDir;
+    process.env.LALA_STATE_DIR = originalOpenClawStateDir;
   }
   if (originalLalaUpdateInProgress === undefined) {
     delete process.env.LALA_UPDATE_IN_PROGRESS;
@@ -447,9 +447,9 @@ afterEach(() => {
     process.env.LALABOT_UPDATE_IN_PROGRESS = originalLalabotUpdateInProgress;
   }
   if (originalOpenClawUpdateInProgress === undefined) {
-    delete process.env.OPENCLAW_UPDATE_IN_PROGRESS;
+    delete process.env.LALA_UPDATE_IN_PROGRESS;
   } else {
-    process.env.OPENCLAW_UPDATE_IN_PROGRESS = originalOpenClawUpdateInProgress;
+    process.env.LALA_UPDATE_IN_PROGRESS = originalOpenClawUpdateInProgress;
   }
   if (tempStateDir) {
     fs.rmSync(tempStateDir, { recursive: true, force: true });

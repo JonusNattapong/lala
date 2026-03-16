@@ -2,6 +2,7 @@ import { Command } from "commander";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const onboardCommandMock = vi.fn();
+const onboardWebCommandMock = vi.fn();
 
 const runtime = {
   log: vi.fn(),
@@ -24,6 +25,10 @@ vi.mock("../../commands/onboard-provider-auth-flags.js", () => ({
 
 vi.mock("../../commands/onboard.js", () => ({
   onboardCommand: onboardCommandMock,
+}));
+ 
+vi.mock("../../commands/onboard-web.js", () => ({
+  onboardWebCommand: onboardWebCommandMock,
 }));
 
 vi.mock("../../runtime.js", () => ({
@@ -130,10 +135,10 @@ describe("registerOnboardCommand", () => {
   });
 
   it("forwards --gateway-token-ref-env", async () => {
-    await runCli(["onboard", "--gateway-token-ref-env", "OPENCLAW_GATEWAY_TOKEN"]);
+    await runCli(["onboard", "--gateway-token-ref-env", "LALA_GATEWAY_TOKEN"]);
     expect(onboardCommandMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        gatewayTokenRefEnv: "OPENCLAW_GATEWAY_TOKEN",
+        gatewayTokenRefEnv: "LALA_GATEWAY_TOKEN",
       }),
       runtime,
     );
@@ -146,5 +151,37 @@ describe("registerOnboardCommand", () => {
 
     expect(runtime.error).toHaveBeenCalledWith("Error: onboard failed");
     expect(runtime.exit).toHaveBeenCalledWith(1);
+  });
+ 
+  it("triggers onboardWebCommand on 'onboard web' subcommand", async () => {
+    onboardWebCommandMock.mockResolvedValue(undefined);
+    await runCli(["onboard", "web", "--port", "9090"]);
+ 
+    expect(onboardWebCommandMock).toHaveBeenCalledWith(runtime, {
+      port: 9090,
+      noOpen: false,
+    });
+  });
+
+  it("forwards web onboarding browser flags", async () => {
+    onboardWebCommandMock.mockResolvedValue(undefined);
+    await runCli(["onboard", "web", "--no-open"]);
+
+    expect(onboardWebCommandMock).toHaveBeenCalledWith(runtime, {
+      port: undefined,
+      noOpen: true,
+    });
+  });
+
+  it("forwards web onboarding mode and workspace", async () => {
+    onboardWebCommandMock.mockResolvedValue(undefined);
+    await runCli(["onboard", "web", "--mode", "remote", "--workspace", "./tmp"]);
+
+    expect(onboardWebCommandMock).toHaveBeenCalledWith(runtime, {
+      port: undefined,
+      noOpen: false,
+      mode: "remote",
+      workspace: "./tmp",
+    });
   });
 });

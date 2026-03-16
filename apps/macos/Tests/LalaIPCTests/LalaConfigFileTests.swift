@@ -15,7 +15,7 @@ struct LalaConfigFileTests {
     func `config path respects env override`() async {
         let override = self.makeConfigOverridePath()
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
+        await TestIsolation.withEnvValues(["LALA_CONFIG_PATH": override]) {
             #expect(LalaConfigFile.url().path == override)
         }
     }
@@ -25,7 +25,7 @@ struct LalaConfigFileTests {
     func `remote gateway port parses and matches host`() async {
         let override = self.makeConfigOverridePath()
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
+        await TestIsolation.withEnvValues(["LALA_CONFIG_PATH": override]) {
             LalaConfigFile.saveDict([
                 "gateway": [
                     "remote": [
@@ -45,7 +45,7 @@ struct LalaConfigFileTests {
     func `set remote gateway url preserves scheme`() async {
         let override = self.makeConfigOverridePath()
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
+        await TestIsolation.withEnvValues(["LALA_CONFIG_PATH": override]) {
             LalaConfigFile.saveDict([
                 "gateway": [
                     "remote": [
@@ -65,7 +65,7 @@ struct LalaConfigFileTests {
     func `clear remote gateway url removes only url field`() async {
         let override = self.makeConfigOverridePath()
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
+        await TestIsolation.withEnvValues(["LALA_CONFIG_PATH": override]) {
             LalaConfigFile.saveDict([
                 "gateway": [
                     "remote": [
@@ -89,8 +89,8 @@ struct LalaConfigFileTests {
             .path
 
         await TestIsolation.withEnvValues([
-            "OPENCLAW_CONFIG_PATH": nil,
-            "OPENCLAW_STATE_DIR": dir,
+            "LALA_CONFIG_PATH": nil,
+            "LALA_STATE_DIR": dir,
         ]) {
             #expect(LalaConfigFile.stateDirURL().path == dir)
             #expect(LalaConfigFile.url().path == "\(dir)/lala.json")
@@ -108,8 +108,8 @@ struct LalaConfigFileTests {
         defer { try? FileManager().removeItem(at: stateDir) }
 
         try await TestIsolation.withEnvValues([
-            "OPENCLAW_STATE_DIR": stateDir.path,
-            "OPENCLAW_CONFIG_PATH": configPath.path,
+            "LALA_STATE_DIR": stateDir.path,
+            "LALA_CONFIG_PATH": configPath.path,
         ]) {
             LalaConfigFile.saveDict([
                 "gateway": ["mode": "local"],

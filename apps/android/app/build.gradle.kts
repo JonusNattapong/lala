@@ -1,9 +1,9 @@
 import com.android.build.api.variant.impl.VariantOutputImpl
 
-val androidStoreFile = providers.gradleProperty("OPENCLAW_ANDROID_STORE_FILE").orNull?.takeIf { it.isNotBlank() }
-val androidStorePassword = providers.gradleProperty("OPENCLAW_ANDROID_STORE_PASSWORD").orNull?.takeIf { it.isNotBlank() }
-val androidKeyAlias = providers.gradleProperty("OPENCLAW_ANDROID_KEY_ALIAS").orNull?.takeIf { it.isNotBlank() }
-val androidKeyPassword = providers.gradleProperty("OPENCLAW_ANDROID_KEY_PASSWORD").orNull?.takeIf { it.isNotBlank() }
+val androidStoreFile = providers.gradleProperty("LALA_ANDROID_STORE_FILE").orNull?.takeIf { it.isNotBlank() }
+val androidStorePassword = providers.gradleProperty("LALA_ANDROID_STORE_PASSWORD").orNull?.takeIf { it.isNotBlank() }
+val androidKeyAlias = providers.gradleProperty("LALA_ANDROID_KEY_ALIAS").orNull?.takeIf { it.isNotBlank() }
+val androidKeyPassword = providers.gradleProperty("LALA_ANDROID_KEY_PASSWORD").orNull?.takeIf { it.isNotBlank() }
 val resolvedAndroidStoreFile =
     androidStoreFile?.let { storeFilePath ->
         if (storeFilePath.startsWith("~/")) {
@@ -24,9 +24,9 @@ val wantsAndroidReleaseBuild =
 
 if (wantsAndroidReleaseBuild && !hasAndroidReleaseSigning) {
     error(
-        "Missing Android release signing properties. Set OPENCLAW_ANDROID_STORE_FILE, " +
-            "OPENCLAW_ANDROID_STORE_PASSWORD, OPENCLAW_ANDROID_KEY_ALIAS, and " +
-            "OPENCLAW_ANDROID_KEY_PASSWORD in ~/.gradle/gradle.properties.",
+        "Missing Android release signing properties. Set LALA_ANDROID_STORE_FILE, " +
+            "LALA_ANDROID_STORE_PASSWORD, LALA_ANDROID_KEY_ALIAS, and " +
+            "LALA_ANDROID_KEY_PASSWORD in ~/.gradle/gradle.properties.",
     )
 }
 

@@ -62,11 +62,11 @@ describe("update-startup", () => {
   beforeEach(async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-01-17T10:00:00Z"));
-    envSnapshot = captureEnv(["LALA_STATE_DIR", "OPENCLAW_STATE_DIR", "NODE_ENV", "VITEST"]);
+    envSnapshot = captureEnv(["LALA_STATE_DIR", "LALA_STATE_DIR", "NODE_ENV", "VITEST"]);
     tempDir = path.join(suiteRoot, `case-${++suiteCase}`);
     await fs.mkdir(tempDir);
     process.env.LALA_STATE_DIR = tempDir;
-    process.env.OPENCLAW_STATE_DIR = tempDir;
+    process.env.LALA_STATE_DIR = tempDir;
 
     process.env.NODE_ENV = "test";
 
@@ -405,7 +405,7 @@ describe("update-startup", () => {
         timeoutMs: 45 * 60 * 1000,
         env: expect.objectContaining({
           LALA_AUTO_UPDATE: "1",
-          OPENCLAW_AUTO_UPDATE: "1",
+          LALA_AUTO_UPDATE: "1",
         }),
       }),
     );

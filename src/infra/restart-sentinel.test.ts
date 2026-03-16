@@ -17,10 +17,10 @@ describe("restart sentinel", () => {
   let tempDir: string;
 
   beforeEach(async () => {
-    envSnapshot = captureEnv(["LALA_STATE_DIR", "OPENCLAW_STATE_DIR"]);
+    envSnapshot = captureEnv(["LALA_STATE_DIR", "LALA_STATE_DIR"]);
     tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "lala-sentinel-"));
     process.env.LALA_STATE_DIR = tempDir;
-    process.env.OPENCLAW_STATE_DIR = tempDir;
+    process.env.LALA_STATE_DIR = tempDir;
   });
 
   afterEach(async () => {

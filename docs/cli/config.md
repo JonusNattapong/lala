@@ -53,7 +53,7 @@ lala config set channels.whatsapp.groups '["*"]' --strict-json
 
 ## Subcommands
 
-- `config file`: Print the active config file path (resolved from `OPENCLAW_CONFIG_PATH` or default location).
+- `config file`: Print the active config file path (resolved from `LALA_CONFIG_PATH` or default location).
 
 Restart the gateway after edits.
 

@@ -243,12 +243,12 @@ else
 fi
 
 echo "📦 Copying LalaKit resources"
-OPENCLAWKIT_BUNDLE="$(build_path_for_arch "$PRIMARY_ARCH")/$BUILD_CONFIG/LalaKit_LalaKit.bundle"
-if [ -d "$OPENCLAWKIT_BUNDLE" ]; then
+LALAKIT_BUNDLE="$(build_path_for_arch "$PRIMARY_ARCH")/$BUILD_CONFIG/LalaKit_LalaKit.bundle"
+if [ -d "$LALAKIT_BUNDLE" ]; then
   rm -rf "$APP_ROOT/Contents/Resources/LalaKit_LalaKit.bundle"
-  cp -R "$OPENCLAWKIT_BUNDLE" "$APP_ROOT/Contents/Resources/LalaKit_LalaKit.bundle"
+  cp -R "$LALAKIT_BUNDLE" "$APP_ROOT/Contents/Resources/LalaKit_LalaKit.bundle"
 else
-  echo "WARN: LalaKit resource bundle not found at $OPENCLAWKIT_BUNDLE (continuing)" >&2
+  echo "WARN: LalaKit resource bundle not found at $LALAKIT_BUNDLE (continuing)" >&2
 fi
 
 echo "📦 Copying Textual resources"

@@ -11,21 +11,21 @@ describe("resolveBundledSkillsDir", () => {
   let envSnapshot: ReturnType<typeof captureEnv>;
 
   beforeEach(() => {
-    envSnapshot = captureEnv(["OPENCLAW_BUNDLED_SKILLS_DIR"]);
+    envSnapshot = captureEnv(["LALA_BUNDLED_SKILLS_DIR"]);
   });
 
   afterEach(() => {
     envSnapshot.restore();
   });
 
-  it("returns OPENCLAW_BUNDLED_SKILLS_DIR override when set", async () => {
+  it("returns LALA_BUNDLED_SKILLS_DIR override when set", async () => {
     const overrideDir = await fs.mkdtemp(path.join(os.tmpdir(), "lala-bundled-override-"));
-    process.env.OPENCLAW_BUNDLED_SKILLS_DIR = ` ${overrideDir} `;
+    process.env.LALA_BUNDLED_SKILLS_DIR = ` ${overrideDir} `;
     expect(resolveBundledSkillsDir()).toBe(overrideDir);
   });
 
   it("resolves bundled skills under a flattened dist layout", async () => {
-    delete process.env.OPENCLAW_BUNDLED_SKILLS_DIR;
+    delete process.env.LALA_BUNDLED_SKILLS_DIR;
 
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "lala-bundled-"));
     await fs.writeFile(path.join(root, "package.json"), JSON.stringify({ name: "lala" }));

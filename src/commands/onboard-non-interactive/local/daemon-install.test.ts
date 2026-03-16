@@ -63,7 +63,7 @@ describe("installGatewayDaemonNonInteractive", () => {
             token: {
               source: "env",
               provider: "default",
-              id: "OPENCLAW_GATEWAY_TOKEN",
+              id: "LALA_GATEWAY_TOKEN",
             },
           },
         },

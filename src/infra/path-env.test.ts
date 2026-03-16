@@ -39,9 +39,9 @@ describe("ensureLalaCliOnPath", () => {
   const envKeys = [
     "PATH",
     "LALA_PATH_BOOTSTRAPPED",
-    "OPENCLAW_PATH_BOOTSTRAPPED",
+    "LALA_PATH_BOOTSTRAPPED",
     "LALA_ALLOW_PROJECT_LOCAL_BIN",
-    "OPENCLAW_ALLOW_PROJECT_LOCAL_BIN",
+    "LALA_ALLOW_PROJECT_LOCAL_BIN",
     "MISE_DATA_DIR",
     "HOMEBREW_PREFIX",
     "HOMEBREW_BREW_FILE",
@@ -84,7 +84,7 @@ describe("ensureLalaCliOnPath", () => {
 
     process.env.PATH = "/usr/bin";
     delete process.env.LALA_PATH_BOOTSTRAPPED;
-    delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
 
     ensureLalaCliOnPath({
       execPath: cliPath,
@@ -109,7 +109,7 @@ describe("ensureLalaCliOnPath", () => {
     expect(process.env.PATH).toBe("/bin");
 
     process.env.LALA_PATH_BOOTSTRAPPED = "";
-    process.env.OPENCLAW_PATH_BOOTSTRAPPED = "1";
+    process.env.LALA_PATH_BOOTSTRAPPED = "1";
     ensureLalaCliOnPath({
       execPath: "/tmp/does-not-matter",
       cwd: "/tmp",
@@ -135,7 +135,7 @@ describe("ensureLalaCliOnPath", () => {
     process.env.MISE_DATA_DIR = miseDataDir;
     process.env.PATH = "/usr/bin";
     delete process.env.LALA_PATH_BOOTSTRAPPED;
-    delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
 
     ensureLalaCliOnPath({
       execPath: appCli,
@@ -168,7 +168,7 @@ describe("ensureLalaCliOnPath", () => {
 
     process.env.PATH = "/usr/bin";
     delete process.env.LALA_PATH_BOOTSTRAPPED;
-    delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
 
     ensureLalaCliOnPath({
       execPath: appCli,
@@ -181,7 +181,7 @@ describe("ensureLalaCliOnPath", () => {
 
     process.env.PATH = "/usr/bin";
     delete process.env.LALA_PATH_BOOTSTRAPPED;
-    delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
 
     ensureLalaCliOnPath({
       execPath: appCli,
@@ -195,8 +195,8 @@ describe("ensureLalaCliOnPath", () => {
 
     process.env.PATH = "/usr/bin";
     delete process.env.LALA_PATH_BOOTSTRAPPED;
-    delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
-    process.env.OPENCLAW_ALLOW_PROJECT_LOCAL_BIN = "1";
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
+    process.env.LALA_ALLOW_PROJECT_LOCAL_BIN = "1";
 
     ensureLalaCliOnPath({
       execPath: appCli,
@@ -222,7 +222,7 @@ describe("ensureLalaCliOnPath", () => {
 
     process.env.PATH = "/usr/bin";
     delete process.env.LALA_PATH_BOOTSTRAPPED;
-    delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    delete process.env.LALA_PATH_BOOTSTRAPPED;
     delete process.env.HOMEBREW_PREFIX;
     delete process.env.HOMEBREW_BREW_FILE;
     delete process.env.XDG_BIN_HOME;

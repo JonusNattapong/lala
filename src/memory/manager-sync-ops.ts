@@ -913,8 +913,8 @@ export abstract class MemoryManagerSyncOps {
     try {
       if (needsFullReindex) {
         if (
-          process.env.OPENCLAW_TEST_FAST === "1" &&
-          process.env.OPENCLAW_TEST_MEMORY_UNSAFE_REINDEX === "1"
+          process.env.LALA_TEST_FAST === "1" &&
+          process.env.LALA_TEST_MEMORY_UNSAFE_REINDEX === "1"
         ) {
           await this.runUnsafeReindex({
             reason: params?.reason,

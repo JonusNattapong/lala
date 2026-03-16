@@ -179,21 +179,21 @@ describe("subagent announce formatting", () => {
     // constant picks it up. This fixes flaky Windows CI failures where the test
     // timeout budget is too tight without fast mode enabled.
     // See: https://github.com/JonusNattapong/lala/issues/31298
-    previousFastTestEnv = process.env.OPENCLAW_TEST_FAST;
-    process.env.OPENCLAW_TEST_FAST = "1";
+    previousFastTestEnv = process.env.LALA_TEST_FAST;
+    process.env.LALA_TEST_FAST = "1";
     ({ runSubagentAnnounceFlow } = await import("./subagent-announce.js"));
   });
 
   afterAll(() => {
     if (previousFastTestEnv === undefined) {
-      delete process.env.OPENCLAW_TEST_FAST;
+      delete process.env.LALA_TEST_FAST;
       return;
     }
-    process.env.OPENCLAW_TEST_FAST = previousFastTestEnv;
+    process.env.LALA_TEST_FAST = previousFastTestEnv;
   });
 
   beforeEach(() => {
-    // OPENCLAW_TEST_FAST is set in beforeAll before module import
+    // LALA_TEST_FAST is set in beforeAll before module import
     // to ensure the module-level constant picks it up.
     agentSpy
       .mockClear()

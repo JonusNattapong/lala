@@ -107,13 +107,13 @@ describe("gateway talk.config", () => {
       expect(res.payload?.config?.talk?.provider).toBe("elevenlabs");
       expect(res.payload?.config?.talk?.providers?.elevenlabs?.voiceId).toBe("voice-123");
       expect(res.payload?.config?.talk?.providers?.elevenlabs?.apiKey).toBe(
-        "__OPENCLAW_REDACTED__",
+        "__LALA_REDACTED__",
       );
       expect(res.payload?.config?.talk?.resolved?.provider).toBe("elevenlabs");
       expect(res.payload?.config?.talk?.resolved?.config?.voiceId).toBe("voice-123");
-      expect(res.payload?.config?.talk?.resolved?.config?.apiKey).toBe("__OPENCLAW_REDACTED__");
+      expect(res.payload?.config?.talk?.resolved?.config?.apiKey).toBe("__LALA_REDACTED__");
       expect(res.payload?.config?.talk?.voiceId).toBe("voice-123");
-      expect(res.payload?.config?.talk?.apiKey).toBe("__OPENCLAW_REDACTED__");
+      expect(res.payload?.config?.talk?.apiKey).toBe("__LALA_REDACTED__");
       expect(res.payload?.config?.talk?.silenceTimeoutMs).toBe(1500);
     });
   });

@@ -39,8 +39,8 @@ reach other host locations unless sandboxing is enabled. See
 
 ## Paths (quick map)
 
-- Config: `~/.lala/lala.json` (or `OPENCLAW_CONFIG_PATH`)
-- State dir: `~/.lala` (or `OPENCLAW_STATE_DIR`)
+- Config: `~/.lala/lala.json` (or `LALA_CONFIG_PATH`)
+- State dir: `~/.lala` (or `LALA_STATE_DIR`)
 - Workspace: `~/.lala/workspace` (or `~/.lala/workspace-<agentId>`)
 - Agent dir: `~/.lala/agents/<agentId>/agent` (or `agents.list[].agentDir`)
 - Sessions: `~/.lala/agents/<agentId>/sessions`
@@ -51,7 +51,7 @@ If you do nothing, Lala runs a single agent:
 
 - `agentId` defaults to **`main`**.
 - Sessions are keyed as `agent:main:<mainKey>`.
-- Workspace defaults to `~/.lala/workspace` (or `~/.lala/workspace-<profile>` when `OPENCLAW_PROFILE` is set).
+- Workspace defaults to `~/.lala/workspace` (or `~/.lala/workspace-<profile>` when `LALA_PROFILE` is set).
 - State defaults to `~/.lala/agents/main/agent`.
 
 ## Agent helper

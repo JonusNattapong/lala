@@ -369,7 +369,7 @@ agents.list[].sandbox.prune.* > agents.defaults.sandbox.prune.*
 
 4. **监控日志：**
    ```exec
-   tail -f "${OPENCLAW_STATE_DIR:-$HOME/.lala}/logs/gateway.log" | grep -E "routing|sandbox|tools"
+   tail -f "${LALA_STATE_DIR:-$HOME/.lala}/logs/gateway.log" | grep -E "routing|sandbox|tools"
    ```
 
 ---

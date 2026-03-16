@@ -546,7 +546,7 @@ async function maybeRestartService(params: {
         defaultRuntime.log(theme.success("Daemon restarted successfully."));
         defaultRuntime.log("");
         process.env.LALA_UPDATE_IN_PROGRESS = "1";
-        process.env.OPENCLAW_UPDATE_IN_PROGRESS = "1";
+        process.env.LALA_UPDATE_IN_PROGRESS = "1";
         try {
           const interactiveDoctor =
             Boolean(process.stdin.isTTY) && !params.opts.json && params.opts.yes !== true;
@@ -557,7 +557,7 @@ async function maybeRestartService(params: {
           defaultRuntime.log(theme.warn(`Doctor failed: ${String(err)}`));
         } finally {
           delete process.env.LALA_UPDATE_IN_PROGRESS;
-          delete process.env.OPENCLAW_UPDATE_IN_PROGRESS;
+          delete process.env.LALA_UPDATE_IN_PROGRESS;
         }
       }
 

@@ -119,7 +119,7 @@ jobs:
           file: infrastructure/docker/Dockerfile
           platforms: linux/amd64
           build-args: |
-            OPENCLAW_VARIANT=slim
+            LALA_VARIANT=slim
           tags: ${{ steps.tags.outputs.slim }}
           labels: ${{ steps.labels.outputs.value }}
           provenance: false
@@ -222,7 +222,7 @@ jobs:
           file: infrastructure/docker/Dockerfile
           platforms: linux/arm64
           build-args: |
-            OPENCLAW_VARIANT=slim
+            LALA_VARIANT=slim
           tags: ${{ steps.tags.outputs.slim }}
           labels: ${{ steps.labels.outputs.value }}
           provenance: false

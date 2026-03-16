@@ -15,7 +15,7 @@ describe("provider env vars", () => {
       expect.arrayContaining(["GITHUB_TOKEN", "GH_TOKEN", "ANTHROPIC_OAUTH_TOKEN"]),
     );
     expect(listKnownSecretEnvVarNames()).not.toContain("LALA_API_KEY");
-    expect(listKnownSecretEnvVarNames()).not.toContain("OPENCLAW_API_KEY");
+    expect(listKnownSecretEnvVarNames()).not.toContain("LALA_API_KEY");
   });
 
   it("omits env keys case-insensitively", () => {
@@ -24,7 +24,7 @@ describe("provider env vars", () => {
         OpenAI_Api_Key: "openai-secret",
         Github_Token: "gh-secret",
         LALA_API_KEY: "keep-me",
-        OPENCLAW_API_KEY: "keep-me-legacy",
+        LALA_API_KEY: "keep-me-legacy",
       },
       ["OPENAI_API_KEY", "GITHUB_TOKEN"],
     );
@@ -32,6 +32,6 @@ describe("provider env vars", () => {
     expect(env.OpenAI_Api_Key).toBeUndefined();
     expect(env.Github_Token).toBeUndefined();
     expect(env.LALA_API_KEY).toBe("keep-me");
-    expect(env.OPENCLAW_API_KEY).toBe("keep-me-legacy");
+    expect(env.LALA_API_KEY).toBe("keep-me-legacy");
   });
 });

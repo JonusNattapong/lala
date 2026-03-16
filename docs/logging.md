@@ -118,7 +118,7 @@ All logging configuration lives under `logging` in `~/.lala/lala.json`.
 - `logging.level`: **file logs** (JSONL) level.
 - `logging.consoleLevel`: **console** verbosity level.
 
-You can override both via the **`OPENCLAW_LOG_LEVEL`** environment variable (e.g. `OPENCLAW_LOG_LEVEL=debug`). The env var takes precedence over the config file, so you can raise verbosity for a single run without editing `lala.json`. You can also pass the global CLI option **`--log-level <level>`** (for example, `lala --log-level debug gateway run`), which overrides the environment variable for that command.
+You can override both via the **`LALA_LOG_LEVEL`** environment variable (e.g. `LALA_LOG_LEVEL=debug`). The env var takes precedence over the config file, so you can raise verbosity for a single run without editing `lala.json`. You can also pass the global CLI option **`--log-level <level>`** (for example, `lala --log-level debug gateway run`), which overrides the environment variable for that command.
 
 `--verbose` only affects console output; it does not change file log levels.
 
@@ -212,7 +212,7 @@ Flags are case-insensitive and support wildcards (e.g. `telegram.*` or `*`).
 Env override (one-off):
 
 ```
-OPENCLAW_DIAGNOSTICS=telegram.http,telegram.payload
+LALA_DIAGNOSTICS=telegram.http,telegram.payload
 ```
 
 Notes:

@@ -78,8 +78,8 @@ export async function noteMacLaunchctlGatewayEnvOverrides(
     ["CLAWDBOT_GATEWAY_PASSWORD", await getenv("CLAWDBOT_GATEWAY_PASSWORD")],
     ["LALABOT_GATEWAY_TOKEN", await getenv("LALABOT_GATEWAY_TOKEN")],
     ["LALABOT_GATEWAY_PASSWORD", await getenv("LALABOT_GATEWAY_PASSWORD")],
-    ["OPENCLAW_GATEWAY_TOKEN", await getenv("OPENCLAW_GATEWAY_TOKEN")],
-    ["OPENCLAW_GATEWAY_PASSWORD", await getenv("OPENCLAW_GATEWAY_PASSWORD")],
+    ["LALA_GATEWAY_TOKEN", await getenv("LALA_GATEWAY_TOKEN")],
+    ["LALA_GATEWAY_PASSWORD", await getenv("LALA_GATEWAY_PASSWORD")],
   ].filter((entry): entry is [string, string] => Boolean(entry[1]?.trim()));
   if (deprecatedLaunchctlEntries.length > 0) {
     const lines = [
@@ -130,7 +130,7 @@ export function noteDeprecatedLegacyEnvVars(
       ([key, value]) =>
         (key.startsWith("CLAWDBOT_") ||
           key.startsWith("LALABOT_") ||
-          key.startsWith("OPENCLAW_")) &&
+          key.startsWith("LALA_")) &&
         value?.trim(),
     )
     .map(([key]) => key);
@@ -189,7 +189,7 @@ export function noteStartupOptimizationHints(
   const noteFn = deps?.noteFn ?? note;
   const compileCache = env.NODE_COMPILE_CACHE?.trim() ?? "";
   const disableCompileCache = env.NODE_DISABLE_COMPILE_CACHE?.trim() ?? "";
-  const noRespawn = (env.LALA_NO_RESPAWN ?? env.OPENCLAW_NO_RESPAWN)?.trim() ?? "";
+  const noRespawn = (env.LALA_NO_RESPAWN ?? env.LALA_NO_RESPAWN)?.trim() ?? "";
   const lines: string[] = [];
 
   if (!compileCache) {

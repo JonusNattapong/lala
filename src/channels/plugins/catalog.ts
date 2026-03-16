@@ -52,7 +52,7 @@ type ExternalCatalogEntry = {
   description?: string;
 } & Partial<Record<ManifestKey, LalaPackageManifest>>;
 
-const ENV_CATALOG_PATHS = ["OPENCLAW_PLUGIN_CATALOG_PATHS", "OPENCLAW_MPM_CATALOG_PATHS"];
+const ENV_CATALOG_PATHS = ["LALA_PLUGIN_CATALOG_PATHS", "LALA_MPM_CATALOG_PATHS"];
 
 type ManifestKey = typeof MANIFEST_KEY;
 

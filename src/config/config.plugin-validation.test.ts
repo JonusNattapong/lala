@@ -41,8 +41,8 @@ describe("config plugin validation", () => {
   const suiteEnv = () =>
     ({
       ...process.env,
-      OPENCLAW_STATE_DIR: path.join(suiteHome, ".lala"),
-      OPENCLAW_PLUGIN_MANIFEST_CACHE_MS: "10000",
+      LALA_STATE_DIR: path.join(suiteHome, ".lala"),
+      LALA_PLUGIN_MANIFEST_CACHE_MS: "10000",
     }) satisfies NodeJS.ProcessEnv;
 
   const validateInSuite = (raw: unknown) =>

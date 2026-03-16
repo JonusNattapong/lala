@@ -23,13 +23,13 @@ function resolveTaskName(env: GatewayServiceEnv): string {
   const override = (
     env.LALA_WINDOWS_TASK_NAME ??
     env.LALABOT_WINDOWS_TASK_NAME ??
-    env.OPENCLAW_WINDOWS_TASK_NAME
+    env.LALA_WINDOWS_TASK_NAME
   )?.trim();
   if (override) {
     return override;
   }
   return resolveGatewayWindowsTaskName(
-    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE,
+    env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE,
   );
 }
 
@@ -37,7 +37,7 @@ export function resolveTaskScriptPath(env: GatewayServiceEnv): string {
   const override = (
     env.LALA_TASK_SCRIPT ??
     env.LALABOT_TASK_SCRIPT ??
-    env.OPENCLAW_TASK_SCRIPT
+    env.LALA_TASK_SCRIPT
   )?.trim();
   if (override) {
     return override;
@@ -46,7 +46,7 @@ export function resolveTaskScriptPath(env: GatewayServiceEnv): string {
     (
       env.LALA_TASK_SCRIPT_NAME ??
       env.LALABOT_TASK_SCRIPT_NAME ??
-      env.OPENCLAW_TASK_SCRIPT_NAME
+      env.LALA_TASK_SCRIPT_NAME
     )?.trim() || "gateway.cmd";
   const stateDir = resolveGatewayStateDir(env);
   return path.join(stateDir, scriptName);

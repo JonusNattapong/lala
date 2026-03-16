@@ -11,7 +11,7 @@ import { ensureLalaModelsJson } from "./models-config.js";
 
 installModelsConfigTestHooks();
 
-const TEST_ENV_VAR = "OPENCLAW_MODELS_CONFIG_TEST_ENV";
+const TEST_ENV_VAR = "LALA_MODELS_CONFIG_TEST_ENV";
 
 describe("models-config", () => {
   it("uses config env.vars entries for implicit provider discovery without mutating process.env", async () => {

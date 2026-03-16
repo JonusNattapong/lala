@@ -132,7 +132,7 @@
 - Naming: match source names with `*.test.ts`; e2e in `*.e2e.test.ts`.
 - Run `pnpm test` (or `pnpm test:coverage`) before pushing when you touch logic.
 - Do not set test workers above 16; tried already.
-- If local Vitest runs cause memory pressure (common on non-Mac-Studio hosts), use `OPENCLAW_TEST_PROFILE=low OPENCLAW_TEST_SERIAL_GATEWAY=1 pnpm test` for land/gate runs.
+- If local Vitest runs cause memory pressure (common on non-Mac-Studio hosts), use `LALA_TEST_PROFILE=low LALA_TEST_SERIAL_GATEWAY=1 pnpm test` for land/gate runs.
 - Live tests (real keys): `CLAWDBOT_LIVE_TEST=1 pnpm test:live` (Lala-only) or `LIVE=1 pnpm test:live` (includes provider live tests). Docker: `pnpm test:docker:live-models`, `pnpm test:docker:live-gateway`. Onboarding Docker E2E: `pnpm test:docker:onboard`.
 - Full kit + what’s covered: `docs/testing.md`.
 - Changelog: user-facing changes only; no internal/meta notes (version alignment, appcast reminders, release process).
@@ -293,4 +293,4 @@
 - Before tagging/publishing, run:
   - `node --import tsx scripts/release-check.ts`
   - `pnpm release:check`
-  - `pnpm test:install:smoke` or `OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke` for non-root smoke path.
+  - `pnpm test:install:smoke` or `LALA_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke` for non-root smoke path.

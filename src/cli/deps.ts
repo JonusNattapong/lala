@@ -1,19 +1,13 @@
-import type { sendMessageWhatsApp } from "../channels/web/index.js";
-import type { sendMessageDiscord } from "../discord/send.js";
-import type { sendMessageIMessage } from "../imessage/send.js";
 import type { OutboundSendDeps } from "../infra/outbound/deliver.js";
-import type { sendMessageSignal } from "../signal/send.js";
-import type { sendMessageSlack } from "../slack/send.js";
-import type { sendMessageTelegram } from "../telegram/send.js";
 import { createOutboundSendDepsFromCliSource } from "./outbound-send-mapping.js";
 
 export type CliDeps = {
-  sendMessageWhatsApp: typeof sendMessageWhatsApp;
-  sendMessageTelegram: typeof sendMessageTelegram;
-  sendMessageDiscord: typeof sendMessageDiscord;
-  sendMessageSlack: typeof sendMessageSlack;
-  sendMessageSignal: typeof sendMessageSignal;
-  sendMessageIMessage: typeof sendMessageIMessage;
+  sendMessageWhatsApp: OutboundSendDeps["sendWhatsApp"];
+  sendMessageTelegram: OutboundSendDeps["sendTelegram"];
+  sendMessageDiscord: OutboundSendDeps["sendDiscord"];
+  sendMessageSlack: OutboundSendDeps["sendSlack"];
+  sendMessageSignal: OutboundSendDeps["sendSignal"];
+  sendMessageIMessage: OutboundSendDeps["sendIMessage"];
 };
 
 let whatsappSenderRuntimePromise: Promise<typeof import("./deps-send-whatsapp.runtime.js")> | null =
@@ -91,4 +85,4 @@ export function createOutboundSendDeps(deps: CliDeps): OutboundSendDeps {
   return createOutboundSendDepsFromCliSource(deps);
 }
 
-export { logWebSelfId } from "../web/auth-store.js";
+export function logWebSelfId(): void {}

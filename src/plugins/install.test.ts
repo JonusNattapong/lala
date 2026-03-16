@@ -505,7 +505,7 @@ describe("installPluginFromArchive", () => {
       return;
     }
     expect(result.error).toContain("lala.extensions");
-    expect(result.code).toBe(PLUGIN_INSTALL_ERROR_CODE.MISSING_OPENCLAW_EXTENSIONS);
+    expect(result.code).toBe(PLUGIN_INSTALL_ERROR_CODE.MISSING_LALA_EXTENSIONS);
   });
 
   it("rejects legacy plugin package shape when lala.extensions is missing", async () => {
@@ -537,7 +537,7 @@ describe("installPluginFromArchive", () => {
     if (!result.ok) {
       expect(result.error).toContain("package.json missing lala.extensions");
       expect(result.error).toContain("update the plugin package");
-      expect(result.code).toBe(PLUGIN_INSTALL_ERROR_CODE.MISSING_OPENCLAW_EXTENSIONS);
+      expect(result.code).toBe(PLUGIN_INSTALL_ERROR_CODE.MISSING_LALA_EXTENSIONS);
       return;
     }
     expect.unreachable("expected install to fail without lala.extensions");

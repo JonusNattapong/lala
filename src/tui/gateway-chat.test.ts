@@ -89,8 +89,8 @@ describe("resolveGatewayConnection", () => {
     envSnapshot = captureEnv([
       "LALA_GATEWAY_TOKEN",
       "LALA_GATEWAY_PASSWORD",
-      "OPENCLAW_GATEWAY_TOKEN",
-      "OPENCLAW_GATEWAY_PASSWORD",
+      "LALA_GATEWAY_TOKEN",
+      "LALA_GATEWAY_PASSWORD",
     ]);
     loadConfig.mockClear();
     resolveGatewayPort.mockClear();
@@ -101,8 +101,8 @@ describe("resolveGatewayConnection", () => {
     pickPrimaryLanIPv4.mockReturnValue(undefined);
     delete process.env.LALA_GATEWAY_TOKEN;
     delete process.env.LALA_GATEWAY_PASSWORD;
-    delete process.env.OPENCLAW_GATEWAY_TOKEN;
-    delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+    delete process.env.LALA_GATEWAY_TOKEN;
+    delete process.env.LALA_GATEWAY_PASSWORD;
   });
 
   afterEach(() => {
@@ -257,7 +257,7 @@ describe("resolveGatewayConnection", () => {
     const lalaPassword = "lala-env-pass"; // pragma: allowlist secret
     const legacyPassword = "legacy-env-pass"; // pragma: allowlist secret
     await withEnvAsync(
-      { LALA_GATEWAY_PASSWORD: lalaPassword, OPENCLAW_GATEWAY_PASSWORD: legacyPassword },
+      { LALA_GATEWAY_PASSWORD: lalaPassword, LALA_GATEWAY_PASSWORD: legacyPassword },
       async () => {
         const result = await resolveGatewayConnection({});
         expect(result.password).toBe(lalaPassword);

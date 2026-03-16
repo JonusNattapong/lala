@@ -165,11 +165,11 @@ sequences (e.g. spaces become `\032`).
 
 ## Disabling / configuration
 
-- `OPENCLAW_DISABLE_BONJOUR=1` disables advertising (legacy: `OPENCLAW_DISABLE_BONJOUR`).
+- `LALA_DISABLE_BONJOUR=1` disables advertising (legacy: `LALA_DISABLE_BONJOUR`).
 - `gateway.bind` in `~/.lala/lala.json` controls the Gateway bind mode.
-- `OPENCLAW_SSH_PORT` overrides the SSH port advertised in TXT (legacy: `OPENCLAW_SSH_PORT`).
-- `OPENCLAW_TAILNET_DNS` publishes a MagicDNS hint in TXT (legacy: `OPENCLAW_TAILNET_DNS`).
-- `OPENCLAW_CLI_PATH` overrides the advertised CLI path (legacy: `OPENCLAW_CLI_PATH`).
+- `LALA_SSH_PORT` overrides the SSH port advertised in TXT (legacy: `LALA_SSH_PORT`).
+- `LALA_TAILNET_DNS` publishes a MagicDNS hint in TXT (legacy: `LALA_TAILNET_DNS`).
+- `LALA_CLI_PATH` overrides the advertised CLI path (legacy: `LALA_CLI_PATH`).
 
 ## Related docs
 

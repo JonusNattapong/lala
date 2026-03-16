@@ -31,8 +31,8 @@ Lala 的 Gateway 网关可以提供一个小型的 OpenAI 兼容 Chat Completion
 
 注意事项：
 
-- 当 `gateway.auth.mode="token"` 时，使用 `gateway.auth.token`（或 `OPENCLAW_GATEWAY_TOKEN`）。
-- 当 `gateway.auth.mode="password"` 时，使用 `gateway.auth.password`（或 `OPENCLAW_GATEWAY_PASSWORD`）。
+- 当 `gateway.auth.mode="token"` 时，使用 `gateway.auth.token`（或 `LALA_GATEWAY_TOKEN`）。
+- 当 `gateway.auth.mode="password"` 时，使用 `gateway.auth.password`（或 `LALA_GATEWAY_PASSWORD`）。
 
 ## 选择智能体
 

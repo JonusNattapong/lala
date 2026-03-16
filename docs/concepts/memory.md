@@ -178,7 +178,7 @@ out to QMD for retrieval. Key points:
 
     ```bash
     # Pick the same state dir Lala uses
-    STATE_DIR="${OPENCLAW_STATE_DIR:-$HOME/.lala}"
+    STATE_DIR="${LALA_STATE_DIR:-$HOME/.lala}"
 
     export XDG_CONFIG_HOME="$STATE_DIR/agents/main/qmd/xdg-config"
     export XDG_CACHE_HOME="$STATE_DIR/agents/main/qmd/xdg-cache"

@@ -26,7 +26,7 @@ x-i18n:
 ## 默认位置
 
 - 默认：`~/.lala/workspace`
-- 如果设置了 `OPENCLAW_PROFILE` 且不是 `"default"`，默认值变为
+- 如果设置了 `LALA_PROFILE` 且不是 `"default"`，默认值变为
   `~/.lala/workspace-<profile>`。
 - 在 `~/.lala/lala.json` 中覆盖：
 

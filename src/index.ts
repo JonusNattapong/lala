@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import process from "node:process";
 import { fileURLToPath } from "node:url";
+import type { monitorWebChannel as monitorWebChannelType } from "./channel-web.js";
 import { getReplyFromConfig } from "./auto-reply/reply.js";
 import { applyTemplate } from "./auto-reply/templating.js";
-import { monitorWebChannel } from "./channel-web.js";
 import { createDefaultDeps } from "./cli/deps.js";
 import { promptYesNo } from "./cli/prompt.js";
 import { waitForever } from "./cli/wait.js";
@@ -47,6 +47,11 @@ import { buildProgram } from "./cli/program.js";
 
 const program = buildProgram();
 
+export const monitorWebChannel: typeof monitorWebChannelType = async (...args) => {
+  const mod = await import("./channel-web.js");
+  return await mod.monitorWebChannel(...args);
+};
+
 export {
   assertWebChannel,
   applyTemplate,
@@ -59,7 +64,6 @@ export {
   handlePortError,
   loadConfig,
   loadSessionStore,
-  monitorWebChannel,
   normalizeE164,
   PortInUseError,
   promptYesNo,

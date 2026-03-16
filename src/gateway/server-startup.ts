@@ -123,12 +123,12 @@ export async function startGatewaySidecars(params: {
   }
 
   // Launch configured channels so gateway replies via the surface the message came from.
-  // Tests can opt out via OPENCLAW_SKIP_CHANNELS (or legacy OPENCLAW_SKIP_PROVIDERS).
+  // Tests can opt out via LALA_SKIP_CHANNELS (or legacy LALA_SKIP_PROVIDERS).
   const skipChannels =
     isTruthyEnvValue(process.env.LALA_SKIP_CHANNELS) ||
     isTruthyEnvValue(process.env.LALABOT_SKIP_CHANNELS) ||
-    isTruthyEnvValue(process.env.OPENCLAW_SKIP_CHANNELS) ||
-    isTruthyEnvValue(process.env.OPENCLAW_SKIP_PROVIDERS);
+    isTruthyEnvValue(process.env.LALA_SKIP_CHANNELS) ||
+    isTruthyEnvValue(process.env.LALA_SKIP_PROVIDERS);
   if (!skipChannels) {
     try {
       await params.startChannels();

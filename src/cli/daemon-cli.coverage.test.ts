@@ -27,8 +27,8 @@ const buildGatewayInstallPlan = vi.fn(
     programArguments: ["/bin/node", "cli", "gateway", "--port", String(params.port)],
     workingDirectory: process.cwd(),
     environment: {
-      OPENCLAW_GATEWAY_PORT: String(params.port),
-      ...(params.token ? { OPENCLAW_GATEWAY_TOKEN: params.token } : {}),
+      LALA_GATEWAY_PORT: String(params.port),
+      ...(params.token ? { LALA_GATEWAY_TOKEN: params.token } : {}),
     },
   }),
 );
@@ -123,15 +123,15 @@ describe("daemon-cli coverage", () => {
   beforeEach(() => {
     daemonProgram = createDaemonProgram();
     envSnapshot = captureEnv([
-      "OPENCLAW_STATE_DIR",
-      "OPENCLAW_CONFIG_PATH",
-      "OPENCLAW_GATEWAY_PORT",
-      "OPENCLAW_PROFILE",
+      "LALA_STATE_DIR",
+      "LALA_CONFIG_PATH",
+      "LALA_GATEWAY_PORT",
+      "LALA_PROFILE",
     ]);
-    process.env.OPENCLAW_STATE_DIR = "/tmp/lala-cli-state";
-    process.env.OPENCLAW_CONFIG_PATH = "/tmp/lala-cli-state/lala.json";
-    delete process.env.OPENCLAW_GATEWAY_PORT;
-    delete process.env.OPENCLAW_PROFILE;
+    process.env.LALA_STATE_DIR = "/tmp/lala-cli-state";
+    process.env.LALA_CONFIG_PATH = "/tmp/lala-cli-state/lala.json";
+    delete process.env.LALA_GATEWAY_PORT;
+    delete process.env.LALA_PROFILE;
     serviceReadCommand.mockResolvedValue(null);
     resolveGatewayProbeAuthWithSecretInputs.mockClear();
     buildGatewayInstallPlan.mockClear();
@@ -161,10 +161,10 @@ describe("daemon-cli coverage", () => {
     serviceReadCommand.mockResolvedValueOnce({
       programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
       environment: {
-        OPENCLAW_PROFILE: "dev",
-        OPENCLAW_STATE_DIR: "/tmp/lala-daemon-state",
-        OPENCLAW_CONFIG_PATH: "/tmp/lala-daemon-state/lala.json",
-        OPENCLAW_GATEWAY_PORT: "19001",
+        LALA_PROFILE: "dev",
+        LALA_STATE_DIR: "/tmp/lala-daemon-state",
+        LALA_CONFIG_PATH: "/tmp/lala-daemon-state/lala.json",
+        LALA_GATEWAY_PORT: "19001",
       },
       sourcePath: "/tmp/ai.lala.gateway.plist",
     });

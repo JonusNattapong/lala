@@ -35,7 +35,7 @@ capabilities to the agent as a node.
 ## Launchd control
 
 The app manages a per‑user LaunchAgent labeled `ai.lala.gateway`
-(or `ai.lala.<profile>` when using `--profile`/`OPENCLAW_PROFILE`; legacy `com.lala.*` still unloads).
+(or `ai.lala.<profile>` when using `--profile`/`LALA_PROFILE`; legacy `com.lala.*` still unloads).
 
 ```bash
 launchctl kickstart -k gui/$UID/ai.lala.gateway
@@ -152,7 +152,7 @@ sessions and credentials.
 Prefer a local non-synced state path such as:
 
 ```bash
-OPENCLAW_STATE_DIR=~/.lala
+LALA_STATE_DIR=~/.lala
 ```
 
 If `lala doctor` detects state under:

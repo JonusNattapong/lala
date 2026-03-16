@@ -52,10 +52,10 @@ lala gateway uninstall
 3. 删除状态 + 配置：
 
 ```bash
-rm -rf "${OPENCLAW_STATE_DIR:-$HOME/.lala}"
+rm -rf "${LALA_STATE_DIR:-$HOME/.lala}"
 ```
 
-如果你将 `OPENCLAW_CONFIG_PATH` 设置为状态目录外的自定义位置，也请删除该文件。
+如果你将 `LALA_CONFIG_PATH` 设置为状态目录外的自定义位置，也请删除该文件。
 
 4. 删除你的工作区（可选，移除智能体文件）：
 
@@ -79,7 +79,7 @@ rm -rf /Applications/Lala.app
 
 注意事项：
 
-- 如果你使用了配置文件（`--profile` / `OPENCLAW_PROFILE`），对每个状态目录重复步骤 3（默认为 `~/.lala-<profile>`）。
+- 如果你使用了配置文件（`--profile` / `LALA_PROFILE`），对每个状态目录重复步骤 3（默认为 `~/.lala-<profile>`）。
 - 在远程模式下，状态目录位于 **Gateway 网关主机**上，因此也需要在那里运行步骤 1-4。
 
 ## 手动服务移除（CLI 未安装）

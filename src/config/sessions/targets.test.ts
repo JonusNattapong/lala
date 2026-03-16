@@ -200,7 +200,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
 
       const env = {
         ...process.env,
-        OPENCLAW_STATE_DIR: envStateDir,
+        LALA_STATE_DIR: envStateDir,
       };
       const cfg: LalaConfig = {};
       const mainStorePath = await resolveRealStorePath(mainSessionsDir);
@@ -247,7 +247,7 @@ describe("resolveAllAgentSessionStoreTargets", () => {
       };
       const env = {
         ...process.env,
-        OPENCLAW_STATE_DIR: envStateDir,
+        LALA_STATE_DIR: envStateDir,
       };
       const retiredStorePath = await resolveRealStorePath(retiredSessionsDir);
 
@@ -341,7 +341,7 @@ describe("resolveAllAgentSessionStoreTargetsSync", () => {
       };
       const env = {
         ...process.env,
-        OPENCLAW_STATE_DIR: envStateDir,
+        LALA_STATE_DIR: envStateDir,
       };
       const retiredStorePath = await resolveRealStorePath(retiredSessionsDir);
 

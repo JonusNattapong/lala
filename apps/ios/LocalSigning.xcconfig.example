@@ -1,15 +1,15 @@
 // Copy to LocalSigning.xcconfig for personal local signing overrides.
 // This file is only an example and should stay committed.
 
-OPENCLAW_CODE_SIGN_STYLE = Automatic
-OPENCLAW_DEVELOPMENT_TEAM = YOUR_TEAM_ID
+LALA_CODE_SIGN_STYLE = Automatic
+LALA_DEVELOPMENT_TEAM = YOUR_TEAM_ID
 
-OPENCLAW_APP_BUNDLE_ID = ai.lala.client
-OPENCLAW_SHARE_BUNDLE_ID = ai.lala.client.share
-OPENCLAW_ACTIVITY_WIDGET_BUNDLE_ID = ai.lala.client.activitywidget
-OPENCLAW_WATCH_APP_BUNDLE_ID = ai.lala.client.watchkitapp
-OPENCLAW_WATCH_EXTENSION_BUNDLE_ID = ai.lala.client.watchkitapp.extension
+LALA_APP_BUNDLE_ID = ai.lala.client
+LALA_SHARE_BUNDLE_ID = ai.lala.client.share
+LALA_ACTIVITY_WIDGET_BUNDLE_ID = ai.lala.client.activitywidget
+LALA_WATCH_APP_BUNDLE_ID = ai.lala.client.watchkitapp
+LALA_WATCH_EXTENSION_BUNDLE_ID = ai.lala.client.watchkitapp.extension
 
 // Leave empty with automatic signing.
-OPENCLAW_APP_PROFILE =
-OPENCLAW_SHARE_PROFILE =
+LALA_APP_PROFILE =
+LALA_SHARE_PROFILE =

@@ -170,7 +170,7 @@ describe("browser extension install (fs-mocked)", () => {
 
   it("copies extension path to clipboard", async () => {
     const tmp = abs("/tmp/lala-ext-path");
-    await withEnvAsync({ OPENCLAW_STATE_DIR: tmp }, async () => {
+    await withEnvAsync({ LALA_STATE_DIR: tmp }, async () => {
       copyToClipboard.mockResolvedValue(true);
 
       const dir = path.join(tmp, "browser", "chrome-extension");

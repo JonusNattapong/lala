@@ -103,7 +103,7 @@ describe("light background detection", () => {
   it("uses dark palette by default", async () => {
     const mod = await importThemeWithEnv({
       LALA_THEME: undefined,
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: undefined,
     });
     expect(mod.lightMode).toBe(false);
@@ -127,7 +127,7 @@ describe("light background detection", () => {
   it("detects light background from COLORFGBG", async () => {
     const mod = await importThemeWithEnv({
       LALA_THEME: undefined,
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "0;15",
     });
     expect(mod.lightMode).toBe(true);
@@ -135,7 +135,7 @@ describe("light background detection", () => {
 
   it("treats COLORFGBG bg=7 (silver) as light", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "0;7",
     });
     expect(mod.lightMode).toBe(true);
@@ -143,7 +143,7 @@ describe("light background detection", () => {
 
   it("treats COLORFGBG bg=8 (bright black / dark gray) as dark", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "15;8",
     });
     expect(mod.lightMode).toBe(false);
@@ -151,7 +151,7 @@ describe("light background detection", () => {
 
   it("treats COLORFGBG bg < 7 as dark", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "15;0",
     });
     expect(mod.lightMode).toBe(false);
@@ -159,7 +159,7 @@ describe("light background detection", () => {
 
   it("treats 256-color COLORFGBG bg=232 (near-black greyscale) as dark", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "15;232",
     });
     expect(mod.lightMode).toBe(false);
@@ -167,7 +167,7 @@ describe("light background detection", () => {
 
   it("treats 256-color COLORFGBG bg=255 (near-white greyscale) as light", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "0;255",
     });
     expect(mod.lightMode).toBe(true);
@@ -175,7 +175,7 @@ describe("light background detection", () => {
 
   it("treats 256-color COLORFGBG bg=231 (white cube entry) as light", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "0;231",
     });
     expect(mod.lightMode).toBe(true);
@@ -183,7 +183,7 @@ describe("light background detection", () => {
 
   it("treats 256-color COLORFGBG bg=16 (black cube entry) as dark", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "15;16",
     });
     expect(mod.lightMode).toBe(false);
@@ -191,7 +191,7 @@ describe("light background detection", () => {
 
   it("treats bright 256-color green backgrounds as light when dark text contrasts better", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "15;34",
     });
     expect(mod.lightMode).toBe(true);
@@ -199,7 +199,7 @@ describe("light background detection", () => {
 
   it("treats bright 256-color cyan backgrounds as light when dark text contrasts better", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "15;39",
     });
     expect(mod.lightMode).toBe(true);
@@ -207,7 +207,7 @@ describe("light background detection", () => {
 
   it("falls back to dark mode for invalid COLORFGBG values", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "garbage",
     });
     expect(mod.lightMode).toBe(false);
@@ -215,16 +215,16 @@ describe("light background detection", () => {
 
   it("ignores pathological COLORFGBG values", async () => {
     const mod = await importThemeWithEnv({
-      OPENCLAW_THEME: undefined,
+      LALA_THEME: undefined,
       COLORFGBG: "0;".repeat(40),
     });
     expect(mod.lightMode).toBe(false);
   });
 
-  it("LALA_THEME overrides OPENCLAW_THEME and COLORFGBG", async () => {
+  it("LALA_THEME overrides LALA_THEME and COLORFGBG", async () => {
     const mod = await importThemeWithEnv({
       LALA_THEME: "dark",
-      OPENCLAW_THEME: "light",
+      LALA_THEME: "light",
       COLORFGBG: "0;15",
     });
     expect(mod.lightMode).toBe(false);

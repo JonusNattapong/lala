@@ -13,7 +13,7 @@ import {
 
 const ROOT_DIR = path.parse(process.cwd()).root;
 const CONFIG_DIR = path.join(ROOT_DIR, "config");
-const ETC_OPENCLAW_DIR = path.join(ROOT_DIR, "etc", "lala");
+const ETC_LALA_DIR = path.join(ROOT_DIR, "etc", "lala");
 const SHARED_DIR = path.join(ROOT_DIR, "shared");
 
 const DEFAULT_BASE_PATH = path.join(CONFIG_DIR, "lala.json");
@@ -23,7 +23,7 @@ function configPath(...parts: string[]) {
 }
 
 function etcLalaPath(...parts: string[]) {
-  return path.join(ETC_OPENCLAW_DIR, ...parts);
+  return path.join(ETC_LALA_DIR, ...parts);
 }
 
 function sharedPath(...parts: string[]) {

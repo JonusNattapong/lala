@@ -154,12 +154,12 @@ curl -fsSL https://lala.ai/install.sh | bash -s -- --install-method git
 
 等效的环境变量（对自动化有用）：
 
-- `OPENCLAW_INSTALL_METHOD=git|npm`
-- `OPENCLAW_GIT_DIR=...`
-- `OPENCLAW_GIT_UPDATE=0|1`
-- `OPENCLAW_NO_PROMPT=1`
-- `OPENCLAW_DRY_RUN=1`
-- `OPENCLAW_NO_ONBOARD=1`
+- `LALA_INSTALL_METHOD=git|npm`
+- `LALA_GIT_DIR=...`
+- `LALA_GIT_UPDATE=0|1`
+- `LALA_NO_PROMPT=1`
+- `LALA_DRY_RUN=1`
+- `LALA_NO_ONBOARD=1`
 - `SHARP_IGNORE_GLOBAL_LIBVIPS=0|1`（默认：`1`；避免 `sharp` 针对系统 libvips 构建）
 
 ## 故障排除：找不到 `lala`（PATH）

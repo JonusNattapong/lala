@@ -139,7 +139,7 @@ describe("QmdMemoryManager", () => {
     // Only workspace must exist for configured collection paths; state paths are
     // created lazily by manager code when needed.
     await fs.mkdir(workspaceDir);
-    process.env.OPENCLAW_STATE_DIR = stateDir;
+    process.env.LALA_STATE_DIR = stateDir;
     cfg = {
       agents: {
         list: [{ id: agentId, default: true, workspace: workspaceDir }],
@@ -157,7 +157,7 @@ describe("QmdMemoryManager", () => {
 
   afterEach(() => {
     vi.useRealTimers();
-    delete process.env.OPENCLAW_STATE_DIR;
+    delete process.env.LALA_STATE_DIR;
     delete (globalThis as Record<string, unknown>).__lalaMcporterDaemonStart;
     delete (globalThis as Record<string, unknown>).__lalaMcporterColdStartWarned;
   });

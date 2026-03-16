@@ -207,7 +207,7 @@ export async function configureGatewayForOnboarding(
       gatewayToken =
         (quickstartTokenString ??
           normalizeGatewayTokenInput(
-            process.env.LALA_GATEWAY_TOKEN ?? process.env.OPENCLAW_GATEWAY_TOKEN,
+            process.env.LALA_GATEWAY_TOKEN ?? process.env.LALA_GATEWAY_TOKEN,
           )) ||
         randomToken();
       gatewayTokenInput = gatewayToken;
@@ -218,7 +218,7 @@ export async function configureGatewayForOnboarding(
         initialValue:
           quickstartTokenString ??
           normalizeGatewayTokenInput(
-            process.env.LALA_GATEWAY_TOKEN ?? process.env.OPENCLAW_GATEWAY_TOKEN,
+            process.env.LALA_GATEWAY_TOKEN ?? process.env.LALA_GATEWAY_TOKEN,
           ) ??
           "",
       });

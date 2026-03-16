@@ -239,14 +239,14 @@ export function readEmbeddedGatewayToken(command: GatewayServiceCommand): string
   if (
     command.environmentValueSources?.LALA_GATEWAY_TOKEN === "file" ||
     command.environmentValueSources?.LALABOT_GATEWAY_TOKEN === "file" ||
-    command.environmentValueSources?.OPENCLAW_GATEWAY_TOKEN === "file"
+    command.environmentValueSources?.LALA_GATEWAY_TOKEN === "file"
   ) {
     return undefined;
   }
   return (
     command.environment?.LALA_GATEWAY_TOKEN?.trim() ||
     command.environment?.LALABOT_GATEWAY_TOKEN?.trim() ||
-    command.environment?.OPENCLAW_GATEWAY_TOKEN?.trim() ||
+    command.environment?.LALA_GATEWAY_TOKEN?.trim() ||
     undefined
   );
 }

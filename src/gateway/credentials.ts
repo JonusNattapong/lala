@@ -295,7 +295,7 @@ export function resolveGatewayCredentialsFromConfig(params: {
 
   const localTokenPrecedence =
     params.localTokenPrecedence ??
-    (env.LALA_SERVICE_KIND === "gateway" || env.OPENCLAW_SERVICE_KIND === "gateway"
+    (env.LALA_SERVICE_KIND === "gateway" || env.LALA_SERVICE_KIND === "gateway"
       ? "config-first"
       : "env-first");
   const localPasswordPrecedence = params.localPasswordPrecedence ?? "env-first";

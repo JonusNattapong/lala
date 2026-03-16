@@ -173,7 +173,7 @@ time, override the `lala` agent command in `~/.acpx/config.json`:
 {
   "agents": {
     "lala": {
-      "command": "env OPENCLAW_HIDE_BANNER=1 OPENCLAW_SUPPRESS_NOTES=1 lala acp --url ws://127.0.0.1:18789 --token-file ~/.lala/gateway.token --session agent:main:main"
+      "command": "env LALA_HIDE_BANNER=1 LALA_SUPPRESS_NOTES=1 lala acp --url ws://127.0.0.1:18789 --token-file ~/.lala/gateway.token --session agent:main:main"
     }
   }
 }
@@ -183,7 +183,7 @@ For a repo-local Lala checkout, use the direct CLI entrypoint instead of the
 dev runner so the ACP stream stays clean. For example:
 
 ```bash
-env OPENCLAW_HIDE_BANNER=1 OPENCLAW_SUPPRESS_NOTES=1 node lala.mjs acp ...
+env LALA_HIDE_BANNER=1 LALA_SUPPRESS_NOTES=1 node lala.mjs acp ...
 ```
 
 This is the easiest way to let Codex, Claude Code, or another ACP-aware client
@@ -271,13 +271,13 @@ Learn more about session keys at [/concepts/session](/concepts/session).
 Security note:
 
 - `--token` and `--password` can be visible in local process listings on some systems.
-- Prefer `--token-file`/`--password-file` or environment variables (`OPENCLAW_GATEWAY_TOKEN`, `OPENCLAW_GATEWAY_PASSWORD`).
+- Prefer `--token-file`/`--password-file` or environment variables (`LALA_GATEWAY_TOKEN`, `LALA_GATEWAY_PASSWORD`).
 - Gateway auth resolution follows the shared contract used by other Gateway clients:
-  - local mode: env (`OPENCLAW_GATEWAY_*`) -> `gateway.auth.*` -> `gateway.remote.*` fallback only when `gateway.auth.*` is unset (configured-but-unresolved local SecretRefs fail closed)
+  - local mode: env (`LALA_GATEWAY_*`) -> `gateway.auth.*` -> `gateway.remote.*` fallback only when `gateway.auth.*` is unset (configured-but-unresolved local SecretRefs fail closed)
   - remote mode: `gateway.remote.*` with env/config fallback per remote precedence rules
   - `--url` is override-safe and does not reuse implicit config/env credentials; pass explicit `--token`/`--password` (or file variants)
-- ACP runtime backend child processes receive `OPENCLAW_SHELL=acp`, which can be used for context-specific shell/profile rules.
-- `lala acp client` sets `OPENCLAW_SHELL=acp-client` on the spawned bridge process.
+- ACP runtime backend child processes receive `LALA_SHELL=acp`, which can be used for context-specific shell/profile rules.
+- `lala acp client` sets `LALA_SHELL=acp-client` on the spawned bridge process.
 
 ### `acp client` options
 

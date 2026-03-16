@@ -2,7 +2,7 @@ import { ALLOWED_LOG_LEVELS, type LogLevel, tryParseLogLevel } from "./levels.js
 import { loggingState } from "./state.js";
 
 export function resolveEnvLogLevelOverride(): LogLevel | undefined {
-  const envKey = process.env.LALA_LOG_LEVEL ? "LALA_LOG_LEVEL" : "OPENCLAW_LOG_LEVEL";
+  const envKey = process.env.LALA_LOG_LEVEL ? "LALA_LOG_LEVEL" : "LALA_LOG_LEVEL";
   const raw = process.env[envKey];
   const trimmed = typeof raw === "string" ? raw.trim() : "";
   if (!trimmed) {

@@ -63,15 +63,15 @@ spec:
           env:
             - name: HOME
               value: /home/node
-            - name: OPENCLAW_CONFIG_DIR
+            - name: LALA_CONFIG_DIR
               value: /home/node/.lala
             - name: NODE_ENV
               value: production
-            - name: OPENCLAW_GATEWAY_TOKEN
+            - name: LALA_GATEWAY_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: lala-secrets
-                  key: OPENCLAW_GATEWAY_TOKEN
+                  key: LALA_GATEWAY_TOKEN
             - name: ANTHROPIC_API_KEY
               valueFrom:
                 secretKeyRef:

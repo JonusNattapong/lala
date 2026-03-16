@@ -101,7 +101,7 @@ describe("backup commands", () => {
     const configPath = path.join(tempHome.home, "custom-config.json");
     const backupDir = await fs.mkdtemp(path.join(os.tmpdir(), "lala-backups-"));
     try {
-      process.env.OPENCLAW_CONFIG_PATH = configPath;
+      process.env.LALA_CONFIG_PATH = configPath;
       await fs.writeFile(
         configPath,
         JSON.stringify({
@@ -174,7 +174,7 @@ describe("backup commands", () => {
         await fs.rm(extractDir, { recursive: true, force: true });
       }
     } finally {
-      delete process.env.OPENCLAW_CONFIG_PATH;
+      delete process.env.LALA_CONFIG_PATH;
       await fs.rm(externalWorkspace, { recursive: true, force: true });
       await fs.rm(backupDir, { recursive: true, force: true });
     }
@@ -336,7 +336,7 @@ describe("backup commands", () => {
   it("fails fast when config is invalid and workspace backup is enabled", async () => {
     const stateDir = path.join(tempHome.home, ".lala");
     const configPath = path.join(tempHome.home, "custom-config.json");
-    process.env.OPENCLAW_CONFIG_PATH = configPath;
+    process.env.LALA_CONFIG_PATH = configPath;
     await fs.writeFile(path.join(stateDir, "lala.json"), JSON.stringify({}), "utf8");
     await fs.writeFile(configPath, '{"agents": { defaults: { workspace: ', "utf8");
 
@@ -351,14 +351,14 @@ describe("backup commands", () => {
         /--no-include-workspace/i,
       );
     } finally {
-      delete process.env.OPENCLAW_CONFIG_PATH;
+      delete process.env.LALA_CONFIG_PATH;
     }
   });
 
   it("allows explicit partial backups when config is invalid", async () => {
     const stateDir = path.join(tempHome.home, ".lala");
     const configPath = path.join(tempHome.home, "custom-config.json");
-    process.env.OPENCLAW_CONFIG_PATH = configPath;
+    process.env.LALA_CONFIG_PATH = configPath;
     await fs.writeFile(path.join(stateDir, "lala.json"), JSON.stringify({}), "utf8");
     await fs.writeFile(configPath, '{"agents": { defaults: { workspace: ', "utf8");
 
@@ -377,7 +377,7 @@ describe("backup commands", () => {
       expect(result.includeWorkspace).toBe(false);
       expect(result.assets.some((asset) => asset.kind === "workspace")).toBe(false);
     } finally {
-      delete process.env.OPENCLAW_CONFIG_PATH;
+      delete process.env.LALA_CONFIG_PATH;
     }
   });
 
@@ -408,7 +408,7 @@ describe("backup commands", () => {
 
   it("allows config-only backups even when the config file is invalid", async () => {
     const configPath = path.join(tempHome.home, "custom-config.json");
-    process.env.OPENCLAW_CONFIG_PATH = configPath;
+    process.env.LALA_CONFIG_PATH = configPath;
     await fs.writeFile(configPath, '{"agents": { defaults: { workspace: ', "utf8");
 
     const runtime = {
@@ -426,7 +426,7 @@ describe("backup commands", () => {
       expect(result.assets).toHaveLength(1);
       expect(result.assets[0]?.kind).toBe("config");
     } finally {
-      delete process.env.OPENCLAW_CONFIG_PATH;
+      delete process.env.LALA_CONFIG_PATH;
     }
   });
 });

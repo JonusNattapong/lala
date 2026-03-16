@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-INSTALL_URL="${OPENCLAW_INSTALL_URL:-https://lala.bot/install.sh}"
+INSTALL_URL="${LALA_INSTALL_URL:-https://lala.bot/install.sh}"
 DEFAULT_PACKAGE="lala"
-PACKAGE_NAME="${OPENCLAW_INSTALL_PACKAGE:-$DEFAULT_PACKAGE}"
+PACKAGE_NAME="${LALA_INSTALL_PACKAGE:-$DEFAULT_PACKAGE}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # shellcheck source=../install-sh-common/cli-verify.sh
@@ -24,7 +24,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 echo "==> Verify git installed"
 command -v git >/dev/null
 
-EXPECTED_VERSION="${OPENCLAW_INSTALL_EXPECT_VERSION:-}"
+EXPECTED_VERSION="${LALA_INSTALL_EXPECT_VERSION:-}"
 if [[ -n "$EXPECTED_VERSION" ]]; then
   LATEST_VERSION="$EXPECTED_VERSION"
 else

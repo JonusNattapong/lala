@@ -63,7 +63,7 @@ SHARP_IGNORE_GLOBAL_LIBVIPS=0 curl -fsSL https://lala.ai/install.sh | bash
 - 更新并使用此检出（`git`）
 - 或迁移到全局 npm 安装（`npm`）
 
-在非交互式上下文中（无 TTY / `--no-prompt`），你必须传入 `--install-method git|npm`（或设置 `OPENCLAW_INSTALL_METHOD`），否则脚本将以退出码 `2` 退出。
+在非交互式上下文中（无 TTY / `--no-prompt`），你必须传入 `--install-method git|npm`（或设置 `LALA_INSTALL_METHOD`），否则脚本将以退出码 `2` 退出。
 
 ### 为什么需要 Git
 
@@ -115,8 +115,8 @@ iwr -useb https://lala.ai/install.ps1 | iex -InstallMethod git -GitDir "C:\\lala
 
 环境变量：
 
-- `OPENCLAW_INSTALL_METHOD=git|npm`
-- `OPENCLAW_GIT_DIR=...`
+- `LALA_INSTALL_METHOD=git|npm`
+- `LALA_GIT_DIR=...`
 
 Git 要求：
 

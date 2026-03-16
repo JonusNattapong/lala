@@ -19,9 +19,9 @@ import {
 } from "./workspace.js";
 
 describe("resolveDefaultAgentWorkspaceDir", () => {
-  it("uses OPENCLAW_HOME for default workspace resolution", () => {
+  it("uses LALA_HOME for default workspace resolution", () => {
     const dir = resolveDefaultAgentWorkspaceDir({
-      OPENCLAW_HOME: "/srv/lala-home",
+      LALA_HOME: "/srv/lala-home",
       HOME: "/home/other",
     } as NodeJS.ProcessEnv);
 

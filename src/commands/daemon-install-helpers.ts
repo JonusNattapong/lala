@@ -53,7 +53,7 @@ export async function buildGatewayInstallPlan(params: {
     port: params.port,
     launchdLabel:
       process.platform === "darwin"
-        ? resolveGatewayLaunchAgentLabel(params.env.LALA_PROFILE ?? params.env.OPENCLAW_PROFILE)
+        ? resolveGatewayLaunchAgentLabel(params.env.LALA_PROFILE ?? params.env.LALA_PROFILE)
         : undefined,
   });
 

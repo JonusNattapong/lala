@@ -153,7 +153,7 @@ describe("memory index", () => {
   beforeEach(async () => {
     // Perf: most suites don't need atomic swap behavior for full reindexes.
     // Keep atomic reindex tests on the safe path.
-    vi.stubEnv("OPENCLAW_TEST_MEMORY_UNSAFE_REINDEX", "1");
+    vi.stubEnv("LALA_TEST_MEMORY_UNSAFE_REINDEX", "1");
     embedBatchCalls = 0;
     embedBatchInputCalls = 0;
     providerCalls = [];
@@ -416,8 +416,8 @@ describe("memory index", () => {
       `${sourceChangeSessionLogLines}\n`,
     );
 
-    const previousStateDir = process.env.OPENCLAW_STATE_DIR;
-    process.env.OPENCLAW_STATE_DIR = stateDir;
+    const previousStateDir = process.env.LALA_STATE_DIR;
+    process.env.LALA_STATE_DIR = stateDir;
 
     const firstCfg = createCfg({
       storePath: indexSourceChangePath,
@@ -453,9 +453,9 @@ describe("memory index", () => {
       await secondManager.close?.();
     } finally {
       if (previousStateDir === undefined) {
-        delete process.env.OPENCLAW_STATE_DIR;
+        delete process.env.LALA_STATE_DIR;
       } else {
-        process.env.OPENCLAW_STATE_DIR = previousStateDir;
+        process.env.LALA_STATE_DIR = previousStateDir;
       }
       await fs.rm(stateDir, { recursive: true, force: true });
     }

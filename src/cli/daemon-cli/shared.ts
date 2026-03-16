@@ -94,11 +94,11 @@ const SAFE_DAEMON_ENV_KEYS = [
   "LALABOT_CONFIG_PATH",
   "LALABOT_GATEWAY_PORT",
   "LALABOT_NIX_MODE",
-  "OPENCLAW_PROFILE",
-  "OPENCLAW_STATE_DIR",
-  "OPENCLAW_CONFIG_PATH",
-  "OPENCLAW_GATEWAY_PORT",
-  "OPENCLAW_NIX_MODE",
+  "LALA_PROFILE",
+  "LALA_STATE_DIR",
+  "LALA_CONFIG_PATH",
+  "LALA_GATEWAY_PORT",
+  "LALA_NIX_MODE",
 ];
 
 export function filterDaemonEnv(env: Record<string, string> | undefined): Record<string, string> {
@@ -157,7 +157,7 @@ export function renderRuntimeHints(
     if (fileLog) {
       hints.push(`File logs: ${fileLog}`);
     }
-    const profile = env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE;
+    const profile = env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE;
     hints.push(
       ...buildPlatformRuntimeLogHints({
         env,
@@ -170,7 +170,7 @@ export function renderRuntimeHints(
 }
 
 export function renderGatewayServiceStartHints(env: NodeJS.ProcessEnv = process.env): string[] {
-  const profile = env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.OPENCLAW_PROFILE;
+  const profile = env.LALA_PROFILE ?? env.LALABOT_PROFILE ?? env.LALA_PROFILE;
   return buildPlatformServiceStartHints({
     installCommand: formatCliCommand("lala gateway install", env),
     startCommand: formatCliCommand("lala gateway", env),

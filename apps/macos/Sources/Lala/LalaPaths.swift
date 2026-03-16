@@ -14,8 +14,8 @@ enum LalaEnv {
 }
 
 enum LalaPaths {
-    private static let configPathEnv = ["OPENCLAW_CONFIG_PATH"]
-    private static let stateDirEnv = ["OPENCLAW_STATE_DIR"]
+    private static let configPathEnv = ["LALA_CONFIG_PATH"]
+    private static let stateDirEnv = ["LALA_STATE_DIR"]
 
     static var stateDirURL: URL {
         for key in self.stateDirEnv {

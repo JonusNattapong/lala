@@ -87,6 +87,7 @@ import type {
 import { type ChatAttachment, type ChatQueueItem, type CronFormState } from "./ui-types.ts";
 import { generateUUID } from "./uuid.ts";
 import type { NostrProfileFormState } from "./views/channels.nostr-profile-form.ts";
+import { resolveWizardSessionIdFromUrl } from "./controllers/onboarding-wizard.ts";
 
 declare global {
   interface Window {
@@ -106,10 +107,16 @@ function resolveOnboardingMode(): boolean {
     return false;
   }
   const normalized = raw.trim().toLowerCase();
-  return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
+  return (
+    normalized === "1" ||
+    normalized === "true" ||
+    normalized === "yes" ||
+    normalized === "on" ||
+    normalized === "wizard"
+  );
 }
 
-@customElement("lala-control-ui")
+@customElement("openclaw-app")
 export class LalaApp extends LitElement {
   private i18nController = new I18nController(this);
   clientInstanceId = generateUUID();
@@ -126,6 +133,21 @@ export class LalaApp extends LitElement {
   @state() loginShowGatewayPassword = false;
   @state() tab: Tab = "chat";
   @state() onboarding = resolveOnboardingMode();
+  @state() onboardingAutoDismissed = false;
+  @state() onboardingStep: "welcome" | "setup" | "models" | "channels" = "welcome";
+  @state() onboardingSelectedSetupMode: "local" | "remote" = "local";
+  @state() onboardingSelectedModelProvider: string | null = null;
+  @state() onboardingSelectedModelId: string | null = null;
+  @state() onboardingSelectedChannels: string[] = [];
+  @state() onboardingWizardSessionId = resolveWizardSessionIdFromUrl();
+  @state() onboardingWizardStep: import("../../../src/wizard/session.js").WizardStep | null = null;
+  @state() onboardingWizardStatus: import("../../../src/wizard/session.js").WizardSessionStatus | null = null;
+  @state() onboardingWizardError: string | null = null;
+  @state() onboardingWizardBusy = false;
+  @state() onboardingWizardStarted = false;
+  @state() onboardingWizardAnswerText = "";
+  @state() onboardingWizardAnswerBoolean = false;
+  @state() onboardingWizardAnswerMulti: string[] = [];
   @state() connected = false;
   @state() theme: ThemeName = this.settings.theme ?? "claw";
   @state() themeMode: ThemeMode = this.settings.themeMode ?? "system";

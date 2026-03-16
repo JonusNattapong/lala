@@ -7,8 +7,8 @@ describe("buildPlatformRuntimeLogHints", () => {
       buildPlatformRuntimeLogHints({
         platform: "darwin",
         env: {
-          OPENCLAW_STATE_DIR: "/tmp/lala-state",
-          OPENCLAW_LOG_PREFIX: "gateway",
+          LALA_STATE_DIR: "/tmp/lala-state",
+          LALA_LOG_PREFIX: "gateway",
         },
         systemdServiceName: "lala-gateway",
         windowsTaskName: "Lala Gateway",

@@ -113,33 +113,33 @@ export function applyCliProfileEnv(params: {
   if (!env.LALA_PROFILE?.trim()) {
     env.LALA_PROFILE = profile;
   }
-  env.OPENCLAW_PROFILE = profile;
+  env.LALA_PROFILE = profile;
 
   const stateDir =
     env.LALA_STATE_DIR?.trim() ||
-    env.OPENCLAW_STATE_DIR?.trim() ||
+    env.LALA_STATE_DIR?.trim() ||
     resolveProfileStateDir(profile, env, homedir);
 
   if (!env.LALA_STATE_DIR?.trim()) {
     env.LALA_STATE_DIR = stateDir;
   }
-  if (!env.OPENCLAW_STATE_DIR?.trim()) {
-    env.OPENCLAW_STATE_DIR = stateDir;
+  if (!env.LALA_STATE_DIR?.trim()) {
+    env.LALA_STATE_DIR = stateDir;
   }
 
   if (!env.LALA_CONFIG_PATH?.trim()) {
-    env.LALA_CONFIG_PATH = env.OPENCLAW_CONFIG_PATH?.trim() || path.join(stateDir, "lala.json");
+    env.LALA_CONFIG_PATH = env.LALA_CONFIG_PATH?.trim() || path.join(stateDir, "lala.json");
   }
-  if (!env.OPENCLAW_CONFIG_PATH?.trim()) {
-    env.OPENCLAW_CONFIG_PATH = env.LALA_CONFIG_PATH;
+  if (!env.LALA_CONFIG_PATH?.trim()) {
+    env.LALA_CONFIG_PATH = env.LALA_CONFIG_PATH;
   }
 
   if (profile === "dev") {
     if (!env.LALA_GATEWAY_PORT?.trim()) {
-      env.LALA_GATEWAY_PORT = env.OPENCLAW_GATEWAY_PORT?.trim() || "19001";
+      env.LALA_GATEWAY_PORT = env.LALA_GATEWAY_PORT?.trim() || "19001";
     }
-    if (!env.OPENCLAW_GATEWAY_PORT?.trim()) {
-      env.OPENCLAW_GATEWAY_PORT = env.LALA_GATEWAY_PORT;
+    if (!env.LALA_GATEWAY_PORT?.trim()) {
+      env.LALA_GATEWAY_PORT = env.LALA_GATEWAY_PORT;
     }
   }
 }

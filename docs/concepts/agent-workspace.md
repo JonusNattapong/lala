@@ -24,7 +24,7 @@ inside a sandbox workspace under `~/.lala/sandboxes`, not your host workspace.
 ## Default location
 
 - Default: `~/.lala/workspace`
-- If `OPENCLAW_PROFILE` is set and not `"default"`, the default becomes
+- If `LALA_PROFILE` is set and not `"default"`, the default becomes
   `~/.lala/workspace-<profile>`.
 - Override in `~/.lala/lala.json`:
 

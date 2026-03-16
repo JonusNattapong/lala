@@ -71,7 +71,7 @@ Release behavior:
 
 Required env for beta builds:
 
-- `OPENCLAW_PUSH_RELAY_BASE_URL=https://relay.example.com`
+- `LALA_PUSH_RELAY_BASE_URL=https://relay.example.com`
   This must be a plain `https://host[:port][/path]` base URL without whitespace, query params, fragments, or xcconfig metacharacters.
 
 Archive without upload:
@@ -110,7 +110,7 @@ pnpm ios:beta -- --build-number 7
 - The app persists the relay handle metadata locally so reconnects can republish the gateway registration without re-registering on every connect.
 - If the relay base URL changes in a later build, the app refreshes the relay registration instead of reusing the old relay origin.
 - Relay mode requires a reachable relay base URL and uses App Attest plus the app receipt during registration.
-- Gateway-side relay sending is configured through `gateway.push.apns.relay.baseUrl` in `lala.json`. `OPENCLAW_APNS_RELAY_BASE_URL` remains a temporary env override only.
+- Gateway-side relay sending is configured through `gateway.push.apns.relay.baseUrl` in `lala.json`. `LALA_APNS_RELAY_BASE_URL` remains a temporary env override only.
 
 ## Official Build Relay Trust Model
 

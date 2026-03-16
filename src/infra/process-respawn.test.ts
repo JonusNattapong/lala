@@ -71,14 +71,14 @@ function expectLaunchdSupervisedWithoutKickstart(params?: { launchJobLabel?: str
 }
 
 describe("restartGatewayProcessWithFreshPid", () => {
-  it("returns disabled when LALA_NO_RESPAWN or OPENCLAW_NO_RESPAWN is set", () => {
+  it("returns disabled when LALA_NO_RESPAWN or LALA_NO_RESPAWN is set", () => {
     process.env.LALA_NO_RESPAWN = "1";
     const resultLala = restartGatewayProcessWithFreshPid();
     expect(resultLala.mode).toBe("disabled");
     expect(spawnMock).not.toHaveBeenCalled();
 
     delete process.env.LALA_NO_RESPAWN;
-    process.env.OPENCLAW_NO_RESPAWN = "1";
+    process.env.LALA_NO_RESPAWN = "1";
     const resultOpenClaw = restartGatewayProcessWithFreshPid();
     expect(resultOpenClaw.mode).toBe("disabled");
   });
@@ -162,7 +162,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
 
   it("spawns detached child with current exec argv", () => {
     delete process.env.LALA_NO_RESPAWN;
-    delete process.env.OPENCLAW_NO_RESPAWN;
+    delete process.env.LALA_NO_RESPAWN;
     clearSupervisorHints();
     setPlatform("linux");
     process.execArgv = ["--import", "tsx"];
@@ -182,17 +182,17 @@ describe("restartGatewayProcessWithFreshPid", () => {
     );
   });
 
-  it("returns supervised when LALA_LAUNCHD_LABEL or OPENCLAW_LAUNCHD_LABEL is set (stock launchd plist)", () => {
+  it("returns supervised when LALA_LAUNCHD_LABEL or LALA_LAUNCHD_LABEL is set (stock launchd plist)", () => {
     clearSupervisorHints();
     process.env.LALA_LAUNCHD_LABEL = "ai.lala.gateway";
     expectLaunchdSupervisedWithoutKickstart();
 
     clearSupervisorHints();
-    process.env.OPENCLAW_LAUNCHD_LABEL = "ai.lala.gateway";
+    process.env.LALA_LAUNCHD_LABEL = "ai.lala.gateway";
     expectLaunchdSupervisedWithoutKickstart();
   });
 
-  it("returns supervised when LALA_SYSTEMD_UNIT or OPENCLAW_SYSTEMD_UNIT is set", () => {
+  it("returns supervised when LALA_SYSTEMD_UNIT or LALA_SYSTEMD_UNIT is set", () => {
     clearSupervisorHints();
     setPlatform("linux");
     process.env.LALA_SYSTEMD_UNIT = "lala-gateway.service";
@@ -200,7 +200,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expect(result.mode).toBe("supervised");
 
     process.env.LALA_SYSTEMD_UNIT = "";
-    process.env.OPENCLAW_SYSTEMD_UNIT = "lala-gateway.service";
+    process.env.LALA_SYSTEMD_UNIT = "lala-gateway.service";
     const resultFallback = restartGatewayProcessWithFreshPid();
     expect(resultFallback.mode).toBe("supervised");
 
@@ -218,7 +218,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expect(triggerLalaRestartMock).toHaveBeenCalledOnce();
 
     process.env.LALA_SERVICE_MARKER = "";
-    process.env.OPENCLAW_SERVICE_MARKER = "lala";
+    process.env.LALA_SERVICE_MARKER = "lala";
     const resultFallback = restartGatewayProcessWithFreshPid();
     expect(resultFallback.mode).toBe("supervised");
 
@@ -266,7 +266,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
 
   it("returns failed when spawn throws", () => {
     delete process.env.LALA_NO_RESPAWN;
-    delete process.env.OPENCLAW_NO_RESPAWN;
+    delete process.env.LALA_NO_RESPAWN;
     clearSupervisorHints();
     setPlatform("linux");
 

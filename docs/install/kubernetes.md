@@ -34,7 +34,7 @@ open http://localhost:18789
 Retrieve the gateway token and paste it into the Control UI:
 
 ```bash
-kubectl get secret lala-secrets -n lala -o jsonpath='{.data.OPENCLAW_GATEWAY_TOKEN}' | base64 -d
+kubectl get secret lala-secrets -n lala -o jsonpath='{.data.LALA_GATEWAY_TOKEN}' | base64 -d
 ```
 
 For local debugging, `./scripts/k8s/deploy.sh --show-token` prints the token after deploy.
@@ -84,7 +84,7 @@ open http://localhost:18789
 ## What gets deployed
 
 ```
-Namespace: lala (configurable via OPENCLAW_NAMESPACE)
+Namespace: lala (configurable via LALA_NAMESPACE)
 ├── Deployment/lala        # Single pod, init container + gateway
 ├── Service/lala           # ClusterIP on port 18789
 ├── PersistentVolumeClaim      # 10Gi for agent state and config
@@ -130,7 +130,7 @@ kubectl rollout restart deployment/lala -n lala
 ### Custom namespace
 
 ```bash
-OPENCLAW_NAMESPACE=my-namespace ./scripts/k8s/deploy.sh
+LALA_NAMESPACE=my-namespace ./scripts/k8s/deploy.sh
 ```
 
 ### Custom image

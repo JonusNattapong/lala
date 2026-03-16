@@ -4,7 +4,7 @@ import path from "node:path";
 import { captureEnv } from "../test-utils/env.js";
 
 export function snapshotStateDirEnv() {
-  return captureEnv(["LALA_STATE_DIR", "OPENCLAW_STATE_DIR", "CLAWDBOT_STATE_DIR"]);
+  return captureEnv(["LALA_STATE_DIR", "LALA_STATE_DIR", "CLAWDBOT_STATE_DIR"]);
 }
 
 export function restoreStateDirEnv(snapshot: ReturnType<typeof snapshotStateDirEnv>): void {
@@ -13,7 +13,7 @@ export function restoreStateDirEnv(snapshot: ReturnType<typeof snapshotStateDirE
 
 export function setStateDirEnv(stateDir: string): void {
   process.env.LALA_STATE_DIR = stateDir;
-  process.env.OPENCLAW_STATE_DIR = stateDir;
+  process.env.LALA_STATE_DIR = stateDir;
   delete process.env.CLAWDBOT_STATE_DIR;
 }
 

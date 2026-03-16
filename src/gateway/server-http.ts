@@ -653,7 +653,14 @@ export function createGatewayHttpServer(opts: {
         },
         {
           name: "slack",
-          run: () => handleSlackHttpRequest(req, res),
+          run: async () => {
+            try {
+              return (await handleSlackHttpRequest(req, res)) ?? false;
+            } catch (err) {
+              // Slack integration may be missing in some builds or not configured.
+              return false;
+            }
+          },
         },
       ];
       if (openResponsesEnabled) {
@@ -775,7 +782,8 @@ export function createGatewayHttpServer(opts: {
       res.statusCode = 404;
       res.setHeader("Content-Type", "text/plain; charset=utf-8");
       res.end("Not Found");
-    } catch {
+    } catch (err) {
+      console.error("[gateway] HTTP request handler error:", err);
       res.statusCode = 500;
       res.setHeader("Content-Type", "text/plain; charset=utf-8");
       res.end("Internal Server Error");

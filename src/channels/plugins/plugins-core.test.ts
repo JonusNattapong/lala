@@ -184,7 +184,7 @@ describe("channel plugin catalog", () => {
     const ids = listChannelPluginCatalogEntries({
       env: {
         ...process.env,
-        OPENCLAW_PLUGIN_CATALOG_PATHS: "~/catalog.json",
+        LALA_PLUGIN_CATALOG_PATHS: "~/catalog.json",
         HOME: home,
       },
     }).map((entry) => entry.id);
@@ -222,7 +222,7 @@ describe("channel plugin catalog", () => {
     const ids = listChannelPluginCatalogEntries({
       env: {
         ...process.env,
-        OPENCLAW_STATE_DIR: stateDir,
+        LALA_STATE_DIR: stateDir,
         CLAWDBOT_STATE_DIR: undefined,
       },
     }).map((entry) => entry.id);

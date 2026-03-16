@@ -12,6 +12,7 @@ import type {
   TailscaleMode,
 } from "../../commands/onboard-types.js";
 import { onboardCommand } from "../../commands/onboard.js";
+import { onboardWebCommand } from "../../commands/onboard-web.js";
 import { defaultRuntime } from "../../runtime.js";
 import { formatDocsLink } from "../../terminal/links.js";
 import { theme } from "../../terminal/theme.js";
@@ -124,8 +125,38 @@ export function registerOnboardCommand(program: Command) {
     .option("--skip-ui", "Skip Control UI/TUI prompts")
     .option("--node-manager <name>", "Node manager for skills: npm|pnpm|bun")
     .option("--json", "Output JSON summary", false);
+ 
+  command
+    .command("web")
+    .description("Start the web-based onboarding wizard")
+    .option("--port <port>", "Gateway port")
+    .option("--no-open", "Print onboarding URL without opening a browser")
+    .option("--mode <mode>", "Onboarding mode: local|remote")
+    .option("--workspace <dir>", "Workspace directory for local onboarding")
+    .action(async (opts: { port?: string; open?: boolean }, commandRuntime: any) => {
+      await runCommandWithRuntime(defaultRuntime, async () => {
+        const mergedOpts = {
+          ...(typeof commandRuntime?.optsWithGlobals === "function"
+            ? commandRuntime.optsWithGlobals()
+            : {}),
+          ...opts,
+        };
+        const port =
+          typeof mergedOpts.port === "string" ? Number.parseInt(mergedOpts.port, 10) : undefined;
+        await onboardWebCommand(defaultRuntime, {
+          port,
+          noOpen: mergedOpts.open === false,
+          mode:
+            mergedOpts.mode === "local" || mergedOpts.mode === "remote"
+              ? mergedOpts.mode
+              : undefined,
+          workspace:
+            typeof mergedOpts.workspace === "string" ? mergedOpts.workspace : undefined,
+        });
+      });
+    });
 
-  command.action(async (opts, commandRuntime) => {
+  command.action(async (opts: any, commandRuntime: any) => {
     await runCommandWithRuntime(defaultRuntime, async () => {
       const installDaemon = resolveInstallDaemonFlag(commandRuntime, {
         installDaemon: Boolean(opts.installDaemon),

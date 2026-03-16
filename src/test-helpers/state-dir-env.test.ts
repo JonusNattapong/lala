@@ -15,13 +15,13 @@ type EnvSnapshot = {
 
 function snapshotCurrentStateDirVars(): EnvSnapshot {
   return {
-    lala: process.env.OPENCLAW_STATE_DIR,
+    lala: process.env.LALA_STATE_DIR,
     legacy: process.env.CLAWDBOT_STATE_DIR,
   };
 }
 
 function expectStateDirVars(snapshot: EnvSnapshot) {
-  expect(process.env.OPENCLAW_STATE_DIR).toBe(snapshot.lala);
+  expect(process.env.LALA_STATE_DIR).toBe(snapshot.lala);
   expect(process.env.CLAWDBOT_STATE_DIR).toBe(snapshot.legacy);
 }
 
@@ -40,12 +40,12 @@ async function expectStateDirEnvRestored(params: {
 }
 
 describe("state-dir-env helpers", () => {
-  it("set/snapshot/restore round-trips OPENCLAW_STATE_DIR", () => {
+  it("set/snapshot/restore round-trips LALA_STATE_DIR", () => {
     const prev = snapshotCurrentStateDirVars();
     const snapshot = snapshotStateDirEnv();
 
     setStateDirEnv("/tmp/lala-state-dir-test");
-    expect(process.env.OPENCLAW_STATE_DIR).toBe("/tmp/lala-state-dir-test");
+    expect(process.env.LALA_STATE_DIR).toBe("/tmp/lala-state-dir-test");
     expect(process.env.CLAWDBOT_STATE_DIR).toBeUndefined();
 
     restoreStateDirEnv(snapshot);
@@ -60,7 +60,7 @@ describe("state-dir-env helpers", () => {
     await withStateDirEnv("lala-state-dir-env-", async ({ tempRoot, stateDir }) => {
       capturedTempRoot = tempRoot;
       capturedStateDir = stateDir;
-      expect(process.env.OPENCLAW_STATE_DIR).toBe(stateDir);
+      expect(process.env.LALA_STATE_DIR).toBe(stateDir);
       expect(process.env.CLAWDBOT_STATE_DIR).toBeUndefined();
       await fs.writeFile(path.join(stateDir, "probe.txt"), "ok", "utf8");
     });
@@ -86,7 +86,7 @@ describe("state-dir-env helpers", () => {
 
   it("withStateDirEnv restores both env vars when legacy var was previously set", async () => {
     const testSnapshot = snapshotStateDirEnv();
-    process.env.OPENCLAW_STATE_DIR = "/tmp/original-lala";
+    process.env.LALA_STATE_DIR = "/tmp/original-lala";
     process.env.CLAWDBOT_STATE_DIR = "/tmp/original-legacy";
     const prev = snapshotCurrentStateDirVars();
 
@@ -96,7 +96,7 @@ describe("state-dir-env helpers", () => {
       await withStateDirEnv("lala-state-dir-env-", async ({ tempRoot, stateDir }) => {
         capturedTempRoot = tempRoot;
         capturedStateDir = stateDir;
-        expect(process.env.OPENCLAW_STATE_DIR).toBe(stateDir);
+        expect(process.env.LALA_STATE_DIR).toBe(stateDir);
         expect(process.env.CLAWDBOT_STATE_DIR).toBeUndefined();
       });
 

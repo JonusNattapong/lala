@@ -30,12 +30,12 @@ By default the container is **not** installed as a systemd service, you start it
 ./setup-podman.sh --quadlet
 ```
 
-(Or set `OPENCLAW_PODMAN_QUADLET=1`; use `--container` to install only the container and launch script.)
+(Or set `LALA_PODMAN_QUADLET=1`; use `--container` to install only the container and launch script.)
 
 Optional build-time env vars (set before running `setup-podman.sh`):
 
-- `OPENCLAW_DOCKER_APT_PACKAGES` — install extra apt packages during image build
-- `OPENCLAW_EXTENSIONS` — pre-install extension dependencies (space-separated extension names, e.g. `diagnostics-otel matrix`)
+- `LALA_DOCKER_APT_PACKAGES` — install extra apt packages during image build
+- `LALA_EXTENSIONS` — pre-install extension dependencies (space-separated extension names, e.g. `diagnostics-otel matrix`)
 
 **2. Start gateway** (manual, for quick smoke testing):
 
@@ -53,7 +53,7 @@ Then open `http://127.0.0.1:18789/` and use the token from `~lala/.lala/.env` (o
 
 ## Systemd (Quadlet, optional)
 
-If you ran `./setup-podman.sh --quadlet` (or `OPENCLAW_PODMAN_QUADLET=1`), a [Podman Quadlet](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html) unit is installed so the gateway runs as a systemd user service for the lala user. The service is enabled and started at the end of setup.
+If you ran `./setup-podman.sh --quadlet` (or `LALA_PODMAN_QUADLET=1`), a [Podman Quadlet](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html) unit is installed so the gateway runs as a systemd user service for the lala user. The service is enabled and started at the end of setup.
 
 - **Start:** `sudo systemctl --machine lala@ --user start lala.service`
 - **Stop:** `sudo systemctl --machine lala@ --user stop lala.service`
@@ -87,15 +87,15 @@ To add quadlet **after** an initial setup that did not use it, re-run: `./setup-
 
 ## Environment and config
 
-- **Token:** Stored in `~lala/.lala/.env` as `OPENCLAW_GATEWAY_TOKEN`. `setup-podman.sh` and `run-lala-podman.sh` generate it if missing (uses `openssl`, `python3`, or `od`).
+- **Token:** Stored in `~lala/.lala/.env` as `LALA_GATEWAY_TOKEN`. `setup-podman.sh` and `run-lala-podman.sh` generate it if missing (uses `openssl`, `python3`, or `od`).
 - **Optional:** In that `.env` you can set provider keys (e.g. `GROQ_API_KEY`, `OLLAMA_API_KEY`) and other Lala env vars.
-- **Host ports:** By default the script maps `18789` (gateway) and `18790` (bridge). Override the **host** port mapping with `OPENCLAW_PODMAN_GATEWAY_HOST_PORT` and `OPENCLAW_PODMAN_BRIDGE_HOST_PORT` when launching.
-- **Gateway bind:** By default, `run-lala-podman.sh` starts the gateway with `--bind loopback` for safe local access. To expose on LAN, set `OPENCLAW_GATEWAY_BIND=lan` and configure `gateway.controlUi.allowedOrigins` (or explicitly enable host-header fallback) in `lala.json`.
-- **Paths:** Host config and workspace default to `~lala/.lala` and `~lala/.lala/workspace`. Override the host paths used by the launch script with `OPENCLAW_CONFIG_DIR` and `OPENCLAW_WORKSPACE_DIR`.
+- **Host ports:** By default the script maps `18789` (gateway) and `18790` (bridge). Override the **host** port mapping with `LALA_PODMAN_GATEWAY_HOST_PORT` and `LALA_PODMAN_BRIDGE_HOST_PORT` when launching.
+- **Gateway bind:** By default, `run-lala-podman.sh` starts the gateway with `--bind loopback` for safe local access. To expose on LAN, set `LALA_GATEWAY_BIND=lan` and configure `gateway.controlUi.allowedOrigins` (or explicitly enable host-header fallback) in `lala.json`.
+- **Paths:** Host config and workspace default to `~lala/.lala` and `~lala/.lala/workspace`. Override the host paths used by the launch script with `LALA_CONFIG_DIR` and `LALA_WORKSPACE_DIR`.
 
 ## Storage model
 
-- **Persistent host data:** `OPENCLAW_CONFIG_DIR` and `OPENCLAW_WORKSPACE_DIR` are bind-mounted into the container and retain state on the host.
+- **Persistent host data:** `LALA_CONFIG_DIR` and `LALA_WORKSPACE_DIR` are bind-mounted into the container and retain state on the host.
 - **Ephemeral sandbox tmpfs:** if you enable `agents.defaults.sandbox`, the tool sandbox containers mount `tmpfs` at `/tmp`, `/var/tmp`, and `/run`. Those paths are memory-backed and disappear with the sandbox container; the top-level Podman container setup does not add its own tmpfs mounts.
 - **Disk growth hotspots:** the main paths to watch are `media/`, `agents/<agentId>/sessions/sessions.json`, transcript JSONL files, `cron/runs/*.jsonl`, and rolling file logs under `/tmp/lala/` (or your configured `logging.file`).
 
@@ -110,7 +110,7 @@ To add quadlet **after** an initial setup that did not use it, re-run: `./setup-
 
 ## Troubleshooting
 
-- **Permission denied (EACCES) on config or auth-profiles:** The container defaults to `--userns=keep-id` and runs as the same uid/gid as the host user running the script. Ensure your host `OPENCLAW_CONFIG_DIR` and `OPENCLAW_WORKSPACE_DIR` are owned by that user.
+- **Permission denied (EACCES) on config or auth-profiles:** The container defaults to `--userns=keep-id` and runs as the same uid/gid as the host user running the script. Ensure your host `LALA_CONFIG_DIR` and `LALA_WORKSPACE_DIR` are owned by that user.
 - **Gateway start blocked (missing `gateway.mode=local`):** Ensure `~lala/.lala/lala.json` exists and sets `gateway.mode="local"`. `setup-podman.sh` creates this file if missing.
 - **Rootless Podman fails for user lala:** Check `/etc/subuid` and `/etc/subgid` contain a line for `lala` (e.g. `lala:100000:65536`). Add it if missing and restart.
 - **Container name in use:** The launch script uses `podman run --replace`, so the existing container is replaced when you start again. To clean up manually: `podman rm -f lala`.
@@ -119,4 +119,4 @@ To add quadlet **after** an initial setup that did not use it, re-run: `./setup-
 
 ## Optional: run as your own user
 
-To run the gateway as your normal user (no dedicated lala user): build the image, create `~/.lala/.env` with `OPENCLAW_GATEWAY_TOKEN`, and run the container with `--userns=keep-id` and mounts to your `~/.lala`. The launch script is designed for the lala-user flow; for a single-user setup you can instead run the `podman run` command from the script manually, pointing config and workspace to your home. Recommended for most users: use `setup-podman.sh` and run as the lala user so config and process are isolated.
+To run the gateway as your normal user (no dedicated lala user): build the image, create `~/.lala/.env` with `LALA_GATEWAY_TOKEN`, and run the container with `--userns=keep-id` and mounts to your `~/.lala`. The launch script is designed for the lala-user flow; for a single-user setup you can instead run the `podman run` command from the script manually, pointing config and workspace to your home. Recommended for most users: use `setup-podman.sh` and run as the lala user so config and process are isolated.

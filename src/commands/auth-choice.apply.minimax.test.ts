@@ -11,8 +11,8 @@ import {
 
 describe("applyAuthChoiceMiniMax", () => {
   const lifecycle = createAuthTestLifecycle([
-    "OPENCLAW_STATE_DIR",
-    "OPENCLAW_AGENT_DIR",
+    "LALA_STATE_DIR",
+    "LALA_AGENT_DIR",
     "PI_CODING_AGENT_DIR",
     "MINIMAX_API_KEY",
     "MINIMAX_OAUTH_TOKEN",

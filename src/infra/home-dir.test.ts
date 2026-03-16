@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import { expandHomePrefix, resolveEffectiveHomeDir, resolveRequiredHomeDir } from "./home-dir.js";
 
 describe("resolveEffectiveHomeDir", () => {
-  it("prefers LALA_HOME then OPENCLAW_HOME over HOME and USERPROFILE", () => {
+  it("prefers LALA_HOME then LALA_HOME over HOME and USERPROFILE", () => {
     const envWithLala = {
       LALA_HOME: "/srv/lala-home-new",
-      OPENCLAW_HOME: "/srv/lala-home-old",
+      LALA_HOME: "/srv/lala-home-old",
       HOME: "/home/other",
       USERPROFILE: "C:/Users/other",
     } as NodeJS.ProcessEnv;
@@ -16,7 +16,7 @@ describe("resolveEffectiveHomeDir", () => {
     );
 
     const envWithOpenClaw = {
-      OPENCLAW_HOME: "/srv/lala-home-old",
+      LALA_HOME: "/srv/lala-home-old",
       HOME: "/home/other",
     } as NodeJS.ProcessEnv;
 
@@ -37,7 +37,7 @@ describe("resolveEffectiveHomeDir", () => {
     );
   });
 
-  it("expands LALA_HOME or OPENCLAW_HOME when set to ~", () => {
+  it("expands LALA_HOME or LALA_HOME when set to ~", () => {
     const envLala = {
       LALA_HOME: "~/svc",
       HOME: "/home/alice",
@@ -46,7 +46,7 @@ describe("resolveEffectiveHomeDir", () => {
     expect(resolveEffectiveHomeDir(envLala)).toBe(path.resolve("/home/alice/svc"));
 
     const envOpenClaw = {
-      OPENCLAW_HOME: "~/svc",
+      LALA_HOME: "~/svc",
       HOME: "/home/alice",
     } as NodeJS.ProcessEnv;
 
@@ -63,26 +63,26 @@ describe("resolveRequiredHomeDir", () => {
     ).toBe(process.cwd());
   });
 
-  it("returns a fully resolved path for LALA_HOME or OPENCLAW_HOME", () => {
+  it("returns a fully resolved path for LALA_HOME or LALA_HOME", () => {
     expect(
       resolveRequiredHomeDir({ LALA_HOME: "/custom/home" } as NodeJS.ProcessEnv, () => "/fallback"),
     ).toBe(path.resolve("/custom/home"));
     expect(
       resolveRequiredHomeDir(
-        { OPENCLAW_HOME: "/custom/home" } as NodeJS.ProcessEnv,
+        { LALA_HOME: "/custom/home" } as NodeJS.ProcessEnv,
         () => "/fallback",
       ),
     ).toBe(path.resolve("/custom/home"));
   });
 
-  it("returns cwd when LALA_HOME or OPENCLAW_HOME is tilde-only and no fallback home exists", () => {
+  it("returns cwd when LALA_HOME or LALA_HOME is tilde-only and no fallback home exists", () => {
     expect(
       resolveRequiredHomeDir({ LALA_HOME: "~" } as NodeJS.ProcessEnv, () => {
         throw new Error("no home");
       }),
     ).toBe(process.cwd());
     expect(
-      resolveRequiredHomeDir({ OPENCLAW_HOME: "~" } as NodeJS.ProcessEnv, () => {
+      resolveRequiredHomeDir({ LALA_HOME: "~" } as NodeJS.ProcessEnv, () => {
         throw new Error("no home");
       }),
     ).toBe(process.cwd());

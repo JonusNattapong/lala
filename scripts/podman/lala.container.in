@@ -1,6 +1,6 @@
 # Lala gateway — Podman Quadlet (rootless)
 # Installed by setup-podman.sh into lala's ~/.config/containers/systemd/
-# {{OPENCLAW_HOME}} is replaced at install time.
+# {{LALA_HOME}} is replaced at install time.
 
 [Unit]
 Description=Lala gateway (rootless Podman)
@@ -11,8 +11,8 @@ ContainerName=lala
 UserNS=keep-id
 # Keep container UID/GID aligned with the invoking user so mounted config is readable.
 User=%U:%G
-Volume={{OPENCLAW_HOME}}/.lala:/home/node/.lala:Z
-EnvironmentFile={{OPENCLAW_HOME}}/.lala/.env
+Volume={{LALA_HOME}}/.lala:/home/node/.lala:Z
+EnvironmentFile={{LALA_HOME}}/.lala/.env
 Environment=HOME=/home/node
 Environment=TERM=xterm-256color
 PublishPort=18789:18789

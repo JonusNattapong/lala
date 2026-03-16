@@ -12,7 +12,7 @@ This guide migrates a Lala Gateway from one machine to another **without redoing
 
 The migration is simple conceptually:
 
-- Copy the **state directory** (`$OPENCLAW_STATE_DIR`, default: `~/.lala/`) — this includes config, auth, sessions, and channel state.
+- Copy the **state directory** (`$LALA_STATE_DIR`, default: `~/.lala/`) — this includes config, auth, sessions, and channel state.
 - Copy your **workspace** (`~/.lala/workspace/` by default) — this includes your agent files (memory, prompts, etc.).
 
 But there are common footguns around **profiles**, **permissions**, and **partial copies**.
@@ -28,7 +28,7 @@ Most installs use the default:
 But it may be different if you use:
 
 - `--profile <name>` (often becomes `~/.lala-<profile>/`)
-- `OPENCLAW_STATE_DIR=/some/path`
+- `LALA_STATE_DIR=/some/path`
 
 If you’re not sure, run on the **old** machine:
 
@@ -36,7 +36,7 @@ If you’re not sure, run on the **old** machine:
 lala status
 ```
 
-Look for mentions of `OPENCLAW_STATE_DIR` / profile in the output. If you run multiple gateways, repeat for each profile.
+Look for mentions of `LALA_STATE_DIR` / profile in the output. If you run multiple gateways, repeat for each profile.
 
 ### 2) Identify your workspace
 
@@ -63,7 +63,7 @@ If you copy **only** the workspace (e.g., via Git), you do **not** preserve:
 - credentials
 - channel logins
 
-Those live under `$OPENCLAW_STATE_DIR`.
+Those live under `$LALA_STATE_DIR`.
 
 ## Migration steps (recommended)
 
@@ -99,7 +99,7 @@ At this stage, it’s OK if onboarding creates a fresh `~/.lala/` — you will o
 
 Copy **both**:
 
-- `$OPENCLAW_STATE_DIR` (default `~/.lala/`)
+- `$LALA_STATE_DIR` (default `~/.lala/`)
 - your workspace (default `~/.lala/workspace/`)
 
 Common approaches:
@@ -134,7 +134,7 @@ lala status
 
 ### Footgun: profile / state-dir mismatch
 
-If you ran the old gateway with a profile (or `OPENCLAW_STATE_DIR`), and the new gateway uses a different one, you’ll see symptoms like:
+If you ran the old gateway with a profile (or `LALA_STATE_DIR`), and the new gateway uses a different one, you’ll see symptoms like:
 
 - config changes not taking effect
 - channels missing / logged out
@@ -150,10 +150,10 @@ lala doctor
 
 `lala.json` is not enough. Many providers store state under:
 
-- `$OPENCLAW_STATE_DIR/credentials/`
-- `$OPENCLAW_STATE_DIR/agents/<agentId>/...`
+- `$LALA_STATE_DIR/credentials/`
+- `$LALA_STATE_DIR/agents/<agentId>/...`
 
-Always migrate the entire `$OPENCLAW_STATE_DIR` folder.
+Always migrate the entire `$LALA_STATE_DIR` folder.
 
 ### Footgun: permissions / ownership
 
@@ -170,7 +170,7 @@ If you’re in remote mode, migrate the **gateway host**.
 
 ### Footgun: secrets in backups
 
-`$OPENCLAW_STATE_DIR` contains secrets (API keys, OAuth tokens, WhatsApp creds). Treat backups like production secrets:
+`$LALA_STATE_DIR` contains secrets (API keys, OAuth tokens, WhatsApp creds). Treat backups like production secrets:
 
 - store encrypted
 - avoid sharing over insecure channels

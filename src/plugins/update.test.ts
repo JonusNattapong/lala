@@ -248,7 +248,7 @@ describe("syncPluginsForUpdateChannel", () => {
 
   it("forwards an explicit env to bundled plugin source resolution", async () => {
     resolveBundledPluginSourcesMock.mockReturnValue(new Map());
-    const env = { OPENCLAW_HOME: "/srv/lala-home" } as NodeJS.ProcessEnv;
+    const env = { LALA_HOME: "/srv/lala-home" } as NodeJS.ProcessEnv;
 
     const { syncPluginsForUpdateChannel } = await import("./update.js");
     await syncPluginsForUpdateChannel({
@@ -287,7 +287,7 @@ describe("syncPluginsForUpdateChannel", () => {
         channel: "beta",
         env: {
           ...process.env,
-          OPENCLAW_HOME: bundledHome,
+          LALA_HOME: bundledHome,
           HOME: "/tmp/ignored-home",
         },
         config: {

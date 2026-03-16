@@ -61,8 +61,8 @@ incompatible, update the global CLI to match the app version.
 ```bash
 lala --version
 
-OPENCLAW_SKIP_CHANNELS=1 \
-OPENCLAW_SKIP_CANVAS_HOST=1 \
+LALA_SKIP_CHANNELS=1 \
+LALA_SKIP_CANVAS_HOST=1 \
 lala gateway --port 18999 --bind loopback
 ```
 

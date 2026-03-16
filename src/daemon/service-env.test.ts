@@ -273,7 +273,7 @@ describe("buildServiceEnvironment", () => {
     }
     expect(env.LALA_GATEWAY_PORT).toBe("18789");
     expect(env.LALABOT_GATEWAY_PORT).toBe("18789");
-    expect(env.OPENCLAW_GATEWAY_PORT).toBe("18789");
+    expect(env.LALA_GATEWAY_PORT).toBe("18789");
     expect(env.LALA_GATEWAY_TOKEN).toBeUndefined();
     expect(env.LALA_SERVICE_MARKER).toBe("lala");
     expect(env.LALA_SERVICE_KIND).toBe("gateway");
@@ -362,7 +362,7 @@ describe("buildNodeServiceEnvironment", () => {
     });
     expect(env.LALA_GATEWAY_TOKEN).toBe("node-token");
     expect(env.LALABOT_GATEWAY_TOKEN).toBe("node-token");
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBe("node-token");
+    expect(env.LALA_GATEWAY_TOKEN).toBe("node-token");
   });
 
   it("maps legacy CLAWDBOT_GATEWAY_TOKEN to LALA_GATEWAY_TOKEN for node services", () => {

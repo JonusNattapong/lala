@@ -211,7 +211,7 @@ lala channels logs --channel whatsapp
 环境变量覆盖（一次性）：
 
 ```
-OPENCLAW_DIAGNOSTICS=telegram.http,telegram.payload
+LALA_DIAGNOSTICS=telegram.http,telegram.payload
 ```
 
 注意：

@@ -660,7 +660,7 @@ export {
   looksLikeDiscordTargetId,
   normalizeDiscordMessagingTarget,
   normalizeDiscordOutboundTarget,
-} from "../discord/target-normalization.js";
+} from "../channels/plugins/normalize/discord.js";
 
 // Channel: Telegram
 export {

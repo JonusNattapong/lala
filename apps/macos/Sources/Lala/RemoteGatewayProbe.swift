@@ -56,11 +56,11 @@ enum RemoteGatewayAuthIssue: Equatable {
     var body: String {
         switch self {
         case .tokenRequired:
-            "Paste the token configured on the gateway host. On the gateway host, run `lala config get gateway.auth.token`. If the gateway uses an environment variable instead, use `OPENCLAW_GATEWAY_TOKEN`."
+            "Paste the token configured on the gateway host. On the gateway host, run `lala config get gateway.auth.token`. If the gateway uses an environment variable instead, use `LALA_GATEWAY_TOKEN`."
         case .tokenMismatch:
-            "Check `gateway.auth.token` or `OPENCLAW_GATEWAY_TOKEN` on the gateway host and try again."
+            "Check `gateway.auth.token` or `LALA_GATEWAY_TOKEN` on the gateway host and try again."
         case .gatewayTokenNotConfigured:
-            "This gateway is set to token auth, but no `gateway.auth.token` is configured on the gateway host. If the gateway uses an environment variable instead, set `OPENCLAW_GATEWAY_TOKEN` before starting the gateway."
+            "This gateway is set to token auth, but no `gateway.auth.token` is configured on the gateway host. If the gateway uses an environment variable instead, set `LALA_GATEWAY_TOKEN` before starting the gateway."
         case .passwordRequired:
             "This onboarding flow does not support password auth yet. Reconfigure the gateway to use token auth, then retry."
         case .pairingRequired:
@@ -84,7 +84,7 @@ enum RemoteGatewayAuthIssue: Equatable {
         case .tokenRequired:
             "This gateway requires an auth token from the gateway host."
         case .tokenMismatch:
-            "Gateway token mismatch. Check gateway.auth.token or OPENCLAW_GATEWAY_TOKEN on the gateway host."
+            "Gateway token mismatch. Check gateway.auth.token or LALA_GATEWAY_TOKEN on the gateway host."
         case .gatewayTokenNotConfigured:
             "This gateway has token auth enabled, but no gateway.auth.token is configured on the host."
         case .passwordRequired:

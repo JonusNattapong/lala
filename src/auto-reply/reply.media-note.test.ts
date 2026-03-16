@@ -24,7 +24,7 @@ async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
     },
     {
       env: {
-        OPENCLAW_BUNDLED_SKILLS_DIR: (home) => path.join(home, "bundled-skills"),
+        LALA_BUNDLED_SKILLS_DIR: (home) => path.join(home, "bundled-skills"),
       },
       prefix: "lala-media-note-",
     },

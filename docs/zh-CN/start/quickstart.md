@@ -74,8 +74,8 @@ lala onboard --install-daemon
 ## 多实例快速开始（可选）
 
 ```bash
-OPENCLAW_CONFIG_PATH=~/.lala/a.json \
-OPENCLAW_STATE_DIR=~/.lala-a \
+LALA_CONFIG_PATH=~/.lala/a.json \
+LALA_STATE_DIR=~/.lala-a \
 lala gateway --port 19001
 ```
 

@@ -89,7 +89,7 @@ export function readGatewayTokenEnv(
     [
       "LALA_GATEWAY_TOKEN",
       "LALABOT_GATEWAY_TOKEN",
-      "OPENCLAW_GATEWAY_TOKEN",
+      "LALA_GATEWAY_TOKEN",
       "CLAWDBOT_GATEWAY_TOKEN",
     ],
     includeLegacyEnv,
@@ -105,7 +105,7 @@ export function readGatewayPasswordEnv(
     [
       "LALA_GATEWAY_PASSWORD",
       "LALABOT_GATEWAY_PASSWORD",
-      "OPENCLAW_GATEWAY_PASSWORD",
+      "LALA_GATEWAY_PASSWORD",
       "CLAWDBOT_GATEWAY_PASSWORD",
     ],
     includeLegacyEnv,

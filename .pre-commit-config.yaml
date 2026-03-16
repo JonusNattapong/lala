@@ -48,15 +48,15 @@ repos:
           - --exclude-lines
           - 'typeof remote\?\.password === "string"'
           - --exclude-lines
-          - "OPENCLAW_DOCKER_GPG_FINGERPRINT="
+          - "LALA_DOCKER_GPG_FINGERPRINT="
           - --exclude-lines
           - '"secretShape": "(secret_input|sibling_ref)"'
           - --exclude-lines
           - 'API key rotation \(provider-specific\): set `\*_API_KEYS`'
           - --exclude-lines
-          - 'password: `OPENCLAW_GATEWAY_PASSWORD` -> `gateway\.auth\.password` -> `gateway\.remote\.password`'
+          - 'password: `LALA_GATEWAY_PASSWORD` -> `gateway\.auth\.password` -> `gateway\.remote\.password`'
           - --exclude-lines
-          - 'password: `OPENCLAW_GATEWAY_PASSWORD` -> `gateway\.remote\.password` -> `gateway\.auth\.password`'
+          - 'password: `LALA_GATEWAY_PASSWORD` -> `gateway\.remote\.password` -> `gateway\.auth\.password`'
           - --exclude-files
           - '^src/gateway/client\.watchdog\.test\.ts$'
           - --exclude-lines
@@ -93,7 +93,8 @@ repos:
     rev: v1.22.0
     hooks:
       - id: zizmor
-        args: [--persona=regular, --min-severity=medium, --min-confidence=medium]
+        args:
+          [--persona=regular, --min-severity=medium, --min-confidence=medium]
         exclude: "^(vendor/|Swabble/)"
 
   # Python checks for skills scripts

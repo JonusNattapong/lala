@@ -74,7 +74,7 @@ function candidateBinDirs(opts: EnsureLalaPathOpts): { prepend: string[]; append
   const allowProjectLocalBin =
     opts.allowProjectLocalBin === true ||
     isTruthyEnvValue(
-      process.env.LALA_ALLOW_PROJECT_LOCAL_BIN ?? process.env.OPENCLAW_ALLOW_PROJECT_LOCAL_BIN,
+      process.env.LALA_ALLOW_PROJECT_LOCAL_BIN ?? process.env.LALA_ALLOW_PROJECT_LOCAL_BIN,
     );
   if (allowProjectLocalBin) {
     const localBinDir = path.join(cwd, "node_modules", ".bin");
@@ -113,12 +113,12 @@ function candidateBinDirs(opts: EnsureLalaPathOpts): { prepend: string[]; append
  */
 export function ensureLalaCliOnPath(opts: EnsureLalaPathOpts = {}) {
   if (
-    isTruthyEnvValue(process.env.LALA_PATH_BOOTSTRAPPED ?? process.env.OPENCLAW_PATH_BOOTSTRAPPED)
+    isTruthyEnvValue(process.env.LALA_PATH_BOOTSTRAPPED ?? process.env.LALA_PATH_BOOTSTRAPPED)
   ) {
     return;
   }
   process.env.LALA_PATH_BOOTSTRAPPED = "1";
-  process.env.OPENCLAW_PATH_BOOTSTRAPPED = "1";
+  process.env.LALA_PATH_BOOTSTRAPPED = "1";
 
   const existing = opts.pathEnv ?? process.env.PATH ?? "";
   const { prepend, append } = candidateBinDirs(opts);

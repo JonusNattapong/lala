@@ -274,7 +274,7 @@ async function runAutoUpdateCommand(params: {
       timeoutMs: params.timeoutMs,
       env: {
         LALA_AUTO_UPDATE: "1",
-        OPENCLAW_AUTO_UPDATE: "1",
+        LALA_AUTO_UPDATE: "1",
       },
     });
     return {
