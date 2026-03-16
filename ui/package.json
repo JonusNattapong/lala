@@ -1,6 +1,6 @@
 {
   "name": "lala-control-ui",
-  "version": "2026.3.13",
+  "version": "2026.3.16-beta.1",
   "private": true,
   "type": "module",
   "scripts": {

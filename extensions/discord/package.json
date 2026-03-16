@@ -1,6 +1,6 @@
 {
   "name": "@lala/discord",
-  "version": "2026.3.11",
+  "version": "2026.3.16-beta.1",
   "description": "lala Discord channel plugin",
   "type": "module",
   "lala": {

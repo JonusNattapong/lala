@@ -34,15 +34,27 @@
 
 ## Recommended: Onboarding Wizard
 
-The fastest way to get started is the onboarding wizard. It will help you set up your workspace, channels, and initial skills.
+The fastest way to get started is the onboarding wizard. It helps you set up your workspace, model, channels, security defaults, and initial skills.
 
 ```bash
 # Install globally
 npm install -g lala
 
-# Run the wizard
+# Run the terminal wizard
 lala onboard --install-daemon
 ```
+
+Prefer a browser-based flow instead of answering prompts in the terminal?
+
+```bash
+# Start the gateway first
+lala gateway run
+
+# Launch the guided web setup
+lala onboard web
+```
+
+Use `lala onboard` when you want the simplest first-run path. Use `lala onboard web` when you want the same setup flow through the Control UI.
 
 ## Quick Start (CLI)
 

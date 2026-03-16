@@ -1,6 +1,6 @@
 {
   "name": "@lala/line",
-  "version": "2026.3.11",
+  "version": "2026.3.16-beta.1",
   "private": true,
   "description": "lala LINE channel plugin",
   "type": "module",
