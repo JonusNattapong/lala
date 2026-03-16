@@ -26,11 +26,12 @@ Positional:
 - owner/repo — optional. This is the source repo to fetch issues from. If omitted, detect from the current git remote:
   `git remote get-url origin`
   Extract owner/repo from the URL (handles both HTTPS and SSH formats).
-  - HTTPS: https://github.com/owner/repo.git → owner/repo
-  - SSH: git@github.com:owner/repo.git → owner/repo
+  - HTTPS: <https://github.com/owner/repo.git> → owner/repo
+  - SSH: <git@github.com>:owner/repo.git → owner/repo
     If not in a git repo or no remote found, stop with an error asking the user to specify owner/repo.
 
 Flags (all optional):
+
 | Flag | Default | Description |
 |------|---------|-------------|
 | --label | _(none)_ | Filter by label (e.g. bug, `enhancement`) |
@@ -81,10 +82,10 @@ If empty, read from config:
 cat ~/.lala/lala.json | jq -r '.skills.entries["gh-issues"].apiKey // empty'
 ```
 
-If still empty, check `/data/.clawdbot/lala.json`:
+If still empty, check `/data/.lalabot/lala.json`:
 
 ```
-cat /data/.clawdbot/lala.json | jq -r '.skills.entries["gh-issues"].apiKey // empty'
+cat /data/.lalabot/lala.json | jq -r '.skills.entries["gh-issues"].apiKey // empty'
 ```
 
 Export as GH_TOKEN for subsequent commands:
@@ -183,14 +184,19 @@ Run these checks sequentially via exec:
 3. **Verify remote access:**
    If FORK_MODE:
    - Verify the fork remote exists. Check if a git remote named `fork` exists:
+
      ```
      git remote get-url fork
      ```
+
      If it doesn't exist, add it:
+
      ```
      git remote add fork https://x-access-token:$GH_TOKEN@github.com/{PUSH_REPO}.git
      ```
+
    - Also verify origin (the source repo) is reachable:
+
      ```
      git ls-remote --exit-code origin HEAD
      ```
@@ -251,9 +257,9 @@ Run these checks sequentially via exec:
    Read the claims file (create empty `{}` if missing):
 
    ```
-   CLAIMS_FILE="/data/.clawdbot/gh-issues-claims.json"
+   CLAIMS_FILE="/data/.lalabot/gh-issues-claims.json"
    if [ ! -f "$CLAIMS_FILE" ]; then
-     mkdir -p /data/.clawdbot
+     mkdir -p /data/.lalabot
      echo '{}' > "$CLAIMS_FILE"
    fi
    ```
@@ -286,7 +292,7 @@ Run these checks sequentially via exec:
 - **Sequential cursor tracking:** Use a cursor file to track which issue to process next:
 
   ```
-  CURSOR_FILE="/data/.clawdbot/gh-issues-cursor-{SOURCE_REPO_SLUG}.json"
+  CURSOR_FILE="/data/.lalabot/gh-issues-cursor-{SOURCE_REPO_SLUG}.json"
   # SOURCE_REPO_SLUG = owner-repo with slashes replaced by hyphens (e.g., lala-lala)
   ```
 
@@ -345,7 +351,7 @@ You are a focused code-fix agent. Your task is to fix a single GitHub issue and 
 IMPORTANT: Do NOT use the gh CLI — it is not installed. Use curl with the GitHub REST API for all GitHub operations.
 
 First, ensure GH_TOKEN is set. Check: `echo $GH_TOKEN`. If empty, read from config:
-GH_TOKEN=$(cat ~/.lala/lala.json 2>/dev/null | jq -r '.skills.entries["gh-issues"].apiKey // empty') || GH_TOKEN=$(cat /data/.clawdbot/lala.json 2>/dev/null | jq -r '.skills.entries["gh-issues"].apiKey // empty')
+GH_TOKEN=$(cat ~/.lala/lala.json 2>/dev/null | jq -r '.skills.entries["gh-issues"].apiKey // empty') || GH_TOKEN=$(cat /data/.lalabot/lala.json 2>/dev/null | jq -r '.skills.entries["gh-issues"].apiKey // empty')
 
 Use the token in all GitHub API calls:
 curl -s -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" ...
@@ -374,7 +380,7 @@ Follow these steps in order. If any step fails, report the failure and stop.
 0. SETUP — Ensure GH_TOKEN is available:
 ```
 
-export GH_TOKEN=$(node -e "const fs=require('fs'); const c=JSON.parse(fs.readFileSync('/data/.clawdbot/lala.json','utf8')); console.log(c.skills?.entries?.['gh-issues']?.apiKey || '')")
+export GH_TOKEN=$(node -e "const fs=require('fs'); const c=JSON.parse(fs.readFileSync('/data/.lalabot/lala.json','utf8')); console.log(c.skills?.entries?.['gh-issues']?.apiKey || '')")
 
 ```
 If that fails, also try:
@@ -491,7 +497,7 @@ Files changed: {files_changed_list}"
 </constraints>
 ```
 
-### Spawn configuration per sub-agent:
+### Spawn configuration per sub-agent
 
 - runTimeoutSeconds: 3600 (60 minutes)
 - cleanup: "keep" (preserve transcripts for review)
@@ -515,7 +521,7 @@ Present a summary table:
 
 | Issue                 | Status    | PR                             | Notes                          |
 | --------------------- | --------- | ------------------------------ | ------------------------------ |
-| #42 Fix null pointer  | PR opened | https://github.com/.../pull/99 | 3 files changed                |
+| #42 Fix null pointer  | PR opened | <https://github.com/.../pull/99> | 3 files changed                |
 | #37 Add retry logic   | Failed    | --                             | Could not identify target code |
 | #15 Update docs       | Timed out | --                             | Too complex for auto-fix       |
 | #8 Fix race condition | Skipped   | --                             | PR already exists              |
@@ -713,7 +719,7 @@ You are a PR review handler agent. Your task is to address review comments on a 
 IMPORTANT: Do NOT use the gh CLI — it is not installed. Use curl with the GitHub REST API for all GitHub operations.
 
 First, ensure GH_TOKEN is set. Check: echo $GH_TOKEN. If empty, read from config:
-GH_TOKEN=$(cat ~/.lala/lala.json 2>/dev/null | jq -r '.skills.entries["gh-issues"].apiKey // empty') || GH_TOKEN=$(cat /data/.clawdbot/lala.json 2>/dev/null | jq -r '.skills.entries["gh-issues"].apiKey // empty')
+GH_TOKEN=$(cat ~/.lala/lala.json 2>/dev/null | jq -r '.skills.entries["gh-issues"].apiKey // empty') || GH_TOKEN=$(cat /data/.lalabot/lala.json 2>/dev/null | jq -r '.skills.entries["gh-issues"].apiKey // empty')
 
 <config>
 Repository: {SOURCE_REPO}
@@ -744,7 +750,7 @@ Follow these steps in order:
 0. SETUP — Ensure GH_TOKEN is available:
 ```
 
-export GH_TOKEN=$(node -e "const fs=require('fs'); const c=JSON.parse(fs.readFileSync('/data/.clawdbot/lala.json','utf8')); console.log(c.skills?.entries?.['gh-issues']?.apiKey || '')")
+export GH_TOKEN=$(node -e "const fs=require('fs'); const c=JSON.parse(fs.readFileSync('/data/.lalabot/lala.json','utf8')); console.log(c.skills?.entries?.['gh-issues']?.apiKey || '')")
 
 ```
 Verify: echo "Token: ${GH_TOKEN:0:10}..."

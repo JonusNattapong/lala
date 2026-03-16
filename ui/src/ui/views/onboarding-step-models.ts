@@ -31,18 +31,17 @@ export function renderOnboardingModelsStep(props: {
     <section class="onboarding-step">
       <div class="onboarding-copy-block">
         <div class="onboarding-copy-block__eyebrow">The brain</div>
-        <h1>AuthChoice becomes a model decision here.</h1>
+        <h1>Pick the model you want to start with.</h1>
         <p>
-          The CLI flow asks for provider auth, then picks a default model. This web step now mirrors
-          that outcome by showing your detected providers and letting you save the actual default
-          model into config.
+          Choose the default model for new chats. If your provider is not ready yet, you can open AI
+          settings and come back here afterward.
         </p>
       </div>
 
       <div class="onboarding-chip-group">
-        <span class="onboarding-chip-group__label">CLI domain:</span>
-        <span class="onboarding-chip">AuthChoice</span>
-        <span class="onboarding-chip">default model</span>
+        <span class="onboarding-chip-group__label">Setup goal:</span>
+        <span class="onboarding-chip">Provider connected</span>
+        <span class="onboarding-chip">Default model saved</span>
       </div>
 
       <div class="onboarding-choice-grid">

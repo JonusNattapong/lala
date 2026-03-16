@@ -58,7 +58,7 @@ describe("onboarding view", () => {
   it("renders the models step copy and action", () => {
     const container = document.createElement("div");
     const state = {
-      settings: { gatewayUrl: "ws://127.0.0.1:18789", themeMode: "dark", theme: "claw" },
+      settings: { gatewayUrl: "ws://127.0.0.1:18789", themeMode: "dark", theme: "lala" },
       configSnapshot: { config: {} },
       channelsSnapshot: null,
     } as unknown as AppViewState;
@@ -72,6 +72,11 @@ describe("onboarding view", () => {
         selectedModelId: null,
         models: [{ id: "gpt-5-mini", name: "GPT-5 Mini", provider: "openai" }],
         modelSaving: false,
+        selectedTheme: "system",
+        selectedSkills: [],
+        skillsSaving: false,
+        securityConfig: { toolProfile: "coding", sandboxMode: false },
+        workspaceConfig: { path: null, personality: null, autoSave: true },
         onStepChange: vi.fn(),
         onProviderChange: vi.fn(),
         onModelChange: vi.fn(),
@@ -79,13 +84,20 @@ describe("onboarding view", () => {
         onOpenAiSettings: vi.fn(),
         onOpenInfrastructureSettings: vi.fn(),
         onOpenChannelSettings: vi.fn(),
+        onThemeChange: vi.fn(),
+        onSkillToggle: vi.fn(),
+        onSkillsSave: vi.fn(),
+        onSecurityChange: vi.fn(),
+        onWorkspaceChange: vi.fn(),
         onFinish: vi.fn(),
         onSkip: vi.fn(),
+        onOpenDashboard: vi.fn(),
+        onStartTutorial: vi.fn(),
       }),
       container,
     );
 
-    expect(container.textContent).toContain("AuthChoice becomes a model decision here.");
+    expect(container.textContent).toContain("Pick the model you want to start with.");
     expect(container.textContent).toContain("GPT-5 Mini");
     expect(container.textContent).toContain("Open AI settings");
   });

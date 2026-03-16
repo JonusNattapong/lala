@@ -79,8 +79,8 @@ describe("restartGatewayProcessWithFreshPid", () => {
 
     delete process.env.LALA_NO_RESPAWN;
     process.env.LALA_NO_RESPAWN = "1";
-    const resultOpenClaw = restartGatewayProcessWithFreshPid();
-    expect(resultOpenClaw.mode).toBe("disabled");
+    const resultLaLa = restartGatewayProcessWithFreshPid();
+    expect(resultLaLa.mode).toBe("disabled");
   });
 
   it("returns supervised when launchd hints are present on macOS (no kickstart)", () => {

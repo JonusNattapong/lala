@@ -17,24 +17,23 @@ function formatStatus(channel: OnboardingChannelState): string {
 export function renderOnboardingChannelsStep(props: {
   channels: OnboardingChannelState[];
   onBack: () => void;
-  onFinish: () => void;
+  onNext: () => void;
   onOpenChannelSettings: () => void;
 }) {
   return html`
     <section class="onboarding-step">
       <div class="onboarding-copy-block">
         <div class="onboarding-copy-block__eyebrow">The hands</div>
-        <h1>ChannelChoice now reflects live channel state.</h1>
+        <h1>Choose how people will reach Lala.</h1>
         <p>
-          The CLI onboarding adapters configure channel-specific auth here. In the web flow we show
-          the real status snapshot so you can see what is already configured and jump to the full
-          channel setup screen when needed.
+          Start in the built-in web chat if you just want to try things. When you are ready, connect
+          messaging channels like Telegram, Slack, or Discord from the full channel settings screen.
         </p>
       </div>
 
       <div class="onboarding-chip-group">
-        <span class="onboarding-chip-group__label">CLI domain:</span>
-        <span class="onboarding-chip">ChannelChoice</span>
+        <span class="onboarding-chip-group__label">Recommended:</span>
+        <span class="onboarding-chip">Start with web chat</span>
       </div>
 
       <div class="onboarding-choice-grid">
@@ -59,14 +58,14 @@ export function renderOnboardingChannelsStep(props: {
       <div class="onboarding-models-panel">
         <div>
           <strong>Need QR codes, tokens, or adapter-specific forms?</strong>
-          <p>Open the channels screen for the real setup controls used by each channel plugin.</p>
+          <p>Open channel settings for the detailed setup screens used by each channel.</p>
         </div>
         <button class="btn" @click=${props.onOpenChannelSettings}>Open channel settings</button>
       </div>
 
       <div class="onboarding-actions">
         <button class="btn" @click=${props.onBack}>Back</button>
-        <button class="btn primary" @click=${props.onFinish}>Finish</button>
+        <button class="btn primary" @click=${props.onNext}>Continue</button>
       </div>
     </section>
   `;

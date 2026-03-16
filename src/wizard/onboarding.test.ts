@@ -400,7 +400,7 @@ describe("runOnboardingWizard", () => {
 
   it("resolves gateway.auth.password SecretRef for local onboarding probe with prioritized env", async () => {
     const prevLala = process.env.LALA_GATEWAY_PASSWORD;
-    const prevOpenClaw = process.env.LALA_GATEWAY_PASSWORD;
+    const prevLaLa = process.env.LALA_GATEWAY_PASSWORD;
     process.env.LALA_GATEWAY_PASSWORD = "lala-ref-password"; // pragma: allowlist secret
     process.env.LALA_GATEWAY_PASSWORD = "legacy-ref-password"; // pragma: allowlist secret
 
@@ -460,10 +460,10 @@ describe("runOnboardingWizard", () => {
       } else {
         process.env.LALA_GATEWAY_PASSWORD = prevLala;
       }
-      if (prevOpenClaw === undefined) {
+      if (prevLaLa === undefined) {
         delete process.env.LALA_GATEWAY_PASSWORD;
       } else {
-        process.env.LALA_GATEWAY_PASSWORD = prevOpenClaw;
+        process.env.LALA_GATEWAY_PASSWORD = prevLaLa;
       }
     }
 

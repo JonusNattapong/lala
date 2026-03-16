@@ -18,12 +18,12 @@ export function resolveIsNixMode(env: NodeJS.ProcessEnv = process.env): boolean 
 export const isNixMode = resolveIsNixMode();
 
 // Support historical (and occasionally misspelled) legacy state dirs.
-const LEGACY_STATE_DIRNAMES = [".lala", ".clawdbot", ".moldbot", ".moltbot"] as const;
+const LEGACY_STATE_DIRNAMES = [".lala", ".lalabot", ".moldbot", ".moltbot"] as const;
 const NEW_STATE_DIRNAME = ".lala";
 const CONFIG_FILENAME = "lala.json";
 const LEGACY_CONFIG_FILENAMES = [
   "lala.json",
-  "clawdbot.json",
+  "lalabot.json",
   "moldbot.json",
   "moltbot.json",
 ] as const;

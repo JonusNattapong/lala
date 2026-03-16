@@ -34,13 +34,13 @@ export async function maybeOfferUpdateBeforeDoctor(params: {
   // Prioritize LALA_ variant, but check LALA_ for backward compatibility.
   // If either is set, ensure both are set for consistency.
   const lalaUpdateInProgress = isTruthyEnvValue(process.env.LALA_UPDATE_IN_PROGRESS);
-  const openclawUpdateInProgress = isTruthyEnvValue(process.env.LALA_UPDATE_IN_PROGRESS);
+  const lalaUpdateInProgress = isTruthyEnvValue(process.env.LALA_UPDATE_IN_PROGRESS);
 
-  if (lalaUpdateInProgress || openclawUpdateInProgress) {
+  if (lalaUpdateInProgress || lalaUpdateInProgress) {
     process.env.LALA_UPDATE_IN_PROGRESS = "1";
     process.env.LALA_UPDATE_IN_PROGRESS = "1";
   }
-  const updateInProgress = lalaUpdateInProgress || openclawUpdateInProgress;
+  const updateInProgress = lalaUpdateInProgress || lalaUpdateInProgress;
 
   const canOfferUpdate =
     !updateInProgress &&

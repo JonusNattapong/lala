@@ -266,7 +266,7 @@ importers:
 
   extensions/telegram: {}
 
-  packages/clawdbot:
+  packages/lalabot:
     dependencies:
       lala:
         specifier: workspace:*

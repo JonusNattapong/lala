@@ -679,7 +679,7 @@ describe("tts", () => {
       run: (fetchMock: ReturnType<typeof vi.fn>) => Promise<void>,
     ) => {
       const prevLala = process.env.LALA_TTS_PREFS;
-      const prevOpenClaw = process.env.LALA_TTS_PREFS;
+      const prevLaLa = process.env.LALA_TTS_PREFS;
       process.env.LALA_TTS_PREFS = `/tmp/tts-test-lala-${Date.now()}.json`;
       process.env.LALA_TTS_PREFS = `/tmp/tts-test-legacy-${Date.now()}.json`;
       const originalFetch = globalThis.fetch;
@@ -693,7 +693,7 @@ describe("tts", () => {
       } finally {
         globalThis.fetch = originalFetch;
         process.env.LALA_TTS_PREFS = prevLala;
-        process.env.LALA_TTS_PREFS = prevOpenClaw;
+        process.env.LALA_TTS_PREFS = prevLaLa;
       }
     };
 

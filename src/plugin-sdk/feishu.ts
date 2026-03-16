@@ -35,7 +35,7 @@ export type {
 export type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
 export { createReplyPrefixContext } from "../channels/reply-prefix.js";
 export { createTypingCallbacks } from "../channels/typing.js";
-export type { LalaConfig as ClawdbotConfig, LalaConfig } from "../config/config.js";
+export type { LalaConfig as LalabotConfig, LalaConfig } from "../config/config.js";
 export {
   resolveAllowlistProviderRuntimeGroupPolicy,
   resolveDefaultGroupPolicy,

@@ -279,10 +279,10 @@ describe("gateway lock", () => {
     });
     expect(lockLala).toBeNull();
 
-    const lockOpenClaw = await acquireGatewayLock({
+    const lockLaLa = await acquireGatewayLock({
       env: { ...env, LALA_ALLOW_MULTI_GATEWAY: "1", VITEST: "" },
     });
-    expect(lockOpenClaw).toBeNull();
+    expect(lockLaLa).toBeNull();
   });
 
   it("returns null in test env unless allowInTests is set", async () => {

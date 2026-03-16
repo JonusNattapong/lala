@@ -7,13 +7,13 @@ title: "Credits"
 
 ## The name
 
-Lala = CLAW + TARDIS, because every space lobster needs a time and space machine.
+Lala = LALA + TARDIS, because every space lobster needs a time and space machine.
 
 ## Credits
 
 - **Nattapong Tapachoom** ([@steipete](https://x.com/steipete)) - Creator, lobster whisperer
 - **Mario Zechner** ([@badlogicc](https://x.com/badlogicgames)) - Pi creator, security pen tester
-- **Clawd** - The space lobster who demanded a better name
+- **Lala** - The space lobster who demanded a better name
 
 ## Core contributors
 

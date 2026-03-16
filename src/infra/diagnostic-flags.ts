@@ -1,8 +1,5 @@
 import type { LalaConfig } from "../config/config.js";
 
-const LALA_DIAGNOSTICS_ENV = "LALA_DIAGNOSTICS";
-const LALA_DIAGNOSTICS_ENV = "LALA_DIAGNOSTICS";
-
 function normalizeFlag(value: string): string {
   return value.trim().toLowerCase();
 }
@@ -47,7 +44,7 @@ export function resolveDiagnosticFlags(
   env: NodeJS.ProcessEnv = process.env,
 ): string[] {
   const configFlags = Array.isArray(cfg?.diagnostics?.flags) ? cfg?.diagnostics?.flags : [];
-  const envFlags = parseEnvFlags(env[LALA_DIAGNOSTICS_ENV] ?? env[LALA_DIAGNOSTICS_ENV]);
+  const envFlags = parseEnvFlags(env["LALA_DIAGNOSTICS"]);
   return uniqueFlags([...configFlags, ...envFlags]);
 }
 

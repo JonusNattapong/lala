@@ -79,7 +79,7 @@ function createChatHeaderState(
       locale: "en",
       sessionKey: "main",
       lastActiveSessionKey: "main",
-      theme: "claw",
+      theme: "lala",
       themeMode: "dark",
       splitRatio: 0.6,
       navCollapsed: false,
@@ -143,7 +143,7 @@ function createProps(overrides: Partial<ChatProps> = {}): ChatProps {
     error: null,
     sessions: createSessions(),
     focusMode: false,
-    assistantName: "OpenClaw",
+    assistantName: "LaLa",
     assistantAvatar: null,
     onRefresh: () => undefined,
     onToggleFocusMode: () => undefined,
@@ -207,7 +207,7 @@ describe("chat view", () => {
           assistantName: "Assistant",
           assistantAvatar: "A",
           assistantAvatarUrl: null,
-          basePath: "/openclaw/",
+          basePath: "/lala/",
         }),
       ),
       container,
@@ -217,7 +217,7 @@ describe("chat view", () => {
       ".agent-chat__welcome .agent-chat__avatar--logo img",
     );
     expect(logoImage).not.toBeNull();
-    expect(logoImage?.getAttribute("src")).toBe("/openclaw/favicon.svg");
+    expect(logoImage?.getAttribute("src")).toBe("/lala/favicon.svg");
   });
 
   it("keeps grouped assistant avatar fallbacks under the mounted base path", () => {
@@ -228,7 +228,7 @@ describe("chat view", () => {
           assistantName: "Assistant",
           assistantAvatar: "A",
           assistantAvatarUrl: null,
-          basePath: "/openclaw/",
+          basePath: "/lala/",
           messages: [
             {
               role: "assistant",
@@ -245,7 +245,7 @@ describe("chat view", () => {
       ".chat-group.assistant .chat-avatar--logo",
     );
     expect(groupedLogo).not.toBeNull();
-    expect(groupedLogo?.getAttribute("src")).toBe("/openclaw/favicon.svg");
+    expect(groupedLogo?.getAttribute("src")).toBe("/lala/favicon.svg");
   });
 
   it("renders compacting indicator as a badge", () => {
@@ -482,7 +482,7 @@ describe("chat view", () => {
 
   it("opens delete confirm on the left for user messages", () => {
     try {
-      localStorage.removeItem("openclaw:skipDeleteConfirm");
+      localStorage.removeItem("lala:skipDeleteConfirm");
     } catch {
       /* noop */
     }
@@ -515,7 +515,7 @@ describe("chat view", () => {
 
   it("opens delete confirm on the right for assistant messages", () => {
     try {
-      localStorage.removeItem("openclaw:skipDeleteConfirm");
+      localStorage.removeItem("lala:skipDeleteConfirm");
     } catch {
       /* noop */
     }

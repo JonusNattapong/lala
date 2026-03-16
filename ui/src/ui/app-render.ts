@@ -68,6 +68,10 @@ import {
 import { loadLogs } from "./controllers/logs.ts";
 import { loadNodes } from "./controllers/nodes.ts";
 import { cancelOnboardingWizard, submitOnboardingWizardStep } from "./controllers/onboarding-wizard.ts";
+import {
+  clearOnboardingProgress,
+  saveOnboardingProgress,
+} from "./onboarding-persistence.ts";
 import { loadPresence } from "./controllers/presence.ts";
 import { deleteSessionAndRefresh, loadSessions, patchSession } from "./controllers/sessions.ts";
 import {
@@ -95,6 +99,7 @@ import { renderConfig } from "./views/config.ts";
 import { renderExecApprovalPrompt } from "./views/exec-approval.ts";
 import { renderGatewayUrlConfirmation } from "./views/gateway-url-confirmation.ts";
 import { renderLoginGate } from "./views/login-gate.ts";
+import { resolveOnboardingSkills } from "./views/onboarding-flow.ts";
 import { renderOnboardingView, resolveShouldShowOnboarding } from "./views/onboarding-view.ts";
 import { renderOnboardingWizard } from "./views/onboarding-wizard.ts";
 import { renderOverview } from "./views/overview.ts";
@@ -174,6 +179,144 @@ function uniquePreserveOrder(values: string[]): string[] {
     output.push(normalized);
   }
   return output;
+}
+
+type DashboardOnboardingState = AppViewState & {
+  onboardingAutoDismissed: boolean;
+  onboardingStep:
+    | "welcome"
+    | "theme"
+    | "setup"
+    | "security"
+    | "workspace"
+    | "models"
+    | "channels"
+    | "skills"
+    | "complete";
+  onboardingSelectedSetupMode: "local" | "remote";
+  onboardingSelectedModelProvider: string | null;
+  onboardingSelectedModelId: string | null;
+  onboardingSelectedChannels: string[];
+  onboardingSelectedTheme: "light" | "dark" | "system";
+  onboardingSelectedSkills: string[];
+  onboardingSkillsSaving: boolean;
+  onboardingSecurityConfig: { toolProfile: "coding" | "full" | "minimal"; sandboxMode: boolean };
+  onboardingWorkspaceConfig: { path: string | null; personality: string | null; autoSave: boolean };
+  onboardingWizardSessionId: string | null;
+  onboardingWizardStep: import("../../../src/wizard/session.js").WizardStep | null;
+  onboardingWizardStatus: import("../../../src/wizard/session.js").WizardSessionStatus | null;
+  onboardingWizardError: string | null;
+  onboardingWizardBusy: boolean;
+  onboardingWizardStarted: boolean;
+  onboardingWizardAnswerText: string;
+  onboardingWizardAnswerBoolean: boolean;
+  onboardingWizardAnswerMulti: string[];
+};
+
+function persistOnboardingProgress(state: DashboardOnboardingState) {
+  saveOnboardingProgress({
+    step: state.onboardingStep,
+    theme: state.onboardingSelectedTheme,
+    skills: state.onboardingSelectedSkills,
+    security: state.onboardingSecurityConfig,
+    workspace: state.onboardingWorkspaceConfig,
+    selectedProvider: state.onboardingSelectedModelProvider,
+    selectedModelId: state.onboardingSelectedModelId,
+  });
+}
+
+function applyOnboardingModel(state: AppViewState, onboardingState: DashboardOnboardingState) {
+  const modelId = onboardingState.onboardingSelectedModelId?.trim();
+  if (!modelId) {
+    return;
+  }
+  const configValue = state.configForm ?? (state.configSnapshot?.config as Record<string, unknown> | null);
+  const existingModel = (configValue?.agents as { defaults?: { model?: unknown } } | undefined)?.defaults?.model;
+  const fallbacks =
+    existingModel && typeof existingModel === "object" && !Array.isArray(existingModel)
+      ? (existingModel as { fallbacks?: string[] }).fallbacks
+      : undefined;
+  updateConfigFormValue(state, ["agents", "defaults", "model"], {
+    ...(fallbacks?.length ? { fallbacks } : {}),
+    primary: modelId,
+  });
+  updateConfigFormValue(state, ["agents", "defaults", "models", modelId], {});
+}
+
+function applyOnboardingSecurity(state: AppViewState, onboardingState: DashboardOnboardingState) {
+  updateConfigFormValue(state, ["tools", "profile"], onboardingState.onboardingSecurityConfig.toolProfile);
+  updateConfigFormValue(
+    state,
+    ["agents", "defaults", "sandbox", "mode"],
+    onboardingState.onboardingSecurityConfig.sandboxMode ? "non-main" : "off",
+  );
+}
+
+function applyOnboardingWorkspace(state: AppViewState, onboardingState: DashboardOnboardingState) {
+  const path = onboardingState.onboardingWorkspaceConfig.path?.trim();
+  const personality = onboardingState.onboardingWorkspaceConfig.personality?.trim();
+  if (path) {
+    updateConfigFormValue(state, ["agents", "defaults", "workspace"], path);
+  } else {
+    removeConfigFormValue(state, ["agents", "defaults", "workspace"]);
+  }
+  if (personality) {
+    updateConfigFormValue(state, ["agents", "defaults", "systemPrompt"], personality);
+  } else {
+    removeConfigFormValue(state, ["agents", "defaults", "systemPrompt"]);
+  }
+}
+
+function initializeSelectedSkills(state: AppViewState, onboardingState: DashboardOnboardingState) {
+  if (onboardingState.onboardingSelectedSkills.length > 0 || !state.skillsReport) {
+    return;
+  }
+  onboardingState.onboardingSelectedSkills = resolveOnboardingSkills(state.skillsReport)
+    .filter((skill) => skill.installed)
+    .map((skill) => skill.id);
+  persistOnboardingProgress(onboardingState);
+}
+
+async function saveOnboardingSkills(state: AppViewState, onboardingState: DashboardOnboardingState) {
+  await loadSkills(state, { clearMessages: false });
+  const desired = new Set(onboardingState.onboardingSelectedSkills);
+  const skills = resolveOnboardingSkills(state.skillsReport);
+  for (const skill of skills) {
+    const entry = state.skillsReport?.skills.find((candidate) => candidate.skillKey === skill.id);
+    if (!entry) {
+      continue;
+    }
+    const wantsEnabled = desired.has(skill.id);
+    const isEnabled = entry.always || !entry.disabled;
+    if (wantsEnabled && !isEnabled && skill.installId) {
+      await installSkill(state, entry.skillKey, entry.name, skill.installId);
+      await loadSkills(state, { clearMessages: false });
+    }
+    if (entry.always) {
+      continue;
+    }
+    const refreshedEntry = state.skillsReport?.skills.find((candidate) => candidate.skillKey === skill.id);
+    const refreshedEnabled = refreshedEntry ? !refreshedEntry.disabled : isEnabled;
+    if (wantsEnabled !== refreshedEnabled) {
+      await updateSkillEnabled(state, entry.skillKey, wantsEnabled);
+    }
+  }
+}
+
+async function finalizeOnboarding(
+  state: AppViewState,
+  onboardingState: DashboardOnboardingState,
+  targetTab: "chat" | "overview",
+) {
+  applyOnboardingSecurity(state, onboardingState);
+  applyOnboardingWorkspace(state, onboardingState);
+  applyOnboardingModel(state, onboardingState);
+  await saveConfig(state);
+  await saveOnboardingSkills(state, onboardingState);
+  onboardingState.onboardingAutoDismissed = true;
+  state.onboarding = false;
+  clearOnboardingProgress();
+  state.setTab(targetTab);
 }
 
 type DismissedUpdateBanner = {
@@ -286,23 +429,7 @@ function resolveAssistantAvatarUrl(state: AppViewState): string | undefined {
 }
 
 export function renderApp(state: AppViewState) {
-  const onboardingState = state as AppViewState & {
-    onboardingAutoDismissed: boolean;
-    onboardingStep: "welcome" | "setup" | "models" | "channels";
-    onboardingSelectedSetupMode: "local" | "remote";
-    onboardingSelectedModelProvider: string | null;
-    onboardingSelectedModelId: string | null;
-    onboardingSelectedChannels: string[];
-    onboardingWizardSessionId: string | null;
-    onboardingWizardStep: import("../../../src/wizard/session.js").WizardStep | null;
-    onboardingWizardStatus: import("../../../src/wizard/session.js").WizardSessionStatus | null;
-    onboardingWizardError: string | null;
-    onboardingWizardBusy: boolean;
-    onboardingWizardStarted: boolean;
-    onboardingWizardAnswerText: string;
-    onboardingWizardAnswerBoolean: boolean;
-    onboardingWizardAnswerMulti: string[];
-  };
+  const onboardingState = state as DashboardOnboardingState;
   const updatableState = state as AppViewState & { requestUpdate?: () => void };
   const requestHostUpdate =
     typeof updatableState.requestUpdate === "function"
@@ -459,34 +586,32 @@ export function renderApp(state: AppViewState) {
         selectedModelId: onboardingState.onboardingSelectedModelId,
         models: state.chatModelCatalog,
         modelSaving: state.configSaving,
+        selectedTheme: onboardingState.onboardingSelectedTheme,
+        selectedSkills: onboardingState.onboardingSelectedSkills,
+        skillsSaving: onboardingState.onboardingSkillsSaving,
+        securityConfig: onboardingState.onboardingSecurityConfig,
+        workspaceConfig: onboardingState.onboardingWorkspaceConfig,
         onStepChange: (step) => {
           onboardingState.onboardingStep = step;
+          persistOnboardingProgress(onboardingState);
+          if (step === "skills" && !state.skillsReport && !state.skillsLoading) {
+            void loadSkills(state, { clearMessages: true }).then(() => {
+              initializeSelectedSkills(state, onboardingState);
+            });
+          }
         },
         onProviderChange: (provider) => {
           onboardingState.onboardingSelectedModelProvider = provider;
+          persistOnboardingProgress(onboardingState);
         },
         onModelChange: (modelId) => {
           onboardingState.onboardingSelectedModelId = modelId;
+          persistOnboardingProgress(onboardingState);
         },
         onSaveModel: async () => {
-          const modelId = onboardingState.onboardingSelectedModelId?.trim();
-          if (!modelId) {
-            return;
-          }
-          const configValue =
-            state.configForm ?? (state.configSnapshot?.config as Record<string, unknown> | null);
-          const existingModel = (configValue?.agents as { defaults?: { model?: unknown } } | undefined)
-            ?.defaults?.model;
-          const fallbacks =
-            existingModel && typeof existingModel === "object" && !Array.isArray(existingModel)
-              ? (existingModel as { fallbacks?: string[] }).fallbacks
-              : undefined;
-          updateConfigFormValue(state, ["agents", "defaults", "model"], {
-            ...(fallbacks?.length ? { fallbacks } : {}),
-            primary: modelId,
-          });
-          updateConfigFormValue(state, ["agents", "defaults", "models", modelId], {});
+          applyOnboardingModel(state, onboardingState);
           await saveConfig(state);
+          persistOnboardingProgress(onboardingState);
         },
         onOpenAiSettings: () => {
           onboardingState.onboardingAutoDismissed = true;
@@ -503,15 +628,51 @@ export function renderApp(state: AppViewState) {
           state.onboarding = false;
           state.setTab("channels");
         },
-        onFinish: () => {
-          onboardingState.onboardingAutoDismissed = true;
-          state.onboarding = false;
-          state.setTab("chat");
+        onThemeChange: (theme) => {
+          onboardingState.onboardingSelectedTheme = theme;
+          state.setThemeMode(theme === "system" ? "system" : theme);
+          persistOnboardingProgress(onboardingState);
+        },
+        onSkillToggle: (skillId) => {
+          const current = onboardingState.onboardingSelectedSkills;
+          if (current.includes(skillId)) {
+            onboardingState.onboardingSelectedSkills = current.filter((id) => id !== skillId);
+          } else {
+            onboardingState.onboardingSelectedSkills = [...current, skillId];
+          }
+          persistOnboardingProgress(onboardingState);
+        },
+        onSkillsSave: async () => {
+          onboardingState.onboardingSkillsSaving = true;
+          try {
+            await saveOnboardingSkills(state, onboardingState);
+            persistOnboardingProgress(onboardingState);
+          } finally {
+            onboardingState.onboardingSkillsSaving = false;
+          }
+        },
+        onSecurityChange: (config) => {
+          onboardingState.onboardingSecurityConfig = config;
+          persistOnboardingProgress(onboardingState);
+        },
+        onWorkspaceChange: (config) => {
+          onboardingState.onboardingWorkspaceConfig = config;
+          persistOnboardingProgress(onboardingState);
+        },
+        onFinish: async () => {
+          await finalizeOnboarding(state, onboardingState, "chat");
         },
         onSkip: () => {
           onboardingState.onboardingAutoDismissed = true;
           state.onboarding = false;
+          clearOnboardingProgress();
           state.setTab("chat");
+        },
+        onOpenDashboard: async () => {
+          await finalizeOnboarding(state, onboardingState, "overview");
+        },
+        onStartTutorial: async () => {
+          await finalizeOnboarding(state, onboardingState, "overview");
         },
       })}
       ${renderGatewayUrlConfirmation(state)}

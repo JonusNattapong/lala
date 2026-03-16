@@ -135,7 +135,7 @@ export function renderOverview(props: OverviewProps) {
     }
     return html`
       <div class="muted" style="margin-top: 8px">
-        ${t("overview.auth.failed", { command: "openclaw dashboard --no-open" })}
+        ${t("overview.auth.failed", { command: "lala dashboard --no-open" })}
         <div style="margin-top: 6px">
           <a
             class="session-link"

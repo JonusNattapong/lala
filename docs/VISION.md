@@ -10,7 +10,7 @@ Contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 Lala started as a personal playground to learn AI and build something genuinely useful:
 an assistant that can run real tasks on a real computer.
-It evolved through several names and shells: Warelay -> Clawdbot -> Moltbot -> Lala.
+It evolved through several names and shells: Warelay -> Lalabot -> Moltbot -> Lala.
 
 The goal: a personal assistant that is easy to use, supports a wide range of platforms, and respects privacy and security.
 
@@ -58,7 +58,7 @@ Preferred plugin path is npm package distribution plus local extension loading f
 If you build a plugin, host and maintain it in your own repository.
 The bar for adding optional plugins to core is intentionally high.
 Plugin docs: [`docs/tools/plugin.md`](docs/tools/plugin.md)
-Community plugin listing + PR bar: https://docs.lala.ai/plugins/community
+Community plugin listing + PR bar: <https://docs.lala.ai/plugins/community>
 
 Memory is a special plugin slot where only one memory plugin can be active at a time.
 Today we ship multiple memory options; over time we plan to converge on one recommended default path.
@@ -71,7 +71,7 @@ Core skill additions should be rare and require a strong product or security rea
 
 ### MCP Support
 
-Lala supports MCP through `mcporter`: https://github.com/steipete/mcporter
+Lala supports MCP through `mcporter`: <https://github.com/steipete/mcporter>
 
 This keeps MCP integration flexible and decoupled from core runtime:
 

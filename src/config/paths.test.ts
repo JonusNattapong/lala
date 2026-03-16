@@ -87,19 +87,19 @@ describe("state + config path candidates", () => {
     const candidates = resolveDefaultConfigCandidates({} as NodeJS.ProcessEnv, () => home);
     const expected = [
       path.join(resolvedHome, ".lala", "lala.json"),
-      path.join(resolvedHome, ".lala", "clawdbot.json"),
+      path.join(resolvedHome, ".lala", "lalabot.json"),
       path.join(resolvedHome, ".lala", "moldbot.json"),
       path.join(resolvedHome, ".lala", "moltbot.json"),
-      path.join(resolvedHome, ".clawdbot", "lala.json"),
-      path.join(resolvedHome, ".clawdbot", "clawdbot.json"),
-      path.join(resolvedHome, ".clawdbot", "moldbot.json"),
-      path.join(resolvedHome, ".clawdbot", "moltbot.json"),
+      path.join(resolvedHome, ".lalabot", "lala.json"),
+      path.join(resolvedHome, ".lalabot", "lalabot.json"),
+      path.join(resolvedHome, ".lalabot", "moldbot.json"),
+      path.join(resolvedHome, ".lalabot", "moltbot.json"),
       path.join(resolvedHome, ".moldbot", "lala.json"),
-      path.join(resolvedHome, ".moldbot", "clawdbot.json"),
+      path.join(resolvedHome, ".moldbot", "lalabot.json"),
       path.join(resolvedHome, ".moldbot", "moldbot.json"),
       path.join(resolvedHome, ".moldbot", "moltbot.json"),
       path.join(resolvedHome, ".moltbot", "lala.json"),
-      path.join(resolvedHome, ".moltbot", "clawdbot.json"),
+      path.join(resolvedHome, ".moltbot", "lalabot.json"),
       path.join(resolvedHome, ".moltbot", "moldbot.json"),
       path.join(resolvedHome, ".moltbot", "moltbot.json"),
     ];
@@ -117,7 +117,7 @@ describe("state + config path candidates", () => {
 
   it("prefers ~/.lala even when a legacy state dir exists", async () => {
     await withTempRoot("lala-state-legacy-", async (root) => {
-      const legacyDir = path.join(root, ".clawdbot");
+      const legacyDir = path.join(root, ".lalabot");
       await fs.mkdir(legacyDir, { recursive: true });
       const resolved = resolveStateDir({} as NodeJS.ProcessEnv, () => root);
       expect(resolved).toBe(path.join(root, ".lala"));
@@ -126,7 +126,7 @@ describe("state + config path candidates", () => {
 
   it("CONFIG_PATH stays on the canonical .lala path even when legacy config exists", async () => {
     await withTempRoot("lala-config-", async (root) => {
-      const legacyDir = path.join(root, ".clawdbot");
+      const legacyDir = path.join(root, ".lalabot");
       await fs.mkdir(legacyDir, { recursive: true });
       const legacyPath = path.join(legacyDir, "lala.json");
       await fs.writeFile(legacyPath, "{}", "utf-8");

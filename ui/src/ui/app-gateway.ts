@@ -11,7 +11,7 @@ import {
   setLastActiveSessionKey,
 } from "./app-settings.ts";
 import { handleAgentEvent, resetToolStream, type AgentEventPayload } from "./app-tool-stream.ts";
-import type { OpenClawApp } from "./app.ts";
+import type { LaLaApp } from "./app.ts";
 import { shouldReloadHistoryForFinalEvent } from "./chat-event-reload.ts";
 import { formatConnectError } from "./connect-error.ts";
 import { loadAgents } from "./controllers/agents.ts";
@@ -220,18 +220,18 @@ export function connectGateway(host: GatewayHost) {
       resetToolStream(host as unknown as Parameters<typeof resetToolStream>[0]);
       const supportsRpc =
         typeof (client as unknown as { request?: unknown }).request === "function";
-      void loadAssistantIdentity(host as unknown as OpenClawApp);
-      void loadAgents(host as unknown as OpenClawApp);
+      void loadAssistantIdentity(host as unknown as LaLaApp);
+      void loadAgents(host as unknown as LaLaApp);
       if (supportsRpc) {
-        void loadConfig(host as unknown as OpenClawApp);
-        void loadChannels(host as unknown as OpenClawApp, false);
+        void loadConfig(host as unknown as LaLaApp);
+        void loadChannels(host as unknown as LaLaApp, false);
         if (host.onboardingWizardSessionId && !host.onboardingWizardStarted) {
           void loadOnboardingWizard(host as unknown as Parameters<typeof loadOnboardingWizard>[0]);
         }
       }
-      void loadHealthState(host as unknown as OpenClawApp);
-      void loadNodes(host as unknown as OpenClawApp, { quiet: true });
-      void loadDevices(host as unknown as OpenClawApp, { quiet: true });
+      void loadHealthState(host as unknown as LaLaApp);
+      void loadNodes(host as unknown as LaLaApp, { quiet: true });
+      void loadDevices(host as unknown as LaLaApp, { quiet: true });
       void refreshActiveTab(host as unknown as Parameters<typeof refreshActiveTab>[0]);
     },
     onClose: ({ code, reason, error }) => {
@@ -306,7 +306,7 @@ function handleTerminalChatEvent(
   if (runId && host.refreshSessionsAfterChat.has(runId)) {
     host.refreshSessionsAfterChat.delete(runId);
     if (state === "final") {
-      void loadSessions(host as unknown as OpenClawApp, {
+      void loadSessions(host as unknown as LaLaApp, {
         activeMinutes: CHAT_SESSIONS_ACTIVE_MINUTES,
       });
     }
@@ -314,7 +314,7 @@ function handleTerminalChatEvent(
   // Reload history when tools were used so the persisted tool results
   // replace the now-cleared streaming state.
   if (hadToolEvents && state === "final") {
-    void loadChatHistory(host as unknown as OpenClawApp);
+    void loadChatHistory(host as unknown as LaLaApp);
     return true;
   }
   return false;
@@ -327,10 +327,10 @@ function handleChatGatewayEvent(host: GatewayHost, payload: ChatEventPayload | u
       payload.sessionKey,
     );
   }
-  const state = handleChatEvent(host as unknown as OpenClawApp, payload);
+  const state = handleChatEvent(host as unknown as LaLaApp, payload);
   const historyReloaded = handleTerminalChatEvent(host, payload, state);
   if (state === "final" && !historyReloaded && shouldReloadHistoryForFinalEvent(payload)) {
-    void loadChatHistory(host as unknown as OpenClawApp);
+    void loadChatHistory(host as unknown as LaLaApp);
   }
 }
 
@@ -390,7 +390,7 @@ function handleGatewayEventUnsafe(host: GatewayHost, evt: GatewayEventFrame) {
   }
 
   if (evt.event === "device.pair.requested" || evt.event === "device.pair.resolved") {
-    void loadDevices(host as unknown as OpenClawApp, { quiet: true });
+    void loadDevices(host as unknown as LaLaApp, { quiet: true });
   }
 
   if (evt.event === "exec.approval.requested") {

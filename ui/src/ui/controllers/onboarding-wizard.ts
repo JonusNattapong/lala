@@ -82,12 +82,13 @@ export async function submitOnboardingWizardStep(state: OnboardingWizardState) {
   }
   state.onboardingWizardBusy = true;
   try {
+    const isAckStep = step.type === "note" || step.type === "action" || step.type === "progress";
     const result = await state.client.request<WizardNextResult>("wizard.next", {
       sessionId: state.onboardingWizardSessionId,
-      answer:
-        step.type === "note" || step.type === "action" || step.type === "progress"
-          ? undefined
-          : { stepId: step.id, value },
+      answer: {
+        stepId: step.id,
+        value: isAckStep ? undefined : value,
+      },
     });
     applyResult(state, result);
   } catch (error) {

@@ -121,10 +121,10 @@ describe("thread binding lifecycle", () => {
     const intro = resolveThreadBindingIntroText({
       agentId: "codex",
       idleTimeoutMs: 24 * 60 * 60 * 1000,
-      sessionCwd: "/home/bob/clawd",
+      sessionCwd: "/home/bob/lala",
       sessionDetails: ["session ids: pending (available after the first reply)"],
     });
-    expect(intro).toContain("\ncwd: /home/bob/clawd\nsession ids: pending");
+    expect(intro).toContain("\ncwd: /home/bob/lala\nsession ids: pending");
   });
 
   it("auto-unfocuses idle-expired bindings and sends inactivity message", async () => {

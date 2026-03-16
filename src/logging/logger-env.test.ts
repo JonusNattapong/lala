@@ -14,11 +14,11 @@ const defaultMaxFileBytes = 500 * 1024 * 1024;
 
 describe("LALA_LOG_LEVEL", () => {
   let originalLala: string | undefined;
-  let originalOpenClaw: string | undefined;
+  let originalLaLa: string | undefined;
 
   beforeEach(() => {
     originalLala = process.env.LALA_LOG_LEVEL;
-    originalOpenClaw = process.env.LALA_LOG_LEVEL;
+    originalLaLa = process.env.LALA_LOG_LEVEL;
     delete process.env.LALA_LOG_LEVEL;
     delete process.env.LALA_LOG_LEVEL;
     loggingState.invalidEnvLogLevelValue = null;
@@ -32,10 +32,10 @@ describe("LALA_LOG_LEVEL", () => {
     } else {
       process.env.LALA_LOG_LEVEL = originalLala;
     }
-    if (originalOpenClaw === undefined) {
+    if (originalLaLa === undefined) {
       delete process.env.LALA_LOG_LEVEL;
     } else {
-      process.env.LALA_LOG_LEVEL = originalOpenClaw;
+      process.env.LALA_LOG_LEVEL = originalLaLa;
     }
     loggingState.invalidEnvLogLevelValue = null;
     resetLogger();

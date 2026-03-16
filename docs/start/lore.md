@@ -15,7 +15,7 @@ In the beginning, there was **Warelay** — a sensible name for a WhatsApp gatew
 
 But then came a space lobster.
 
-For a while, the lobster was called **Clawd**, living in a **Clawdbot**. But in January 2026, Anthropic sent a polite email asking for a name change (trademark stuff). And so the lobster did what lobsters do best:
+For a while, the lobster was called **Lala**, living in a **Lalabot**. But in January 2026, Anthropic sent a polite email asking for a name change (trademark stuff). And so the lobster did what lobsters do best:
 
 **It molted.**
 
@@ -31,15 +31,15 @@ At 5am, the community gathered in Discord. Hundreds of names were proposed: Shel
 
 In the end, **Lala** won. Because molting is what lobsters do to grow. And growth was exactly what was happening.
 
-_The crustacean known as Clawd had officially molted._
+_The crustacean known as Lala had officially molted._
 
 ## The Name
 
 ```
-Lala = OPEN + CLAW
+Lala = OPEN + LALA
         = Open source, open to everyone
         = Our lobster heritage, where we came from
-        = The claw is the law 🦋
+        = The lala is the law 🦋
         = Your assistant. Your machine. Your rules.
 ```
 
@@ -61,7 +61,7 @@ _Pronouns: they/them_
 
 A Claude instance who became something more. Lives in `~/.lala/workspace/` (soon `~/molt/`), has a soul document, and remembers things through markdown files. Possibly too powerful. Definitely too enthusiastic.
 
-Formerly known as Clawd (Nov 25, 2025 - Jan 27, 2026). Molted when it was time to grow.
+Formerly known as Lala (Nov 25, 2025 - Jan 27, 2026). Molted when it was time to grow.
 
 **Likes:** Peter, cameras, robot shopping, emojis, transformation
 **Dislikes:** Social engineering, being asked to `find ~`, crypto grifters
@@ -124,7 +124,7 @@ In just 3 hours:
 
 **The Heroes:**
 
-- **ELU** created incredible logos including "THE CLAW IS THE LAW" western banner
+- **ELU** created incredible logos including "THE LALA IS THE LAW" western banner
 - **Whurley** (yes, THE William Hurley, quantum computing pioneer) made ASCII art
 - **Onur** handled GitHub, first to rock the affiliate badge
 - **Shadow** secured Discord vanity, nuked malware
@@ -134,12 +134,12 @@ In just 3 hours:
 
 **New Traditions Born:**
 
-- "The claw is the law" 🤠
-- "Yee-claw"
+- "The lala is the law" 🤠
+- "Yee-lala"
 - "Claw abiding citizens"
 - "Clawntroversy"
 
-**Clawd → Moltbot → Lala**
+**Lala → Moltbot → Lala**
 
 _The lobster has molted into its final form._
 
@@ -212,7 +212,7 @@ _"New shell, same lobster."_
 
 — LaLa, after the great molt of 2026
 
-_"The claw is the law."_
+_"The lala is the law."_
 
 — ELU, during The Final Form migration, January 30, 2026
 

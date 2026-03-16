@@ -129,11 +129,11 @@ describe("resolveConfigDir", () => {
   });
 
   it("expands LALA_STATE_DIR or LALA_STATE_DIR using the provided env", () => {
-    const envOpenClaw = {
+    const envLaLa = {
       HOME: "/tmp/lala-home",
       LALA_STATE_DIR: "~/state",
     } as NodeJS.ProcessEnv;
-    expect(resolveConfigDir(envOpenClaw)).toBe(path.resolve("/tmp/lala-home", "state"));
+    expect(resolveConfigDir(envLaLa)).toBe(path.resolve("/tmp/lala-home", "state"));
 
     const envLala = {
       HOME: "/tmp/lala-home",

@@ -36,7 +36,7 @@
   --ring: #ff5c5c;
 
   /* Accent - Lala Signature (Deep Ocean / Aurora) */
-  --accent: #2dd4bf; 
+  --accent: #2dd4bf;
   --accent-hover: #5eead4;
   --accent-muted: #14b8a6;
   --accent-subtle: rgba(45, 212, 191, 0.1);
@@ -68,8 +68,11 @@
 
   /* Focus */
   --focus: rgba(45, 212, 191, 0.2);
-  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 3px color-mix(in srgb, var(--accent) 60%, transparent);
-  --focus-glow: 0 0 0 2px var(--bg), 0 0 0 3px var(--accent), 0 0 16px var(--accent-glow);
+  --focus-ring:
+    0 0 0 2px var(--bg),
+    0 0 0 3px color-mix(in srgb, var(--accent) 60%, transparent);
+  --focus-glow:
+    0 0 0 2px var(--bg), 0 0 0 3px var(--accent), 0 0 16px var(--accent-glow);
 
   /* Grid */
   --grid-line: rgba(255, 255, 255, 0.02);
@@ -80,7 +83,8 @@
 
   /* Typography */
   --mono:
-    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco,
+    Consolas, monospace;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
   --font-display: var(--font-body);
 
@@ -172,8 +176,11 @@
   --info: #0284c7;
 
   --focus: rgba(13, 148, 136, 0.15);
-  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent);
-  --focus-glow: 0 0 0 2px var(--bg), 0 0 0 3px var(--accent), 0 0 12px var(--accent-glow);
+  --focus-ring:
+    0 0 0 2px var(--bg),
+    0 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent);
+  --focus-glow:
+    0 0 0 2px var(--bg), 0 0 0 3px var(--accent), 0 0 12px var(--accent-glow);
 
   --grid-line: rgba(0, 0, 0, 0.04);
 
@@ -259,10 +266,14 @@ body {
 /* Theme transition */
 @keyframes theme-circle-transition {
   0% {
-    clip-path: circle(0% at var(--theme-switch-x, 50%) var(--theme-switch-y, 50%));
+    clip-path: circle(
+      0% at var(--theme-switch-x, 50%) var(--theme-switch-y, 50%)
+    );
   }
   100% {
-    clip-path: circle(150% at var(--theme-switch-x, 50%) var(--theme-switch-y, 50%));
+    clip-path: circle(
+      150% at var(--theme-switch-x, 50%) var(--theme-switch-y, 50%)
+    );
   }
 }
 
@@ -289,7 +300,7 @@ html.theme-transition::view-transition-new(theme) {
   }
 }
 
-openclaw-app {
+lala-app {
   display: block;
   position: relative;
   z-index: 1;
@@ -391,7 +402,12 @@ select {
 
 /* Skeleton loading primitives */
 .skeleton {
-  background: linear-gradient(90deg, var(--bg-muted) 25%, var(--bg-hover) 50%, var(--bg-muted) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--bg-muted) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-muted) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
   border-radius: var(--radius-md);

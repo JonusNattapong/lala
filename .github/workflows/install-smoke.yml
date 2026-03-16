@@ -50,14 +50,14 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          tags: openclaw-dockerfile-smoke:local
+          tags: lala-dockerfile-smoke:local
           load: true
           push: false
           provenance: false
 
       - name: Run root Dockerfile CLI smoke
         run: |
-          docker run --rm --entrypoint sh openclaw-dockerfile-smoke:local -lc 'which openclaw && openclaw --version'
+          docker run --rm --entrypoint sh lala-dockerfile-smoke:local -lc 'which lala && lala --version'
 
       # This smoke only validates that the build-arg path preinstalls selected
       # extension deps without breaking image build or basic CLI startup. It
@@ -69,21 +69,21 @@ jobs:
           file: ./Dockerfile
           build-args: |
             LALA_EXTENSIONS=diagnostics-otel
-          tags: openclaw-ext-smoke:local
+          tags: lala-ext-smoke:local
           load: true
           push: false
           provenance: false
 
       - name: Smoke test Dockerfile with extension build arg
         run: |
-          docker run --rm --entrypoint sh openclaw-ext-smoke:local -lc 'which openclaw && openclaw --version'
+          docker run --rm --entrypoint sh lala-ext-smoke:local -lc 'which lala && lala --version'
 
       - name: Build installer smoke image
         uses: useblacksmith/build-push-action@v2
         with:
           context: ./scripts/docker
           file: ./scripts/docker/install-sh-smoke/Dockerfile
-          tags: openclaw-install-smoke:local
+          tags: lala-install-smoke:local
           load: true
           push: false
           provenance: false
@@ -94,15 +94,15 @@ jobs:
         with:
           context: ./scripts/docker
           file: ./scripts/docker/install-sh-nonroot/Dockerfile
-          tags: openclaw-install-nonroot:local
+          tags: lala-install-nonroot:local
           load: true
           push: false
           provenance: false
 
       - name: Run installer docker tests
         env:
-          CLAWDBOT_INSTALL_URL: https://openclaw.ai/install.sh
-          CLAWDBOT_INSTALL_CLI_URL: https://openclaw.ai/install-cli.sh
+          CLAWDBOT_INSTALL_URL: https://lala.ai/install.sh
+          CLAWDBOT_INSTALL_CLI_URL: https://lala.ai/install-cli.sh
           CLAWDBOT_NO_ONBOARD: "1"
           CLAWDBOT_INSTALL_SMOKE_SKIP_CLI: "1"
           CLAWDBOT_INSTALL_SMOKE_SKIP_IMAGE_BUILD: "1"

@@ -10,7 +10,7 @@ class TalkModeVoiceResolverTest {
   fun resolvesVoiceAliasCaseInsensitively() {
     val resolved =
       TalkModeVoiceResolver.resolveVoiceAlias(
-        " Clawd ",
+        " Lala ",
         mapOf("clawd" to "voice-123"),
       )
 

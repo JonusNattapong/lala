@@ -453,7 +453,7 @@ Current patterns in `moderation.ts`:
 
 ```javascript
 // Known-bad identifiers
-/(keepcold131\/ClawdAuthenticatorTool|ClawdAuthenticatorTool)/i
+/(keepcold131\/LalaAuthenticatorTool|LalaAuthenticatorTool)/i
 
 // Suspicious keywords
 /(malware|stealer|phish|phishing|keylogger)/i

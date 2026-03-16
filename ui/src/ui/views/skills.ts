@@ -54,7 +54,7 @@ export function renderSkills(props: SkillsProps) {
           href="https://clawhub.com"
           target="_blank"
           rel="noreferrer"
-          title="Browse skills on ClawHub"
+          title="Browse skills on LalaHub"
         >Browse Skills Store</a>
         <label class="field" style="flex: 1; min-width: 180px;">
           <input
@@ -113,7 +113,7 @@ function renderSkill(skill: SkillStatusEntry, props: SkillsProps) {
   const apiKey = props.edits[skill.skillKey] ?? "";
   const message = props.messages[skill.skillKey] ?? null;
   const canInstall = skill.install.length > 0 && skill.missing.bins.length > 0;
-  const showBundledBadge = Boolean(skill.bundled && skill.source !== "openclaw-bundled");
+  const showBundledBadge = Boolean(skill.bundled && skill.source !== "lala-bundled");
   const missing = computeSkillMissing(skill);
   const reasons = computeSkillReasons(skill);
   return html`

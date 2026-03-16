@@ -26,7 +26,7 @@ function ensureChangelogEntry(changelogPath: string, version: string): boolean {
   return true;
 }
 
-function stripWorkspaceOpenclawDevDependency(pkg: PackageJson): boolean {
+function stripWorkspaceLalaDevDependency(pkg: PackageJson): boolean {
   const devDeps = pkg.devDependencies;
   if (!devDeps || devDeps.lala !== "workspace:*") {
     return false;
@@ -75,7 +75,7 @@ export function syncPluginVersions(rootDir = resolve(".")) {
       changelogged.push(pkg.name);
     }
 
-    const removedWorkspaceDevDependency = stripWorkspaceOpenclawDevDependency(pkg);
+    const removedWorkspaceDevDependency = stripWorkspaceLalaDevDependency(pkg);
     if (removedWorkspaceDevDependency) {
       strippedWorkspaceDevDeps.push(pkg.name);
     }

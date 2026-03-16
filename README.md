@@ -5,8 +5,8 @@
 <p align="center">
   <h1 align="center">🦋 lala</h1>
   <p align="center">
-    <strong>The Premium Personal AI Assistant Gateway</strong><br />
-    <em>Deep Ocean Aesthetics · Aurora Performance · Personal Sovereignty</em>
+    <strong>The Personal AI Assistant</strong><br />
+    <em>RELAX! RELAX! HUMAN!</em>
   </p>
 </p>
 
@@ -18,7 +18,7 @@
 
 ---
 
-`lala` is a high-performance, personal AI gateway designed for those who value **sovereignty, speed, and stunning aesthetics**. Evolved from its spiritual predecessor OpenClaw, `lala` introduces the **Aurora Design System**—a premium Deep Ocean interface that makes interacting with your AI feel like a state-of-the-art experience.
+`lala` is a personal AI gateway designed for those who value **sovereignty, speed, and stunning aesthetics**. Evolved from its spiritual predecessor LALA, `lala` introduces the **Aurora Design System**—a premium Deep Ocean interface that makes interacting with your AI feel like a state-of-the-art experience.
 
 [Docs](https://docs.lala.ai) · [Getting Started](https://docs.lala.ai/getting-started) · [Channels](/docs/channels) · [Skills](/docs/skills)
 
@@ -81,7 +81,7 @@ pnpm lala onboard
 
 ## Notes
 
-- `lala` shares technical ancestry with OpenClaw.
+- `lala` shares technical ancestry with LALA.
 - We prioritize a small, stable channel surface and easy local setup.
 - For full documentation, visit [docs.lala.ai](https://docs.lala.ai).
 

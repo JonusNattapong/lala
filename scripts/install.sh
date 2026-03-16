@@ -876,7 +876,7 @@ TAGLINES+=("If you can describe it, I can probably automate it—or at least mak
 TAGLINES+=("Your config is valid, your assumptions are not.")
 TAGLINES+=("I don't just autocomplete—I auto-commit (emotionally), then ask you to review (logically).")
 TAGLINES+=("Less clicking, more shipping, fewer \"where did that file go\" moments.")
-TAGLINES+=("Claws out, commit in—let's ship something mildly responsible.")
+TAGLINES+=("Lalas out, commit in—let's ship something mildly responsible.")
 TAGLINES+=("I'll butter your workflow like a lobster roll: messy, delicious, effective.")
 TAGLINES+=("Shell yeah—I'm here to pinch the toil and leave you the glory.")
 TAGLINES+=("If it's repetitive, I'll automate it; if it's hard, I'll bring jokes and a rollback plan.")
@@ -908,7 +908,7 @@ TAGLINES+=("Ah, the fruit tree company! 🍎")
 
 HOLIDAY_NEW_YEAR="New Year's Day: New year, new config—same old EADDRINUSE, but this time we resolve it like grown-ups."
 HOLIDAY_LUNAR_NEW_YEAR="Lunar New Year: May your builds be lucky, your branches prosperous, and your merge conflicts chased away with fireworks."
-HOLIDAY_CHRISTMAS="Christmas: Ho ho ho—Santa's little claw-sistant is here to ship joy, roll back chaos, and stash the keys safely."
+HOLIDAY_CHRISTMAS="Christmas: Ho ho ho—Santa's little lala-sistant is here to ship joy, roll back chaos, and stash the keys safely."
 HOLIDAY_EID="Eid al-Fitr: Celebration mode: queues cleared, tasks completed, and good vibes committed to main with clean history."
 HOLIDAY_DIWALI="Diwali: Let the logs sparkle and the bugs flee—today we light up the terminal and ship with pride."
 HOLIDAY_EASTER="Easter: I found your missing environment variable—consider it a tiny CLI egg hunt with fewer jellybeans."
@@ -2010,31 +2010,31 @@ install_lala() {
 # Run doctor for migrations (safe, non-interactive)
 run_doctor() {
     ui_info "Running doctor to migrate settings"
-    local claw="${LALA_BIN:-}"
-    if [[ -z "$claw" ]]; then
-        claw="$(resolve_lala_bin || true)"
+    local lala="${LALA_BIN:-}"
+    if [[ -z "$lala" ]]; then
+        lala="$(resolve_lala_bin || true)"
     fi
-    if [[ -z "$claw" ]]; then
+    if [[ -z "$lala" ]]; then
         ui_info "Skipping doctor (lala not on PATH yet)"
         warn_lala_not_found
         return 0
     fi
-    run_quiet_step "Running doctor" "$claw" doctor --non-interactive || true
+    run_quiet_step "Running doctor" "$lala" doctor --non-interactive || true
     ui_success "Doctor complete"
 }
 
 maybe_open_dashboard() {
-    local claw="${LALA_BIN:-}"
-    if [[ -z "$claw" ]]; then
-        claw="$(resolve_lala_bin || true)"
+    local lala="${LALA_BIN:-}"
+    if [[ -z "$lala" ]]; then
+        lala="$(resolve_lala_bin || true)"
     fi
-    if [[ -z "$claw" ]]; then
+    if [[ -z "$lala" ]]; then
         return 0
     fi
-    if ! "$claw" dashboard --help >/dev/null 2>&1; then
+    if ! "$lala" dashboard --help >/dev/null 2>&1; then
         return 0
     fi
-    "$claw" dashboard || true
+    "$lala" dashboard || true
 }
 
 resolve_workspace_dir() {
@@ -2070,17 +2070,17 @@ run_bootstrap_onboarding_if_needed() {
     fi
 
     ui_info "BOOTSTRAP.md found; starting onboarding"
-    local claw="${LALA_BIN:-}"
-    if [[ -z "$claw" ]]; then
-        claw="$(resolve_lala_bin || true)"
+    local lala="${LALA_BIN:-}"
+    if [[ -z "$lala" ]]; then
+        lala="$(resolve_lala_bin || true)"
     fi
-    if [[ -z "$claw" ]]; then
+    if [[ -z "$lala" ]]; then
         ui_info "BOOTSTRAP.md found but lala not on PATH; skipping onboarding"
         warn_lala_not_found
         return
     fi
 
-    "$claw" onboard || {
+    "$lala" onboard || {
         ui_error "Onboarding failed; run lala onboard to retry"
         return
     }
@@ -2122,12 +2122,12 @@ fi
 resolve_lala_version() {
     local version=""
     local raw_version_output=""
-    local claw="${LALA_BIN:-}"
-    if [[ -z "$claw" ]] && command -v lala &> /dev/null; then
-        claw="$(command -v lala)"
+    local lala="${LALA_BIN:-}"
+    if [[ -z "$lala" ]] && command -v lala &> /dev/null; then
+        lala="$(command -v lala)"
     fi
-    if [[ -n "$claw" ]]; then
-        raw_version_output=$("$claw" --version 2>/dev/null | head -n 1 | tr -d '\r')
+    if [[ -n "$lala" ]]; then
+        raw_version_output=$("$lala" --version 2>/dev/null | head -n 1 | tr -d '\r')
         version="$(extract_lala_semver "$raw_version_output")"
         if [[ -z "$version" ]]; then
             version="$raw_version_output"
@@ -2144,13 +2144,13 @@ resolve_lala_version() {
 }
 
 is_gateway_daemon_loaded() {
-    local claw="$1"
-    if [[ -z "$claw" ]]; then
+    local lala="$1"
+    if [[ -z "$lala" ]]; then
         return 1
     fi
 
     local status_json=""
-    status_json="$("$claw" daemon status --json 2>/dev/null || true)"
+    status_json="$("$lala" daemon status --json 2>/dev/null || true)"
     if [[ -z "$status_json" ]]; then
         return 1
     fi
@@ -2169,34 +2169,34 @@ try {
 }
 
 refresh_gateway_service_if_loaded() {
-    local claw="${LALA_BIN:-}"
-    if [[ -z "$claw" ]]; then
-        claw="$(resolve_lala_bin || true)"
+    local lala="${LALA_BIN:-}"
+    if [[ -z "$lala" ]]; then
+        lala="$(resolve_lala_bin || true)"
     fi
-    if [[ -z "$claw" ]]; then
+    if [[ -z "$lala" ]]; then
         return 0
     fi
 
-    if ! is_gateway_daemon_loaded "$claw"; then
+    if ! is_gateway_daemon_loaded "$lala"; then
         return 0
     fi
 
     ui_info "Refreshing loaded gateway service"
-    if run_quiet_step "Refreshing gateway service" "$claw" gateway install --force; then
+    if run_quiet_step "Refreshing gateway service" "$lala" gateway install --force; then
         ui_success "Gateway service metadata refreshed"
     else
         ui_warn "Gateway service refresh failed; continuing"
         return 0
     fi
 
-    if run_quiet_step "Restarting gateway service" "$claw" gateway restart; then
+    if run_quiet_step "Restarting gateway service" "$lala" gateway restart; then
         ui_success "Gateway service restarted"
     else
         ui_warn "Gateway service restart failed; continuing"
         return 0
     fi
 
-    run_quiet_step "Probing gateway service" "$claw" gateway status --probe --deep || true
+    run_quiet_step "Probing gateway service" "$lala" gateway status --probe --deep || true
 }
 
 # Main installation flow
@@ -2403,31 +2403,31 @@ main() {
     elif [[ "$is_upgrade" == "true" ]]; then
         ui_info "Upgrade complete"
         if [[ -r /dev/tty && -w /dev/tty ]]; then
-            local claw="${LALA_BIN:-}"
-            if [[ -z "$claw" ]]; then
-                claw="$(resolve_lala_bin || true)"
+            local lala="${LALA_BIN:-}"
+            if [[ -z "$lala" ]]; then
+                lala="$(resolve_lala_bin || true)"
             fi
-            if [[ -z "$claw" ]]; then
+            if [[ -z "$lala" ]]; then
                 ui_info "Skipping doctor (lala not on PATH yet)"
                 warn_lala_not_found
                 return 0
             fi
             local -a doctor_args=()
             if [[ "$NO_ONBOARD" == "1" ]]; then
-                if "$claw" doctor --help 2>/dev/null | grep -q -- "--non-interactive"; then
+                if "$lala" doctor --help 2>/dev/null | grep -q -- "--non-interactive"; then
                     doctor_args+=("--non-interactive")
                 fi
             fi
             ui_info "Running lala doctor"
             local doctor_ok=0
             if (( ${#doctor_args[@]} )); then
-                LALA_UPDATE_IN_PROGRESS=1 "$claw" doctor "${doctor_args[@]}" </dev/tty && doctor_ok=1
+                LALA_UPDATE_IN_PROGRESS=1 "$lala" doctor "${doctor_args[@]}" </dev/tty && doctor_ok=1
             else
-                LALA_UPDATE_IN_PROGRESS=1 "$claw" doctor </dev/tty && doctor_ok=1
+                LALA_UPDATE_IN_PROGRESS=1 "$lala" doctor </dev/tty && doctor_ok=1
             fi
             if (( doctor_ok )); then
                 ui_info "Updating plugins"
-                LALA_UPDATE_IN_PROGRESS=1 "$claw" plugins update --all || true
+                LALA_UPDATE_IN_PROGRESS=1 "$lala" plugins update --all || true
             else
                 ui_warn "Doctor failed; skipping plugin updates"
             fi
@@ -2449,17 +2449,17 @@ main() {
             ui_info "Starting setup"
             echo ""
             if [[ -r /dev/tty && -w /dev/tty ]]; then
-                local claw="${LALA_BIN:-}"
-                if [[ -z "$claw" ]]; then
-                    claw="$(resolve_lala_bin || true)"
+                local lala="${LALA_BIN:-}"
+                if [[ -z "$lala" ]]; then
+                    lala="$(resolve_lala_bin || true)"
                 fi
-                if [[ -z "$claw" ]]; then
+                if [[ -z "$lala" ]]; then
                     ui_info "Skipping onboarding (lala not on PATH yet)"
                     warn_lala_not_found
                     return 0
                 fi
                 exec </dev/tty
-                exec "$claw" onboard
+                exec "$lala" onboard
             fi
             ui_info "No TTY; run lala onboard to finish setup"
             return 0
@@ -2467,16 +2467,16 @@ main() {
     fi
 
     if command -v lala &> /dev/null; then
-        local claw="${LALA_BIN:-}"
-        if [[ -z "$claw" ]]; then
-            claw="$(resolve_lala_bin || true)"
+        local lala="${LALA_BIN:-}"
+        if [[ -z "$lala" ]]; then
+            lala="$(resolve_lala_bin || true)"
         fi
-        if [[ -n "$claw" ]] && is_gateway_daemon_loaded "$claw"; then
+        if [[ -n "$lala" ]] && is_gateway_daemon_loaded "$lala"; then
             if [[ "$DRY_RUN" == "1" ]]; then
                 ui_info "Gateway daemon detected; would restart (lala daemon restart)"
             else
                 ui_info "Gateway daemon detected; restarting"
-                if LALA_UPDATE_IN_PROGRESS=1 "$claw" daemon restart >/dev/null 2>&1; then
+                if LALA_UPDATE_IN_PROGRESS=1 "$lala" daemon restart >/dev/null 2>&1; then
                     ui_success "Gateway restarted"
                 else
                     ui_warn "Gateway restart failed; try: lala daemon restart"

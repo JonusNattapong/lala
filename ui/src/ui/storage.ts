@@ -128,7 +128,7 @@ export function loadSettings(): UiSettings {
     token: loadSessionToken(defaultUrl),
     sessionKey: "main",
     lastActiveSessionKey: "main",
-    theme: "claw",
+    theme: "lala",
     themeMode: "system",
     chatFocusMode: false,
     chatShowThinking: true,

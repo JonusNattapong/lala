@@ -387,7 +387,7 @@ struct SettingsTab: View {
                             .truncationMode(.middle)
                         LabeledContent("Device", value: DeviceInfoHelper.deviceFamily())
                         LabeledContent("Platform", value: DeviceInfoHelper.platformStringForDisplay())
-                        LabeledContent("Lala", value: DeviceInfoHelper.openClawVersionString())
+                        LabeledContent("Lala", value: DeviceInfoHelper.laLaVersionString())
                     }
                 }
             }

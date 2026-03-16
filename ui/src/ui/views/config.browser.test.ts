@@ -38,12 +38,12 @@ describe("config view", () => {
     onUpdate: vi.fn(),
     onSubsectionChange: vi.fn(),
     version: "2026.3.11",
-    theme: "claw" as ThemeName,
+    theme: "lala" as ThemeName,
     themeMode: "system" as ThemeMode,
     setTheme: vi.fn(),
     setThemeMode: vi.fn(),
     gatewayUrl: "",
-    assistantName: "OpenClaw",
+    assistantName: "LaLa",
   });
 
   function findActionButtons(container: HTMLElement): {

@@ -8,10 +8,10 @@ import type { LegacyStateDetection } from "./doctor-state-migrations.js";
 let originalIsTTY: boolean | undefined;
 let originalLalaStateDir: string | undefined;
 let originalLalabotStateDir: string | undefined;
-let originalOpenClawStateDir: string | undefined;
+let originalLaLaStateDir: string | undefined;
 let originalLalaUpdateInProgress: string | undefined;
 let originalLalabotUpdateInProgress: string | undefined;
-let originalOpenClawUpdateInProgress: string | undefined;
+let originalLaLaUpdateInProgress: string | undefined;
 let tempStateDir: string | undefined;
 
 function setStdinTty(value: boolean | undefined) {
@@ -402,10 +402,10 @@ beforeEach(() => {
   setStdinTty(true);
   originalLalaStateDir = process.env.LALA_STATE_DIR;
   originalLalabotStateDir = process.env.LALABOT_STATE_DIR;
-  originalOpenClawStateDir = process.env.LALA_STATE_DIR;
+  originalLaLaStateDir = process.env.LALA_STATE_DIR;
   originalLalaUpdateInProgress = process.env.LALA_UPDATE_IN_PROGRESS;
   originalLalabotUpdateInProgress = process.env.LALABOT_UPDATE_IN_PROGRESS;
-  originalOpenClawUpdateInProgress = process.env.LALA_UPDATE_IN_PROGRESS;
+  originalLaLaUpdateInProgress = process.env.LALA_UPDATE_IN_PROGRESS;
   process.env.LALA_UPDATE_IN_PROGRESS = "1";
   process.env.LALABOT_UPDATE_IN_PROGRESS = "1";
   process.env.LALA_UPDATE_IN_PROGRESS = "1";
@@ -431,10 +431,10 @@ afterEach(() => {
   } else {
     process.env.LALABOT_STATE_DIR = originalLalabotStateDir;
   }
-  if (originalOpenClawStateDir === undefined) {
+  if (originalLaLaStateDir === undefined) {
     delete process.env.LALA_STATE_DIR;
   } else {
-    process.env.LALA_STATE_DIR = originalOpenClawStateDir;
+    process.env.LALA_STATE_DIR = originalLaLaStateDir;
   }
   if (originalLalaUpdateInProgress === undefined) {
     delete process.env.LALA_UPDATE_IN_PROGRESS;
@@ -446,10 +446,10 @@ afterEach(() => {
   } else {
     process.env.LALABOT_UPDATE_IN_PROGRESS = originalLalabotUpdateInProgress;
   }
-  if (originalOpenClawUpdateInProgress === undefined) {
+  if (originalLaLaUpdateInProgress === undefined) {
     delete process.env.LALA_UPDATE_IN_PROGRESS;
   } else {
-    process.env.LALA_UPDATE_IN_PROGRESS = originalOpenClawUpdateInProgress;
+    process.env.LALA_UPDATE_IN_PROGRESS = originalLaLaUpdateInProgress;
   }
   if (tempStateDir) {
     fs.rmSync(tempStateDir, { recursive: true, force: true });

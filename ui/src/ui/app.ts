@@ -60,6 +60,9 @@ import type { ExecApprovalRequest } from "./controllers/exec-approval.ts";
 import type { ExecApprovalsFile, ExecApprovalsSnapshot } from "./controllers/exec-approvals.ts";
 import type { SkillMessage } from "./controllers/skills.ts";
 import type { GatewayBrowserClient, GatewayHelloOk } from "./gateway.ts";
+import {
+  loadOnboardingProgress,
+} from "./onboarding-persistence.ts";
 import type { Tab } from "./navigation.ts";
 import { loadSettings, type UiSettings } from "./storage.ts";
 import { VALID_THEME_NAMES, type ResolvedTheme, type ThemeMode, type ThemeName } from "./theme.ts";
@@ -116,7 +119,8 @@ function resolveOnboardingMode(): boolean {
   );
 }
 
-@customElement("openclaw-app")
+
+@customElement("lala-app")
 export class LalaApp extends LitElement {
   private i18nController = new I18nController(this);
   clientInstanceId = generateUUID();
@@ -127,6 +131,17 @@ export class LalaApp extends LitElement {
     if (isSupportedLocale(this.settings.locale)) {
       void i18n.setLocale(this.settings.locale);
     }
+    // Load saved onboarding progress
+    const saved = loadOnboardingProgress();
+    if (saved) {
+      this.onboardingStep = saved.step;
+      this.onboardingSelectedTheme = saved.theme;
+      this.onboardingSelectedSkills = saved.skills;
+      this.onboardingSecurityConfig = saved.security;
+      this.onboardingWorkspaceConfig = saved.workspace;
+      this.onboardingSelectedModelProvider = saved.selectedProvider;
+      this.onboardingSelectedModelId = saved.selectedModelId;
+    }
   }
   @state() password = "";
   @state() loginShowGatewayToken = false;
@@ -134,11 +149,32 @@ export class LalaApp extends LitElement {
   @state() tab: Tab = "chat";
   @state() onboarding = resolveOnboardingMode();
   @state() onboardingAutoDismissed = false;
-  @state() onboardingStep: "welcome" | "setup" | "models" | "channels" = "welcome";
+  @state() onboardingStep:
+    | "welcome"
+    | "setup"
+    | "models"
+    | "channels"
+    | "theme"
+    | "security"
+    | "workspace"
+    | "skills"
+    | "complete" = "welcome";
   @state() onboardingSelectedSetupMode: "local" | "remote" = "local";
   @state() onboardingSelectedModelProvider: string | null = null;
   @state() onboardingSelectedModelId: string | null = null;
   @state() onboardingSelectedChannels: string[] = [];
+  @state() onboardingSelectedTheme: "light" | "dark" | "system" = "system";
+  @state() onboardingSelectedSkills: string[] = [];
+  @state() onboardingSkillsSaving = false;
+  @state() onboardingSecurityConfig: { toolProfile: "coding" | "full" | "minimal"; sandboxMode: boolean } = {
+    toolProfile: "coding",
+    sandboxMode: false,
+  };
+  @state() onboardingWorkspaceConfig: { path: string | null; personality: string | null; autoSave: boolean } = {
+    path: null,
+    personality: null,
+    autoSave: true,
+  };
   @state() onboardingWizardSessionId = resolveWizardSessionIdFromUrl();
   @state() onboardingWizardStep: import("../../../src/wizard/session.js").WizardStep | null = null;
   @state() onboardingWizardStatus: import("../../../src/wizard/session.js").WizardSessionStatus | null = null;
@@ -149,7 +185,7 @@ export class LalaApp extends LitElement {
   @state() onboardingWizardAnswerBoolean = false;
   @state() onboardingWizardAnswerMulti: string[] = [];
   @state() connected = false;
-  @state() theme: ThemeName = this.settings.theme ?? "claw";
+  @state() theme: ThemeName = this.settings.theme ?? "lala";
   @state() themeMode: ThemeMode = this.settings.themeMode ?? "system";
   @state() themeResolved: ResolvedTheme = "dark";
   @state() themeOrder: ThemeName[] = this.buildThemeOrder(this.theme);

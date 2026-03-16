@@ -15,12 +15,12 @@ describe("resolveEffectiveHomeDir", () => {
       path.resolve("/srv/lala-home-new"),
     );
 
-    const envWithOpenClaw = {
+    const envWithLaLa = {
       LALA_HOME: "/srv/lala-home-old",
       HOME: "/home/other",
     } as NodeJS.ProcessEnv;
 
-    expect(resolveEffectiveHomeDir(envWithOpenClaw, () => "/fallback")).toBe(
+    expect(resolveEffectiveHomeDir(envWithLaLa, () => "/fallback")).toBe(
       path.resolve("/srv/lala-home-old"),
     );
   });
@@ -45,12 +45,12 @@ describe("resolveEffectiveHomeDir", () => {
 
     expect(resolveEffectiveHomeDir(envLala)).toBe(path.resolve("/home/alice/svc"));
 
-    const envOpenClaw = {
+    const envLaLa = {
       LALA_HOME: "~/svc",
       HOME: "/home/alice",
     } as NodeJS.ProcessEnv;
 
-    expect(resolveEffectiveHomeDir(envOpenClaw)).toBe(path.resolve("/home/alice/svc"));
+    expect(resolveEffectiveHomeDir(envLaLa)).toBe(path.resolve("/home/alice/svc"));
   });
 });
 

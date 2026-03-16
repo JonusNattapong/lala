@@ -51,8 +51,8 @@ describe("findExtraGatewayServices (win32)", () => {
         "TaskName: Lala Gateway",
         "Task To Run: C:\\Program Files\\Lala\\lala.exe gateway run",
         "",
-        "TaskName: Clawdbot Legacy",
-        "Task To Run: C:\\clawdbot\\clawdbot.exe run",
+        "TaskName: Lalabot Legacy",
+        "Task To Run: C:\\lalabot\\lalabot.exe run",
         "",
         "TaskName: Other Task",
         "Task To Run: C:\\tools\\helper.exe",
@@ -68,10 +68,10 @@ describe("findExtraGatewayServices (win32)", () => {
     expect(result).toEqual([
       {
         platform: "win32",
-        label: "Clawdbot Legacy",
-        detail: "task: Clawdbot Legacy, run: C:\\clawdbot\\clawdbot.exe run",
+        label: "Lalabot Legacy",
+        detail: "task: Lalabot Legacy, run: C:\\lalabot\\lalabot.exe run",
         scope: "system",
-        marker: "clawdbot",
+        marker: "lalabot",
         legacy: true,
       },
       {

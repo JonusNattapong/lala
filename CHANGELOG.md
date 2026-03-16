@@ -269,7 +269,7 @@ Docs: <https://docs.lala.ai>
 
 ### Changes
 
-- Agents/context engine plugin interface: add `ContextEngine` plugin slot with full lifecycle hooks (`bootstrap`, `ingest`, `assemble`, `compact`, `afterTurn`, `prepareSubagentSpawn`, `onSubagentEnded`), slot-based registry with config-driven resolution, `LegacyContextEngine` wrapper preserving existing compaction behavior, scoped subagent runtime for plugin runtimes via `AsyncLocalStorage`, and `sessions.get` gateway method. Enables plugins like `lossless-claw` to provide alternative context management strategies without modifying core compaction logic. Zero behavior change when no context engine plugin is configured. (#22201) thanks @jalehman.
+- Agents/context engine plugin interface: add `ContextEngine` plugin slot with full lifecycle hooks (`bootstrap`, `ingest`, `assemble`, `compact`, `afterTurn`, `prepareSubagentSpawn`, `onSubagentEnded`), slot-based registry with config-driven resolution, `LegacyContextEngine` wrapper preserving existing compaction behavior, scoped subagent runtime for plugin runtimes via `AsyncLocalStorage`, and `sessions.get` gateway method. Enables plugins like `lossless-lala` to provide alternative context management strategies without modifying core compaction logic. Zero behavior change when no context engine plugin is configured. (#22201) thanks @jalehman.
 - ACP/persistent channel bindings: add durable Discord channel and Telegram topic binding storage, routing resolution, and CLI/docs support so ACP thread targets survive restarts and can be managed consistently. (#34873) Thanks @dutifulbob.
 - Telegram/ACP topic bindings: accept Telegram Mac Unicode dash option prefixes in `/acp spawn`, support Telegram topic thread binding (`--thread here|auto`), route bound-topic follow-ups to ACP sessions, add actionable Telegram approval buttons with prefixed approval-id resolution, and pin successful bind confirmations in-topic. (#36683) Thanks @huntharo.
 - Telegram/topic agent routing: support per-topic `agentId` overrides in forum groups and DM topics so topics can route to dedicated agents with isolated sessions. (#33647; based on #31513) Thanks @kesor and @Sid-Qin.
@@ -597,7 +597,7 @@ Docs: <https://docs.lala.ai>
 - Nodes/system.run dispatch-wrapper boundary: keep shell-wrapper approval classification active at the depth boundary so `env` wrapper stacks cannot reach `/bin/sh -c` execution without the expected approval gate. Thanks @tdjackey for reporting.
 - Docker/token persistence on reconfigure: reuse the existing `.env` gateway token during `docker-setup.sh` reruns and align compose token env defaults, so Docker installs stop silently rotating tokens and breaking existing dashboard sessions. Landed from contributor PR #33097 by @chengzhichao-xydt. Thanks @chengzhichao-xydt.
 - Agents/strict OpenAI turn ordering: apply assistant-first transcript bootstrap sanitization to strict OpenAI-compatible providers (for example vLLM/Gemma via `openai-completions`) without adding Google-specific session markers, preventing assistant-first history rejections. (#39252) Thanks @scoootscooob.
-- Discord/exec approvals gateway auth: pass resolved shared gateway credentials into the Discord exec-approvals gateway client so token-auth installs stop failing approvals with `gateway token mismatch`. Related to #38179. Thanks @0riginal-claw for the adjacent PR #35147 investigation.
+- Discord/exec approvals gateway auth: pass resolved shared gateway credentials into the Discord exec-approvals gateway client so token-auth installs stop failing approvals with `gateway token mismatch`. Related to #38179. Thanks @0riginal-lala for the adjacent PR #35147 investigation.
 - Subagents/workspace inheritance: propagate parent workspace directory to spawned subagent runs so child sessions reliably inherit workspace-scoped instructions (`AGENTS.md`, `SOUL.md`, etc.) without exposing workspace override through tool-call arguments. (#39247) Thanks @jasonQin6.
 - Exec approvals/gateway-node policy: honor explicit `ask=off` from `exec-approvals.json` even when runtime defaults are stricter, so trusted full/off setups stop re-prompting on gateway and node exec paths. Landed from contributor PR #26789 by @pandego. Thanks @pandego.
 - Exec approvals/config fallback: inherit `ask` from `exec-approvals.json` when `tools.exec.ask` is unset, so local full/off defaults no longer fall back to `on-miss` for exec tool and `nodes run`. Landed from contributor PR #29187 by @Bartok9. Thanks @Bartok9.
@@ -2266,7 +2266,7 @@ Docs: <https://docs.lala.ai>
 - Discord: prefer gateway guild id when logging inbound messages so cached-miss guilds do not appear as `guild=dm`. Thanks @thewilloftheshadow.
 - Discord: treat empty per-guild `channels: {}` config maps as no channel allowlist (not deny-all), so `groupPolicy: "open"` guilds without explicit channel entries continue to receive messages. (#16714) Thanks @xqliu.
 - Models/CLI: guard `models status` string trimming paths to prevent crashes from malformed non-string config values. (#16395) Thanks @BinHPdev.
-- Gateway/Subagents: preserve queued announce items and summary state on delivery errors, retry failed announce drains, and avoid dropping unsent announcements on timeout/failure. (#16729) Thanks @Clawdette-Workspace.
+- Gateway/Subagents: preserve queued announce items and summary state on delivery errors, retry failed announce drains, and avoid dropping unsent announcements on timeout/failure. (#16729) Thanks @Lalaette-Workspace.
 - Gateway/Config: make `config.patch` merge object arrays by `id` (for example `agents.list`) instead of replacing the whole array, so partial agent updates do not silently delete unrelated agents. (#6766) Thanks @lightclient.
 - Webchat/Prompts: stop injecting direct-chat `conversation_label` into inbound untrusted metadata context blocks, preventing internal label noise from leaking into visible chat replies. (#16556) Thanks @nberardi.
 - Auto-reply/Prompts: include trusted inbound `message_id`, `chat_id`, `reply_to_id`, and optional `message_id_full` metadata fields so action tools (for example reactions) can target the triggering message without relying on user text. (#17662) Thanks @MaikiMolto.
@@ -2478,7 +2478,7 @@ Docs: <https://docs.lala.ai>
 - Cron: honor `deleteAfterRun` in isolated announce delivery by mapping it to subagent announce cleanup mode, so cron run sessions configured for deletion are removed after completion. (#15368) Thanks @arosstale.
 - Web tools/web_fetch: prefer `text/markdown` responses for Cloudflare Markdown for Agents, add `cf-markdown` extraction for markdown bodies, and redact fetched URLs in `x-markdown-tokens` debug logs to avoid leaking raw paths/query params. (#15376) Thanks @Yaxuan42.
 - Tools/web_search: support `freshness` for the Perplexity provider by mapping `pd`/`pw`/`pm`/`py` to Perplexity `search_recency_filter` values and including freshness in the Perplexity cache key. (#15343) Thanks @echoVic.
-- Clawdock: avoid Zsh readonly variable collisions in helper scripts. (#15501) Thanks @nkelner.
+- Lalaock: avoid Zsh readonly variable collisions in helper scripts. (#15501) Thanks @nkelner.
 - Memory: switch default local embedding model to the QAT `embeddinggemma-300m-qat-Q8_0` variant for better quality at the same footprint. (#15429) Thanks @azade-c.
 - Docs/Discord: expand quick setup and clarify guild workspace guidance. (#20088) Thanks @pejmanjohn, @thewilloftheshadow.
 - Docs/Mermaid: remove hardcoded Mermaid init theme blocks from four docs diagrams so dark mode inherits readable theme defaults. (#15157) Thanks @heytulsiprasad.
@@ -2549,7 +2549,7 @@ Docs: <https://docs.lala.ai>
 - Discord: add optional gateway proxy support for WebSocket connections via `channels.discord.proxy`. (#10400) Thanks @winter-loo, @thewilloftheshadow.
 - Browser: add Chrome launch flag `--disable-blink-features=AutomationControlled` to reduce `navigator.webdriver` automation detection issues on reCAPTCHA-protected sites. (#10735) Thanks @Milofax.
 - Heartbeat: filter noise-only system events so scheduled reminder notifications do not fire when cron runs carry only heartbeat markers. (#13317) Thanks @pvtclawn.
-- Signal: render mention placeholders as `@uuid`/`@phone` so mention gating and Clawdbot targeting work. (#2013) Thanks @alexgleason.
+- Signal: render mention placeholders as `@uuid`/`@phone` so mention gating and Lalabot targeting work. (#2013) Thanks @alexgleason.
 - Agents/Reminders: guard reminder promises by appending a note when no `cron.add` succeeded in the turn, so users know nothing was scheduled. (#18588) Thanks @vignesh07.
 - Discord: omit empty content fields for media-only messages while preserving caption whitespace. (#9507) Thanks @leszekszpunar.
 - Onboarding/Providers: add Z.AI endpoint-specific auth choices (`zai-coding-global`, `zai-coding-cn`, `zai-global`, `zai-cn`) and expand default Z.AI model wiring. (#13456) Thanks @tomsun28.

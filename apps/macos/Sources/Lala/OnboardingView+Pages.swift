@@ -581,7 +581,7 @@ extension OnboardingView {
                 Spacer(minLength: 0)
                 SelectionStateIndicator(selected: selected)
             }
-            .openClawSelectableRowChrome(selected: selected)
+            .laLaSelectableRowChrome(selected: selected)
         }
         .buttonStyle(.plain)
     }

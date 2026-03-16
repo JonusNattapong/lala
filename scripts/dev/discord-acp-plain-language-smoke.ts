@@ -296,7 +296,7 @@ async function lalaCliJson<T>(params: { lalaBin: string; args: string[] }): Prom
   return JSON.parse(stdout) as T;
 }
 
-async function readMessagesWithOpenclaw(params: {
+async function readMessagesWithLala(params: {
   lalaBin: string;
   target: string;
   limit: number;
@@ -488,7 +488,7 @@ async function loadParentRecentMessages(params: {
   readAuthHeader: string;
 }): Promise<DiscordMessage[]> {
   if (params.args.driverMode === "lala") {
-    return await readMessagesWithOpenclaw({
+    return await readMessagesWithLala({
       lalaBin: params.args.lalaBin,
       target: params.args.channelId,
       limit: 20,
@@ -756,7 +756,7 @@ async function run(): Promise<SuccessResult | FailureResult> {
       try {
         const threadMessages =
           args.driverMode === "lala"
-            ? await readMessagesWithOpenclaw({
+            ? await readMessagesWithLala({
                 lalaBin: args.lalaBin,
                 target: threadId,
                 limit: 50,

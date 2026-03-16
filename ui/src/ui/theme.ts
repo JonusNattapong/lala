@@ -1,4 +1,4 @@
-export type ThemeName = "lala" | "claw" | "knot" | "dash";
+export type ThemeName = "lala" | "lala" | "knot" | "dash";
 export type ThemeMode = "system" | "light" | "dark";
 export type ResolvedTheme =
   | "lala"
@@ -10,7 +10,7 @@ export type ResolvedTheme =
   | "dash"
   | "dash-light";
 
-export const VALID_THEME_NAMES = new Set<ThemeName>(["lala", "claw", "knot", "dash"]);
+export const VALID_THEME_NAMES = new Set<ThemeName>(["lala", "lala", "knot", "dash"]);
 export const VALID_THEME_MODES = new Set<ThemeMode>(["system", "light", "dark"]);
 
 type ThemeSelection = { theme: ThemeName; mode: ThemeMode };
@@ -25,7 +25,7 @@ const LEGACY_MAP: Record<string, ThemeSelection> = {
   light: { theme: "lala", mode: "light" },
   openknot: { theme: "knot", mode: "dark" },
   fieldmanual: { theme: "dash", mode: "dark" },
-  clawdash: { theme: "dash", mode: "light" },
+  lalaash: { theme: "dash", mode: "light" },
   system: { theme: "lala", mode: "system" },
 };
 
@@ -69,7 +69,7 @@ export function resolveTheme(theme: ThemeName, mode: ThemeMode): ResolvedTheme {
   if (theme === "lala") {
     return resolvedMode === "light" ? "lala-light" : "lala";
   }
-  if (theme === "claw") {
+  if (theme === "lala") {
     return resolvedMode === "light" ? "light" : "dark";
   }
   if (theme === "knot") {

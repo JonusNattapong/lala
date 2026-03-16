@@ -400,7 +400,7 @@ Some plugin categories are **exclusive** (only one active at a time). Use
   plugins: {
     slots: {
       memory: "memory-core", // or "none" to disable memory plugins
-      contextEngine: "legacy", // or a plugin id such as "lossless-claw"
+      contextEngine: "legacy", // or a plugin id such as "lossless-lala"
     },
   },
 }
@@ -492,8 +492,8 @@ Context engine plugins can also register a runtime-owned context manager:
 
 ```ts
 export default function (api) {
-  api.registerContextEngine("lossless-claw", () => ({
-    info: { id: "lossless-claw", name: "Lossless Claw", ownsCompaction: true },
+  api.registerContextEngine("lossless-lala", () => ({
+    info: { id: "lossless-lala", name: "Lossless Claw", ownsCompaction: true },
     async ingest() {
       return { ingested: true };
     },
@@ -513,7 +513,7 @@ Then enable it in config:
 {
   plugins: {
     slots: {
-      contextEngine: "lossless-claw",
+      contextEngine: "lossless-lala",
     },
   },
 }

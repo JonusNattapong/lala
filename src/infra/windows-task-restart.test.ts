@@ -105,13 +105,13 @@ describe("relaunchGatewayScheduledTask", () => {
     createdScriptPaths.clear();
     relaunchGatewayScheduledTask({
       LALA_PROFILE: "work",
-      LALA_WINDOWS_TASK_NAME: "Lala Gateway (openclaw-custom)",
+      LALA_WINDOWS_TASK_NAME: "Lala Gateway (lala-custom)",
     });
 
-    const scriptPathOpenClaw = [...createdScriptPaths][0];
-    const scriptOpenClaw = fs.readFileSync(scriptPathOpenClaw, "utf8");
-    expect(scriptOpenClaw).toContain(
-      'schtasks /Run /TN "Lala Gateway (openclaw-custom)" >nul 2>&1',
+    const scriptPathLaLa = [...createdScriptPaths][0];
+    const scriptLaLa = fs.readFileSync(scriptPathLaLa, "utf8");
+    expect(scriptLaLa).toContain(
+      'schtasks /Run /TN "Lala Gateway (lala-custom)" >nul 2>&1',
     );
   });
 

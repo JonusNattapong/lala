@@ -1,14 +1,30 @@
-import type { ChannelsStatusSnapshot, ModelCatalogEntry } from "../types.ts";
+import type { ChannelsStatusSnapshot, ModelCatalogEntry, SkillStatusReport } from "../types.ts";
 import { resolveModelPrimary } from "./agents-utils.ts";
 
-export type OnboardingStepId = "welcome" | "setup" | "models" | "channels";
+export type OnboardingStepId =
+  | "welcome"
+  | "theme"
+  | "setup"
+  | "security"
+  | "workspace"
+  | "models"
+  | "channels"
+  | "skills"
+  | "complete";
 
 type AgentLikeConfig = {
+  tools?: {
+    profile?: string;
+  };
   agents?: {
     defaults?: {
       model?: unknown;
       models?: Record<string, unknown>;
       workspace?: string;
+      systemPrompt?: string;
+      sandbox?: {
+        mode?: string;
+      };
     };
     list?: Array<{ model?: unknown }>;
   };
@@ -46,6 +62,30 @@ export type OnboardingChannelState = {
 };
 
 export type OnboardingStepStatus = "current" | "complete" | "upcoming";
+
+export type OnboardingSecurityState = {
+  toolProfile: "coding" | "full" | "minimal";
+  notifications: boolean;
+  fileAccess: boolean;
+  sandboxMode: boolean;
+};
+
+export type OnboardingWorkspaceState = {
+  path: string | null;
+  personality: string | null;
+  autoSave: boolean;
+};
+
+export type OnboardingSkillState = {
+  id: string;
+  name: string;
+  description: string;
+  installed: boolean;
+  category: string;
+  installId: string | null;
+  canInstall: boolean;
+  alwaysEnabled: boolean;
+};
 
 export function hasConfiguredModel(config: Record<string, unknown> | null): boolean {
   if (!config) {
@@ -139,7 +179,7 @@ export function resolveOnboardingProviders(models: ModelCatalogEntry[]): string[
       providers.add(provider);
     }
   }
-  return [...providers].sort((a, b) => a.localeCompare(b));
+  return [...providers].toSorted((a, b) => a.localeCompare(b));
 }
 
 export function resolveOnboardingModelsForProvider(
@@ -192,27 +232,136 @@ export function resolveOnboardingChannels(
   });
 }
 
+export function resolveOnboardingSecurity(config: Record<string, unknown> | null): OnboardingSecurityState {
+  const snapshot = (config ?? {}) as AgentLikeConfig;
+  const sandboxMode = snapshot.agents?.defaults?.sandbox?.mode;
+  const profile = snapshot.tools?.profile;
+  return {
+    toolProfile:
+      profile === "full" || profile === "minimal" || profile === "coding" ? profile : "coding",
+    notifications: true,
+    fileAccess: true,
+    sandboxMode: sandboxMode === "non-main" || sandboxMode === "all",
+  };
+}
+
+export function resolveOnboardingWorkspace(config: Record<string, unknown> | null): OnboardingWorkspaceState {
+  const snapshot = (config ?? {}) as AgentLikeConfig;
+  return {
+    path: snapshot.agents?.defaults?.workspace?.trim() || null,
+    personality: snapshot.agents?.defaults?.systemPrompt?.trim() || null,
+    autoSave: true,
+  };
+}
+
+function categorizeSkill(source: string, alwaysEnabled: boolean): string {
+  if (alwaysEnabled) {
+    return "Always on";
+  }
+  if (source.includes("bundled")) {
+    return "Built-in";
+  }
+  if (source.includes("managed")) {
+    return "Installable";
+  }
+  if (source.includes("workspace")) {
+    return "Workspace";
+  }
+  return "Optional";
+}
+
+export function resolveOnboardingSkills(report?: SkillStatusReport | null): OnboardingSkillState[] {
+  if (report?.skills?.length) {
+    return [...report.skills]
+      .toSorted((left, right) => left.name.localeCompare(right.name))
+      .map((skill) => ({
+        id: skill.skillKey,
+        name: skill.name,
+        description: skill.description,
+        installed: skill.always || !skill.disabled,
+        category: categorizeSkill(skill.source, skill.always),
+        installId: skill.install[0]?.id ?? null,
+        canInstall: skill.always || skill.install.length > 0 || skill.eligible,
+        alwaysEnabled: skill.always,
+      }));
+  }
+  return [
+    {
+      id: "weather",
+      name: "Weather",
+      description: "Get current weather and forecasts in chat.",
+      installed: false,
+      category: "Recommended",
+      installId: null,
+      canInstall: true,
+      alwaysEnabled: false,
+    },
+    {
+      id: "summarize",
+      name: "Summarize",
+      description: "Summarize URLs, text, and documents without leaving the app.",
+      installed: false,
+      category: "Recommended",
+      installId: null,
+      canInstall: true,
+      alwaysEnabled: false,
+    },
+    {
+      id: "ddg-search",
+      name: "Web Search",
+      description: "Search the web from chat when you need fresh answers.",
+      installed: false,
+      category: "Recommended",
+      installId: null,
+      canInstall: true,
+      alwaysEnabled: false,
+    },
+  ];
+}
+
 export function resolveOnboardingStepStatus(params: {
   activeStep: OnboardingStepId;
   config: Record<string, unknown> | null;
   gatewayUrl: string;
   channelsSnapshot: ChannelsStatusSnapshot | null;
 }): Record<OnboardingStepId, OnboardingStepStatus> {
-  const order: OnboardingStepId[] = ["welcome", "setup", "models", "channels"];
+  const order: OnboardingStepId[] = [
+    "welcome",
+    "theme",
+    "setup",
+    "security",
+    "workspace",
+    "models",
+    "channels",
+    "skills",
+    "complete",
+  ];
   const activeIndex = order.indexOf(params.activeStep);
   const setup = resolveOnboardingSetup(params.config, params.gatewayUrl);
   const hasModel = hasConfiguredModel(params.config);
   const hasChannels = hasConfiguredChannels(params.channelsSnapshot);
   const completion: Record<OnboardingStepId, boolean> = {
     welcome: true,
+    theme: true,
     setup: Boolean(setup.mode),
+    security: true,
+    workspace: true,
     models: hasModel,
     channels: hasChannels,
+    skills: true,
+    complete: true,
   };
-  return {
-    welcome: activeIndex === 0 ? "current" : completion.welcome ? "complete" : "upcoming",
-    setup: activeIndex === 1 ? "current" : completion.setup && activeIndex > 1 ? "complete" : "upcoming",
-    models: activeIndex === 2 ? "current" : completion.models && activeIndex > 2 ? "complete" : "upcoming",
-    channels: activeIndex === 3 ? "current" : completion.channels && activeIndex > 3 ? "complete" : "upcoming",
-  };
+  return order.reduce(
+    (acc, step, index) => {
+      if (index === activeIndex) {
+        acc[step] = "current";
+      } else if (completion[step] && index < activeIndex) {
+        acc[step] = "complete";
+      } else {
+        acc[step] = "upcoming";
+      }
+      return acc;
+    },
+    {} as Record<OnboardingStepId, OnboardingStepStatus>,
+  );
 }

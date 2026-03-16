@@ -3,7 +3,7 @@ import { icons } from "../icons.ts";
 import type { OnboardingSetupState } from "./onboarding-flow.ts";
 
 function formatMode(mode: "local" | "remote"): string {
-  return mode === "local" ? "Local gateway" : "Remote gateway";
+  return mode === "local" ? "This device" : "Another machine";
 }
 
 export function renderOnboardingSetupStep(props: {
@@ -13,18 +13,17 @@ export function renderOnboardingSetupStep(props: {
   onBack: () => void;
 }) {
   const rows = [
-    { label: "CLI domain", value: "OnboardMode + GatewayBind + GatewayAuthChoice" },
-    { label: "Current mode", value: formatMode(props.setup.mode) },
-    { label: "Bind", value: props.setup.bind },
-    { label: "Auth", value: props.setup.authMode },
-    { label: "Port", value: props.setup.port == null ? "Not set" : String(props.setup.port) },
+    { label: "Where Lala runs", value: formatMode(props.setup.mode) },
+    { label: "Network access", value: props.setup.bind },
+    { label: "Sign-in method", value: props.setup.authMode },
+    { label: "Port", value: props.setup.port == null ? "Using default" : String(props.setup.port) },
     {
-      label: "Remote URL",
-      value: props.setup.remoteUrl ?? "Not configured",
+      label: "Remote address",
+      value: props.setup.remoteUrl ?? "Not connected",
     },
     {
       label: "Workspace",
-      value: props.setup.workspace ?? "Not configured yet",
+      value: props.setup.workspace ?? "Will be created when you finish setup",
     },
   ];
 
@@ -32,11 +31,10 @@ export function renderOnboardingSetupStep(props: {
     <section class="onboarding-step">
       <div class="onboarding-copy-block">
         <div class="onboarding-copy-block__eyebrow">Where Lala lives</div>
-        <h1>This step now reflects the real gateway state.</h1>
+        <h1>Confirm where your assistant is running.</h1>
         <p>
-          In CLI and macOS onboarding this is where users choose local vs remote, bind mode, and
-          gateway auth. In the web UI we surface the live values first, because changing them here
-          can interrupt your current connection.
+          This guided web setup reads your live gateway settings first so you can confirm the basics
+          without breaking the connection you are using right now.
         </p>
       </div>
 
@@ -67,8 +65,8 @@ export function renderOnboardingSetupStep(props: {
 
       <div class="onboarding-models-panel">
         <div>
-          <strong>Need to change gateway hosting details?</strong>
-          <p>Open infrastructure settings for the full configuration controls.</p>
+          <strong>Need to change host, port, or login details?</strong>
+          <p>Open infrastructure settings for the full connection controls.</p>
         </div>
         <button class="btn" @click=${props.onOpenInfrastructureSettings}>Open infrastructure</button>
       </div>

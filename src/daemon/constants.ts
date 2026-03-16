@@ -11,16 +11,16 @@ export const NODE_SERVICE_MARKER = "lala";
 export const NODE_SERVICE_KIND = "node";
 export const NODE_WINDOWS_TASK_SCRIPT_NAME = "node.cmd";
 export const LEGACY_GATEWAY_LAUNCH_AGENT_LABELS: string[] = [
-  "ai.openclaw.gateway",
+  "ai.lala.gateway",
   "ai.lalabot.gateway",
 ];
 export const LEGACY_GATEWAY_SYSTEMD_SERVICE_NAMES: string[] = [
-  "openclaw-gateway",
+  "lala-gateway",
   "lalabot-gateway",
-  "clawdbot-gateway",
+  "lalabot-gateway",
   "moltbot-gateway",
 ];
-export const LEGACY_GATEWAY_WINDOWS_TASK_NAMES: string[] = ["OpenClaw Gateway", "Lalabot Gateway"];
+export const LEGACY_GATEWAY_WINDOWS_TASK_NAMES: string[] = ["LALA Gateway", "Lalabot Gateway"];
 
 export function normalizeGatewayProfile(profile?: string): string | null {
   const trimmed = profile?.trim();
@@ -47,7 +47,7 @@ export function resolveLegacyGatewayLaunchAgentLabels(profile?: string): string[
   const normalized = normalizeGatewayProfile(profile);
   const labels = [...LEGACY_GATEWAY_LAUNCH_AGENT_LABELS];
   if (normalized) {
-    labels.push(`ai.openclaw.${normalized}`);
+    labels.push(`ai.lala.${normalized}`);
     labels.push(`ai.lalabot.${normalized}`);
   }
   return labels;

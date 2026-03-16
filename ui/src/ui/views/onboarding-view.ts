@@ -9,20 +9,31 @@ import {
   resolveOnboardingModelsForProvider,
   resolveOnboardingProviders,
   resolveOnboardingSetup,
+  resolveOnboardingSkills,
   resolveOnboardingStepStatus,
   resolveShouldShowOnboarding,
   type OnboardingStepId,
 } from "./onboarding-flow.ts";
 import { renderOnboardingChannelsStep } from "./onboarding-step-channels.ts";
+import { renderOnboardingCompleteStep } from "./onboarding-step-complete.ts";
 import { renderOnboardingModelsStep } from "./onboarding-step-models.ts";
+import { renderOnboardingSecurityStep } from "./onboarding-step-security.ts";
 import { renderOnboardingSetupStep } from "./onboarding-step-setup.ts";
+import { renderOnboardingSkillsStep } from "./onboarding-step-skills.ts";
+import { renderOnboardingThemeStep } from "./onboarding-step-theme.ts";
 import { renderOnboardingWelcomeStep } from "./onboarding-step-welcome.ts";
+import { renderOnboardingWorkspaceStep } from "./onboarding-step-workspace.ts";
 
 const STEPS: Array<{ id: OnboardingStepId; label: string }> = [
   { id: "welcome", label: "Welcome" },
+  { id: "theme", label: "Theme" },
   { id: "setup", label: "Home" },
+  { id: "security", label: "Security" },
+  { id: "workspace", label: "Workspace" },
   { id: "models", label: "Models" },
   { id: "channels", label: "Channels" },
+  { id: "skills", label: "Skills" },
+  { id: "complete", label: "Complete" },
 ];
 
 export { resolveShouldShowOnboarding };
@@ -36,6 +47,11 @@ export function renderOnboardingView(props: {
   selectedModelId: string | null;
   models: ModelCatalogEntry[];
   modelSaving: boolean;
+  selectedTheme: "light" | "dark" | "system";
+  selectedSkills: string[];
+  skillsSaving: boolean;
+  securityConfig: { toolProfile: "coding" | "full" | "minimal"; sandboxMode: boolean };
+  workspaceConfig: { path: string | null; personality: string | null; autoSave: boolean };
   onStepChange: (step: OnboardingStepId) => void;
   onProviderChange: (provider: string) => void;
   onModelChange: (modelId: string) => void;
@@ -43,8 +59,15 @@ export function renderOnboardingView(props: {
   onOpenAiSettings: () => void;
   onOpenInfrastructureSettings: () => void;
   onOpenChannelSettings: () => void;
+  onThemeChange: (theme: "light" | "dark" | "system") => void;
+  onSkillToggle: (skillId: string) => void;
+  onSkillsSave: () => void;
+  onSecurityChange: (config: { toolProfile: "coding" | "full" | "minimal"; sandboxMode: boolean }) => void;
+  onWorkspaceChange: (config: { path: string | null; personality: string | null; autoSave: boolean }) => void;
   onFinish: () => void;
   onSkip: () => void;
+  onOpenDashboard: () => void;
+  onStartTutorial: () => void;
 }) {
   const stepIndex = Math.max(
     0,
@@ -78,13 +101,34 @@ export function renderOnboardingView(props: {
     channelsSnapshot: props.state.channelsSnapshot,
   });
 
-  let content = nothing;
+  let content: unknown = nothing;
   if (props.step === "welcome") {
     content = renderOnboardingWelcomeStep({ onNext: nextStep, onSkip: props.onSkip });
+  } else if (props.step === "theme") {
+    content = renderOnboardingThemeStep({
+      selectedTheme: props.selectedTheme,
+      onThemeChange: props.onThemeChange,
+      onNext: nextStep,
+      onBack: prevStep,
+    });
   } else if (props.step === "setup") {
     content = renderOnboardingSetupStep({
       setup,
       onOpenInfrastructureSettings: props.onOpenInfrastructureSettings,
+      onNext: nextStep,
+      onBack: prevStep,
+    });
+  } else if (props.step === "security") {
+    content = renderOnboardingSecurityStep({
+      config: props.securityConfig,
+      onConfigChange: props.onSecurityChange,
+      onNext: nextStep,
+      onBack: prevStep,
+    });
+  } else if (props.step === "workspace") {
+    content = renderOnboardingWorkspaceStep({
+      config: props.workspaceConfig,
+      onConfigChange: props.onWorkspaceChange,
       onNext: nextStep,
       onBack: prevStep,
     });
@@ -103,12 +147,30 @@ export function renderOnboardingView(props: {
       onNext: nextStep,
       onBack: prevStep,
     });
-  } else {
+  } else if (props.step === "channels") {
     content = renderOnboardingChannelsStep({
       channels,
       onOpenChannelSettings: props.onOpenChannelSettings,
       onBack: prevStep,
-      onFinish: props.onFinish,
+      onNext: nextStep,
+    });
+  } else if (props.step === "skills") {
+    content = renderOnboardingSkillsStep({
+      skills: resolveOnboardingSkills(props.state.skillsReport),
+      selectedSkills: props.selectedSkills,
+      saving: props.skillsSaving,
+      onSkillToggle: props.onSkillToggle,
+      onSave: props.onSkillsSave,
+      onBack: prevStep,
+      onNext: nextStep,
+    });
+  } else {
+    content = renderOnboardingCompleteStep({
+      config: props.state.configSnapshot?.config ?? null,
+      channelsSnapshot: props.state.channelsSnapshot,
+      onOpenDashboard: props.onOpenDashboard,
+      onStartTutorial: props.onStartTutorial,
+      onBack: prevStep,
     });
   }
 
@@ -121,7 +183,7 @@ export function renderOnboardingView(props: {
             <div class="onboarding-brand__mark">${icons.zap}</div>
             <div>
               <div class="onboarding-brand__eyebrow">Lala onboarding</div>
-              <div class="onboarding-brand__title">Mapped from the real onboarding system</div>
+              <div class="onboarding-brand__title">Guided web setup</div>
             </div>
           </div>
           <button class="btn" @click=${props.onSkip}>Open dashboard</button>

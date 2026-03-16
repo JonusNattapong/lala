@@ -32,7 +32,8 @@ export function renderOnboardingWelcomeStep(props: {
         <h1 class="onboarding-hero__title">Meet your own AI control room.</h1>
         <p class="onboarding-hero__copy">
           We will guide you through the essentials so Lala feels polished and ready without a wall
-          of technical settings.
+          of technical settings. If you ever want the full prompt-by-prompt wizard, you can still
+          run <code>lala onboard</code> in the terminal.
         </p>
         <div class="onboarding-hero__actions">
           <button class="btn primary onboarding-cta" @click=${props.onNext}>Start setup</button>

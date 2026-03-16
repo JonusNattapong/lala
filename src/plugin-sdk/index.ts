@@ -127,7 +127,7 @@ export { registerPluginHttpRoute } from "../plugins/http-registry.js";
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 export type { LalaConfig } from "../config/config.js";
 /** @deprecated Use LalaConfig instead */
-export type { LalaConfig as ClawdbotConfig } from "../config/config.js";
+export type { LalaConfig as LalabotConfig } from "../config/config.js";
 export { isDangerousNameMatchingEnabled } from "../config/dangerous-name-matching.js";
 
 export type { FileLockHandle, FileLockOptions } from "./file-lock.js";

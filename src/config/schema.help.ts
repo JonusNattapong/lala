@@ -155,7 +155,7 @@ export const FIELD_HELP: Record<string, string> = {
   "talk.voiceId":
     "Legacy ElevenLabs default voice ID for Talk mode. Prefer talk.providers.elevenlabs.voiceId.",
   "talk.voiceAliases":
-    'Use this legacy ElevenLabs voice alias map (for example {"Clawd":"EXAVITQu4vr4xnSDxMaL"}) only during migration. Prefer talk.providers.elevenlabs.voiceAliases.',
+    'Use this legacy ElevenLabs voice alias map (for example {"Lala":"EXAVITQu4vr4xnSDxMaL"}) only during migration. Prefer talk.providers.elevenlabs.voiceAliases.',
   "talk.modelId":
     "Legacy ElevenLabs model ID for Talk mode (default: eleven_v3). Prefer talk.providers.elevenlabs.modelId.",
   "talk.outputFormat":
@@ -259,7 +259,7 @@ export const FIELD_HELP: Record<string, string> = {
   "browser.profiles.*.cdpUrl":
     "Per-profile CDP websocket URL used for explicit remote browser routing by profile name. Use this when profile connections terminate on remote hosts or tunnels.",
   "browser.profiles.*.driver":
-    'Per-profile browser driver mode: "lala" (or legacy "clawd") or "extension" depending on connection/runtime strategy. Use the driver that matches your browser control stack to avoid protocol mismatches.',
+    'Per-profile browser driver mode: "lala" (or legacy "lala") or "extension" depending on connection/runtime strategy. Use the driver that matches your browser control stack to avoid protocol mismatches.',
   "browser.profiles.*.attachOnly":
     "Per-profile attach-only override that skips local browser launch and only attaches to an existing CDP endpoint. Useful when one profile is externally managed but others are locally launched.",
   "browser.profiles.*.color":
