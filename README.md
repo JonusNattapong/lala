@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-# 🦋 lala — Personal AI Assistant
+  <strong>🦋 lala — Personal AI Assistant
 </p>
 
 <p align="center">
