@@ -1337,8 +1337,8 @@ Related: [Agent workspace](/concepts/agent-workspace), [Memory](/concepts/memory
 
 Everything lives under `$LALA_STATE_DIR` (default: `~/.lala`):
 
-| Path                                                            | Purpose                                                            |
-| --------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Path                                                        | Purpose                                                            |
+| ----------------------------------------------------------- | ------------------------------------------------------------------ |
 | `$LALA_STATE_DIR/lala.json`                                 | Main config (JSON5)                                                |
 | `$LALA_STATE_DIR/credentials/oauth.json`                    | Legacy OAuth import (copied into auth profiles on first use)       |
 | `$LALA_STATE_DIR/agents/<agentId>/agent/auth-profiles.json` | Auth profiles (OAuth, API keys, and optional `keyRef`/`tokenRef`)  |
