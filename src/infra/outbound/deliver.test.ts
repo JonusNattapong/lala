@@ -522,7 +522,7 @@ describe("deliverOutboundPayloads", () => {
         expect.objectContaining({
           accountId: undefined,
           textMode: "plain",
-          textStyles: chunk.styles,
+          textStyles: chunk.styles ?? [],
         }),
       );
     });

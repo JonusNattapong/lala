@@ -625,7 +625,7 @@ async function deliverOutboundPayloadsCore(
         maxBytes: signalMaxBytes,
         accountId: accountId ?? undefined,
         textMode: "plain",
-        textStyles: styles,
+        textStyles: styles ?? [],
       })),
     };
   };
@@ -663,7 +663,7 @@ async function deliverOutboundPayloadsCore(
         maxBytes: signalMaxBytes,
         accountId: accountId ?? undefined,
         textMode: "plain",
-        textStyles: formatted.styles,
+        textStyles: formatted.styles ?? [],
         mediaLocalRoots,
       })),
     };
