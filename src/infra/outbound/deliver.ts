@@ -643,7 +643,7 @@ async function deliverOutboundPayloadsCore(
     }
     for (const chunk of signalChunks) {
       throwIfAborted(abortSignal);
-      results.push(await sendSignalText(chunk.text, chunk.styles));
+      results.push(await sendSignalText(chunk.text, chunk.styles ?? []));
     }
   };
 

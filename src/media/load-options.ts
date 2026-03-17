@@ -6,6 +6,8 @@ export type OutboundMediaLoadParams = {
 export type OutboundMediaLoadOptions = {
   maxBytes?: number;
   localRoots?: readonly string[];
+  sandboxValidated?: boolean;
+  readFile?: (path: string) => Promise<Buffer>;
 };
 
 export function resolveOutboundMediaLocalRoots(

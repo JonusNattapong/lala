@@ -14,6 +14,7 @@ export type ResolvedSlackAccount = {
   actions?: SlackAccountConfig["actions"];
   channels?: SlackAccountConfig["channels"];
   dm?: SlackAccountConfig["dm"];
+  groupPolicy?: "allow" | "deny" | "pairing";
   config: SlackAccountConfig;
 };
 
@@ -58,10 +59,10 @@ export function resolveSlackAccount(params: {
 
 export function resolveSlackReplyToMode(
   account: { config: SlackAccountConfig },
-  chatType?: "direct" | "group" | "channel",
+  chatType?: string,
 ): ReplyToMode {
-  if (chatType && account.config.replyToModeByChatType?.[chatType]) {
-    return account.config.replyToModeByChatType[chatType] as ReplyToMode;
+  if (chatType && account.config.replyToModeByChatType?.[chatType as "direct" | "group" | "channel"]) {
+    return account.config.replyToModeByChatType[chatType as "direct" | "group" | "channel"] as ReplyToMode;
   }
   return account.config.replyToMode ?? "off";
 }

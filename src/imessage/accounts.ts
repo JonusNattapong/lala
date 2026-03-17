@@ -8,6 +8,10 @@ export type ResolvedIMessageAccount = {
   config: {
     allowFrom?: Array<string | number>;
     defaultTo?: string;
+    cliPath?: string;
+    dbPath?: string;
+    service?: string;
+    region?: string;
   };
 };
 

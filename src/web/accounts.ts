@@ -9,6 +9,10 @@ export type ResolvedWhatsAppAccount = {
   accountId: string;
   enabled: boolean;
   allowFrom?: string[];
+  groupAllowFrom?: string[];
+  dmPolicy?: "allow" | "deny" | "pairing";
+  groupPolicy?: "allow" | "deny" | "pairing";
+  groups?: string[];
   config: WhatsAppAccountConfig;
 };
 

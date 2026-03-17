@@ -353,7 +353,7 @@ export async function handleSlackAction(
     const pins = writeOpts
       ? await listSlackPins(channelId, readOpts)
       : await listSlackPins(channelId);
-    const normalizedPins = pins.map((pin) => {
+    const normalizedPins = pins.messages.map((pin) => {
       const message = pin.message
         ? withNormalizedTimestamp(
             pin.message as Record<string, unknown>,

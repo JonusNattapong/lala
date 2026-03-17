@@ -4,7 +4,15 @@ export type SignalTextStyleRange = {
   style: string;
 };
 
-export function markdownToSignalTextChunks(text: string): Array<{
+export type MarkdownToSignalTextChunksOptions = {
+  tableMode?: "off" | "bullets" | "code" | "full" | "omit" | "plain";
+};
+
+export function markdownToSignalTextChunks(
+  text: string,
+  _limit?: number,
+  _options?: MarkdownToSignalTextChunksOptions,
+): Array<{
   text: string;
   styles?: SignalTextStyleRange[];
 }> {

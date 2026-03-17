@@ -134,7 +134,9 @@ async function resolveSlackChannelType(params: {
   }
 
   const account = resolveSlackAccount({ cfg: params.cfg, accountId: params.accountId });
-  const groupChannels = normalizeAllowListLower(account.dm?.groupChannels);
+  const groupChannels = normalizeAllowListLower(
+    (account.dm?.groupChannels ?? []).filter((c): c is string => typeof c === "string"),
+  );
   const channelIdLower = channelId.toLowerCase();
   if (
     groupChannels.includes(channelIdLower) ||
@@ -169,7 +171,7 @@ async function resolveSlackChannelType(params: {
   }
 
   try {
-    const client = createSlackWebClient(token);
+    const client = await createSlackWebClient(token);
     const info = await client.conversations.info({ channel: channelId });
     const channel = info.channel as { is_im?: boolean; is_mpim?: boolean } | undefined;
     const type = channel?.is_im ? "dm" : channel?.is_mpim ? "group" : "channel";
@@ -420,10 +422,7 @@ function resolveSignalSession(
   const uuidCandidate = recipient.toLowerCase().startsWith("uuid:")
     ? recipient.slice("uuid:".length)
     : recipient;
-  const sender = resolveSignalSender({
-    sourceUuid: looksLikeUuid(uuidCandidate) ? uuidCandidate : null,
-    sourceNumber: looksLikeUuid(uuidCandidate) ? null : recipient,
-  });
+  const sender = resolveSignalSender(uuidCandidate);
   const peerId = sender ? resolveSignalPeerId(sender) : recipient;
   const displayRecipient = sender ? resolveSignalRecipient(sender) : recipient;
   const peer: RoutePeer = { kind: "direct", id: peerId };
@@ -448,6 +447,9 @@ function resolveIMessageSession(
   params: ResolveOutboundSessionRouteParams,
 ): OutboundSessionRoute | null {
   const parsed = parseIMessageTarget(params.target);
+  if (!parsed) {
+    return null;
+  }
   if (parsed.kind === "handle") {
     const handle = normalizeIMessageHandle(parsed.to);
     if (!handle) {
@@ -476,7 +478,9 @@ function resolveIMessageSession(
       ? String(parsed.chatId)
       : parsed.kind === "chat_guid"
         ? parsed.chatGuid
-        : parsed.chatIdentifier;
+        : parsed.kind === "chat_identifier"
+          ? parsed.chatIdentifier
+          : null;
   if (!peerId) {
     return null;
   }

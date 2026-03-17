@@ -8,6 +8,7 @@ export type WebMediaResult = {
   buffer: Buffer;
   contentType: string;
   fileName?: string;
+  kind?: "image" | "video" | "audio" | "document";
 };
 
 export async function loadWebMedia(
@@ -21,8 +22,9 @@ export async function loadWebMedia(
     }
 
     const buffer = Buffer.from(await response.arrayBuffer());
-    const contentType =
-      response.headers.get("content-type") || detectMime(buffer) || "application/octet-stream";
+    const headerMime = response.headers.get("content-type");
+    const detectedMime = await detectMime({ buffer, headerMime });
+    const contentType = detectedMime ?? "application/octet-stream";
 
     // Extract filename from URL or content-disposition if available
     let fileName: string | undefined;

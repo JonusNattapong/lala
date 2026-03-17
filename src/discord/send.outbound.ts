@@ -485,7 +485,7 @@ type VoiceMessageOpts = {
 async function materializeVoiceMessageInput(mediaUrl: string): Promise<{ filePath: string }> {
   // Security: reuse the standard media loader so we apply SSRF guards + allowed-local-root checks.
   // Then write to a private temp file so ffmpeg/ffprobe never sees the original URL/path string.
-  const media = await loadWebMediaRaw(mediaUrl, maxBytesForKind("audio"));
+  const media = await loadWebMediaRaw(mediaUrl, { maxBytes: maxBytesForKind("audio") });
   const extFromName = media.fileName ? path.extname(media.fileName) : "";
   const extFromMime = media.contentType ? extensionForMime(media.contentType) : "";
   const ext = extFromName || extFromMime || ".bin";

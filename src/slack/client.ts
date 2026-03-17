@@ -1,3 +1,6 @@
-export async function createSlackWebClient(..._args: unknown[]) {
-  throw new Error("Slack web client is not available in this build.");
+import type { WebClient } from "@slack/web-api";
+
+export async function createSlackWebClient(token: string): Promise<WebClient> {
+  const { WebClient } = await import("@slack/web-api");
+  return new WebClient(token);
 }

@@ -488,7 +488,7 @@ const DOCKS: Record<ChatChannelId, ChannelDock> = {
     },
     threading: {
       resolveReplyToMode: ({ cfg, accountId, chatType }) =>
-        resolveSlackReplyToMode(inspectSlackAccount({ cfg, accountId }), chatType),
+        resolveSlackReplyToMode(inspectSlackAccount({ cfg, accountId }), chatType ?? undefined),
       allowExplicitReplyTagsWhenOff: false,
       buildToolContext: (params) => buildSlackThreadingToolContext(params),
     },

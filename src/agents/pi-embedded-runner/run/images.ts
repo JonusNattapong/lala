@@ -240,7 +240,7 @@ export async function loadImageFromRef(
           sandboxValidated: true,
           readFile: createSandboxBridgeReadFile({ sandbox: options.sandbox }),
         })
-      : await loadWebMedia(targetPath, options?.maxBytes);
+      : await loadWebMedia(targetPath, { maxBytes: options?.maxBytes });
 
     if (media.kind !== "image") {
       log.debug(`Native image: not an image file: ${targetPath} (got ${media.kind})`);
